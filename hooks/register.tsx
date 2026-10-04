@@ -175,7 +175,8 @@ async function post($: Engine, path: string, body: unknown, options: { reload?: 
   const ok = out.status === 200 && json.ok !== false
   if (ok && options.done) await toastNotice($, options.done, 'good')
   if (!ok && !options.quiet) await toastNotice($, typeof json.error === 'string' ? json.error : `没有保存（${out.status}）`, 'warn')
-  await reloadAfter($, options.reload ?? [])
+  // The page's data is read again behind the answer: a press never waits on a journey rebuild.
+  void reloadAfter($, options.reload ?? [])
   return { ok, status: out.status, json }
 }
 
