@@ -139,10 +139,15 @@ function more(ctx: Ctx, data: Followup): Node[] {
   const saveUrl = (text: string) => {
     if (!shownKind) return
     const url = text.trim()
+    setSub(ctx, 'fu.url', url)
     if (!url) return
     if (!/^https?:\/\//i.test(url)) return setSub(ctx, 'fu.error', 'Webhook 地址要以 https:// 开头。')
     if (/^http:\/\//i.test(url) && shownKind !== 'generic') return setSub(ctx, 'fu.error', `${KIND_ZH[shownKind]}的地址要用 https://。`)
-    void save(ctx, data, { webhook: { kind: shownKind, url } }, `已保存${KIND_ZH[shownKind]}的地址。`).then((ok) => { if (ok) setSub(ctx, 'fu.kind', '') })
+    void save(ctx, data, { webhook: { kind: shownKind, url } }, `已保存${KIND_ZH[shownKind]}的地址。`).then((ok) => {
+      if (!ok) return
+      setSub(ctx, 'fu.kind', '')
+      setSub(ctx, 'fu.url', '')
+    })
   }
   const saveSecret = (text: string) => {
     if (!shownKind || !text) return
@@ -155,7 +160,7 @@ function more(ctx: Ctx, data: Followup): Node[] {
   const test = sub(ctx, 'fu.test')
 
   return [
-    Subhead(E, '什么时候', 'fu-when'),
+    Subhead(E, '什么时候', 'fu-when', '', false),
     time('checkin_time', '打卡提醒', '当天还有未完成时'),
     time('retest_time', '复测提醒', '到期当天'),
     Pick(ctx, {
@@ -207,7 +212,7 @@ function more(ctx: Ctx, data: Followup): Node[] {
     }),
     Note(ctx, '选填：发送到手机上的群机器人或 App。', 'fu-kind-note'),
     shownKind ? Row(ctx, '', storedSame ? `已设置：${s.webhook?.url_masked ?? ''}` : '还没有填写地址', { key: 'fu-url-state', dim: true }) : null,
-    shownKind ? Field(ctx, { key: 'fu-url', label: '地址', placeholder: storedSame ? '留空保持不变；填写则替换' : KIND_URL[shownKind], onSubmit: saveUrl }) : null,
+    shownKind ? Field(ctx, { key: 'fu-url', label: '地址', value: sub(ctx, 'fu.url'), placeholder: storedSame ? '留空保持不变；填写则替换' : KIND_URL[shownKind], onSubmit: saveUrl }) : null,
     shownKind && SIGNED.includes(shownKind) ? Field(ctx, {
       key: 'fu-secret', label: '签名密钥', hint: '仅在机器人开启「加签」时需要',
       placeholder: storedSame && s.webhook?.secret_set ? '已设置（留空保持不变）' : '选填',
@@ -217,13 +222,13 @@ function more(ctx: Ctx, data: Followup): Node[] {
       ? Buttons(E, [{ key: 'fu-secret-clear', label: '清除签名密钥', onPress: () => { void save(ctx, data, { webhook: { kind: shownKind, secret: '' } }, '签名密钥已清除。') } }], 'fu-secret-row')
       : null,
 
+    Err(ctx, sub(ctx, 'fu.error'), 'fu-err2'),
     Subhead(E, '内容', 'fu-detail-head'),
     Choice(E, 'fu-detail', [{ value: 'minimal', label: '简要：不含健康数值' }, { value: 'full', label: '详细' }] as const, s.detail, (value) => {
       if (value !== s.detail) void save(ctx, data, { detail: value }, value === 'minimal' ? '改为简要。' : '改为详细。')
     }),
     Note(ctx, s.detail === 'minimal' ? '只发「今天还有 2 项待打卡」这类提示，不含项目名称和健康数值。' : '会带上方案项目名称、执行率和复测指标，发到你配置的渠道。', 'fu-detail-note'),
 
-    Err(ctx, sub(ctx, 'fu.error'), 'fu-err2'),
     Buttons(E, [{
       key: 'fu-test', label: sub(ctx, 'fu.testing') ? '发送中…' : '发送测试',
       onPress: () => {
