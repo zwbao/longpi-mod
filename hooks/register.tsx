@@ -5,7 +5,7 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register, RenderSurface } from 'claude-code'
 
-import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../types'
+import type { Celebration, CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../types'
 import type { Io } from './sys/host.ts'
 import { boot, flushPending, op, reloadLibrary, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
 import { ensurePython, hasPackages, updateLibrary } from './app/setup.ts'
@@ -19,6 +19,9 @@ import { pageWidth, paneTree } from './ui/pane.tsx'
 import type { Actions, CodexActions, Ctx, PostResult } from './ui/types.ts'
 import { isAnimated, stageAt, stageCols } from './ui/codex/stage.ts'
 import { cardTree, type CardState } from './ui/cards.tsx'
+import type { GameView } from './app/game.ts'
+import { CELEBRATE_MS, celebrateFrame, IDLE_MS, moodAt, piFrame } from './ui/journey/anim.ts'
+import type { PiForm } from './ui/journey/sprites.ts'
 import { bandTree, nextBand, noteInput, sittingMinutes, STANDUP_VISIBLE_MS, type Activity, type BandPrompt, type SlotView } from './ui/band.tsx'
 
 type Engine = EngineInterface
@@ -39,6 +42,7 @@ const coach = atom({ plugin: 'longpi', key: 'coach' } as const, false)
 const healthTurn = atom({ plugin: 'longpi', key: 'healthTurn' } as const, false)
 const band = atom({ plugin: 'longpi', key: 'band' } as const, null as BandPrompt | null)
 const cards = atom({ plugin: 'longpi', key: 'cards' } as const, {} as Record<string, CardState>)
+const celebrate = atom({ plugin: 'longpi', key: 'celebrate' } as const, null as Celebration)
 
 // --- the engine as the core's I/O -------------------------------------------------------------------
 
@@ -150,6 +154,7 @@ async function loadRouteNow($: Engine, path: string, force: boolean, fetchPath: 
     next = { at: await $.clock.now(), status: 0, json: null, loading: false, error: error instanceof Error ? error.message : String(error) }
   }
   await update($, data, (all) => ({ ...all, [path]: next }))
+  if (path === 'game' && next.status === 200) void onGame($, next.json as GameView).catch(() => undefined)
 }
 
 async function loadRoutes($: Engine, paths: readonly string[], force = false): Promise<void> {
@@ -163,7 +168,7 @@ async function routesOfView($: Engine): Promise<string[]> {
     const held = cache[path]
     return (held && held.status === 200 ? held.json : null) as T | null
   }
-  return ['journey', 'people', ...pageOf(v.tab).routes(v, json)]
+  return ['journey', 'people', 'game', ...pageOf(v.tab).routes(v, json)]
 }
 
 /** Read what the page shows now; a second pass picks up routes the first answers named. */
@@ -350,13 +355,13 @@ function speciesNames($: Engine, keys: readonly string[], cache: Record<string, 
 }
 
 function codexActions($: Engine): CodexActions {
-  const act = (body: Record<string, unknown>) => post($, 'codex', body, { reload: ['codex', 'codex/slot', 'codex/library'] })
+  const act = (body: Record<string, unknown>) => post($, 'codex', body, { reload: ['codex', 'codex/slot', 'codex/library', 'game'] })
   const payloadPatch = (patch: Record<string, unknown>) => setOverlay($, (o) => ({ ...o, payload: { ...((o.payload as Record<string, unknown> | null) ?? {}), ...patch } }))
   return {
     open: (kind, id, payload, phase = 'front') => {
       void setOverlay($, () => ({ ...NO_OVERLAY, kind, id, phase, since: Date.now(), payload }))
       if (kind === 'study') {
-        void post($, 'codex', { action: 'read', card_id: id }, { quiet: true, reload: ['codex/library'] }).then(async (res) => {
+        void post($, 'codex', { action: 'read', card_id: id }, { quiet: true, reload: ['codex/library', 'game'] }).then(async (res) => {
           const met = Array.isArray(res.json.met) ? (res.json.met as string[]) : []
           if (met.length === 0) return
           await update($, overlay, (o) => (o.kind === 'study' && o.id === id ? { ...o, payload: { ...((o.payload as Record<string, unknown> | null) ?? {}), met } } : o))
@@ -460,6 +465,7 @@ function actionsFor($: Engine, surface: RenderSurface): Actions {
     reveal: () => void $.clock.now().then((now) => update($, privacy, (p) => ({ ...p, showUntil: now + 60_000 }))),
     setPresentation: (on) => void setPresentation($, on),
     codex: codexActions($),
+    celebrated: (toRoad) => void celebrated($, toRoad),
     save: async (path, fileName) => {
       await loadRoute($, path, true)
       const held = (await read($, data))[path]
@@ -642,6 +648,124 @@ async function maintain($: Engine): Promise<void> {
   await setupLongPi($, false)
 }
 
+// --- Pi and the road to 120 --------------------------------------------------------------------------
+
+/** When the pane last drew, and how wide its body was: a celebration plays only on a pane that is showing. */
+let paneDrawnAt = 0
+let paneWidthNow = 88
+let celebrateTimer: { cancel: () => void } | null = null
+let idleTimer: { cancel: () => void } | null = null
+/** Fresh milestones already toasted this session while the pane was closed (celebrated when it opens). */
+const toasted = new Set<string>()
+
+async function stillPictures($: Engine): Promise<boolean> {
+  return (await read($, privacy)).presentation || (await codexStill($))
+}
+
+function celebrationLines(game: GameView): string[] {
+  const lines: string[] = []
+  const stations = game.stations.filter((row) => game.fresh.stations.includes(row.id))
+  const medals = game.medals.filter((row) => game.fresh.medals.includes(row.id))
+  const last = stations[stations.length - 1]
+  if (last) lines.push(stations.length > 1 ? `走过了 ${stations.length} 站，最新一站：${last.title_zh}` : `新的一站：${last.title_zh}`)
+  if (game.fresh.form != null) lines.push(`Pi 长成了「${game.form.zh}」。${game.form.line_zh}`)
+  for (const row of medals) lines.push(`新奖章：${row.title_zh}`)
+  if (lines.length > 0 && game.form.next_at != null && game.form.next_zh) lines.push(`通往 120 · 第 ${game.reached}/12 站`)
+  return lines
+}
+
+/** A game reading with something fresh: celebrate on a showing pane, otherwise one toast and wait for the pane. */
+async function onGame($: Engine, game: GameView): Promise<void> {
+  if (!game?.fresh || game.demo || game.member) return
+  const fresh = [...game.fresh.stations, ...game.fresh.medals, ...(game.fresh.form != null ? [`form${game.fresh.form}`] : [])]
+  if (fresh.length === 0 || (await read($, celebrate))) return
+  const lines = celebrationLines(game)
+  const showing = Date.now() - paneDrawnAt < 4_000
+  if (!showing) {
+    const key = fresh.join(',')
+    if (toasted.has(key)) return
+    toasted.add(key)
+    $.ui.toast(`Pi：${lines[0] ?? '有新的进展'}。输入 /longpi 看看。`)
+    return
+  }
+  const from = game.fresh.form != null ? Math.max(0, game.fresh.form - 1) : null
+  await update($, celebrate, () => ({ since: Date.now(), stations: game.fresh.stations, medals: game.fresh.medals, form: game.fresh.form, from, lines }))
+  playCelebration($, game.form.no as PiForm, from as PiForm | null)
+}
+
+function playCelebration($: Engine, form: PiForm, from: PiForm | null): void {
+  celebrateTimer?.cancel()
+  let busy = false
+  const timer = $.clock.every(60, async () => {
+    if (busy) return
+    busy = true
+    try {
+      const c = await read($, celebrate)
+      if (!c || (await stillPictures($))) {
+        timer.cancel()
+        if (c) await update($, tick, (n) => n + 1)
+        return
+      }
+      const t = Date.now() - c.since
+      const f = celebrateFrame(Math.min(paneWidthNow, 72), t, form, from)
+      const cells = f.cells()
+      await $.ui.blit({ requestId: PANE, key: 'pi-celebrate', cells: cells.cells, columns: cells.columns, rows: cells.rows })
+      if (t > CELEBRATE_MS) {
+        timer.cancel()
+        await update($, tick, (n) => n + 1)
+      }
+    } finally {
+      busy = false
+    }
+  })
+  celebrateTimer = timer
+}
+
+/** 好 / 看看这条路: each milestone is celebrated once, across sessions. */
+async function celebrated($: Engine, toRoad: boolean): Promise<void> {
+  const c = await read($, celebrate)
+  celebrateTimer?.cancel()
+  celebrateTimer = null
+  await update($, celebrate, () => null)
+  if (c) await post($, 'game/seen', { stations: c.stations, medals: c.medals, form: c.form ?? 0 }, { quiet: true, reload: ['game'] })
+  if (toRoad) await go($, 'journey')
+}
+
+/** Pi breathing on 总览: a frame every IDLE_MS while the card is on screen; stops once it is not. */
+function startIdle($: Engine): void {
+  if (idleTimer) return
+  let n = 0
+  let denied = 0
+  let busy = false
+  const timer = $.clock.every(IDLE_MS, async () => {
+    if (busy) return
+    busy = true
+    try {
+      const v = await read($, view)
+      const game = (await read($, data)).game?.json as GameView | null | undefined
+      if (v.tab !== 'overview' || !game || (await read($, celebrate)) || (await read($, overlay)).kind !== 'none' || (await stillPictures($))) {
+        denied += 1
+      } else {
+        n += 1
+        const f = piFrame(game.form.no as PiForm, moodAt(Date.now()), n)
+        const cells = f.cells()
+        const res = await $.ui.blit({ requestId: PANE, key: 'pi-card', cells: cells.cells, columns: cells.columns, rows: cells.rows })
+        denied = res && 'deny' in res && res.deny ? denied + 1 : 0
+      }
+      if (denied > 6) {
+        timer.cancel()
+        if (idleTimer === timer) idleTimer = null
+      }
+    } catch {
+      timer.cancel()
+      if (idleTimer === timer) idleTimer = null
+    } finally {
+      busy = false
+    }
+  })
+  idleTimer = timer
+}
+
 // --- /longpi --------------------------------------------------------------------------------------
 
 const TAB_WORDS: Record<string, Tab> = {
@@ -657,6 +781,7 @@ const TAB_WORDS: Record<string, Tab> = {
   档案: 'profile', profile: 'profile', 家人: 'profile',
   研究: 'science', science: 'science',
   设置: 'settings', settings: 'settings', 提醒: 'settings',
+  pi: 'journey', Pi: 'journey', 旅程: 'journey', 通往120: 'journey', '120': 'journey', 路线: 'journey', 奖章: 'journey', journey: 'journey',
 }
 
 async function openPane($: Engine, tab?: Tab): Promise<void> {
@@ -820,7 +945,7 @@ export const register: Register = (on) => {
     const firstTime = !(await read($, coach))
     const context = firstTime ? await enterCoach($) : []
     // A write the pane shows: read its data again.
-    if ((WRITE_TOOLS as readonly string[]).includes(name) || name === 'record_measurements') void reloadAfter($, ['tracking', 'codex', 'codex/slot', 'indicators?area=labs'])
+    if ((WRITE_TOOLS as readonly string[]).includes(name) || name === 'record_measurements') void reloadAfter($, ['tracking', 'codex', 'codex/slot', 'indicators?area=labs', 'game'])
     return context.length > 0 ? { result: out.text, context } : { result: out.text }
   })
 
@@ -864,6 +989,10 @@ export const register: Register = (on) => {
     const o = await read($, overlay)
     const now = Date.now()
     stageColsNow = stageCols(pageWidth(e.props.bodyColumns))
+    paneDrawnAt = now
+    paneWidthNow = pageWidth(e.props.bodyColumns)
+    const party = await read($, celebrate)
+    if (v.tab === 'overview' && !idleTimer && !party && o.kind === 'none') $.clock.after(IDLE_MS, () => startIdle($))
     const ctx: Ctx = {
       E: $.ui.resolve(e),
       surface: e.surface,
@@ -876,6 +1005,7 @@ export const register: Register = (on) => {
       },
       privacy: { ...p, shown: !p.presentation && p.showUntil > now },
       overlay: o,
+      celebrate: party,
       act: actionsFor($, e.surface),
       now,
       today: isoDay(new Date(now)),

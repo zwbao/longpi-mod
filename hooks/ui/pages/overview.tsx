@@ -15,6 +15,7 @@ import { AddPerson, DemoInvite, PeopleRow, PersonNotice } from './overview/peopl
 import { ResultsRow } from './overview/results.tsx'
 import { TodayCard } from './overview/today.tsx'
 import { coveredByCare } from './overview/words.ts'
+import { PiCard } from '../journey/view.tsx'
 
 const EARLY: readonly Stage[] = ['consent', 'profile', 'records']
 
@@ -44,6 +45,7 @@ function draw(ctx: Ctx): Node {
     <Box flexDirection="column">
       {head}
       <Box key="gap" height={1} />
+      {PiCard(ctx)}
       {PartialNote(ctx, journey)}
       {doctor ? CareCard(ctx, journey) : null}
       {InsightCard(ctx, journey, covered)}
@@ -70,7 +72,7 @@ export const page: Page = {
     const setup = asked === '1' || (asked !== '0' && EARLY.includes(stage)) || journey == null
     const insight = json?.<{ enabled?: boolean }>('codex/slot')?.enabled === true
     return [
-      'journey', 'tracking', 'people', 'surfaces', 'triage', 'codex/slot', 'science/invite',
+      'journey', 'game', 'tracking', 'people', 'surfaces', 'triage', 'codex/slot', 'science/invite',
       ...(setup ? ['privacy', 'followup'] : []),
       ...(insight ? ['indicators'] : []),
       ...(brief ? [brief] : []),

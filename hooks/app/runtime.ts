@@ -15,6 +15,11 @@ import { setRecordDir } from '../core/mcp.ts'
 import { setRevision } from '../core/catalog.ts'
 import { registerRecordTools } from './record-tool.ts'
 import { newer } from './setup.ts'
+import { registerGame } from './game.ts'
+
+function localDay(at: Date): string {
+  return `${at.getFullYear()}-${String(at.getMonth() + 1).padStart(2, '0')}-${String(at.getDate()).padStart(2, '0')}`
+}
 
 export type Runtime = {
   ctx: HostContext
@@ -159,6 +164,7 @@ export async function boot(options: BootOptions): Promise<Runtime> {
   const ctx = new HostContext()
   const app = await op(() => apply(ctx, config))
   registerRecordTools(ctx, () => config.dataDir, () => app.invalidate())
+  registerGame(ctx, () => rootDir, () => localDay(new Date()))
   current = { ctx, app, config, rootDir, skillsHome, python, booted: Date.now() }
   if (options.platform === 'darwin') void ensureNotifier(options.io, rootDir)
   return current

@@ -368,7 +368,7 @@ function libraryTab(ctx: Ctx, lib: LibraryView | null, libState: string): Render
     const on = filterChapter === chapter.id
     return (
       <Box key={`ch-${chapter.id}`} flexDirection="row" gap={1}>
-        {Btn(ctx, `chapter-${chapter.id}`, `${on ? '●' : '○'} 第 ${chapter.no} 章 ${chapter.title_zh}`, () => setSub(ctx, 'chapter', on ? '' : chapter.id))}
+        {Btn(ctx, `chapter-${chapter.id}`, `${on ? '●' : '○'} ${chapter.no > 0 ? `第 ${chapter.no} 章 ` : '✦ '}${chapter.title_zh}`, () => setSub(ctx, 'chapter', on ? '' : chapter.id))}
         <Text color={C.accent}>{'█'.repeat(filled)}<Text dimColor>{'░'.repeat(barWidth - filled)}</Text></Text>
         <Text dimColor>{`读过 ${done}/${size}`}</Text>
       </Box>
@@ -392,7 +392,7 @@ function libraryTab(ctx: Ctx, lib: LibraryView | null, libState: string): Render
   const filtered = Boolean(filterChapter || filterTier)
   for (const chapter of chapters) {
     const cards = shown.filter((row) => !row.relation_zh && row.chapter === chapter.id)
-    if (cards.length > 0 && (filtered || groups.length === 0 || filterChapter === chapter.id)) groups.push({ key: chapter.id, title: `第 ${chapter.no} 章 · ${chapter.title_zh}`, cards })
+    if (cards.length > 0 && (filtered || groups.length === 0 || filterChapter === chapter.id)) groups.push({ key: chapter.id, title: chapter.no > 0 ? `第 ${chapter.no} 章 · ${chapter.title_zh}` : `✦ ${chapter.title_zh}`, cards })
   }
   for (const group of groups) {
     const shelf = shelfFrame(ctx.width - 4, group.cards.map((card) => studyFace(card)), 3)
@@ -585,7 +585,7 @@ function studyInfo(ctx: Ctx, card: LibStudy, lib: LibraryView | null, met: strin
   return [
     <Text key="t" bold color={tier.color}>{card.title_zh}</Text>,
     <Text key="line" wrap="wrap">{zh(String(card.line_zh ?? ''))}</Text>,
-    <Text key="chips"><Text color={tier.color}>{`[${tier.metal} · ${tier.label}]`}</Text>{chapter ? <Text dimColor>{` [第 ${chapter.no} 章 · ${chapter.title_zh}]`}</Text> : null}</Text>,
+    <Text key="chips"><Text color={tier.color}>{`[${tier.metal} · ${tier.label}]`}</Text>{chapter ? <Text dimColor>{chapter.no > 0 ? ` [第 ${chapter.no} 章 · ${chapter.title_zh}]` : ` [${chapter.title_zh}]`}</Text> : null}</Text>,
     <Text key="about" wrap="wrap"><Text bold>这项研究　</Text>{card.about_zh}</Text>,
     card.relation_zh ? <Text key="mine" color={C.accent} wrap="wrap"><Text bold>和你的关系　</Text>{card.relation_zh}</Text> : null,
     <Text key="why" wrap="wrap"><Text bold>{`为什么是${tier.metal}色　`}</Text>{`${tier.metal} · ${tier.label}：${card.tier_reason_zh}`}</Text>,

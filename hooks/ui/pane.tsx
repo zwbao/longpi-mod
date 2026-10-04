@@ -6,6 +6,8 @@ import type { RenderElement } from 'claude-code'
 import type { Ctx, Node } from './types.ts'
 import { C, cells, fit, scrubZh } from './kit.tsx'
 import { HOTKEYS, PRIMARY, SECONDARY, pageOf } from './pages/index.ts'
+import { CelebrationTree, type GameView } from './journey/view.tsx'
+import type { PiForm } from './journey/sprites.ts'
 
 const FOOTER = '模型估计，不是诊断，也不是用药建议。紧急情况请拨打 120。档案、方案和打卡都只存在这台电脑上。'
 
@@ -28,6 +30,8 @@ function header(ctx: Ctx): RenderElement {
   const active = people?.people?.find((person) => person.id === people.active)
   const who = active && active.id !== 'self' ? `在看：${active.label_zh}` : ''
   const planDay = journey?.plan?.exists && journey.plan.days ? ` · 方案第 ${journey.plan.days} 天` : ''
+  const game = ctx.json<GameView>('game')
+  const pi = game && !game.demo ? ` · ${game.form.zh} · 通往 120 第 ${game.reached}/12 站` : ''
   return (
     <Box key="head" flexDirection="column">
       <Box flexDirection="row" justifyContent="space-between">
@@ -37,7 +41,7 @@ function header(ctx: Ctx): RenderElement {
           <Button key="refresh" plain hotkey="u" label="刷新" onPress={() => ctx.act.refresh()} />
         </Box>
       </Box>
-      <Text dimColor>{`LongPi · ${journey?.today ?? ctx.today}${planDay}`}</Text>
+      <Text dimColor wrap="truncate-end">{`LongPi · ${journey?.today ?? ctx.today}${planDay}${pi}`}</Text>
     </Box>
   )
 }
@@ -96,7 +100,8 @@ export function paneTree(ctx: Ctx, noticeText: string | null): RenderElement {
   const page = pageOf(ctx.view.tab)
   let body: Node
   try {
-    body = page.draw(ctx)
+    const game = ctx.json<GameView>('game')
+    body = ctx.celebrate ? CelebrationTree(ctx, ctx.celebrate, (game?.form.no ?? 0) as PiForm) : page.draw(ctx)
   } catch (error) {
     body = <Text color={C.bad} wrap="wrap">{`这一页画不出来：${error instanceof Error ? error.message : String(error)}`}</Text>
   }

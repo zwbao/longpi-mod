@@ -3,7 +3,7 @@
 
 import type { Elements, RenderElement, RenderSurface } from 'claude-code'
 
-import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../../types'
+import type { Celebration, CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../../types'
 
 export type { Tab, LongPiView, RouteCache }
 
@@ -60,6 +60,8 @@ export type Actions = {
   saveFile: (path: RoutePath, fileName: string) => Promise<{ ok: boolean; path?: string; error?: string }>
   /** Close the pane. */
   close: () => void
+  /** The celebration was seen (好), and maybe the road opened next. */
+  celebrated: (toRoad: boolean) => void
 }
 
 export type CodexActions = {
@@ -93,6 +95,8 @@ export type Ctx = {
   privacy: PrivacyState & { shown: boolean }
   /** The Codex stage, when one is open. */
   overlay: CodexOverlay
+  /** A celebration over the pane (a station, a medal, Pi grown), or null. */
+  celebrate: Celebration
   act: Actions
   now: number
   /** YYYY-MM-DD in the person's clock. */

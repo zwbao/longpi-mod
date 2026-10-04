@@ -12,6 +12,7 @@ export type Tab =
   | 'codex'
   | 'science'
   | 'settings'
+  | 'journey'
 
 /** Where the pane is: the page, small per-page choices (`sub`), and one open detail. */
 export type LongPiView = {
@@ -57,6 +58,18 @@ export type CodexOverlay = {
   note: string
 }
 
+/** A celebration over the pane: a station reached, a medal earned, Pi grown. Played once each. */
+export type Celebration = {
+  since: number
+  stations: string[]
+  medals: string[]
+  /** Pi's new form, or null when Pi did not grow. */
+  form: number | null
+  /** Pi's form before (the flash from old to new). */
+  from: number | null
+  lines: string[]
+} | null
+
 export type Notice = { text: string; tone: 'info' | 'good' | 'warn'; at: number } | null
 
 declare module 'claude-code' {
@@ -77,6 +90,8 @@ declare module 'claude-code' {
       cards: Record<string, { adopted?: number; undone?: boolean; busy?: boolean; error?: string }>
       /** The prompt slot above the prompt: a stand-up line or the reveal notice. */
       band: { kind: 'standup' | 'reveal' | 'news'; ref: string; text: string; at: number } | null
+      /** A celebration playing over the pane. */
+      celebrate: Celebration
     }
   }
 }
