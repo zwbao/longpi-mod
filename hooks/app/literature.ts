@@ -119,9 +119,9 @@ export function rank(row: Summary): number {
 const SYSTEM = `你是长寿研究编辑，为「长寿图鉴」写研究卡。读者是普通中国成年人（比如一位 68 岁的退休教师）。
 规则：
 1. 客观转述：谁、做了什么、发现了什么。不在句尾加否定或免责。
-2. 关键限定写进 line_zh：物种、研究类型（随机试验、队列、事后分析）、自报还是测量。关联研究写成「……的人更常见/偏大」，不写成因果。
-3. 标题 title_zh 不超过 12 个汉字，可以有梗，但不误导，不只挑好听的一半。
-4. about_zh 两三句白话：怎么做的、看到了什么、一个具体数字（只用摘要里写明的数字，并说明是什么尺度）。不出现没解释的英文缩写。
+2. line_zh 是一句话，不超过 45 个字（这是硬性上限，超过的卡不能上架）。关键限定写进 line_zh：物种、研究类型（随机试验、队列、事后分析）、自报还是测量。关联研究写成「……的人更常见/偏大」，不写成因果。
+3. 标题 title_zh 不超过 12 个字，可以有梗，但不误导，不只挑好听的一半。
+4. about_zh 两三句白话，不超过 120 个字：怎么做的、看到了什么、一个具体数字（只用摘要里写明的数字，并说明是什么尺度）。不出现没解释的英文缩写。
 5. 阴性结果照写。
 6. 不写「逆龄」「年轻了」「逆转」「保证」「治愈」，不推荐补剂、药物、剂量或任何产品。
 7. tier 按主结论的证据：cell（细胞实验）、animal（动物实验）、human（人群研究、队列、孟德尔随机化，或随机试验的事后/次要分析）、trial（人体随机试验的主要结局）。tier_reason_zh 一句话说明为什么。
@@ -191,16 +191,24 @@ export async function scoutLiterature(io: Io, root: string, now: Date, opts: { d
   const rows = Array.isArray(parsed?.cards) ? (parsed?.cards as Array<Record<string, unknown>>) : []
   const byId = new Map(withText.map((row) => [row.pmid, row]))
   const cards: LiteratureCard[] = []
-  rows.forEach((row, i) => {
-    const source = byId.get(String(row.pmid ?? ''))
-    if (!source) return
+  const rejected: Array<{ pmid: string; why: string }> = []
+  const tooLong: Array<Record<string, unknown>> = []
+  const check = (row: Record<string, unknown>, i: number, repairing: boolean) => {
+    const pmid = String(row.pmid ?? '').replace(/\D/g, '')
+    const source = byId.get(pmid)
+    if (!source) { rejected.push({ pmid, why: 'not among the candidates' }); return }
+    if (cards.some((card) => card.pmid === pmid)) return
     const title = String(row.title_zh ?? '').trim()
     const line = String(row.line_zh ?? '').trim()
     const about = String(row.about_zh ?? '').trim()
-    if (!title || !line || !about || cells(title) > 14 || cells(line) > 60 || BANNED.test(`${title}${line}${about}`)) return
+    const banned = BANNED.exec(`${title}${line}${about}`)
+    const long = cells(title) > 14 || cells(line) > 50 || cells(about) > 150
+    if (long && !repairing) { tooLong.push(row); return }
+    const why = !title || !line || !about ? 'a field is empty' : long ? `too long (title ${cells(title)}, line ${cells(line)}, about ${cells(about)})` : banned ? `uses 「${banned[0]}」` : ''
+    if (why) { rejected.push({ pmid, why }); return }
     const isTrial = source.pubtypes.some((type) => /randomized controlled trial/i.test(type))
     let tier = String(row.tier ?? '') as LiteratureCard['tier']
-    if (!['cell', 'animal', 'human', 'trial'].includes(tier)) return
+    if (!['cell', 'animal', 'human', 'trial'].includes(tier)) { rejected.push({ pmid, why: `tier ${tier}` }); return }
     if (tier === 'trial' && !isTrial) tier = 'human'
     const chapter = CHAPTERS.includes(String(row.chapter) as (typeof CHAPTERS)[number]) ? String(row.chapter) : 'span'
     const species = (Array.isArray(row.species) ? row.species.map(String) : ['human']).filter((key) => key === 'human' || key === 'cell_line' || (SPECIES as readonly string[]).includes(key))
@@ -233,8 +241,28 @@ export async function scoutLiterature(io: Io, root: string, now: Date, opts: { d
       pmid: source.pmid,
       pubtypes: source.pubtypes,
     })
-  })
-  const record: LiteratureWeek = { week, at: now.toISOString(), candidates: all.length, cards }
-  await io.write(join(root, 'literature', `${week}.json`), `${JSON.stringify(record, null, 1)}\n`)
-  return { ok: cards.length > 0, finished: rows.length > 0 || parsed !== null, week, cards: cards.length, candidates: all.length, reason: cards.length > 0 ? '' : '这周的论文都没有达到上架的标准。' }
+  }
+  rows.forEach((row, i) => check(row, i, false))
+  // One pass to shorten what ran long, keeping the qualifiers; whatever is still too long stays off the shelf.
+  if (tooLong.length > 0) {
+    const ask = `下面几张研究卡太长了。把每张的 title_zh 缩到 12 个字以内、line_zh 缩到 45 个字以内、about_zh 缩到 120 个字以内。保留关键限定（物种、研究类型、关联还是因果）和数字，不加新内容。只回答 JSON：{"cards":[{"pmid":"…","title_zh":"…","line_zh":"…","about_zh":"…"}]}\n\n${JSON.stringify(tooLong.map((row) => ({ pmid: row.pmid, title_zh: row.title_zh, line_zh: row.line_zh, about_zh: row.about_zh })), null, 1)}`
+    const shorter = await io.complete(ask, { system: SYSTEM, maxTokens: 3000, model: 'sonnet' })
+    const fixed = shorter.ok ? firstJson(shorter.text) : null
+    const fixedRows = Array.isArray(fixed?.cards) ? (fixed?.cards as Array<Record<string, unknown>>) : []
+    tooLong.forEach((row) => {
+      const pmid = String(row.pmid ?? '').replace(/\D/g, '')
+      const again = fixedRows.find((candidate) => String(candidate.pmid ?? '').replace(/\D/g, '') === pmid)
+      check({ ...row, ...(again ? { title_zh: again.title_zh, line_zh: again.line_zh, about_zh: again.about_zh } : {}) }, rows.indexOf(row), true)
+    })
+  }
+  // A week already on the shelf keeps its cards: a later run only adds papers it did not have.
+  const file = join(root, 'literature', `${week}.json`)
+  const before = await io.read(file).then((text) => JSON.parse(text) as LiteratureWeek).catch(() => null)
+  const kept = Array.isArray(before?.cards) ? before.cards : []
+  const merged = [...kept, ...cards.filter((card) => !kept.some((old) => old.pmid === card.pmid))]
+  const record: LiteratureWeek & { rejected: typeof rejected; answered: number } = { week, at: now.toISOString(), candidates: all.length, cards: merged, rejected, answered: rows.length }
+  if (merged.length > 0 || !before) await io.write(file, `${JSON.stringify(record, null, 1)}\n`)
+  // Nothing passed the checks although the model answered: try again another day rather than lose the week.
+  const finished = cards.length > 0 || (parsed !== null && rows.length === 0)
+  return { ok: cards.length > 0, finished, week, cards: cards.length, candidates: all.length, reason: cards.length > 0 ? '' : rows.length > 0 ? `写出的 ${rows.length} 张卡都没有通过检查（${rejected.map((row) => row.why).join('；')}）。` : '这周的论文都没有达到上架的标准。' }
 }

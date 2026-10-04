@@ -41,8 +41,10 @@ export function InsightCard(ctx: Ctx, journey: Journey, covered: Covered): Node 
     for (const row of objects(group.indicators)) {
       const value = numOf(obj(row.latest).value)
       if (str(row.source) !== 'device' || value == null) continue
-      if (/睡眠/.test(str(row.label_zh))) sleep = value
-      if (/步数/.test(str(row.label_zh))) steps = value
+      // By id, not by words: 心率变异性（睡眠） also says 睡眠.
+      const id = str(row.id)
+      if (id === 'device:sleepDuration' || (!id.startsWith('device:') && /^每晚睡眠|^睡眠时长/.test(str(row.label_zh)))) sleep = value
+      if (id === 'device:dailySteps' || (!id.startsWith('device:') && /步数/.test(str(row.label_zh)))) steps = value
     }
   }
   const concern = /不一定是好事/.test(journey.results.bioage.headline_zh ?? '')

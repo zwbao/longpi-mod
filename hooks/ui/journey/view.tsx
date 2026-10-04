@@ -9,8 +9,8 @@ import type { GameAction, GameView } from '../../app/game.ts'
 import type { Ctx, Els, Node, Page } from '../types.ts'
 import { C, cells, fit, zh } from '../kit.tsx'
 import type { Frame } from '../codex/pixels.ts'
-import { CELEBRATE_MS, celebrateFrame, moodAt, piFrame, roadFrame } from './anim.ts'
-import { medal, PI_FORMS, piSprite, type PiForm } from './sprites.ts'
+import { CELEBRATE_MS, celebrateFrame, halfPi, moodAt, piFrame, roadFrame } from './anim.ts'
+import { medal, PI_FORMS, type PiForm } from './sprites.ts'
 import { Frame as PixelFrame } from '../codex/pixels.ts'
 
 export type { GameView }
@@ -68,7 +68,7 @@ export function PiCard(ctx: Ctx): Node {
     </Box>
   ))
   return (
-    <Box key="pi-card" flexDirection="column" borderStyle="round" borderColor={C.accent} paddingX={1} width={ctx.width} marginBottom={1}>
+    <Box key="pi-box" flexDirection="column" borderStyle="round" borderColor={C.accent} paddingX={1} width={ctx.width} marginBottom={1}>
       <Box key="row" flexDirection="row" gap={2}>
         <Box key="pic" flexDirection="column" flexShrink={0}>{pic}</Box>
         <Box key="text" flexDirection="column" width={right}>
@@ -103,21 +103,23 @@ function stationRow(ctx: Ctx, row: GameView['stations'][number], current: boolea
 function formsRow(ctx: Ctx, game: GameView): RenderElement {
   const { Box, Text } = ctx.E
   const n = PI_FORMS.length
-  const w = 30 * n
-  const f = new PixelFrame(w, 30)
-  PI_FORMS.forEach((row, i) => {
-    const sprite = piSprite(i as PiForm, 'idle', 0)
+  const slot = Math.max(10, Math.min(18, Math.floor(ctx.width / n)))
+  const f = new PixelFrame(slot * n, 14)
+  PI_FORMS.forEach((_row, i) => {
+    const half = halfPi(i as PiForm, 'idle', 0)
     const reached = i <= game.form.no
-    f.sprite(sprite, i * 30 + 1, 1, reached ? {} : { tint: () => 0x2a3138 })
+    for (let y = 0; y < 14; y += 1) for (let x = 0; x < 14; x += 1) {
+      const col = half.get(x, y)
+      if (col >= 0) f.set(i * slot + Math.floor((slot - 14) / 2) + x, y, reached ? col : 0x2a3138)
+    }
   })
-  const fits = ctx.width >= w + 2
   return (
     <Box key="forms" flexDirection="column">
-      {fits ? picture(ctx.E, 'pi-forms', f, 'Pi 的五个样子', 2) : null}
+      {picture(ctx.E, 'pi-forms', f, 'Pi 的五个样子', 3)}
       <Box key="labels" flexDirection="row">
         {PI_FORMS.map((row, i) => (
-          <Box key={`fl-${i}`} width={fits ? 30 : Math.max(10, Math.floor(ctx.width / n))}>
-            <Text color={i <= game.form.no ? C.accent : C.dim}>{fit(i <= game.form.no ? row.zh : `${row.at} 件事`, fits ? 28 : Math.max(8, Math.floor(ctx.width / n) - 1))}</Text>
+          <Box key={`fl-${i}`} width={slot}>
+            <Text color={i <= game.form.no ? C.accent : C.dim}>{fit(i <= game.form.no ? row.zh : `${row.at} 件事`, slot - 1)}</Text>
           </Box>
         ))}
       </Box>
@@ -200,7 +202,7 @@ function draw(ctx: Ctx): Node {
     <Box flexDirection="column">
       {game.demo ? <Text key="demo" color={C.warn}>这是示例档案的路。切回「我」，看你自己的。</Text> : null}
       {section(ctx, 'road', '通往 120 岁', `第 ${game.reached}/12 站`, [
-        picture(ctx.E, 'road-pic', roadFrame(roadWidth, game.reached, form, 0), '通往 120 岁的路', 3),
+        picture(ctx.E, 'road-pic', roadFrame(roadWidth, game.stations.map((row) => Boolean(row.reached)), form, 0), '通往 120 岁的路', 3),
         current ? <Text key="next" dimColor>{zh(`下一站：${current.title_zh}。${current.how_zh}`)}</Text> : <Text key="next" color={C.gold}>十二站都走过了。这条路还长，Pi 陪你接着走。</Text>,
       ])}
       {section(ctx, 'stations', '十二站', '每一站都是一件做了的事，不看化验数值', game.stations.map((row) => stationRow(ctx, row, row.id === current?.id)))}

@@ -21,23 +21,33 @@ export function piFrame(form: PiForm, mood: PiMood, n: number): Frame {
   return f
 }
 
-const ROAD_TOP = 10
+const ROAD_TOP = 8
 
-/** The road with Pi standing at the last station reached (before the first one when none is). */
-export function roadFrame(width: number, reached: number, form: PiForm, n = 0): Frame {
-  const w = Math.max(40, width)
-  const road = roadSprite(w, reached)
-  const f = new Frame(w, road.h + ROAD_TOP, 0x14202a)
-  f.sprite(road, 0, ROAD_TOP)
-  const at = stationAt(w, Math.max(0, reached - 1))
-  const small = piSprite(form, 'idle', n)
-  // Pi at half size: every other pixel of the 28 × 28 sprite.
+/** Pi at half size (14 × 14): every other pixel of the 28 × 28 sprite. */
+export function halfPi(form: PiForm, mood: PiMood, n = 0): Frame {
+  const small = piSprite(form, mood, n)
   const half = new Frame(14, 14)
   for (let y = 0; y < 14; y += 1) for (let x = 0; x < 14; x += 1) {
     const col = small.c[(y * 2 + 1) * small.w + x * 2 + 1] ?? small.c[(y * 2) * small.w + x * 2]
     if (col) half.set(x, y, parseInt(col.slice(1), 16))
   }
-  const px = Math.max(0, Math.min(w - 14, at.x - 7 + (reached === 0 ? -2 : 0)))
+  return half
+}
+
+/**
+ * The road with its reached stations lit and Pi on the way to the next one: at the station before it, or at
+ * the flag once all twelve are reached.
+ */
+export function roadFrame(width: number, lit: readonly boolean[], form: PiForm, n = 0): Frame {
+  const w = Math.max(40, width)
+  const road = roadSprite(w, lit)
+  const f = new Frame(w, road.h + ROAD_TOP, 0x14202a)
+  f.sprite(road, 0, ROAD_TOP)
+  const next = lit.findIndex((on) => !on)
+  const stand = next < 0 ? lit.length - 1 : next - 1
+  const at = stationAt(w, Math.max(0, stand))
+  const half = halfPi(form, 'idle', n)
+  const px = Math.max(0, Math.min(w - 14, at.x - 7 + (stand < 0 ? -4 : 0)))
   const py = ROAD_TOP + at.y - 15
   for (let y = 0; y < 14; y += 1) for (let x = 0; x < 14; x += 1) {
     const col = half.get(x, y)

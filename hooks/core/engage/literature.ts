@@ -9,7 +9,7 @@ import type { ChapterInfo, StudyCard } from '../contracts/codex.ts'
 export const NEW_CHAPTER = 'new'
 
 export type LiteratureCard = StudyCard & { week: string; added: string; pmid: string; pubtypes: string[] }
-export type LiteratureWeek = { week: string; at: string; candidates: number; cards: LiteratureCard[] }
+export type LiteratureWeek = { week: string; at: string; candidates: number; cards: LiteratureCard[]; rejected?: Array<{ pmid: string; why: string }>; answered?: number }
 
 export function literatureDir(root: string): string {
   return join(root, 'literature')

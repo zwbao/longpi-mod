@@ -52,7 +52,9 @@ function eyes(r: Raster, cx: number, cy: number, mood: PiMood, blink: boolean): 
 export function piSprite(form: PiForm, mood: PiMood, frame: number): Raster {
   const bob = mood === 'sleepy' ? 0 : frame % 4 === 1 || frame % 4 === 2 ? 1 : 0
   const blink = frame % 16 === 7
-  const key = `${form}:${mood}:${bob}:${blink ? 1 : 0}`
+  // Asleep: a small z drifts up and fades, in three steps.
+  const z = mood === 'sleepy' ? frame % 6 < 2 ? 0 : frame % 6 < 4 ? 1 : 2 : 0
+  const key = `${form}:${mood}:${bob}:${blink ? 1 : 0}:${z}`
   const hit = memo.get(key)
   if (hit) return hit
   const r = new Raster(28, 28)
@@ -95,7 +97,12 @@ export function piSprite(form: PiForm, mood: PiMood, frame: number): Raster {
     r.rect(cx - 6, cy - 4, 3, 1, '#ffffff')
     r.rect(cx + 4, cy - 4, 3, 1, '#ffffff')
   }
-  if (mood === 'sleepy') { r.set(cx + 9, cy - 9, '#cfe3ff'); r.set(cx + 11, cy - 11, '#cfe3ff'); r.set(cx + 12, cy - 11, '#cfe3ff') }
+  if (mood === 'sleepy') {
+    const zx = cx + 8 + z * 2
+    const zy = cy - 8 - z * 3
+    const col = z === 2 ? '#7f93ad' : '#cfe3ff'
+    r.rect(zx, zy, 3, 1, col); r.set(zx + 1, zy + 1, col); r.rect(zx, zy + 2, 3, 1, col)
+  }
   memo.set(key, r.outline())
   return r
 }
@@ -106,13 +113,14 @@ export function formOf(actions: number): PiForm {
   return form
 }
 
-/** The road to 120: twelve stations on a winding path, the reached ones lit, Pi standing at the last one reached. */
-export function roadSprite(width: number, reached: number, total = 12): Raster {
-  const h = 30
+/** The road to 120: twelve stations on a winding path, the reached ones lit (`lit[i]`), the flag at the end. */
+export function roadSprite(width: number, lit: readonly boolean[], total = 12): Raster {
+  const reached = lit.filter(Boolean).length
+  const h = 26
   const r = new Raster(width, h, '#14202a')
   // hills
   for (let x = 0; x < width; x += 1) {
-    const hill = Math.round(6 + Math.sin(x / 9) * 2 + Math.sin(x / 4.3) * 1)
+    const hill = Math.round(5 + Math.sin(x / 9) * 2 + Math.sin(x / 4.3) * 1)
     for (let y = h - hill; y < h; y += 1) r.set(x, y, y === h - hill ? '#2c4a3a' : '#1f3a2c')
   }
   // stars
@@ -120,18 +128,18 @@ export function roadSprite(width: number, reached: number, total = 12): Raster {
   const points: Array<[number, number]> = []
   for (let i = 0; i < total; i += 1) {
     const x = Math.round(4 + (i / (total - 1)) * (width - 9))
-    const y = Math.round(15 + Math.sin(i * 1.1) * 5)
+    const y = Math.round(13 + Math.sin(i * 1.1) * 5)
     points.push([x, y])
   }
   for (let i = 1; i < points.length; i += 1) {
     const [ax, ay] = points[i - 1] as [number, number]
     const [bx, by] = points[i] as [number, number]
-    r.thick(ax, ay, bx, by, i <= reached - 1 ? '#c9a46a' : '#3b4048', 2)
+    r.thick(ax, ay, bx, by, lit[i - 1] && lit[i] ? '#c9a46a' : '#3b4048', 2)
   }
   points.forEach(([x, y], i) => {
-    const lit = i < reached
-    r.disc(x, y, 2, lit ? GOLD : '#4b5566')
-    if (lit) r.set(x, y, '#fff7d6')
+    const on = Boolean(lit[i])
+    r.disc(x, y, 2, on ? GOLD : '#4b5566')
+    if (on) r.set(x, y, '#fff7d6')
   })
   // the flag at 120
   const [fx, fy] = points[points.length - 1] as [number, number]
@@ -142,7 +150,7 @@ export function roadSprite(width: number, reached: number, total = 12): Raster {
 
 /** Where on the road (pixels) station `i` sits, for placing Pi and the station numbers. */
 export function stationAt(width: number, i: number, total = 12): { x: number; y: number } {
-  return { x: Math.round(4 + (i / (total - 1)) * (width - 9)), y: Math.round(15 + Math.sin(i * 1.1) * 5) }
+  return { x: Math.round(4 + (i / (total - 1)) * (width - 9)), y: Math.round(13 + Math.sin(i * 1.1) * 5) }
 }
 
 /** A medal for an achievement: gold when earned, a dark outline when not yet. */

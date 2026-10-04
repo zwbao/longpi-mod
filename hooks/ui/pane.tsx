@@ -26,7 +26,8 @@ function header(ctx: Ctx): RenderElement {
   const journey = ctx.json<JourneyHead>('journey')
   const people = ctx.json<People>('people')
   const greeting = journey?.surfaces?.greeting?.text_zh || '你好'
-  const name = journey?.profile?.displayName ? `，${journey.profile.displayName}` : ''
+  // The name joins a short greeting (你好，李明华), never a whole sentence the model wrote.
+  const name = journey?.profile?.displayName && !/[。！？.!?]$/.test(greeting.trim()) ? `，${journey.profile.displayName}` : ''
   const active = people?.people?.find((person) => person.id === people.active)
   const who = active && active.id !== 'self' ? `在看：${active.label_zh}` : ''
   const planDay = journey?.plan?.exists && journey.plan.days ? ` · 方案第 ${journey.plan.days} 天` : ''
