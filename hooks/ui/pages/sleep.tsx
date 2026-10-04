@@ -1,17 +1,15 @@
-// The 睡眠 page. (Stub: drawn by the page lane that owns it.)
+// The 睡眠 page: the sleep rows of the record (the web's list with area sleep) and the wearable's sleep series
+// day by day or by week, with averages and the person's usual range.
 import type { Ctx, Node, Page } from '../types.ts'
-import { Loading, Muted } from '../kit.tsx'
+import { areaRoutes, drawArea } from './life/area.tsx'
 
 function draw(ctx: Ctx): Node {
-  const { Box } = ctx.E
-  const journey = ctx.json('journey')
-  if (!journey && 'indicators?area=sleep,codex/slot'.includes('journey')) return Loading(ctx.E)
-  return <Box flexDirection="column">{Muted(ctx.E, '睡眠：建设中')}</Box>
+  return drawArea(ctx, 'sleep')
 }
 
 export const page: Page = {
   tab: 'sleep',
   label: '睡眠',
-  routes: () => ['indicators?area=sleep', 'codex/slot'],
+  routes: (view) => areaRoutes('sleep', view),
   draw,
 }
