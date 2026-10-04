@@ -5,7 +5,7 @@
 
 import type { Ctx, Node } from '../../types.ts'
 import { Buttons } from '../../kit.tsx'
-import { Err, Field, Note, Ok, Subhead } from './ui.tsx'
+import { Bullets, Err, Field, Note, Ok, Subhead } from './ui.tsx'
 import type { Memory, Privacy } from './types.ts'
 import { setSub, sub } from './util.ts'
 
@@ -53,7 +53,7 @@ export function ExportSection(ctx: Ctx, opts: { local: boolean; openPrivacy?: ()
     write ? null : Buttons(E, [{ key: 'export-ask', label: '让 Claude 整理报告', onPress: () => ctx.act.fill('请把我的档案、记录里的变化、身体年龄和方案整理成一份可以带给医生看的报告。') }], 'export-ask-row'),
     msg.startsWith('!') ? Err(ctx, msg.slice(1), 'export-err') : Ok(ctx, msg, 'export-msg'),
     write ? Note(ctx, archiveNote(privacy, opts.local), 'export-note') : null,
-    Note(ctx, '导出的文件留在这台电脑上，LongPi 不会发给任何人。', 'export-local'),
+    write ? Note(ctx, '导出的文件留在这台电脑上，LongPi 不会发给任何人。', 'export-local') : null,
     opts.openPrivacy ? Buttons(E, [{ key: 'export-privacy', label: '隐私与删除 ›', onPress: () => opts.openPrivacy?.() }], 'export-privacy-row') : null,
   ]
 }
@@ -66,20 +66,31 @@ function pathProblem(text: string): string | null {
   return null
 }
 
+/** What the member file holds (medicines and conditions have their own sections). */
+const MEMBER_KINDS: Record<string, string> = { motivation: '为什么在乎', vision: '想要的画面', style: '称呼和风格', note: '生活和偏好', life_event: '近期大事', commitment: '小承诺', win: '小胜利' }
+
+function memberItems(memory: Memory | null): Array<{ label: string; text: string }> {
+  return (memory?.items ?? [])
+    .filter((item) => item.kind && MEMBER_KINDS[item.kind] && item.text_zh)
+    .map((item) => ({ label: MEMBER_KINDS[item.kind as string] as string, text: item.text_zh as string }))
+}
+
 export function memberSummary(ctx: Ctx): string {
   const memory = ctx.json<Memory>('memory')
   if (!memory) return ''
-  return memory.items.length > 0 ? `Pi 记下了 ${memory.items.length} 条` : 'Pi 还没有记下什么'
+  const n = memberItems(memory).length
+  return n > 0 ? `Pi 记下了 ${n} 条` : 'Pi 还没有记下什么'
 }
 
 /** The member file: what Pi keeps, and bringing one in from the standalone coach. */
 export function MemberSection(ctx: Ctx): Node[] {
   const E = ctx.E
   const memory = ctx.json<Memory>('memory')
-  const count = memory?.items.length ?? 0
+  const items = memberItems(memory)
   return [
-    Note(ctx, count > 0 ? `会员档案是 Pi 记下的你的画面、小承诺和小胜利，现在有 ${count} 条。导出在上面的「导出」里。` : '会员档案是 Pi 记下的你的画面、小承诺和小胜利。聊得越多，记下的越多。', 'member-what'),
-    memory?.digest_zh ? Note(ctx, memory.digest_zh, 'member-digest') : null,
+    Note(ctx, items.length > 0 ? `会员档案是 Pi 记下的你的画面、小承诺和小胜利，现在有 ${items.length} 条。` : '会员档案是 Pi 记下的你的画面、小承诺和小胜利。聊得越多，记下的越多。', 'member-what'),
+    Bullets(ctx, items.slice(0, 10).map((item) => `${item.label}：${item.text}`), 'member-items'),
+    items.length > 10 ? Note(ctx, `另有 ${items.length - 10} 条`, 'member-more') : null,
     Subhead(E, '导入会员档案', 'member-import-head'),
     Note(ctx, '从独立版长寿教练带来的会员档案（.md 文件）可以读进来：为什么在乎、想要的画面、称呼和风格、近期大事、小承诺（原来的次数接着算）和小胜利。用药和测量表不导入。', 'member-import-what'),
     Field(ctx, {
