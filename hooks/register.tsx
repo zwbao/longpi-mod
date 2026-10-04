@@ -609,12 +609,12 @@ async function setupLongPi($: Engine, manual: boolean): Promise<void> {
  * Once a week, in the background: a fresh copy of the method library, and the literature scout's new research
  * cards for the Codex. The first session of the week that finds new cards says so once, above the prompt.
  */
-async function weekly($: Engine): Promise<void> {
+async function weekly($: Engine, force = false): Promise<{ cards: number; reason: string } | null> {
   const rt = runtime()
-  if (!rt) return
+  if (!rt) return null
   const now = await $.clock.now()
   const last = ((await $.store.get('weekly')) ?? null) as { at?: number; week?: string } | null
-  if (last?.at && now - last.at < WEEK_MS) return
+  if (!force && last?.at && now - last.at < WEEK_MS) return null
   // Held for an hour while it runs (another window starting meanwhile does not run it twice); a run that found
   // nothing to read (no network, PubMed down, no model) is tried again the next day, not in a week.
   await $.store.set('weekly', { at: now - WEEK_MS + 3_600_000, week: last?.week ?? '' })
@@ -630,6 +630,13 @@ async function weekly($: Engine): Promise<void> {
   const ran = Boolean(found?.finished)
   await $.store.set('weekly', ran ? { at: now, week: isoWeek(new Date(now)) } : { at: now - WEEK_MS + 24 * 3_600_000, week: last?.week ?? '' })
   if (found && found.cards > 0) await $.store.set('news', { week: found.week, cards: found.cards, shown: false })
+  await update($, data, (all) => {
+    const out = { ...all }
+    delete out['codex/library']
+    delete out.game
+    return out
+  })
+  return found ? { cards: found.cards, reason: found.reason } : { cards: 0, reason: '没有运行' }
 }
 
 /** At session start: build the environment once in the background if it is missing, re-check weekly. */
@@ -795,7 +802,7 @@ export const register: Register = (on) => {
     await startCore($)
     const rt = runtime()
     if (rt) for (const spec of toolSpecs(rt)) await $.tool.register(spec)
-    await $.command.register({ name: 'longpi', description: 'LongPi 长寿教练：健康页、长寿图鉴、方案与打卡', argumentHint: '[总览|化验|方案|图鉴|档案|设置|setup|演示模式|你想问的话]' })
+    await $.command.register({ name: 'longpi', description: 'LongPi 长寿教练：健康页、长寿图鉴、方案与打卡', argumentHint: '[总览|图鉴|通往120|方案|档案|设置|新研究|setup|演示模式|你想问的话]' })
     await update($, booted, () => true)
     // The environment builds itself in the background a minute in, never in the way of the first prompt.
     $.clock.after(60_000, () => {
@@ -960,6 +967,19 @@ export const register: Register = (on) => {
     if (first === 'setup' || first === '安装' || first === '更新') {
       void setupLongPi($, true)
       return { text: '正在安装或更新 LongPi 的方法库和计算环境，进度在状态栏，完成后会提示。' }
+    }
+    if (first === '新研究' || first === '文献' || first === 'research') {
+      void (async () => {
+        $.ui.status('LongPi · 正在找本周的新研究…')
+        const out = await weekly($, true).catch(() => null)
+        $.ui.status(undefined)
+        if (out && out.cards > 0) {
+          await update($, view, (v) => ({ ...v, tab: 'codex' as const, detail: null, sub: { ...v.sub, 'codex.tab': 'library', 'codex.chapter': 'new', 'codex.tier': '' } }))
+          await toastNotice($, `长寿图鉴 · 上架了 ${out.cards} 张新研究卡`, 'good')
+          await openPane($)
+        } else await toastNotice($, `这次没有新研究卡上架：${out?.reason || '请稍后再试'}`, 'warn')
+      })().catch(() => undefined)
+      return { text: '正在从 PubMed 找过去一周的高质量衰老研究，写成图鉴卡，一两分钟。' }
     }
     if (first === '演示模式' || first === 'present') {
       const turnOn = !(await read($, privacy)).presentation

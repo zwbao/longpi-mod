@@ -5,7 +5,7 @@ import { Buffer } from '../../sys/buffer.ts'
 import type { IncomingMessage, ServerResponse } from '../../sys/http.ts'
 import { calendarEvents, confirmEvent, listEvents, saveEvent, suggestEvent } from '../ux/schedule.ts'
 import { loadLibrary, setExtraStudies } from './data.ts'
-import { literatureChapter, readLiterature } from './literature.ts'
+import { literatureChapter, NEW_CHAPTER, readLiterature } from './literature.ts'
 import { actCodex, boundRootDir, kickRefresh, syncCodex, type CodexAction } from './engine.ts'
 import { readState } from './state.ts'
 import { isoDay } from '../interventions.ts'
@@ -83,8 +83,9 @@ setExtraStudies(() => readLiterature(boundRootDir()))
 export function libraryView(now: Date = new Date()) {
   const shipped = loadLibrary()
   const root = boundRootDir()
-  const fresh = readLiterature(root)
-  const chapter = literatureChapter(fresh)
+  // Cards from the last two weeks sit in 本周新研究; older ones join the chapter of their topic.
+  const fresh = readLiterature(root).map((card) => (now.getTime() - Date.parse(card.added) < 14 * 86_400_000 ? { ...card, chapter: NEW_CHAPTER } : card))
+  const chapter = literatureChapter(fresh.filter((card) => card.chapter === NEW_CHAPTER))
   const lib = { ...shipped, chapters: chapter ? [chapter, ...shipped.chapters] : shipped.chapters, studies: [...fresh, ...shipped.studies] }
   const state = root ? readState(root, now, isoDay(now)) : null
   const results = new Map((state?.context.method_results ?? []).map((row) => [row.skill, row.text_zh]))
