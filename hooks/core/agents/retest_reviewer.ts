@@ -15,6 +15,7 @@ const FALLBACK_PROMPT = '你只改写已经定好等级的反馈句，不改 gra
 function promptText(name: string): string {
   const here = dirname(libFile())
   const candidates = [
+    join(here, '..', 'data', 'prompts', name),
     join(here, 'prompts', name),
     join(here, '..', 'agents', 'prompts', name),
     join(here, '..', 'skills', 'longpi-feedback', name),

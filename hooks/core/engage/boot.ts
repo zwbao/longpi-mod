@@ -26,18 +26,8 @@ export interface EngageRuntime {
 let booted = false
 
 function packageRoot(): string {
-  let dir = dirname(libFile())
-  for (let hop = 0; hop < 6; hop += 1) {
-    const pkg = join(dir, 'package.json')
-    try {
-      const json = JSON.parse(readFileSync(pkg, 'utf8')) as { name?: string }
-      if (json.name === 'dsh-plugin-longpi') return dir
-    } catch { /* keep walking */ }
-    const parent = dirname(dir)
-    if (parent === dir) break
-    dir = parent
-  }
-  return dirname(libFile())
+  // The mod's own folder: libFile() is <mod>/lib/index.js, as the npm package's bundle sat in lib/.
+  return dirname(dirname(libFile()))
 }
 
 function skillText(): { name: string; description: string; content: string } | null {

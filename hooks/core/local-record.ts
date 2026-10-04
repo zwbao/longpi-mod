@@ -208,7 +208,18 @@ function bucketOf(date: string, resolution: string): string {
   return date
 }
 
-export function queryIndicators(record: LocalRecord, args: Record<string, unknown> = {}): Record<string, unknown> {
+/** Mirobody 1.5.3 asks with one `view` word; older servers with resolution × aggregate. Both are answered. */
+function fromView(args: Record<string, unknown>): Record<string, unknown> {
+  const view = typeof args.view === 'string' ? args.view : ''
+  if (!view) return args
+  const { view: _view, ...rest } = args
+  if (view === 'latest' || view === 'stats') return { ...rest, aggregate: view }
+  if (view === 'raw') return { ...rest, resolution: 'raw' }
+  return { ...rest, resolution: view, aggregate: 'none' }
+}
+
+export function queryIndicators(record: LocalRecord, rawArgs: Record<string, unknown> = {}): Record<string, unknown> {
+  const args = fromView(rawArgs)
   const groups = byIndicator(record)
   const names = pickNames(record, args)
   if (names === null) {

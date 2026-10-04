@@ -22,7 +22,7 @@ export const RESEARCH_PROMPT = `你是 LongPi 的研究协调员。你只解释�
 
 export function promptMatchesFile(): boolean {
   try {
-    const path = join(dirname(libFile()), 'prompts', 'research_coordinator.md')
+    const path = join(dirname(libFile()), '..', 'data', 'prompts', 'research_coordinator.md')
     return readFileSync(path, 'utf8').trim() === RESEARCH_PROMPT.trim()
   } catch {
     return true

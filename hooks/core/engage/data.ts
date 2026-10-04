@@ -27,19 +27,8 @@ export function codexBlockZh(block: CodexBlock): string {
 }
 
 function packageRoot(): string {
-  let dir = dirname(libFile())
-  for (let hop = 0; hop < 6; hop += 1) {
-    const pkg = join(dir, 'package.json')
-    if (existsSync(pkg)) {
-      try {
-        if ((JSON.parse(readFileSync(pkg, 'utf8')) as { name?: string }).name === 'dsh-plugin-longpi') return dir
-      } catch { /* keep walking */ }
-    }
-    const parent = dirname(dir)
-    if (parent === dir) break
-    dir = parent
-  }
-  return dirname(libFile())
+  // The mod's own folder: libFile() is <mod>/lib/index.js, as the npm package's bundle sat in lib/.
+  return dirname(dirname(libFile()))
 }
 
 const EMPTY_LIBRARY: LibraryPack = { version: 3, library: { revision: null, skills: 0 }, chapters: [], studies: [], species: [], pending: [] }

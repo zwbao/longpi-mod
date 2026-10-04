@@ -103,6 +103,8 @@ async function main() {
     const out = await runTool(rt, name, JSON.parse(args), async () => true, 'dev-session', 'dev-call')
     console.log(out.text)
   }
+  // Background work the command started (a series refresh after a journey build) finishes before exit.
+  if (process.env.LONGPI_DEV_WAIT) await new Promise((done) => setTimeout(done, Number(process.env.LONGPI_DEV_WAIT)))
   await flushPending()
   void runtime
 }
