@@ -11,7 +11,7 @@ import { chineseDate, fmtAuto, plainUnits, whenText } from './plan/format.ts'
 import { todayCounts } from './plan/shared.tsx'
 import type { FollowupResponse, Journey, ScheduleResponse, ScheduleRow } from './plan/types.ts'
 
-const DATE_COLS = 14
+const DATE_COLS = 16
 
 /** The questions the web suggested for a visit (ux/plain.ts suggestedQuestions). */
 function suggestedQuestions(visit: string | null, today: string): string[] {
