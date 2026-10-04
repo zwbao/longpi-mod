@@ -78,7 +78,7 @@ function banner(ctx: Ctx): Node {
   return (
     <Box key="banner" flexDirection="row" justifyContent="space-between" borderStyle="round" borderColor={C.accent} paddingX={1}>
       <Text wrap="truncate-end">{`下一步：${next?.title_zh ?? ''}${next?.detail_zh ? ` · ${next.detail_zh}` : ''}`}</Text>
-      <Button key="onboard" plain hotkey="g" label="开始" onPress={() => ctx.act.say('/longpi 开始')} />
+      <Button key="onboard" plain hotkey="g" label="开始" onPress={() => ctx.act.go('overview', { 'overview.onboarding': '1' })} />
     </Box>
   )
 }

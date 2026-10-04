@@ -9,6 +9,7 @@ import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '..
 import type { Io } from './sys/host.ts'
 import { boot, flushPending, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
 import { isoDay } from './core/interventions.ts'
+import { WRITE_TOOLS } from './core/agents/orchestrator.ts'
 import { pageOf, PAGES } from './ui/pages/index.ts'
 import { pageWidth, paneTree } from './ui/pane.tsx'
 import type { Actions, CodexActions, Ctx, PostResult } from './ui/types.ts'
@@ -112,8 +113,11 @@ async function loadRoute($: Engine, path: string, force = false, fetchPath = pat
   if (!rt) return
   const now = await $.clock.now()
   const held = (await read($, data))[path]
-  if (held && !force && (held.loading || (held.status === 200 && now - held.at < FRESH_MS))) return
-  await update($, data, (all) => ({ ...all, [path]: { ...(all[path] ?? EMPTY), loading: true } }))
+  // A load caught by a reload (the state outlives the module) is stale after 30 s, never stuck.
+  const inFlight = Boolean(held?.loading) && now - (held?.at ?? 0) < 30_000
+  if (held && !force && (inFlight || (held.status === 200 && now - held.at < FRESH_MS))) return
+  if (held && force && inFlight) return
+  await update($, data, (all) => ({ ...all, [path]: { ...(all[path] ?? EMPTY), loading: true, at: now } }))
   let next: RouteCache
   try {
     const out = await route(rt, 'GET', `/api/longpi/${fetchPath}`)
@@ -284,8 +288,8 @@ export const register: Register = (on) => {
       }
     }, session, String(callId ?? ''))
     if (out.denied) return { deny: out.denied }
-    // A write the pane shows: read its data again when the pane is next drawn.
-    void reloadAfter($, ['tracking', 'codex', 'codex/slot'])
+    // A write the pane shows: read its data again.
+    if ((WRITE_TOOLS as readonly string[]).includes(name) || name === 'record_measurements') void reloadAfter($, ['tracking', 'codex', 'codex/slot', 'indicators?area=labs'])
     return { result: out.text }
   })
 
@@ -302,11 +306,15 @@ export const register: Register = (on) => {
       await update($, privacy, (p) => ({ ...p, presentation: turnOn, showUntil: 0 }))
       return { text: turnOn ? '演示模式已打开：LongPi 不再显示个人数字和提醒。再输入一次 /longpi 演示模式 关闭。' : '演示模式已关闭。' }
     }
-    const tab = TAB_WORDS[first] ?? (arg === '' ? undefined : undefined)
-    if (arg === '' || tab) {
+    const tab = TAB_WORDS[first]
+    if (arg === '') {
+      await openPane($)
+      return {}
+    }
+    if (tab) {
       await openPane($, tab)
-      if (tab && rest.length === 0) return {}
-      if (!tab) return {}
+      if (rest.length > 0) sayAsPerson($, rest.join(' '))
+      return {}
     }
     sayAsPerson($, arg)
     return {}
