@@ -67,7 +67,7 @@ export async function devBoot() {
       timers.add(t)
       return () => { clearTimeout(t); timers.delete(t) }
     },
-    config: {},
+    config: process.env.LONGPI_HOME ? { dataDir: process.env.LONGPI_HOME } : {},
   })
 }
 

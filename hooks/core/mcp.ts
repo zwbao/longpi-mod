@@ -7,6 +7,13 @@ import { callLocalTool, readLocalRecord, RECORD_FILE } from './local-record.ts'
 /** The record kept on this computer (local-record.ts) answers the MCP tools when the address is local:. */
 export const LOCAL_MCP_URL = 'local:'
 
+/** Whose record answers: the person being looked at, under the LongPi home the session runs with. */
+let recordDir: () => string = () => resolveDataDir('')
+
+export function setRecordDir(fn: () => string): void {
+  recordDir = fn
+}
+
 export function isLocalMcp(url: string): boolean {
   return url.trim() === '' || url.trim().startsWith(LOCAL_MCP_URL)
 }
@@ -126,7 +133,7 @@ export async function callMcpTool(options: {
   timeoutMs: number
 }): Promise<McpCallResult> {
   if (isLocalMcp(options.url)) {
-    const record = readLocalRecord(join(resolveDataDir(''), RECORD_FILE))
+    const record = readLocalRecord(join(recordDir(), RECORD_FILE))
     const answer = callLocalTool(record, options.name, options.args)
     return answer.ok ? { success: true, result: answer.result } : { success: false, error_kind: 'invalid_arguments', error: answer.error }
   }

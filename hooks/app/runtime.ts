@@ -10,7 +10,8 @@ import { join } from '../sys/path.ts'
 import { setCwd } from '../sys/path.ts'
 import { HostContext, type ParamSpec, type ToolDef } from '../sys/cordis.ts'
 import { apply, configFrom, type Config, type LongPiApp } from '../core/index.ts'
-import { resolveRootDir, skillsHomeCandidates } from '../core/paths.ts'
+import { resolveDataDir, resolveRootDir, skillsHomeCandidates } from '../core/paths.ts'
+import { setRecordDir } from '../core/mcp.ts'
 import { setRevision } from '../core/catalog.ts'
 
 export type Runtime = {
@@ -125,6 +126,7 @@ export async function boot(options: BootOptions): Promise<Runtime> {
 
   const config = configFrom(options.config)
   const rootDir = resolveRootDir(config.dataDir)
+  setRecordDir(() => resolveDataDir(config.dataDir))
   const skillsHome = await findSkillsHome(options.io, config.skillsHome)
   const python = await findPython(options.io, options.home, config.skillPython)
   if (python && !config.skillPython) config.skillPython = python

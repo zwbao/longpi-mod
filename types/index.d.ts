@@ -39,7 +39,7 @@ export type PrivacyState = {
 
 /** The Codex stage drawn over the 长寿图鉴 page: a pack being opened or a card being turned over. */
 export type CodexOverlay = {
-  kind: 'none' | 'pack' | 'reveal' | 'study' | 'result' | 'species'
+  kind: 'none' | 'pack' | 'reveal' | 'study' | 'result' | 'species' | 'choose' | 'footprint'
   /** pack id, run id, study card id or species key */
   id: string
   /** idle → shake → burst → deal → cards (pack); back → flip → front (reveal) */

@@ -13,6 +13,7 @@ import { WRITE_TOOLS } from './core/agents/orchestrator.ts'
 import { pageOf, PAGES } from './ui/pages/index.ts'
 import { pageWidth, paneTree } from './ui/pane.tsx'
 import type { Actions, CodexActions, Ctx, PostResult } from './ui/types.ts'
+import { isAnimated, stageAt, stageCols } from './ui/codex/stage.ts'
 
 type Engine = EngineInterface
 
@@ -193,18 +194,166 @@ async function go($: Engine, tab: Tab, sub?: Record<string, string>): Promise<vo
   await loadRoutes($, await routesOfView($))
 }
 
+// --- the Codex stage -------------------------------------------------------------------------------
+
+/** The stage's width as last drawn (the driver must blit frames of the size the page drew). */
+let stageColsNow = 80
+let stageTimer: { cancel: () => void } | null = null
+
+function stopStage(): void {
+  stageTimer?.cancel()
+  stageTimer = null
+}
+
+async function codexStill($: Engine): Promise<boolean> {
+  const p = await read($, privacy)
+  const view = (await read($, data)).codex?.json as { prefs?: { simple?: boolean; presentation?: boolean } } | null | undefined
+  return p.presentation || Boolean(view?.prefs?.simple) || Boolean(view?.prefs?.presentation)
+}
+
+/** Blit the stage's frames while its phase moves, then move the overlay on to the next phase. */
+function playStage($: Engine): void {
+  stopStage()
+  let busy = false
+  let denied = 0
+  let lastBlit = 0
+  const timer = $.clock.every(45, async () => {
+    if (busy) return
+    busy = true
+    try {
+      const o = await read($, overlay)
+      if (!isAnimated(o)) {
+        timer.cancel()
+        return
+      }
+      const still = await codexStill($)
+      const now = Date.now()
+      const looping = o.phase === 'idle' || o.phase === 'back'
+      if (still) {
+        // No motion: jump to the end of each phase.
+        const at = stageAt(o, stageColsNow, now + 60_000, true)
+        if (at?.next) await update($, overlay, (cur) => (cur.since === o.since && cur.phase === o.phase ? { ...cur, phase: at.next as string, since: Date.now() } : cur))
+        else timer.cancel()
+        return
+      }
+      if (looping && now - lastBlit < 110) return
+      const at = stageAt(o, stageColsNow, now, false)
+      if (!at) {
+        timer.cancel()
+        return
+      }
+      const c = at.frame.cells()
+      const res = await $.ui.blit({ requestId: PANE, key: 'codex-stage', cells: c.cells, columns: c.columns, rows: c.rows })
+      lastBlit = now
+      if (res && 'deny' in res && res.deny) {
+        denied += 1
+        if (denied > 60) timer.cancel()
+      } else denied = 0
+      if (at.done && at.next) {
+        await update($, overlay, (cur) => (cur.since === o.since && cur.phase === o.phase ? { ...cur, phase: at.next as string, since: Date.now() } : cur))
+      } else if (at.done) timer.cancel()
+    } finally {
+      busy = false
+    }
+  })
+  stageTimer = timer
+}
+
+async function setOverlay($: Engine, fn: (o: CodexOverlay) => CodexOverlay): Promise<void> {
+  await update($, overlay, fn)
+  if (isAnimated(await read($, overlay))) playStage($)
+}
+
+function speciesNames($: Engine, keys: readonly string[], cache: Record<string, RouteCache>): string {
+  const lib = cache['codex/library']?.json as { species?: Array<{ key: string; name_zh: string }> } | null | undefined
+  return keys.map((key) => lib?.species?.find((row) => row.key === key)?.name_zh ?? key).join('、')
+}
+
 function codexActions($: Engine): CodexActions {
-  const act = (body: Record<string, unknown>) => post($, 'codex', body, { reload: ['codex', 'codex/slot'] })
+  const act = (body: Record<string, unknown>) => post($, 'codex', body, { reload: ['codex', 'codex/slot', 'codex/library'] })
+  const payloadPatch = (patch: Record<string, unknown>) => setOverlay($, (o) => ({ ...o, payload: { ...((o.payload as Record<string, unknown> | null) ?? {}), ...patch } }))
   return {
-    openPack: (packId) => void update($, overlay, () => ({ ...NO_OVERLAY, kind: 'pack', id: packId, phase: 'idle', since: Date.now() })),
-    flip: (index) => void update($, overlay, (o) => ({ ...o, flipped: o.flipped.map((value, i) => (i === index ? true : value)) })),
-    pick: (optionId) => void update($, overlay, (o) => ({ ...o, chosen: optionId })),
-    start: (optionId, answers, randomized) => void act({ action: 'start', option: optionId, answers, randomized }).then(() => update($, overlay, () => NO_OVERLAY)),
-    reveal: (runId) => void update($, overlay, () => ({ ...NO_OVERLAY, kind: 'reveal', id: runId, phase: 'back', since: Date.now() })),
-    showRun: (runId) => void update($, overlay, () => ({ ...NO_OVERLAY, kind: 'result', id: runId, phase: 'front', since: Date.now() })),
-    showStudy: (cardId) => void update($, overlay, () => ({ ...NO_OVERLAY, kind: 'study', id: cardId, phase: 'front', since: Date.now() })),
-    showSpecies: (key) => void update($, overlay, () => ({ ...NO_OVERLAY, kind: 'species', id: key, phase: 'front', since: Date.now() })),
-    closeOverlay: () => void update($, overlay, () => NO_OVERLAY),
+    open: (kind, id, payload, phase = 'front') => {
+      void setOverlay($, () => ({ ...NO_OVERLAY, kind, id, phase, since: Date.now(), payload }))
+      if (kind === 'study') {
+        void post($, 'codex', { action: 'read', card_id: id }, { quiet: true, reload: ['codex/library'] }).then(async (res) => {
+          const met = Array.isArray(res.json.met) ? (res.json.met as string[]) : []
+          if (met.length === 0) return
+          await update($, overlay, (o) => (o.kind === 'study' && o.id === id ? { ...o, payload: { ...((o.payload as Record<string, unknown> | null) ?? {}), met } } : o))
+          await toastNotice($, `遇见了 ${speciesNames($, met, await read($, data))}，已放进物种志。`, 'good')
+        })
+      }
+    },
+    tear: () => {
+      void (async () => {
+        const o = await read($, overlay)
+        if (o.kind !== 'pack' || o.phase !== 'idle') return
+        const started = Date.now()
+        await setOverlay($, (cur) => ({ ...cur, phase: 'shake', since: started }))
+        const res = await post($, 'codex', { action: 'open_pack', pack_id: o.id }, { quiet: true, reload: ['codex', 'codex/slot'] })
+        const wait = 560 - (Date.now() - started)
+        if (wait > 0 && !(await codexStill($))) await $.clock.sleep(wait)
+        if (!res.ok) {
+          await setOverlay($, (cur) => ({ ...cur, phase: 'idle', since: Date.now() }))
+          await toastNotice($, typeof res.json.error === 'string' ? res.json.error : '没有拆开，请再试一次。', 'warn')
+          return
+        }
+        const view = res.json.view as { packs?: Array<{ id: string; options?: unknown[] }> } | undefined
+        const payload = (o.payload ?? {}) as { packKind?: string }
+        if (payload.packKind === 'retest') {
+          const results = ((res.json.pack as { results?: unknown[] } | undefined)?.results ?? []) as unknown[]
+          await setOverlay($, (cur) => ({ ...cur, phase: 'burst', since: Date.now(), payload: { ...(cur.payload as object), results } }))
+          return
+        }
+        const options = view?.packs?.find((row) => row.id === o.id)?.options ?? []
+        if (options.length === 0) {
+          await setOverlay($, (cur) => ({ ...cur, phase: 'empty', since: Date.now(), note: typeof res.json.note_zh === 'string' ? res.json.note_zh : '现在没有适合你的实验。包会一直留着。' }))
+          return
+        }
+        await setOverlay($, (cur) => ({ ...cur, phase: 'burst', since: Date.now(), payload: { ...(cur.payload as object), options } }))
+      })()
+    },
+    turn: () => {
+      void (async () => {
+        const o = await read($, overlay)
+        if (o.kind !== 'reveal' || o.phase !== 'back') return
+        await payloadPatch({ busy: true })
+        const res = await post($, 'codex', { action: 'reveal', run_id: o.id }, { quiet: true, reload: ['codex', 'codex/slot'] })
+        if (!res.ok) {
+          await payloadPatch({ busy: false })
+          await toastNotice($, typeof res.json.error === 'string' ? res.json.error : '没有翻开，请再试一次。', 'warn')
+          return
+        }
+        const view = res.json.view as { deck?: unknown[] } | undefined
+        const run = res.json.run ?? view?.deck?.[0] ?? (o.payload as { run?: unknown } | null)?.run
+        await setOverlay($, (cur) => ({ ...cur, phase: 'turning', since: Date.now(), payload: { ...(cur.payload as object), run, busy: false } }))
+      })()
+    },
+    pick: (optionId) => void setOverlay($, (o) => ({ ...o, chosen: optionId ?? '', payload: { ...((o.payload as Record<string, unknown> | null) ?? {}), answers: {}, randomized: false } })),
+    answer: (questionId, yes) => void setOverlay($, (o) => {
+      const payload = ((o.payload as Record<string, unknown> | null) ?? {}) as { answers?: Record<string, boolean> }
+      return { ...o, payload: { ...payload, answers: { ...(payload.answers ?? {}), [questionId]: yes } } }
+    }),
+    randomize: (on) => void payloadPatch({ randomized: on }),
+    begin: () => {
+      void (async () => {
+        const o = await read($, overlay)
+        const payload = (o.payload ?? {}) as { options?: Array<{ id: string; title_zh: string }>; option?: { id: string; title_zh: string }; answers?: Record<string, boolean>; randomized?: boolean }
+        const option = o.kind === 'pack' ? payload.options?.find((row) => row.id === o.chosen) : payload.option
+        if (!option) return
+        const res = await act({ action: 'begin', experiment_id: option.id, ...(o.kind === 'pack' ? { pack_id: o.id } : {}), answers: payload.answers ?? {}, randomized: payload.randomized === true })
+        if (!res.ok) return
+        const run = res.json.run as { title_zh?: string } | undefined
+        await toastNotice($, typeof res.json.note_zh === 'string' && res.json.note_zh ? res.json.note_zh : `开始了「${run?.title_zh ?? option.title_zh}」。从今天算第 1 天。`, 'good')
+        stopStage()
+        await update($, overlay, () => NO_OVERLAY)
+        await update($, view, (v) => ({ ...v, sub: { ...v.sub, 'codex.tab': 'exp' } }))
+      })()
+    },
+    close: () => {
+      stopStage()
+      void update($, overlay, () => NO_OVERLAY).then(() => loadRoutes($, ['codex', 'codex/library'], true))
+    },
     act,
   }
 }
@@ -326,7 +475,9 @@ export const register: Register = (on) => {
     const cache = await read($, data)
     const p = await read($, privacy)
     const n = await read($, notice)
+    const o = await read($, overlay)
     const now = Date.now()
+    stageColsNow = stageCols(pageWidth(e.props.bodyColumns))
     const ctx: Ctx = {
       E: $.ui.resolve(e),
       surface: e.surface,
@@ -338,6 +489,7 @@ export const register: Register = (on) => {
         return (held && held.status === 200 ? held.json : null) as T | null
       },
       privacy: { ...p, shown: !p.presentation && p.showUntil > now },
+      overlay: o,
       act: actionsFor($, e.surface),
       now,
       today: isoDay(new Date(now)),
@@ -347,5 +499,4 @@ export const register: Register = (on) => {
 
   void PAGES
   void PERSON_FRAME
-  void overlay
 }

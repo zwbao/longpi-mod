@@ -3,7 +3,7 @@
 
 import type { Elements, RenderElement, RenderSurface } from 'claude-code'
 
-import type { LongPiView, PrivacyState, RouteCache, Tab } from '../../types'
+import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../../types'
 
 export type { Tab, LongPiView, RouteCache }
 
@@ -59,15 +59,20 @@ export type Actions = {
 }
 
 export type CodexActions = {
-  openPack: (packId: string) => void
-  flip: (index: number) => void
-  pick: (optionId: string) => void
-  start: (optionId: string, answers: Record<string, boolean>, randomized: boolean) => void
-  reveal: (runId: string) => void
-  showRun: (runId: string) => void
-  showStudy: (cardId: string) => void
-  showSpecies: (key: string) => void
-  closeOverlay: () => void
+  /** Open the stage over the 长寿图鉴 page: a pack, a reveal, a card to read, an experiment to choose. */
+  open: (kind: CodexOverlay['kind'], id: string, payload: unknown, phase?: string) => void
+  /** Tear the pack on the stage open (shake → burst → deal → flip). */
+  tear: () => void
+  /** Turn the experiment card on the stage over (the reveal). */
+  turn: () => void
+  /** Pick one of the three cards (null: back to the three). */
+  pick: (optionId: string | null) => void
+  answer: (questionId: string, yes: boolean) => void
+  randomize: (on: boolean) => void
+  /** Start the chosen experiment with the answers given. */
+  begin: () => void
+  close: () => void
+  /** One Codex action (prefs, checkin, stop, start a season…); the page's data reloads after it. */
   act: (body: Record<string, unknown>) => Promise<PostResult>
 }
 
@@ -82,6 +87,8 @@ export type Ctx = {
   /** The JSON of a route that answered 200, or null. */
   json: <T = Record<string, unknown>>(path: RoutePath) => T | null
   privacy: PrivacyState & { shown: boolean }
+  /** The Codex stage, when one is open. */
+  overlay: CodexOverlay
   act: Actions
   now: number
   /** YYYY-MM-DD in the person's clock. */
