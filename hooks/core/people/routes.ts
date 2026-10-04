@@ -9,6 +9,7 @@ import { EMPTY_PROFILE, mergeProfile, normalizeProfile, writeProfile } from '../
 import { createManagedMember, ensureMemberLink, holderAuth, mintMemberLink, saveMemberLink } from './mirobody.ts'
 import { deleteLocalStore } from '../privacy/delete.ts'
 import { ensureLocalPairing } from '../mirobody-account.ts'
+import { isLocalMcp, LOCAL_MCP_URL } from '../mcp.ts'
 import { ensureDemoPerson, isDemo, openDemo } from '../demo/index.ts'
 
 const holderAuthOk = (root: string) => !('error_zh' in holderAuth(root))
@@ -40,9 +41,9 @@ export function peopleView(deps: CoreDeps) {
         connected: Boolean(readConnection(personDir(root, p.id))?.mcp_url) && !p.link_error, managed: Boolean(p.mirobody_user_id),
         link_error_zh: p.link_error ?? '', ...(p.demo ? { demo: true } : {}) })),
     ],
-    can_create_in_mirobody: !('error_zh' in holder),
+    can_create_in_mirobody: isLocalMcp(deps.config().mcpUrl) || !('error_zh' in holder),
     // A link set in the installer's config (no saved connection) also reads records but cannot create accounts.
-    create_hint_zh: !('error_zh' in holder) ? ''
+    create_hint_zh: isLocalMcp(deps.config().mcpUrl) || !('error_zh' in holder) ? ''
       : !readConnection(root) && deps.config().mcpUrl?.trim() ? '当前的数据连接由安装时设置，暂时无法为家人建档。请先在「档案」的「数据连接」中点「重新连接」。'
         : holder.error_zh,
   }
@@ -66,13 +67,16 @@ export function registerPeopleRoutes(deps: CoreDeps): void {
     if (!sex) return { ok: false, status: 400, error: '请选择生理性别（许多计算按性别分别进行）。' }
     if (pasted && connectionUrlProblem(pasted)) return { ok: false, status: 400, error: connectionUrlProblem(pasted) }
     const root = resolveRootDir(deps.config().dataDir)
-    await ensureLocalPairing(root, { base: deps.config().mirobodyUrl ?? '', configuredUrl: deps.config().mcpUrl, force: !holderAuthOk(root) }).catch(() => undefined)
+    // On the record kept on this computer a family member is a folder of their own: nothing to create elsewhere.
+    const local = !pasted && isLocalMcp(deps.config().mcpUrl)
+    if (!local) await ensureLocalPairing(root, { base: deps.config().mirobodyUrl ?? '', configuredUrl: deps.config().mcpUrl, force: !holderAuthOk(root) }).catch(() => undefined)
     const holder = holderAuth(root)
     // Mirobody first: a member that cannot be created there is not half-created here.
     let memberId = ''
     let link = pasted
     let linkError = ''
-    if (!pasted) {
+    if (local) link = LOCAL_MCP_URL
+    else if (!pasted) {
       if ('error_zh' in holder) return { ok: false, status: 409, error: holder.error_zh }
       try {
         memberId = await createManagedMember(holder, { name, sex, birth_year: birthYear })

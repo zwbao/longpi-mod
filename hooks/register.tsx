@@ -478,6 +478,10 @@ function actionsFor($: Engine, surface: RenderSurface): Actions {
       await toastNotice($, `已保存到 ${target}`, 'good')
       return target
     },
+    saveFile: async (path, fileName) => {
+      const saved = await actionsFor($, surface).save(path, fileName)
+      return saved ? { ok: true, path: saved } : { ok: false, error: '没有可以保存的内容' }
+    },
     close: () => void $.ui.close({ id: PANE }),
   }
 }

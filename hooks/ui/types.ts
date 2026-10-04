@@ -56,6 +56,8 @@ export type Actions = {
   codex: CodexActions
   /** Write a route's text answer (a calendar file, a brief) to ~/Downloads/<fileName>; resolves the path, or null. */
   save: (path: RoutePath, fileName: string) => Promise<string | null>
+  /** The same, answering `{ ok, path, error }` (the 档案 page's export). */
+  saveFile: (path: RoutePath, fileName: string) => Promise<{ ok: boolean; path?: string; error?: string }>
   /** Close the pane. */
   close: () => void
 }

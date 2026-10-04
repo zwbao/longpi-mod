@@ -178,7 +178,8 @@ class Vfs {
 
   private async syncFile(io: Io, path: string, size: number, mtimeMs: number, maxBytes: number): Promise<void> {
     const node = this.files.get(path)
-    if (node && (node.dirty || (node.mtimeMs === mtimeMs && node.size === size))) return
+    const loaded = node ? node.text !== null || node.bytes !== null : false
+    if (node && (node.dirty || (loaded && node.mtimeMs === mtimeMs && node.size === size))) return
     if (this.deleted.has(path)) return
     const loadable = size <= maxBytes && TEXT_EXT.test(path.slice(path.lastIndexOf('/') + 1))
     let text: string | null = null
