@@ -7,7 +7,8 @@ import type { EngineInterface, Register, RenderSurface } from 'claude-code'
 
 import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../types'
 import type { Io } from './sys/host.ts'
-import { boot, flushPending, op, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
+import { boot, flushPending, op, reloadLibrary, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
+import { runSetup } from './app/setup.ts'
 import { fullBrief, SHORT_BRIEF } from './app/brief.ts'
 import { snapshotText } from './core/agents/orchestrator.ts'
 import { isoDay } from './core/interventions.ts'
@@ -495,6 +496,28 @@ async function revealFromBand($: Engine, ref: string): Promise<void> {
   if (pack) await setOverlay($, () => ({ ...NO_OVERLAY, kind: 'pack', id: pack.id, phase: 'idle', since: Date.now(), payload: { packKind: pack.kind, sourceZh: pack.source_zh, options: [], results: [] } }))
 }
 
+// --- /longpi setup ----------------------------------------------------------------------------------
+
+let settingUp = false
+
+async function setupLongPi($: Engine): Promise<void> {
+  const rt = runtime()
+  if (!rt || settingUp) return
+  settingUp = true
+  try {
+    const home = (await $.env.get('HOME')) ?? '/'
+    const out = await runSetup(ioOf($), home, { skillsHome: rt.skillsHome, python: rt.python }, (line) => $.ui.status(`LongPi · ${line}`))
+    await reloadLibrary()
+    rt.app.invalidate()
+    const done = runtime()
+    $.ui.status(undefined)
+    $.ui.log(`LongPi 安装：${out.lines.join(' ')}${done ? ` 方法库：${done.skillsHome || '未找到'}；Python：${done.python || '未找到'}` : ''}`)
+    await toastNotice($, out.ok ? 'LongPi 已就绪：方法库和计算环境都装好了。' : 'LongPi 安装没有全部完成，详情见上面的记录。', out.ok ? 'good' : 'warn')
+  } finally {
+    settingUp = false
+  }
+}
+
 // --- /longpi --------------------------------------------------------------------------------------
 
 const TAB_WORDS: Record<string, Tab> = {
@@ -525,6 +548,7 @@ export const register: Register = (on) => {
     if (rt) for (const spec of toolSpecs(rt)) await $.tool.register(spec)
     await $.command.register({ name: 'longpi', description: 'LongPi 长寿教练：健康页、长寿图鉴、方案与打卡', argumentHint: '[总览|化验|方案|图鉴|档案|设置|setup|演示模式|你想问的话]' })
     await update($, booted, () => true)
+    if (rt && (!rt.skillsHome || !rt.python)) $.ui.toast('LongPi：方法库或计算环境还没装好。输入 /longpi setup 一键安装。')
     $.clock.every(3_000, () => {
       void flushPending()
     })
@@ -665,6 +689,10 @@ export const register: Register = (on) => {
     if (!rt) return { text: 'LongPi 还在启动，请稍等几秒再试。' }
     if (first === 'status') {
       return { text: `LongPi：${rt.ctx.toolDefs.size} 个工具，方法库 ${rt.skillsHome || '未安装'}，Python ${rt.python || '未找到'}` }
+    }
+    if (first === 'setup' || first === '安装' || first === '更新') {
+      void setupLongPi($)
+      return { text: '正在安装或更新 LongPi 的方法库和计算环境，进度在状态栏，完成后会提示。' }
     }
     if (first === '演示模式' || first === 'present') {
       const turnOn = !(await read($, privacy)).presentation
