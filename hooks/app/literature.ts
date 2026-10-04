@@ -265,5 +265,7 @@ export async function scoutLiterature(io: Io, root: string, now: Date, opts: { d
   if (merged.length > 0 || !before) await io.write(file, `${JSON.stringify(record, null, 1)}\n`)
   // Nothing passed the checks although the model answered: try again another day rather than lose the week.
   const finished = cards.length > 0 || (parsed !== null && rows.length === 0)
-  return { ok: cards.length > 0, finished, week, cards: cards.length, candidates: all.length, reason: cards.length > 0 ? '' : rows.length > 0 ? `写出的 ${rows.length} 张卡都没有通过检查（${rejected.map((row) => row.why).join('；')}）。` : '这周的论文都没有达到上架的标准。' }
+  // What is new on the shelf (a second run in the same week may find the same papers).
+  const added = merged.length - kept.length
+  return { ok: cards.length > 0, finished, week, cards: added, candidates: all.length, reason: added > 0 ? '' : cards.length > 0 ? '这些论文已经在图书馆里了。' : rows.length > 0 ? `写出的 ${rows.length} 张卡都没有通过检查（${rejected.map((row) => row.why).join('；')}）。` : '这周的论文都没有达到上架的标准。' }
 }
