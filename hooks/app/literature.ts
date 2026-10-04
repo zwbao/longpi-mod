@@ -170,7 +170,8 @@ function hashSeed(text: string): number {
   return h
 }
 
-export type ScoutResult = { ok: boolean; week: string; cards: number; candidates: number; reason: string }
+/** `finished`: the week was looked at to the end (a failed search or model call is not finished, and is retried). */
+export type ScoutResult = { ok: boolean; finished: boolean; week: string; cards: number; candidates: number; reason: string }
 
 /** One weekly run: search, rank, write, check, save. Never throws; says why when nothing came of it. */
 export async function scoutLiterature(io: Io, root: string, now: Date, opts: { days?: number; max?: number } = {}): Promise<ScoutResult> {
@@ -178,14 +179,14 @@ export async function scoutLiterature(io: Io, root: string, now: Date, opts: { d
   const days = opts.days ?? 7
   const max = opts.max ?? 4
   const ids = await search(io, days)
-  if (ids.length === 0) return { ok: false, week, cards: 0, candidates: 0, reason: '这周没有检索到符合条件的新论文，或者 PubMed 暂时连不上。' }
+  if (ids.length === 0) return { ok: false, finished: false, week, cards: 0, candidates: 0, reason: '这周没有检索到符合条件的新论文，或者 PubMed 暂时连不上。' }
   const all = await summaries(io, ids)
   const ranked = all.filter((row) => row.title && rank(row) > 0).sort((a, b) => rank(b) - rank(a)).slice(0, 18)
   const texts = await abstracts(io, ranked.map((row) => row.pmid))
   const withText = ranked.map((row) => ({ ...row, abstract: texts.get(row.pmid) ?? '' })).filter((row) => row.abstract.length > 200)
-  if (withText.length === 0) return { ok: false, week, cards: 0, candidates: all.length, reason: '这周的候选论文都没有摘要，跳过。' }
+  if (withText.length === 0) return { ok: false, finished: true, week, cards: 0, candidates: all.length, reason: '这周的候选论文都没有摘要，跳过。' }
   const answer = await io.complete(promptOf(withText, max), { system: SYSTEM, maxTokens: 4000, model: 'sonnet' })
-  if (!answer.ok) return { ok: false, week, cards: 0, candidates: all.length, reason: `没有写成研究卡（${answer.reason}）。` }
+  if (!answer.ok) return { ok: false, finished: false, week, cards: 0, candidates: all.length, reason: `没有写成研究卡（${answer.reason}）。` }
   const parsed = firstJson(answer.text)
   const rows = Array.isArray(parsed?.cards) ? (parsed?.cards as Array<Record<string, unknown>>) : []
   const byId = new Map(withText.map((row) => [row.pmid, row]))
@@ -235,5 +236,5 @@ export async function scoutLiterature(io: Io, root: string, now: Date, opts: { d
   })
   const record: LiteratureWeek = { week, at: now.toISOString(), candidates: all.length, cards }
   await io.write(join(root, 'literature', `${week}.json`), `${JSON.stringify(record, null, 1)}\n`)
-  return { ok: cards.length > 0, week, cards: cards.length, candidates: all.length, reason: cards.length > 0 ? '' : '这周的论文都没有达到上架的标准。' }
+  return { ok: cards.length > 0, finished: rows.length > 0 || parsed !== null, week, cards: cards.length, candidates: all.length, reason: cards.length > 0 ? '' : '这周的论文都没有达到上架的标准。' }
 }

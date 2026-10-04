@@ -9,6 +9,7 @@ import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '..
 import type { Io } from './sys/host.ts'
 import { boot, flushPending, op, reloadLibrary, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
 import { ensurePython, hasPackages, updateLibrary } from './app/setup.ts'
+import { isoWeek, scoutLiterature } from './app/literature.ts'
 import { fullBrief, SHORT_BRIEF } from './app/brief.ts'
 import { snapshotText } from './core/agents/orchestrator.ts'
 import { isoDay } from './core/interventions.ts'
@@ -519,6 +520,12 @@ async function decideBand($: Engine): Promise<void> {
   const slotJson = (await read($, data))['codex/slot']?.json as { enabled?: boolean; presentation?: boolean; slot?: SlotView; pane_neutral_zh?: string | null } | null | undefined
   const presentation = p.presentation || Boolean(slotJson?.presentation)
   $.ui.status(!presentation && slotJson?.enabled && slotJson.pane_neutral_zh ? `长寿图鉴 · ${slotJson.pane_neutral_zh}` : undefined)
+  const news = ((await $.store.get('news')) ?? null) as { week?: string; cards?: number; shown?: boolean } | null
+  if (!presentation && news && !news.shown && news.cards) {
+    await $.store.set('news', { ...news, shown: true })
+    await update($, band, () => ({ kind: 'news', ref: news.week ?? '', text: `长寿图鉴 · 本周上架了 ${news.cards} 张新研究卡`, at: now }))
+    return
+  }
   const activity = ((await $.store.get('activity')) ?? null) as Activity | null
   const next = nextBand({
     enabled: Boolean(slotJson?.enabled),
@@ -592,10 +599,38 @@ async function setupLongPi($: Engine, manual: boolean): Promise<void> {
   }
 }
 
+/**
+ * Once a week, in the background: a fresh copy of the method library, and the literature scout's new research
+ * cards for the Codex. The first session of the week that finds new cards says so once, above the prompt.
+ */
+async function weekly($: Engine): Promise<void> {
+  const rt = runtime()
+  if (!rt) return
+  const now = await $.clock.now()
+  const last = ((await $.store.get('weekly')) ?? null) as { at?: number; week?: string } | null
+  if (last?.at && now - last.at < WEEK_MS) return
+  // Held for an hour while it runs (another window starting meanwhile does not run it twice); a run that found
+  // nothing to read (no network, PubMed down, no model) is tried again the next day, not in a week.
+  await $.store.set('weekly', { at: now - WEEK_MS + 3_600_000, week: last?.week ?? '' })
+  const home = (await $.env.get('HOME')) ?? '/'
+  const io = ioOf($)
+  const lib = await updateLibrary(io, home, () => undefined).catch(() => null)
+  if (lib?.changed) {
+    await reloadLibrary()
+    rt.app.invalidate()
+  }
+  const found = await scoutLiterature(io, rt.rootDir, new Date(now)).catch(() => null)
+  $.ui.log(`longpi: weekly — ${lib?.line ?? 'library unchanged'}; literature ${found ? `${found.cards} cards from ${found.candidates} papers${found.reason ? ` (${found.reason})` : ''}` : 'not run'}`, { to: 'debug' })
+  const ran = Boolean(found?.finished)
+  await $.store.set('weekly', ran ? { at: now, week: isoWeek(new Date(now)) } : { at: now - WEEK_MS + 24 * 3_600_000, week: last?.week ?? '' })
+  if (found && found.cards > 0) await $.store.set('news', { week: found.week, cards: found.cards, shown: false })
+}
+
 /** At session start: build the environment once in the background if it is missing, re-check weekly. */
 async function maintain($: Engine): Promise<void> {
   const rt = runtime()
   if (!rt) return
+  await weekly($).catch(() => undefined)
   const env = ((await $.store.get('env')) ?? null) as { ok?: boolean; python?: string; at?: number } | null
   const now = await $.clock.now()
   if (env?.ok && env.at && now - env.at < WEEK_MS) return
@@ -712,6 +747,14 @@ export const register: Register = (on) => {
         void post($, 'codex', { action: 'nudge', event: 'dismiss_today' }, { quiet: true, reload: ['codex/slot'] })
       },
       revealOpen: (ref) => void revealFromBand($, ref),
+      newsOpen: () => {
+        void (async () => {
+          await update($, band, () => null)
+          await update($, view, (v) => ({ ...v, tab: 'codex' as const, detail: null, sub: { ...v.sub, 'codex.tab': 'library', 'codex.chapter': 'new', 'codex.tier': '' } }))
+          await openPane($)
+        })().catch(() => undefined)
+      },
+      newsLater: () => void update($, band, () => null),
       revealLater: (ref) => {
         void update($, band, () => null)
         void post($, 'codex', { action: 'nudge', event: 'reveal_later', ref }, { quiet: true, reload: ['codex/slot'] })

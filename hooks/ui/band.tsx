@@ -37,7 +37,7 @@ export function sittingZh(minutes: number): string {
 }
 
 export type SlotView = { standup: boolean; standups_left: number; reveal: null | { ref: string; text_zh: string }; quiet: string | null }
-export type BandPrompt = { kind: 'standup' | 'reveal'; ref: string; text: string; at: number }
+export type BandPrompt = { kind: 'standup' | 'reveal' | 'news'; ref: string; text: string; at: number }
 
 export function nextBand(input: { enabled: boolean; presentation: boolean; slot: SlotView | null; sitting: number; turnMs: number; now: number }): BandPrompt | null {
   if (!input.enabled || input.presentation || !input.slot) return null
@@ -49,6 +49,8 @@ export function nextBand(input: { enabled: boolean; presentation: boolean; slot:
 }
 
 export type BandActions = {
+  newsOpen: (ref: string) => void
+  newsLater: (ref: string) => void
   standupOk: () => void
   standupOff: () => void
   revealOpen: (ref: string) => void
@@ -57,7 +59,12 @@ export type BandActions = {
 
 export function bandTree(E: Els, prompt: BandPrompt, act: BandActions): RenderElement {
   const { Box, Text, Button } = E
-  const buttons = prompt.kind === 'standup'
+  const buttons = prompt.kind === 'news'
+    ? [
+      <Button key="lp-news-go" plain hotkey="y" label="去看" onPress={() => act.newsOpen(prompt.ref)} />,
+      <Button key="lp-news-later" plain hotkey="n" dimColor label="稍后" onPress={() => act.newsLater(prompt.ref)} />,
+    ]
+    : prompt.kind === 'standup'
     ? [
       <Button key="lp-standup-ok" plain hotkey="y" label="好" onPress={() => act.standupOk()} />,
       <Button key="lp-standup-off" plain hotkey="n" dimColor label="今天别提醒了" onPress={() => act.standupOff()} />,
