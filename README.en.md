@@ -79,8 +79,8 @@ the game ever misleading you:
 ## Privacy
 
 Your record, plan and check-ins stay on your computer in `~/.longpi` (set `LONGPI_HOME` to move it). Reports, photos and
-questions you give Claude go to the model as they always do with Claude; the record summary LongPi attaches is for the
-model only and stays out of the transcript. The weekly research search sends only search terms to PubMed. Profile → Privacy lets you withdraw consent and delete
+questions you give Claude go to the model as they always do with Claude; LongPi attaches a summary of
+your record as context for the model. The weekly research search sends only search terms to PubMed. Profile → Privacy lets you withdraw consent and delete
 everything.
 
 ## Limits
