@@ -36,7 +36,7 @@ export function ReportCard(ctx: Ctx, cur: Current, planItems: number): RenderEle
       </Box>,
       boundary ? P(ctx, boundary, 'boundary', { dim: true }) : null,
       <Box key="acts" flexDirection="row" gap={1} marginTop={1} flexWrap="wrap">
-        <Button key="open-report" variant="primary" label="打开完整报告" onPress={() => { ctx.act.detail('report'); ctx.act.load(['analysis/report']) }} />
+        <Button key="open-report" variant="primary" label="打开完整报告" onPress={() => ctx.act.detail('report')} />
         <Button key="ask-report" label="请 Claude 讲解报告" onPress={() => ctx.act.say(READ_REPORT_SAY)} />
       </Box>,
     ],
