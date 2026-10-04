@@ -3,6 +3,8 @@ name: longpi-interventions
 description: Draft an intervention plan with the person from their results and the collected trial evidence (lifestyle items with concrete behavioral targets, supplements only as options to confirm with a doctor, never a dose or a prescription change), or save their own plan, after they confirm a read-back; record check-ins and self measurements, judge each item against their record (noise band, retest timing, adherence, confounders), remind retests on the dates the tools give, set up follow-up reminders they agree to, and show model estimates for their goals.
 ---
 
+> 在 Claude Code 里，LongPi 的工具名是 `mcp__longpi__<名字>`；下面只写名字。LongPi 的页面用 `/longpi` 打开（总览、化验、睡眠、运动、日程、方案、长寿图鉴、档案、设置）。
+
 # 干预方案
 
 方案可以是对方自己的（或医生、长寿师给的），也可以由 LongPi 按对方的检查结果和研究证据起草、再和对方一起调整。不论哪种，都要读给对方确认后才保存。
@@ -17,15 +19,15 @@ description: Draft an intervention plan with the person from their results and t
 4. 和对方一起调整：去掉做不到的，换成 `brief.candidates` 里的其他选项，按对方的习惯改写做法。行为目标（步数、分钟、小时、份数）只用证据、对方数据或技能给出的数字。每一项都说出证据：试验平均效应、人群、DOI，并说明个人效果因人而异。
 5. 补剂只作为“需先与医生确认”的选项，说证据，不给剂量。`needs_doctor` 和 `cautions_zh` 要照实转述。
 6. 不开始、不停止、不调整任何处方药，也不给药物或补剂剂量。
-7. 调整好后按下面“保存”的步骤读回确认。健康页上的「采用这份方案」也会按同样的检查保存。
+7. 调整好后按下面“保存”的步骤读回确认。LongPi 页面「方案」里和对话里方案卡片上的「采用这份方案」也会按同样的检查保存。
 
 ## 保存
 
-1. 整理成条目：类别、名称、开始日期（YYYY-MM-DD，没有就问）、针对的指标、目标值（对方方案里写明的，或草稿按证据估算的）。手环能记录的项目（步数、睡眠）给 `target`，指标名用 `read_personal_situation` 里 Mirobody 的名字。
+1. 整理成条目：类别、名称、开始日期（YYYY-MM-DD，没有就问）、针对的指标、目标值（对方方案里写明的，或草稿按证据估算的）。手环能记录的项目（步数、睡眠）给 `target`，指标名用 `read_personal_situation` 里记录的名字（手环数据如 dailySteps、sleepDuration）。
 2. 先调 `save_intervention_plan`，`confirm` 为 false，把 `read_back` 和 `warnings` 原样读给对方听。
 3. 对方确认后，再用同样的内容调一次，`confirm` 为 true。以后调整一次只改一项，存成新版本。
 
-药物和补剂只按名字保存，剂量和服用打卡在 Mirobody 的用药计划里。方案文档里的剂量不保存，也不要复述成建议。
+药物和补剂只按名字保存，剂量和服用记录不进方案。方案文档里的剂量不保存，也不要复述成建议。
 
 ## 随访提醒
 
@@ -33,11 +35,11 @@ description: Draft an intervention plan with the person from their results and t
 
 ## 每天
 
-手环记录的项目自动计数。其他项目对方说一句（“今天快走了 40 分钟”）或在健康页点「今天完成了」，用 `log_intervention_checkin` 记下；生病、出差、换了检测机构、压力大给对应的 tag。自己量的腰围、家庭血压、体重用 `save_self_measurement`；家庭血压按最近 7 天的平均判断，多量几天比量一次可靠。
+手环记录的项目自动计数。其他项目对方说一句（“今天快走了 40 分钟”）或在 LongPi 页面「方案」里点打卡，用 `log_intervention_checkin` 记下；生病、出差、换了检测机构、压力大给对应的 tag。自己量的腰围、家庭血压、体重用 `save_self_measurement`；家庭血压按最近 7 天的平均判断，多量几天比量一次可靠。
 
 ## 复测与判断
 
-复测只按 `review_interventions` 给出的日期建议（健康页的提醒和日历用的是同一批日期）。用 `review_interventions` 判断，按它的 `how_to_read` 解读：
+复测只按 `review_interventions` 给出的日期建议（LongPi 页面的提醒和日程用的是同一批日期）。用 `review_interventions` 判断，按它的 `how_to_read` 解读：
 
 - **有效**：变化超出这个人自身的正常波动，方向是好的，复测时间够，方案也执行了。可以为对方高兴。
 - **波动内**：还在正常波动范围内，既不算进步也不算失败，解释清楚并鼓励坚持。

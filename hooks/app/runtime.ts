@@ -143,7 +143,20 @@ export async function boot(options: BootOptions): Promise<Runtime> {
   const app = await op(() => apply(ctx, config))
   registerRecordTools(ctx, () => config.dataDir, () => app.invalidate())
   current = { ctx, app, config, rootDir, skillsHome, python, booted: Date.now() }
+  if (options.platform === 'darwin') void ensureNotifier(options.io, rootDir)
   return current
+}
+
+/**
+ * macOS names a notification's sender after the app that posts it: a tiny LongPi.app, compiled once from the
+ * script the core writes, makes reminders read 「LongPi」 rather than 「脚本编辑器」.
+ */
+async function ensureNotifier(io: Io, rootDir: string): Promise<void> {
+  const dir = join(rootDir, 'notifier')
+  const app = join(dir, 'LongPi.app')
+  if (await io.stat(join(app, 'Contents', 'MacOS', 'applet')).catch(() => null)) return
+  if (!(await io.stat(join(dir, 'notify.applescript')).catch(() => null))) return
+  await io.run(['osacompile', '-o', app, join(dir, 'notify.applescript')], { timeoutMs: 30_000 }).catch(() => undefined)
 }
 
 /** Re-read the method library after setup installed or updated it. */
@@ -244,9 +257,9 @@ export async function runTool(rt: Runtime, name: string, args: Record<string, un
 }
 
 /** Call one of the core's routes the way the health page did, inside an operation. */
-export async function route<T = unknown>(rt: Runtime, method: string, path: string, body?: unknown): Promise<{ status: number; json: T }> {
+export async function route<T = unknown>(rt: Runtime, method: string, path: string, body?: unknown): Promise<{ status: number; json: T; text: string }> {
   const answer = await op(() => rt.ctx.call(method, path, body))
-  return { status: answer.status, json: answer.json as T }
+  return { status: answer.status, json: answer.json as T, text: answer.json === null ? answer.text : '' }
 }
 
 /** A route answer that does not need the copy refreshed first (a second read in the same pass). */

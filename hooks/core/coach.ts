@@ -3,8 +3,8 @@ import { process } from '../sys/process.ts'
 // speaks with Pi's voice either way; when the skill is there the model can open it for the full coaching method.
 
 import { existsSync, readFileSync } from '../sys/fs.ts'
-import { homedir } from '../sys/os.ts'
-import { join } from '../sys/path.ts'
+import { dirname, join } from '../sys/path.ts'
+import { libFile } from '../sys/url.ts'
 
 export const COACH_SKILL_NAME = 'longevity-coach'
 
@@ -19,8 +19,9 @@ export function coachEnabled(): boolean {
   return enabled()
 }
 
+/** In the mod the coach skill ships with it (skills/longevity-coach), so Claude Code lists it as a skill. */
 export function coachSkillPath(): string {
-  return process.env.LONGPI_COACH_SKILL || join(process.env.DSH_HOME || join(homedir(), '.dsh'), 'skills', COACH_SKILL_NAME, 'SKILL.md')
+  return process.env.LONGPI_COACH_SKILL || join(dirname(dirname(libFile())), 'skills', COACH_SKILL_NAME, 'SKILL.md')
 }
 
 /** The installed coach skill's version, or null when it is not installed. */

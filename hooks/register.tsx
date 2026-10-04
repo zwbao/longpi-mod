@@ -7,7 +7,8 @@ import type { EngineInterface, Register, RenderSurface } from 'claude-code'
 
 import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../types'
 import type { Io } from './sys/host.ts'
-import { boot, flushPending, op, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
+import { boot, flushPending, op, reloadLibrary, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
+import { runSetup } from './app/setup.ts'
 import { fullBrief, SHORT_BRIEF } from './app/brief.ts'
 import { snapshotText } from './core/agents/orchestrator.ts'
 import { isoDay } from './core/interventions.ts'
@@ -16,6 +17,7 @@ import { pageOf, PAGES } from './ui/pages/index.ts'
 import { pageWidth, paneTree } from './ui/pane.tsx'
 import type { Actions, CodexActions, Ctx, PostResult } from './ui/types.ts'
 import { isAnimated, stageAt, stageCols } from './ui/codex/stage.ts'
+import { cardTree, type CardState } from './ui/cards.tsx'
 import { bandTree, nextBand, noteInput, sittingMinutes, STANDUP_VISIBLE_MS, type Activity, type BandPrompt, type SlotView } from './ui/band.tsx'
 
 type Engine = EngineInterface
@@ -35,6 +37,7 @@ const booted = atom({ plugin: 'longpi', key: 'booted' } as const, false)
 const coach = atom({ plugin: 'longpi', key: 'coach' } as const, false)
 const healthTurn = atom({ plugin: 'longpi', key: 'healthTurn' } as const, false)
 const band = atom({ plugin: 'longpi', key: 'band' } as const, null as BandPrompt | null)
+const cards = atom({ plugin: 'longpi', key: 'cards' } as const, {} as Record<string, CardState>)
 
 // --- the engine as the core's I/O -------------------------------------------------------------------
 
@@ -116,6 +119,14 @@ const EMPTY: RouteCache = { at: 0, status: 0, json: null, loading: false, error:
 
 /** Read one route into the cache. `fetchPath` may carry ?refresh=1 while the cache key stays the bare path. */
 async function loadRoute($: Engine, path: string, force = false, fetchPath = path): Promise<void> {
+  try {
+    await loadRouteNow($, path, force, fetchPath)
+  } catch {
+    // the module unloaded under a background read: nothing to keep
+  }
+}
+
+async function loadRouteNow($: Engine, path: string, force: boolean, fetchPath: string): Promise<void> {
   const rt = runtime()
   if (!rt) return
   const now = await $.clock.now()
@@ -129,7 +140,11 @@ async function loadRoute($: Engine, path: string, force = false, fetchPath = pat
   try {
     const out = await route(rt, 'GET', `/api/longpi/${fetchPath}`)
     const json = out.json as { error?: unknown } | null
-    next = { at: await $.clock.now(), status: out.status, json: out.json, loading: false, error: out.status === 200 ? '' : typeof json?.error === 'string' ? json.error : `HTTP ${out.status}` }
+    next = {
+      at: await $.clock.now(), status: out.status, json: out.json, loading: false,
+      error: out.status === 200 ? '' : typeof json?.error === 'string' ? json.error : `HTTP ${out.status}`,
+      ...(out.text ? { text: out.text.slice(0, 600_000) } : {}),
+    }
   } catch (error) {
     next = { at: await $.clock.now(), status: 0, json: null, loading: false, error: error instanceof Error ? error.message : String(error) }
   }
@@ -165,6 +180,14 @@ async function refreshAll($: Engine): Promise<void> {
 
 /** After a write: what the page named, and the journey (every page's header reads it). */
 async function reloadAfter($: Engine, paths: readonly string[]): Promise<void> {
+  try {
+    await reloadNow($, paths)
+  } catch {
+    // the module unloaded under a background read
+  }
+}
+
+async function reloadNow($: Engine, paths: readonly string[]): Promise<void> {
   const all = [...new Set(['journey', ...paths])]
   await update($, data, (cache) => {
     const out = { ...cache }
@@ -225,8 +248,20 @@ async function enterCoach($: Engine): Promise<string[]> {
 
 const PERSON_FRAME = '[LongPi] The person opened this from LongPi. Speak as Pi, their longevity coach; the LongPi snapshot below is from the plugin, not their words.'
 
+/**
+ * A turn in the person's words, with Pi's rules and the LongPi snapshot ahead of it as a message only the model
+ * reads (the engine runs no plugin's own prompt.submit hook on the prompts it submits). Never from inside the
+ * hook that holds the current dispatch: a moment later.
+ */
 function sayAsPerson($: Engine, text: string): void {
-  void $.prompt.submit({ text, asUser: true })
+  $.clock.after(0, () => {
+    void (async () => {
+      const extra = await enterCoach($).catch(() => [] as string[])
+      await $.session.append({ message: { type: 'user', content: [{ type: 'text', text: [PERSON_FRAME, ...extra].join('\n\n') }] } })
+        .catch((error: unknown) => $.ui.log(`longpi: snapshot not attached: ${error instanceof Error ? error.message : String(error)}`, { to: 'debug' }))
+      await $.prompt.submit({ text, asUser: true })
+    })().catch(() => undefined)
+  })
 }
 
 // --- the actions a page's press runs ------------------------------------------------------------------
@@ -489,6 +524,28 @@ async function revealFromBand($: Engine, ref: string): Promise<void> {
   if (pack) await setOverlay($, () => ({ ...NO_OVERLAY, kind: 'pack', id: pack.id, phase: 'idle', since: Date.now(), payload: { packKind: pack.kind, sourceZh: pack.source_zh, options: [], results: [] } }))
 }
 
+// --- /longpi setup ----------------------------------------------------------------------------------
+
+let settingUp = false
+
+async function setupLongPi($: Engine): Promise<void> {
+  const rt = runtime()
+  if (!rt || settingUp) return
+  settingUp = true
+  try {
+    const home = (await $.env.get('HOME')) ?? '/'
+    const out = await runSetup(ioOf($), home, { skillsHome: rt.skillsHome, python: rt.python }, (line) => $.ui.status(`LongPi · ${line}`))
+    await reloadLibrary()
+    rt.app.invalidate()
+    const done = runtime()
+    $.ui.status(undefined)
+    $.ui.log(`LongPi 安装：${out.lines.join(' ')}${done ? ` 方法库：${done.skillsHome || '未找到'}；Python：${done.python || '未找到'}` : ''}`)
+    await toastNotice($, out.ok ? 'LongPi 已就绪：方法库和计算环境都装好了。' : 'LongPi 安装没有全部完成，详情见上面的记录。', out.ok ? 'good' : 'warn')
+  } finally {
+    settingUp = false
+  }
+}
+
 // --- /longpi --------------------------------------------------------------------------------------
 
 const TAB_WORDS: Record<string, Tab> = {
@@ -519,16 +576,19 @@ export const register: Register = (on) => {
     if (rt) for (const spec of toolSpecs(rt)) await $.tool.register(spec)
     await $.command.register({ name: 'longpi', description: 'LongPi 长寿教练：健康页、长寿图鉴、方案与打卡', argumentHint: '[总览|化验|方案|图鉴|档案|设置|setup|演示模式|你想问的话]' })
     await update($, booted, () => true)
+    if (rt && (!rt.skillsHome || !rt.python)) $.ui.toast('LongPi：方法库或计算环境还没装好。输入 /longpi setup 一键安装。')
+    // Background work: a failure (the module unloading under it) is never an unhandled rejection.
+    const quietly = (work: Promise<unknown>) => void work.catch(() => undefined)
     $.clock.every(3_000, () => {
-      void flushPending()
+      quietly(flushPending())
     })
     $.clock.every(60_000, () => {
-      void update($, tick, (t) => t + 1)
-      void loadRoute($, 'codex/slot', true)
-      if (turnSince !== null) void noteActivity($)
+      quietly(update($, tick, (t) => t + 1))
+      quietly(loadRoute($, 'codex/slot', true))
+      if (turnSince !== null) quietly(noteActivity($))
     })
     $.clock.every(15_000, () => {
-      void decideBand($)
+      quietly(decideBand($))
     })
     void loadRoute($, 'codex/slot')
     return next(e)
@@ -549,8 +609,13 @@ export const register: Register = (on) => {
     // A prompt from /longpi, or the next one after a turn that used LongPi: the snapshot rides along.
     if (!isOwn && !(await read($, healthTurn))) return next(e)
     await update($, healthTurn, () => false)
-    const extra = isOwn ? await enterCoach($) : [await snapshotNow()].filter(Boolean)
-    if (extra.length === 0) return next(e)
+    let extra: string[] = []
+    try {
+      extra = isOwn ? await enterCoach($) : [await snapshotNow()].filter(Boolean)
+    } catch (error) {
+      $.ui.log(`longpi: snapshot failed: ${error instanceof Error ? error.message : String(error)}`, { to: 'debug' })
+    }
+    if (extra.length === 0 && !isOwn) return next(e)
     return next({ ...e, context: [...(e.context ?? []), ...(isOwn ? [PERSON_FRAME] : []), ...extra] })
   })
 
@@ -590,6 +655,46 @@ export const register: Register = (on) => {
     })
   })
 
+  on('ui.render', { component: 'ToolUse', props: { tool: /^mcp__longpi__/ } }, async ($, e, next) => {
+    const id = e.props.tool_use_id
+    const state = (await read($, cards))[id] ?? {}
+    const setCard = (patch: CardState) => update($, cards, (all) => ({ ...all, [id]: { ...(all[id] ?? {}), ...patch } }))
+    const tree = cardTree($.ui.resolve(e), {
+      tool: e.props.tool,
+      input: (e.props.input && typeof e.props.input === 'object' ? e.props.input : {}) as Record<string, unknown>,
+      output: e.props.output,
+      isRunning: e.props.isRunning,
+      isErrored: e.props.isErrored,
+    }, state, {
+      adoptDraft: (draft, source) => {
+        void (async () => {
+          await setCard({ busy: true, error: '' })
+          const res = await post($, 'plan-draft/accept', { draft, ...(source.focus.length ? { focus: source.focus } : {}), ...(source.markers.length ? { markers: source.markers } : {}) }, { quiet: true, reload: ['tracking', 'plan-draft'] })
+          const plan = res.json.plan as { version?: number } | undefined
+          if (res.ok && plan?.version) await setCard({ busy: false, adopted: plan.version })
+          else await setCard({ busy: false, error: Array.isArray(res.json.problems) ? (res.json.problems as string[]).join(' ') : typeof res.json.error === 'string' ? res.json.error : '没有采用，请稍后再试' })
+        })()
+      },
+      undoCheckins: (items) => {
+        void (async () => {
+          await setCard({ busy: true })
+          for (const item of items) await post($, 'checkin', { item, done: null }, { quiet: true, reload: ['tracking'] })
+          await setCard({ busy: false, undone: true })
+        })()
+      },
+      fill: (text) => void $.prompt.fill({ text, mode: 'replace' }),
+      open: (tab) => void openPane($, (TAB_WORDS[tab] ?? tab) as Tab),
+    }, Math.max(40, (e.viewport?.columns ?? 100) - 4))
+    return tree ?? next(e)
+  })
+
+  // The card above says what the call did; the raw JSON under it stays out of the transcript (ctrl+o shows it).
+  on('ui.render', { component: 'ToolResult', props: { tool: /^mcp__longpi__/ } }, async ($, e, next) => {
+    if (e.props.isErrored) return next(e)
+    const { Box } = $.ui.resolve(e)
+    return <Box />
+  })
+
   on('tool.call', { tool: /^mcp__longpi__/ }, async ($, e) => {
     const rt = runtime()
     if (!rt) return { deny: 'LongPi is still starting.' }
@@ -619,6 +724,10 @@ export const register: Register = (on) => {
     if (!rt) return { text: 'LongPi 还在启动，请稍等几秒再试。' }
     if (first === 'status') {
       return { text: `LongPi：${rt.ctx.toolDefs.size} 个工具，方法库 ${rt.skillsHome || '未安装'}，Python ${rt.python || '未找到'}` }
+    }
+    if (first === 'setup' || first === '安装' || first === '更新') {
+      void setupLongPi($)
+      return { text: '正在安装或更新 LongPi 的方法库和计算环境，进度在状态栏，完成后会提示。' }
     }
     if (first === '演示模式' || first === 'present') {
       const turnOn = !(await read($, privacy)).presentation

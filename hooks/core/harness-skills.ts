@@ -18,7 +18,13 @@ export function registerHarnessSkills(ctx: Context): void {
   ctx.inject(['skills'], (scoped) => {
     const root = join(dirname(libFile()), '..', 'skills')
     for (const dir of HARNESS_SKILLS) {
-      const skill = parseSkill(readFileSync(join(root, dir, 'SKILL.md'), 'utf8'))
+      // Claude Code lists the mod's skills itself; this copy is only the core's own record of them.
+      let skill: { name: string; description: string; content: string }
+      try {
+        skill = parseSkill(readFileSync(join(root, dir, 'SKILL.md'), 'utf8'))
+      } catch {
+        continue
+      }
       scoped.skills.register({
         name: skill.name,
         description: skill.description,
