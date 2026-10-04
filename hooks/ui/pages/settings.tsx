@@ -86,14 +86,13 @@ function Privacy(ctx: Ctx): Node[] {
 
 function displaySummary(ctx: Ctx): string {
   if (ctx.privacy.presentation) return '演示模式：已打开'
-  if (ctx.privacy.shown) return `数字显示中，还有 ${Math.max(0, Math.ceil((ctx.privacy.showUntil - ctx.now) / 1000))} 秒`
+  if (ctx.privacy.shown) return '数字显示中，1 分钟内自动折起'
   return '对话框上方的数字已折起'
 }
 
 function Display(ctx: Ctx): Node[] {
   const E = ctx.E
   const p = ctx.privacy
-  const left = Math.max(0, Math.ceil((p.showUntil - ctx.now) / 1000))
   return [
     Switch(E, 'disp-present', p.presentation, '演示模式', (on) => {
       ctx.act.setPresentation(on)
@@ -101,7 +100,7 @@ function Display(ctx: Ctx): Node[] {
     }),
     Note(ctx, '给别人看屏幕、投影或录屏时打开：LongPi 不再显示个人数字和提醒，直到你关掉它。也可以在对话框输入 /longpi 演示模式。', 'disp-present-note'),
     Buttons(E, [{
-      key: 'disp-reveal', label: p.shown ? `数字显示中（还有 ${left} 秒）` : '显示数字 60 秒',
+      key: 'disp-reveal', label: p.shown ? '数字显示中（1 分钟内自动折起）' : '显示数字 60 秒',
       ...(p.presentation ? { dim: true } : {}),
       onPress: () => {
         if (p.presentation) {

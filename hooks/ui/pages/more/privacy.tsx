@@ -52,7 +52,8 @@ function consents(ctx: Ctx, status: Privacy): Node[] {
   const pipl = status.consents.pipl_sensitive?.decision ?? null
   const flow = status.consents.data_flow_deepseek?.decision ?? null
   const child = status.minor?.child === true
-  const showText = flag(ctx, 'privacy.pipl') || (pipl !== 'granted' && pipl !== 'declined')
+  const decided = (d: string | null) => d === 'granted' || d === 'declined' || d === 'withdrawn'
+  const showText = flag(ctx, 'privacy.pipl') || !decided(pipl)
 
   const grantPipl = async () => {
     let guardian = false
@@ -82,7 +83,6 @@ function consents(ctx: Ctx, status: Privacy): Node[] {
       </Box>
     )
   }
-  const decided = (d: string | null) => d === 'granted' || d === 'declined' || d === 'withdrawn'
   // Consents given elsewhere (研究, the web host's session log): shown here only while granted, so they can be withdrawn.
   const others = (['study', 'session_log_upload'] as const).filter((scope) => status.consents[scope]?.decision === 'granted')
 
@@ -130,7 +130,8 @@ export function PrivacySection(ctx: Ctx, opts: { withExport: boolean }): Node[] 
   }
   const flow = status.copy.data_flow
   const phrase = status.delete?.phrase ?? status.copy.delete?.phrase ?? '删除全部'
-  const note = status.delete?.note ?? status.copy.delete?.note ?? ''
+  // The record's values live in the same folder here, so they go too (the route's copy says the originals stay elsewhere).
+  const note = (status.delete?.note ?? status.copy.delete?.note ?? '').replace(/体检原件不在这里删除。?/, '体检和手环的数值也会一起删除。')
   const minorLine = status.minor?.ask_age ? (status.copy.minor?.ask ?? '请填写年龄') : status.minor?.minor ? (status.copy.minor?.under_18 ?? '未满 18 岁') : ''
   // The web host's workspaces do not exist in Claude Code: that line is left out.
   const local = [...(flow?.stays_local ?? []).filter((line) => !/工作区/.test(line)), '体检和手环的数值也存在这台电脑上的健康记录里：你交给 Claude 的报告，读出的数值存在这里。']

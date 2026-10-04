@@ -48,7 +48,15 @@ export function fmt(value: number | null | undefined, digits = 1): string {
   return num(value, digits)
 }
 
+/** A date as the page prints it; a timestamp (…T…Z) is taken on the person's own clock first. */
 export function day(ctx: Ctx, iso: string | null | undefined): string {
+  if (iso && /T\d\d:\d\d.*(Z|[+-]\d\d:?\d\d)$/.test(iso)) {
+    const at = new Date(iso)
+    if (!Number.isNaN(at.getTime())) {
+      const two = (value: number) => String(value).padStart(2, '0')
+      return dateZh(`${at.getFullYear()}-${two(at.getMonth() + 1)}-${two(at.getDate())}`, ctx.today)
+    }
+  }
   return dateZh(iso, ctx.today) || (iso ?? '')
 }
 
