@@ -142,7 +142,18 @@ async function loadRoutes($: Engine, paths: readonly string[], force = false): P
 
 async function routesOfView($: Engine): Promise<string[]> {
   const v = await read($, view)
-  return ['journey', 'people', ...pageOf(v.tab).routes(v)]
+  const cache = await read($, data)
+  const json = <T,>(path: string) => {
+    const held = cache[path]
+    return (held && held.status === 200 ? held.json : null) as T | null
+  }
+  return ['journey', 'people', ...pageOf(v.tab).routes(v, json)]
+}
+
+/** Read what the page shows now; a second pass picks up routes the first answers named. */
+async function loadView($: Engine): Promise<void> {
+  await loadRoutes($, await routesOfView($))
+  await loadRoutes($, await routesOfView($))
 }
 
 /** The 刷新 button: journey and tracking rebuilt from the record, every route of the page read again. */
@@ -222,7 +233,7 @@ function sayAsPerson($: Engine, text: string): void {
 
 async function go($: Engine, tab: Tab, sub?: Record<string, string>): Promise<void> {
   await update($, view, (v) => ({ tab, sub: { ...v.sub, ...(sub ?? {}) }, detail: null }))
-  await loadRoutes($, await routesOfView($))
+  await loadView($)
 }
 
 // --- the Codex stage -------------------------------------------------------------------------------
@@ -392,8 +403,8 @@ function codexActions($: Engine): CodexActions {
 function actionsFor($: Engine, surface: RenderSurface): Actions {
   return {
     go: (tab, sub) => void go($, tab, sub),
-    setSub: (key, value) => void update($, view, (v) => ({ ...v, sub: { ...v.sub, [key]: value } })),
-    detail: (id) => void update($, view, (v) => ({ ...v, detail: id })),
+    setSub: (key, value) => void update($, view, (v) => ({ ...v, sub: { ...v.sub, [key]: value } })).then(() => loadView($)),
+    detail: (id) => void update($, view, (v) => ({ ...v, detail: id })).then(() => loadView($)),
     load: (paths, force) => void loadRoutes($, paths, force),
     refresh: () => void refreshAll($),
     post: (path, body, options) => post($, path, body, options),
@@ -498,7 +509,7 @@ const TAB_WORDS: Record<string, Tab> = {
 async function openPane($: Engine, tab?: Tab): Promise<void> {
   if (tab) await update($, view, (v) => ({ ...v, tab, detail: null }))
   await $.ui.open({ id: PANE, title: 'LongPi', focus: true, columns: 92 })
-  void loadRoutes($, await routesOfView($))
+  void loadView($)
 }
 
 export const register: Register = (on) => {

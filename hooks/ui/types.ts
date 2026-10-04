@@ -99,6 +99,7 @@ export type Ctx = {
 export type Page = {
   tab: Tab
   label: string
-  routes: (view: LongPiView) => readonly RoutePath[]
+  /** What the page reads. `json` holds the routes already answered, so a page may ask for more from what it learned. */
+  routes: (view: LongPiView, json?: <T = Record<string, unknown>>(path: RoutePath) => T | null) => readonly RoutePath[]
   draw: (ctx: Ctx) => Node
 }
