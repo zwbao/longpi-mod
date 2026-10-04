@@ -227,6 +227,8 @@ export function registerRecordTools(ctx: HostContext, dataDir: () => string, inv
       }
       const items = parseCsv(raw).slice(0, 40000)
       const saved = fileObservations(recordPath(), items, { date: isoDay(), source: 'device', file: 'Apple 健康导出' })
+      // Filed: the converted copy is only residue (a second plain copy of the person's data).
+      await h.io.run(['rm', '-f', out]).catch(() => undefined)
       if (saved.saved > 0) invalidate()
       return asJson({
         ok: saved.saved > 0 || saved.skipped > 0,

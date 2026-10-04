@@ -162,7 +162,8 @@ function cells(text: string): number {
   return n
 }
 
-const BANNED = /逆龄|年轻了|逆转|保证|治愈|购买|剂量|补剂推荐/
+// Codex copy rule 11: no 逆龄 / 年轻了 / 逆转你的 / 保证有效 / 治愈 and nothing to buy. Describing a trial's dose is fine.
+const BANNED = /逆龄|年轻了|逆转你的|保证有效|治愈|购买|推荐服用|建议服用/
 
 function hashSeed(text: string): number {
   let h = 2166136261

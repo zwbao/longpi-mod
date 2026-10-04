@@ -70,7 +70,7 @@ LongPi tries to make looking after your health something you want to come back t
 the game ever misleading you:
 
 - Pi grows only with **things that leave a record**: a report filed, a home measurement, a research card read, an
-  experiment started or revealed, a retest, a doctor's visit with the brief, a family member added, a method run.
+  experiment started or revealed, a retest, a doctor's visit with the brief, a family member added, a deep analysis. Results LongPi computes by itself when a report arrives do not count.
 - **Check-ins earn nothing**, because nobody can verify them and rewarding them rewards lying. Lab values earn
   nothing either: rewards are never tied to whether a number is good or bad.
 - No draws, rarities, streaks, daily chests or caps, and no feature is locked behind progress. Totals only go up.

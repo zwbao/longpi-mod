@@ -22,6 +22,8 @@ export function confirmedDelete(body: unknown): boolean {
 }
 
 /** Remove every file under dataDir, then leave a tombstone that has no health values and no name. */
+const KEEP_TOOLS = ['.venv', 'bin', 'longevity-skills', 'notifier', 'literature']
+
 export function deleteLocalStore(dataDir: string, fallbackMcpUrl = '', now = new Date()): DeleteResult {
   const link = mirobodyExportLink(dataDir, fallbackMcpUrl)
   let deleted = 0
@@ -43,6 +45,9 @@ export function deleteLocalStore(dataDir: string, fallbackMcpUrl = '', now = new
     for (const entry of readdirSync(dataDir)) {
       // The holder's store is also the LongPi home: family members' stores and the registry are theirs, not the holder's.
       if (entry === 'people' || entry === 'people.json' || entry === 'analysis-settings.json') continue
+      // What LongPi runs with, nothing about the person: the Python environment, uv, the method library's weekly
+      // copy, the notification sender and the week's research cards.
+      if (KEEP_TOOLS.includes(entry)) continue
       rmSync(join(dataDir, entry), { recursive: true, force: true })
       deleted += 1
     }

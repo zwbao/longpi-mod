@@ -83,8 +83,12 @@ export function countDeeds(c: Ctx): Deeds {
   }
 }
 
+/** Counted toward Pi's growth: what the person did. Method results LongPi computes by itself when a report
+ * arrives are shown, but they are not the person's doing. */
+const GROWS: readonly Deed[] = DEEDS.filter((key) => key !== 'methods')
+
 export function total(deeds: Deeds): number {
-  return DEEDS.reduce((sum, key) => sum + (deeds[key] ?? 0), 0)
+  return GROWS.reduce((sum, key) => sum + (deeds[key] ?? 0), 0)
 }
 
 export function formOf(points: number): (typeof FORMS)[number] {
@@ -122,7 +126,7 @@ export const MEDALS: ReadonlyArray<{ id: string; title_zh: string; how_zh: strin
   { id: 'reports', title_zh: '三份报告', how_zh: '档案里有三次体检。', earned: (d) => d.reports >= 3 },
   { id: 'experiments', title_zh: '三个小实验', how_zh: '揭晓过三个小实验。', earned: (d) => d.reveals >= 3 },
   { id: 'family', title_zh: '一家人一起', how_zh: '把一位家人也加进来。', earned: (d) => d.family > 0 },
-  { id: 'methods', title_zh: '十种算法', how_zh: '用方法库算过十项。', earned: (d) => d.methods >= 10 },
+  { id: 'library', title_zh: '读过 30 张研究卡', how_zh: '在长寿图鉴的图书馆里读满 30 张。', earned: (d) => d.cards >= 30 },
   { id: 'analysis', title_zh: '一次深度分析', how_zh: '让 Pi 对整个档案做一次深度分析。', earned: (d) => d.analyses > 0 },
 ]
 
@@ -326,7 +330,7 @@ export function gameView(c: Ctx, saved: Saved, persist: boolean): { view: GameVi
 
 /** First-time holders who already did a lot (an existing record) see one celebration, not twelve. */
 function settleBacklog(saved: Saved, view: GameView): Saved {
-  if (saved.celebrated.stations.length > 0 || saved.celebrated.form > 0 || view.fresh.stations.length <= 2) return saved
+  if (saved.celebrated.stations.length > 0 || saved.celebrated.form > 0 || view.fresh.stations.length <= 5) return saved
   const keep = view.fresh.stations.slice(-1)
   return {
     ...saved,
