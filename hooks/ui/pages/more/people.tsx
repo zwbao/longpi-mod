@@ -8,7 +8,7 @@ import type { People, PersonRow } from './types.ts'
 import { errorOf, flag, setSub, sub, toggleFlag } from './util.ts'
 
 /** What a person switch makes stale: this page, the header, and what the overview and plan read. */
-export const PERSON_ROUTES = ['people', 'tracking', 'self', 'connection', 'privacy', 'meds', 'conditions', 'findings', 'stores', 'memory', 'followup']
+export const PERSON_ROUTES = ['people', 'tracking', 'self', 'privacy', 'meds', 'conditions', 'findings', 'stores', 'memory', 'followup']
 
 function nameOf(p: PersonRow): string {
   if (p.demo) return `${p.label_zh}（${p.name}）`

@@ -34,16 +34,6 @@ export type Journey = {
   followup?: { enabled: boolean; channels: string[]; next_at: string | null }
 }
 
-export type Connection = {
-  source: 'saved' | 'config' | 'none'
-  url_masked: string
-  token_set: boolean
-  status: 'ok' | 'error' | 'none'
-  error?: string
-  pairing_error?: string
-  summary?: RecordsSummary | null
-}
-
 export type PersonRow = { id: string; label_zh: string; name: string; sex?: string; birth_year?: number | null; connected: boolean; managed: boolean; link_error_zh?: string; demo?: boolean }
 export type People = { ok: boolean; active: string; people: PersonRow[]; can_create_in_mirobody: boolean; create_hint_zh: string; warning_zh?: string }
 

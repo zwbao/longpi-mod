@@ -53,13 +53,15 @@ through the async door first).
 
 - `privacy` copy (`core/privacy/disclosure.ts`): `to_deepseek`, `flow_grant`, the PIPL paragraphs name DeepSeek;
   `stays_local` has 「编程或其他工作区不会加载 LongPi 的角色设定…」 (a DSH workspace notion); `mirobody` says
-  「健康数据服务」. The pages show DeepSeek as Claude (`hostText` in `more/util.ts`), leave the workspace line out,
-  and show the 健康数据服务 line only when a remote record is connected. The core copy should change at the source.
+  「体检和手环的原件保存在健康数据服务中」. The pages show DeepSeek as Claude (`hostText` in `more/util.ts`), leave the
+  workspace line and the 健康数据服务 lines out, and add that the record's values are kept on this computer. The core
+  copy (and its consent text version) should change at the source.
 - `core/privacy/register.ts` `gateText` tells the model to 「打开 /api/longpi/privacy?view=page 完成单独同意」. In
   the mod the consent lives at /longpi 档案 → 隐私与数据 (or /longpi 设置 → 隐私与数据).
 - `followup` notes say 「提醒只在 DeepSeek Harness 运行时发送」; the page says 「提醒只在 Claude Code 开着时发送」.
-- `export.mirobody_note_zh` 「体检原件保存在健康数据服务中，不在此压缩包内」 is wrong for the local record (the record
-  file is in the LongPi home); the page replaces it when the record is local.
+- `export.mirobody_note_zh` 「体检原件保存在健康数据服务中，不在此压缩包内」 does not hold for the local record; the
+  page says what the archive holds instead.
+- `people.create_hint_zh` and the 409 of `POST people` point to 「数据连接」「重新连接」, which the mod no longer has.
 
 ## 7. Model use is counted in calls only
 
@@ -72,3 +74,11 @@ budget ledger.
 When a press changes the tree before the focused element (e.g. an accordion that closes the section above while
 opening this one), the terminal drops the focus ring and the next Tab starts again from the top of the pane. The
 pages therefore open and close each section on its own (never one-open-at-a-time). Worth knowing for other lanes.
+
+## 9. Wrapping Chinese: `zh()` splits Latin words
+
+`zh()` turns every ASCII space in CJK text into a no-break space, so Ink can no longer break at a space and cuts
+wherever the line ends: 「…可以让 Clau / de 把报告整理出来」, a line starting with 「、」. This lane wraps its own
+paragraphs instead: `wrapCells(text, width)` and `Para(ctx, text, …)` in `more/ui.tsx` break between CJK characters,
+never inside a Latin word or number, and never start a line with closing punctuation; each line is its own `Text`, so
+Ink does not wrap again. Offered for `kit.tsx` (Lines / Muted could use it given a width).

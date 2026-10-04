@@ -6,14 +6,14 @@
 import type { Ctx, Node, Page } from '../types.ts'
 import { Failed, Loading, routeState } from '../kit.tsx'
 import { Basics, basicsSummary } from './more/basics.tsx'
-import { ConnectionSection, connectionLine, isLocal } from './more/connection.tsx'
+import { RecordSection, recordLine } from './more/connection.tsx'
 import { ConditionsSection, FindingsSection, GeneticsSection, MedsSection, conditionsSummary, findingsSummary, geneticsSummary, medsSummary } from './more/datain.tsx'
 import { ExportSection, MemberSection, memberSummary } from './more/exports.tsx'
 import { PeopleSection, peopleSummary } from './more/people.tsx'
 import { PrivacySection, privacySummary } from './more/privacy.tsx'
 import { SelfSection, selfField, selfSummary } from './more/self.tsx'
 import { Body, Err, Fold, Note, Ok } from './more/ui.tsx'
-import type { Addon, Connection, Journey } from './more/types.ts'
+import type { Addon, Journey } from './more/types.ts'
 import { openSection, sub } from './more/util.ts'
 
 const PAGE = 'profile'
@@ -52,15 +52,13 @@ function draw(ctx: Ctx): Node {
   if (state.kind === 'loading') return Loading(ctx.E)
   if (state.kind === 'error') return Failed(ctx.E, state.error, () => ctx.act.load(['journey'], true))
   const journey = state.json as unknown as Journey
-  const connection = ctx.json<Connection>('connection')
-  const local = isLocal(connection)
   const common = addonCommon(journey)
 
   const sections: Array<{ id: string; title: string; summary: string; body: () => Node[]; show?: boolean }> = [
     { id: 'basics', title: '基本情况', summary: basicsSummary(journey), body: () => Basics(ctx, journey) },
     { id: 'self', title: '自测', summary: selfSummary(journey), body: () => SelfSection(ctx, journey) },
-    { id: 'connection', title: '数据连接', summary: connectionLine(connection), body: () => ConnectionSection(ctx, 'profile') },
-    { id: 'export', title: '导出', summary: '报告 · 会员档案 · 日历 · 完整档案', body: () => ExportSection(ctx, { local, openPrivacy: () => openSection(ctx, PAGE, 'privacy') }) },
+    { id: 'record', title: '健康记录', summary: recordLine(journey), body: () => RecordSection(ctx, journey, 'profile') },
+    { id: 'export', title: '导出', summary: '报告 · 会员档案 · 日历 · 完整档案', body: () => ExportSection(ctx, { openPrivacy: () => openSection(ctx, PAGE, 'privacy') }) },
     { id: 'member', title: '会员档案', summary: memberSummary(ctx), body: () => MemberSection(ctx) },
     { id: 'findings', title: '报告里的叙述', summary: findingsSummary(ctx), body: () => FindingsSection(ctx) },
     { id: 'meds', title: '用药', summary: medsSummary(ctx), body: () => MedsSection(ctx) },
@@ -72,7 +70,7 @@ function draw(ctx: Ctx): Node {
       body: () => Addons(ctx, journey),
     },
     { id: 'people', title: '家人', summary: peopleSummary(ctx), body: () => PeopleSection(ctx) },
-    { id: 'privacy', title: '隐私与数据', summary: privacySummary(ctx), body: () => PrivacySection(ctx, { local, withExport: false }) },
+    { id: 'privacy', title: '隐私与数据', summary: privacySummary(ctx), body: () => PrivacySection(ctx, { withExport: false }) },
   ]
 
   return (
@@ -89,6 +87,6 @@ function draw(ctx: Ctx): Node {
 export const page: Page = {
   tab: 'profile',
   label: '档案',
-  routes: () => ['journey', 'self', 'connection', 'people', 'memory', 'privacy', 'meds', 'conditions', 'findings', 'stores'],
+  routes: () => ['journey', 'self', 'people', 'memory', 'privacy', 'meds', 'conditions', 'findings', 'stores'],
   draw,
 }

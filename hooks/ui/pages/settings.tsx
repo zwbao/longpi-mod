@@ -5,13 +5,13 @@
 
 import type { Ctx, Node, Page } from '../types.ts'
 import { Buttons, C, bar, num, pad } from '../kit.tsx'
-import { ConnectionSection, connectionLine, isLocal } from './more/connection.tsx'
+import { RecordSection, recordLine } from './more/connection.tsx'
 import { NO_SAVE, saver } from './more/exports.tsx'
 import { FollowupSection, followupSummary } from './more/followup.tsx'
 import { METHOD_ROUTES, MethodsSection, matchRoute } from './more/methods.tsx'
 import { PrivacySection, privacySummary } from './more/privacy.tsx'
 import { Body, Err, Fold, Note, Ok, Row, SubFold, Switch } from './more/ui.tsx'
-import type { Connection } from './more/types.ts'
+import type { Journey } from './more/types.ts'
 import { flag, setSub, sub, toggleFlag } from './more/util.ts'
 
 const PAGE = 'settings'
@@ -58,7 +58,7 @@ function Science(ctx: Ctx): Node[] {
 
 // --- 隐私与数据 ------------------------------------------------------------------------------------------
 
-function Privacy(ctx: Ctx, local: boolean): Node[] {
+function Privacy(ctx: Ctx): Node[] {
   const E = ctx.E
   const open = flag(ctx, 'set.privacy.more')
   const write = saver(ctx)
@@ -69,9 +69,7 @@ function Privacy(ctx: Ctx, local: boolean): Node[] {
   }
   const msg = sub(ctx, 'set.report')
   return [
-    Row(ctx, '存储位置', local
-      ? '档案、方案、记录、自测和提醒，连同体检和手环的数值，都只保存在这台电脑上。'
-      : '档案、方案、记录、自测和提醒只保存在这台电脑上。体检和手环原始数据保存在连接的健康记录中，LongPi 只读取。', { key: 'priv-where' }),
+    Row(ctx, '存储位置', '档案、方案、记录、自测和提醒，连同体检和手环的数值，都只保存在这台电脑上（~/.longpi）。', { key: 'priv-where' }),
     Row(ctx, '交给模型的', '和 Claude 对话时，经你同意，你的问题以及回答所需的档案和化验数据才会交给 Claude。不对话则不发送。', { key: 'priv-model' }),
     Row(ctx, '发送到手机', '默认关闭，仅在你自行配置后发送。默认不含项目名称和健康数值；选择「详细」后会带上项目名称、执行率和复测指标。', { key: 'priv-phone' }),
     write
@@ -80,7 +78,7 @@ function Privacy(ctx: Ctx, local: boolean): Node[] {
     write ? null : Note(ctx, NO_SAVE, 'priv-report-later'),
     msg.startsWith('!') ? Err(ctx, msg.slice(1), 'priv-report-err') : Ok(ctx, msg, 'priv-report-msg'),
     SubFold(E, 'priv-more', '数据去哪里、同意、导出和删除', open, () => toggleFlag(ctx, 'set.privacy.more')),
-    ...(open ? PrivacySection(ctx, { local, withExport: true }) : []),
+    ...(open ? PrivacySection(ctx, { withExport: true }) : []),
   ]
 }
 
@@ -160,15 +158,14 @@ function Model(ctx: Ctx): Node[] {
 
 function draw(ctx: Ctx): Node {
   const { Box } = ctx.E
-  const connection = ctx.json<Connection>('connection')
-  const local = isLocal(connection)
-  const version = ctx.json<{ version?: string }>('version')?.version ?? ctx.json<{ version?: string }>('journey')?.version ?? ''
+  const journey = ctx.json<Journey>('journey')
+  const version = ctx.json<{ version?: string }>('version')?.version ?? journey?.version ?? ''
 
   const sections: Array<{ id: string; title: string; summary: string; body: () => Node[]; tone?: string }> = [
     { id: 'followup', title: '提醒', summary: followupSummary(ctx), body: () => FollowupSection(ctx) },
-    { id: 'connection', title: '数据连接', summary: connectionLine(connection), body: () => ConnectionSection(ctx, 'settings') },
+    ...(journey ? [{ id: 'record', title: '健康记录', summary: recordLine(journey), body: () => RecordSection(ctx, journey, 'settings') }] : []),
     { id: 'science', title: '一起研究', summary: ctx.json('science/invite') ? (scienceOn(ctx.json<Invite>('science/invite')) ? '已开启：只在这台电脑上' : '已关闭') : '', body: () => Science(ctx) },
-    { id: 'privacy', title: '隐私与数据', summary: privacySummary(ctx), body: () => Privacy(ctx, local) },
+    { id: 'privacy', title: '隐私与数据', summary: privacySummary(ctx), body: () => Privacy(ctx) },
     { id: 'display', title: '屏幕上的数字', summary: displaySummary(ctx), body: () => Display(ctx), ...(ctx.privacy.presentation ? { tone: C.warn } : {}) },
     { id: 'model', title: '模型与用量', summary: usageSummary(ctx), body: () => Model(ctx) },
     { id: 'methods', title: '高级：方法库和安装细节', summary: '', body: () => MethodsSection(ctx) },
@@ -190,7 +187,7 @@ export const page: Page = {
   routes: (view) => {
     const methods = view.sub[`more.${PAGE}.open.methods`] === '1'
     const match = methods ? matchRoute({ view }) : null
-    return ['followup', 'privacy', 'connection', 'usage', 'version', 'science/invite', ...(methods ? METHOD_ROUTES : []), ...(match ? [match] : [])]
+    return ['followup', 'privacy', 'usage', 'version', 'science/invite', ...(methods ? METHOD_ROUTES : []), ...(match ? [match] : [])]
   },
   draw,
 }

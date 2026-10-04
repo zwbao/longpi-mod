@@ -28,13 +28,11 @@ async function save(ctx: Ctx, path: string, fileName: string, what: string): Pro
 }
 
 /** The archive note from the route, said for a record kept on this computer. */
-export function archiveNote(privacy: Privacy | null, local: boolean): string {
-  const note = privacy?.export?.mirobody_note_zh ?? ''
-  if (!note) return ''
-  return local ? '压缩包包含这台电脑上 LongPi 的档案、方案、记录、记忆和同意。' : note
+export function archiveNote(): string {
+  return '压缩包包含这台电脑上 LongPi 的档案、方案、记录、记忆和同意。'
 }
 
-export function ExportSection(ctx: Ctx, opts: { local: boolean; openPrivacy?: () => void }): Node[] {
+export function ExportSection(ctx: Ctx, opts: { openPrivacy?: () => void }): Node[] {
   const E = ctx.E
   const today = ctx.today
   const privacy = ctx.json<Privacy>('privacy')
@@ -52,7 +50,7 @@ export function ExportSection(ctx: Ctx, opts: { local: boolean; openPrivacy?: ()
       : Note(ctx, NO_SAVE, 'export-later'),
     write ? null : Buttons(E, [{ key: 'export-ask', label: '让 Claude 整理报告', onPress: () => ctx.act.fill('请把我的档案、记录里的变化、身体年龄和方案整理成一份可以带给医生看的报告。') }], 'export-ask-row'),
     msg.startsWith('!') ? Err(ctx, msg.slice(1), 'export-err') : Ok(ctx, msg, 'export-msg'),
-    write ? Note(ctx, archiveNote(privacy, opts.local), 'export-note') : null,
+    write ? Note(ctx, archiveNote(), 'export-note') : null,
     write ? Note(ctx, '导出的文件留在这台电脑上，LongPi 不会发给任何人。', 'export-local') : null,
     opts.openPrivacy ? Buttons(E, [{ key: 'export-privacy', label: '隐私与删除 ›', onPress: () => opts.openPrivacy?.() }], 'export-privacy-row') : null,
   ]

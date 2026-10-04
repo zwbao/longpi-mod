@@ -9,6 +9,20 @@ import { Bullets, Err, Note, Ok, Para, SubFold, Subhead } from './ui.tsx'
 import type { Privacy } from './types.ts'
 import { day, errorOf, flag, hostText, setSub, sub, toggleFlag } from './util.ts'
 
+const SCOPE_ZH: Record<string, string> = {
+  pipl_sensitive: '处理你的健康信息',
+  data_flow_deepseek: '健康对话交给 Claude',
+  study: '参加研究',
+  session_log_upload: '上传会话日志',
+}
+
+const WITHDRAW_ZH: Record<string, string> = {
+  pipl_sensitive: '撤回后，LongPi 不再读取你的指标，也不再交给模型。',
+  data_flow_deepseek: '撤回后，回答你的问题时不再带上你的健康数值。',
+  study: '撤回后，你的数据不再用于研究。',
+  session_log_upload: '撤回后，不再上传会话日志。',
+}
+
 const ALL_AFTER_DELETE = ['privacy', 'self', 'meds', 'conditions', 'findings', 'memory', 'people', 'tracking', 'followup', 'stores']
 
 function decisionText(decision: string | null | undefined): string {
@@ -49,49 +63,56 @@ function consents(ctx: Ctx, status: Privacy): Node[] {
     }
     await consent(ctx, { scope: 'pipl_sensitive', decision: 'granted', ...(guardian ? { guardian: true } : {}) }, '已记录你的单独同意。')
   }
-  const withdrawPipl = async () => {
-    const answer = await ctx.act.ask('撤回后，LongPi 不再读取你的指标，也不再交给模型。可以随时重新同意。要撤回吗？', ['撤回', '取消'], '撤回同意')
-    if (answer === '撤回') await consent(ctx, { scope: 'pipl_sensitive', decision: 'withdrawn' }, '已撤回。')
+  /** Withdrawing any consent asks first; it can be given again any time. */
+  const withdraw = async (scope: string, what: string) => {
+    const answer = await ctx.act.ask(`撤回「${what}」的同意？${WITHDRAW_ZH[scope] ?? ''}以后可以随时重新同意。`, ['撤回', '取消'], '撤回同意')
+    if (answer === '撤回') await consent(ctx, { scope, decision: 'withdrawn' }, '已撤回。')
   }
 
   const badge = (decision: string | null, key: string) => (
     <Text key={key} color={decision === 'granted' ? C.good : decision ? C.warn : C.dim}>{`[${decisionText(decision)}]`}</Text>
   )
+  const state = (scope: string, key: string, extra: Node = null) => {
+    const row = status.consents[scope]
+    return (
+      <Box key={key} flexDirection="row" gap={1}>
+        {badge(row?.decision ?? null, `${key}-badge`)}
+        {row?.at ? <Text dimColor>{day(ctx, row.at)}</Text> : null}
+        {extra}
+      </Box>
+    )
+  }
+  const decided = (d: string | null) => d === 'granted' || d === 'declined' || d === 'withdrawn'
+  // Consents given elsewhere (研究, the web host's session log): shown here only while granted, so they can be withdrawn.
+  const others = (['study', 'session_log_upload'] as const).filter((scope) => status.consents[scope]?.decision === 'granted')
 
   return [
     Subhead(E, copy.pipl?.title ?? '单独同意：处理你的健康信息', 'pipl-head'),
-    <Box key="pipl-state" flexDirection="row" gap={1}>
-      {badge(pipl, 'pipl-badge')}
-      {status.consents.pipl_sensitive?.at ? <Text dimColor>{day(ctx, status.consents.pipl_sensitive.at)}</Text> : null}
-    </Box>,
-    pipl === 'granted' || pipl === 'declined' ? SubFold(E, 'pipl-text', '同意书全文', showText, () => toggleFlag(ctx, 'privacy.pipl')) : null,
+    state('pipl_sensitive', 'pipl-state'),
+    decided(pipl) ? SubFold(E, 'pipl-text', '同意书全文', showText, () => toggleFlag(ctx, 'privacy.pipl')) : null,
     showText ? Note(ctx, hostText(copy.pipl?.lead ?? '这一页是单独的一次同意。'), 'pipl-lead') : null,
     ...(showText ? (copy.pipl?.paragraphs ?? []).map((line, i) => Para(ctx, hostText(line), { key: `pipl-p${i}` })) : []),
     child && copy.minor?.under_14 ? Para(ctx, copy.minor.under_14, { key: 'pipl-child', color: C.warn }) : null,
     pipl === 'granted'
-      ? Buttons(E, [{ key: 'pipl-withdraw', label: '撤回', onPress: () => { void withdrawPipl() } }], 'pipl-buttons')
+      ? Buttons(E, [{ key: 'pipl-withdraw', label: '撤回同意', onPress: () => { void withdraw('pipl_sensitive', SCOPE_ZH.pipl_sensitive as string) } }], 'pipl-buttons')
       : Buttons(E, [
         { key: 'pipl-grant', label: copy.buttons?.pipl_grant ?? '我单独同意处理我的健康信息', primary: true, onPress: () => { void grantPipl() } },
-        ...(pipl === 'declined' ? [] : [{ key: 'pipl-decline', label: copy.buttons?.pipl_decline ?? '暂不同意', onPress: () => { void consent(ctx, { scope: 'pipl_sensitive', decision: 'declined' }, '已记录：暂不同意。') } }]),
+        ...(decided(pipl) ? [] : [{ key: 'pipl-decline', label: copy.buttons?.pipl_decline ?? '暂不同意', onPress: () => { void consent(ctx, { scope: 'pipl_sensitive', decision: 'declined' }, '已记录：暂不同意。') } }]),
       ], 'pipl-buttons'),
 
     Subhead(E, '健康对话交给 Claude', 'flow-head'),
-    flow === 'granted' || flow === 'declined'
-      ? (
-        <Box key="flow-state" flexDirection="row" gap={1}>
-          <Text color={flow === 'granted' ? C.good : C.dim}>{flow === 'granted' ? '[已同意]' : '[不发送]'}</Text>
-          {Buttons(E, [{ key: 'flow-flip', label: flow === 'granted' ? '撤回' : '同意', onPress: () => { void consent(ctx, { scope: 'data_flow_deepseek', decision: flow === 'granted' ? 'declined' : 'granted' }, flow === 'granted' ? '已撤回。' : '已同意。') } }], 'flow-buttons')}
-        </Box>
-      )
-      : (
-        <Box key="flow-state" flexDirection="column">
-          <Text dimColor>还没有选择。</Text>
-          {Buttons(E, [
-            { key: 'flow-grant', label: hostText(copy.buttons?.flow_grant ?? '同意把健康对话发给 Claude'), primary: true, onPress: () => { void consent(ctx, { scope: 'data_flow_deepseek', decision: 'granted' }, '已同意。') } },
-            { key: 'flow-decline', label: copy.buttons?.flow_decline ?? '暂不发送', onPress: () => { void consent(ctx, { scope: 'data_flow_deepseek', decision: 'declined' }, '已记录：暂不发送。') } },
-          ], 'flow-buttons')}
-        </Box>
-      ),
+    decided(flow) ? state('data_flow_deepseek', 'flow-state') : Note(ctx, '还没有选择。', 'flow-none'),
+    flow === 'granted'
+      ? Buttons(E, [{ key: 'flow-withdraw', label: '撤回同意', onPress: () => { void withdraw('data_flow_deepseek', SCOPE_ZH.data_flow_deepseek as string) } }], 'flow-buttons')
+      : Buttons(E, [
+        { key: 'flow-grant', label: hostText(copy.buttons?.flow_grant ?? '同意把健康对话发给 Claude'), primary: !decided(flow), onPress: () => { void consent(ctx, { scope: 'data_flow_deepseek', decision: 'granted' }, '已同意。') } },
+        ...(decided(flow) ? [] : [{ key: 'flow-decline', label: copy.buttons?.flow_decline ?? '暂不发送', onPress: () => { void consent(ctx, { scope: 'data_flow_deepseek', decision: 'declined' }, '已记录：暂不发送。') } }]),
+      ], 'flow-buttons'),
+
+    ...others.flatMap((scope) => [
+      Subhead(E, SCOPE_ZH[scope] as string, `${scope}-head`),
+      state(scope, `${scope}-state`, Buttons(E, [{ key: `${scope}-withdraw`, label: '撤回同意', onPress: () => { void withdraw(scope, SCOPE_ZH[scope] as string) } }], `${scope}-buttons`)),
+    ]),
   ]
 }
 
@@ -99,7 +120,7 @@ function consents(ctx: Ctx, status: Privacy): Node[] {
  * The whole privacy block. `withExport`: the settings page keeps the archive export here; the 档案 page has its own
  * 导出 section.
  */
-export function PrivacySection(ctx: Ctx, opts: { local: boolean; withExport: boolean }): Node[] {
+export function PrivacySection(ctx: Ctx, opts: { withExport: boolean }): Node[] {
   const E = ctx.E
   const cached = ctx.route('privacy')
   const status = ctx.json<Privacy>('privacy')
@@ -112,7 +133,7 @@ export function PrivacySection(ctx: Ctx, opts: { local: boolean; withExport: boo
   const note = status.delete?.note ?? status.copy.delete?.note ?? ''
   const minorLine = status.minor?.ask_age ? (status.copy.minor?.ask ?? '请填写年龄') : status.minor?.minor ? (status.copy.minor?.under_18 ?? '未满 18 岁') : ''
   // The web host's workspaces do not exist in Claude Code: that line is left out.
-  const local = [...(flow?.stays_local ?? []).filter((line) => !/工作区/.test(line)), ...(opts.local ? ['体检和手环的数值也存在这台电脑上的健康记录里：你交给 Claude 的报告，读出的数值存在这里。'] : [])]
+  const local = [...(flow?.stays_local ?? []).filter((line) => !/工作区/.test(line)), '体检和手环的数值也存在这台电脑上的健康记录里：你交给 Claude 的报告，读出的数值存在这里。']
   const write = saver(ctx)
 
   const remove = async () => {
@@ -134,8 +155,6 @@ export function PrivacySection(ctx: Ctx, opts: { local: boolean; withExport: boo
     Bullets(ctx, (flow?.to_deepseek ?? []).map(hostText), 'flow-model'),
     Note(ctx, '保存在这台电脑上的数据', 'flow-local-head'),
     Bullets(ctx, local, 'flow-local'),
-    !opts.local && (flow?.mirobody ?? []).length > 0 ? Note(ctx, '保存在连接的健康记录中的数据', 'flow-remote-head') : null,
-    !opts.local ? Bullets(ctx, flow?.mirobody ?? [], 'flow-remote') : null,
     flow?.name && !(flow.to_deepseek ?? []).some((line) => /名字|称呼|姓名/.test(line)) ? Note(ctx, hostText(flow.name), 'flow-name') : null,
     ...consents(ctx, status),
     minorLine ? Note(ctx, minorLine, 'privacy-minor') : null,
@@ -147,7 +166,7 @@ export function PrivacySection(ctx: Ctx, opts: { local: boolean; withExport: boo
         } }], 'privacy-export-row')
         : Note(ctx, NO_SAVE, 'privacy-export-later')
       : null,
-    opts.withExport && write ? Note(ctx, archiveNote(status, opts.local), 'privacy-export-note') : null,
+    opts.withExport && write ? Note(ctx, archiveNote(), 'privacy-export-note') : null,
     Subhead(E, '删除', 'privacy-delete-head'),
     Buttons(E, [{ key: 'privacy-delete', label: '删除这台电脑上的 LongPi 数据', onPress: () => { void remove() } }], 'privacy-delete-row'),
     note ? Note(ctx, note, 'privacy-delete-note') : null,
