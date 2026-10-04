@@ -16,7 +16,7 @@ import { minorView } from '../privacy/consents.ts'
 import { readProfile } from '../profile.ts'
 import { loadReference, type Biovar } from '../reference.ts'
 import { careItems } from '../triage/care.ts'
-import { codexBlock, codexBlockZh, experimentById, loadCatalog, loadLibrary, type CodexBlock } from './data.ts'
+import { codexBlock, codexBlockZh, experimentById, loadCatalog, loadLibrary, studyById, type CodexBlock } from './data.ts'
 import { blockedBy, devices, eligible, leadInFor, pickThree, primaryFor, randomSchedule, type EligibilityContext } from './eligibility.ts'
 import { DEFAULT_MY_DAY, laterReveal, markRevealShown, settleAcks, slotView, standupDays, validClock, type SlotView } from './nudge.ts'
 import { readSeriesCache, refreshSeries, stepsOnDay, valuesIn, type SeriesCache } from './series.ts'
@@ -809,9 +809,8 @@ export function actCodex(input: CodexAction, now: Date = new Date()): ActResult 
   }
   if (!state.started) return fail('先打开长寿图鉴，回答两个小问题。')
   if (input.action === 'read') {
-    const lib = loadLibrary()
-    const card = lib.studies.find((row) => row.id === input.card_id)
-    if (!card) return fail('没有这张卡。')
+    const card = studyById(input.card_id)
+    if (!card || card.id !== input.card_id) return fail('没有这张卡。')
     const met: string[] = []
     if (!state.read[card.id]) state.read[card.id] = world.today
     for (const key of card.meet) {

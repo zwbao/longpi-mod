@@ -47,8 +47,15 @@ export function loadLibrary(): LibraryPack {
   return library
 }
 
+/** Cards from outside the shipped library (the week's new research), set by the routes. */
+let extraStudies: () => StudyCard[] = () => []
+
+export function setExtraStudies(fn: () => StudyCard[]): void {
+  extraStudies = fn
+}
+
 export function studyById(id: string): StudyCard | null {
-  return loadLibrary().studies.find((card) => card.id === id || card.skill === id) ?? null
+  return loadLibrary().studies.find((card) => card.id === id || card.skill === id) ?? extraStudies().find((card) => card.id === id) ?? null
 }
 
 export function loadCatalog(): { metrics: Record<MetricKey, MetricSpec>; experiments: ExperimentSpec[] } {

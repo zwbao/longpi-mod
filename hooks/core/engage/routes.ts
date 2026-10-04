@@ -4,7 +4,8 @@ import { Buffer } from '../../sys/buffer.ts'
 
 import type { IncomingMessage, ServerResponse } from '../../sys/http.ts'
 import { calendarEvents, confirmEvent, listEvents, saveEvent, suggestEvent } from '../ux/schedule.ts'
-import { loadLibrary } from './data.ts'
+import { loadLibrary, setExtraStudies } from './data.ts'
+import { literatureChapter, readLiterature } from './literature.ts'
 import { actCodex, boundRootDir, kickRefresh, syncCodex, type CodexAction } from './engine.ts'
 import { readState } from './state.ts'
 import { isoDay } from '../interventions.ts'
@@ -77,9 +78,14 @@ export function parseAction(body: unknown): CodexAction | null {
 }
 
 /** The library with what this person has read, the species met, and 「和你的关系」 where there is something real to say. */
+setExtraStudies(() => readLiterature(boundRootDir()))
+
 export function libraryView(now: Date = new Date()) {
-  const lib = loadLibrary()
+  const shipped = loadLibrary()
   const root = boundRootDir()
+  const fresh = readLiterature(root)
+  const chapter = literatureChapter(fresh)
+  const lib = { ...shipped, chapters: chapter ? [chapter, ...shipped.chapters] : shipped.chapters, studies: [...fresh, ...shipped.studies] }
   const state = root ? readState(root, now, isoDay(now)) : null
   const results = new Map((state?.context.method_results ?? []).map((row) => [row.skill, row.text_zh]))
   return {

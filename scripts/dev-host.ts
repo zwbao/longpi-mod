@@ -51,7 +51,18 @@ const io: Io = {
     res.headers.forEach((value, key) => { headers[key] = value })
     return { status: res.status, ok: res.ok, text: await res.text(), headers }
   },
-  complete: async () => ({ ok: false, reason: 'no model in the dev host' }),
+  // The model, when a dev run asks for one (LONGPI_DEV_MODEL=1): claude -p with no plugins.
+  complete: async (prompt, options) => {
+    if (!process.env.LONGPI_DEV_MODEL) return { ok: false, reason: 'no model in the dev host' }
+    const text = `${options?.system ? `${options.system}\n\n` : ''}${prompt}`
+    return new Promise((done) => {
+      const child = execFile('claude', ['-p', '--model', options?.model ?? 'sonnet', '--output-format', 'text'], { maxBuffer: 16 * 1024 * 1024, timeout: 600_000, env: { ...process.env, CLAUDE_CODE_PLUGIN_DIRS: '' } }, (error, stdout) => {
+        done(error ? { ok: false, reason: String(error.message).slice(0, 200) } : { ok: true, text: String(stdout) })
+      })
+      child.stdin?.write(text)
+      child.stdin?.end()
+    })
+  },
   now: async () => Date.now(),
   log: (line) => { if (process.env.LONGPI_DEV_LOG) console.error(`[log] ${line}`) },
 }
@@ -98,6 +109,10 @@ async function main() {
       writeFileSync(`${dir}/${path.replace(/\//g, '_')}.json`, JSON.stringify(out, null, 2))
       console.log(path, out.status, JSON.stringify(out.json).length)
     }
+  } else if (command === 'scout') {
+    const { scoutLiterature } = await import('../hooks/app/literature.ts')
+    const out = await scoutLiterature(io, rt.rootDir, new Date())
+    console.log(JSON.stringify(out, null, 2))
   } else if (command === 'tool') {
     const [name = '', args = '{}'] = rest
     const out = await runTool(rt, name, JSON.parse(args), async () => true, 'dev-session', 'dev-call')
