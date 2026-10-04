@@ -526,9 +526,9 @@ async function decideBand($: Engine): Promise<void> {
   const slotJson = (await read($, data))['codex/slot']?.json as { enabled?: boolean; presentation?: boolean; slot?: SlotView; pane_neutral_zh?: string | null } | null | undefined
   const presentation = p.presentation || Boolean(slotJson?.presentation)
   $.ui.status(!presentation && slotJson?.enabled && slotJson.pane_neutral_zh ? `长寿图鉴 · ${slotJson.pane_neutral_zh}` : undefined)
-  const news = ((await $.store.get('news')) ?? null) as { week?: string; cards?: number; shown?: boolean } | null
+  const news = ((await $.store.get(perHome('news'))) ?? null) as { week?: string; cards?: number; shown?: boolean } | null
   if (!presentation && news && !news.shown && news.cards) {
-    await $.store.set('news', { ...news, shown: true })
+    await $.store.set(perHome('news'), { ...news, shown: true })
     await update($, band, () => ({ kind: 'news', ref: news.week ?? '', text: `长寿图鉴 · 本周上架了 ${news.cards} 张新研究卡`, at: now }))
     return
   }
@@ -565,6 +565,11 @@ async function revealFromBand($: Engine, ref: string): Promise<void> {
 // --- what LongPi sets up by itself ---------------------------------------------------------------------
 
 let settingUp = false
+
+/** A store key for this LongPi home: the weekly run and its notice belong to one data folder, not the mod. */
+function perHome(key: string): string {
+  return `${key}:${runtime()?.rootDir ?? ''}`
+}
 const WEEK_MS = 7 * 24 * 3_600_000
 
 /**
@@ -613,11 +618,11 @@ async function weekly($: Engine, force = false): Promise<{ cards: number; reason
   const rt = runtime()
   if (!rt) return null
   const now = await $.clock.now()
-  const last = ((await $.store.get('weekly')) ?? null) as { at?: number; week?: string } | null
+  const last = ((await $.store.get(perHome('weekly'))) ?? null) as { at?: number; week?: string } | null
   if (!force && last?.at && now - last.at < WEEK_MS) return null
   // Held for an hour while it runs (another window starting meanwhile does not run it twice); a run that found
   // nothing to read (no network, PubMed down, no model) is tried again the next day, not in a week.
-  await $.store.set('weekly', { at: now - WEEK_MS + 3_600_000, week: last?.week ?? '' })
+  await $.store.set(perHome('weekly'), { at: now - WEEK_MS + 3_600_000, week: last?.week ?? '' })
   const home = (await $.env.get('HOME')) ?? '/'
   const io = ioOf($)
   const lib = await updateLibrary(io, home, () => undefined).catch(() => null)
@@ -628,8 +633,8 @@ async function weekly($: Engine, force = false): Promise<{ cards: number; reason
   const found = await scoutLiterature(io, rt.rootDir, new Date(now)).catch(() => null)
   $.ui.log(`longpi: weekly — ${lib?.line ?? 'library unchanged'}; literature ${found ? `${found.cards} cards from ${found.candidates} papers${found.reason ? ` (${found.reason})` : ''}` : 'not run'}`, { to: 'debug' })
   const ran = Boolean(found?.finished)
-  await $.store.set('weekly', ran ? { at: now, week: isoWeek(new Date(now)) } : { at: now - WEEK_MS + 24 * 3_600_000, week: last?.week ?? '' })
-  if (found && found.cards > 0) await $.store.set('news', { week: found.week, cards: found.cards, shown: false })
+  await $.store.set(perHome('weekly'), ran ? { at: now, week: isoWeek(new Date(now)) } : { at: now - WEEK_MS + 24 * 3_600_000, week: last?.week ?? '' })
+  if (found && found.cards > 0) await $.store.set(perHome('news'), { week: found.week, cards: found.cards, shown: false })
   await update($, data, (all) => {
     const out = { ...all }
     delete out['codex/library']
