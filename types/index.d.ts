@@ -71,6 +71,8 @@ declare module 'claude-code' {
       coach: boolean
       /** The last turn used LongPi: the next prompt gets the snapshot. */
       healthTurn: boolean
+      /** What a LongPi tool card in the transcript did (adopted, undone), by the call's id. */
+      cards: Record<string, { adopted?: number; undone?: boolean; busy?: boolean; error?: string }>
       /** The prompt slot above the prompt: a stand-up line or the reveal notice. */
       band: { kind: 'standup' | 'reveal'; ref: string; text: string; at: number } | null
     }

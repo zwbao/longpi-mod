@@ -16,6 +16,7 @@ import { pageOf, PAGES } from './ui/pages/index.ts'
 import { pageWidth, paneTree } from './ui/pane.tsx'
 import type { Actions, CodexActions, Ctx, PostResult } from './ui/types.ts'
 import { isAnimated, stageAt, stageCols } from './ui/codex/stage.ts'
+import { cardTree, type CardState } from './ui/cards.tsx'
 import { bandTree, nextBand, noteInput, sittingMinutes, STANDUP_VISIBLE_MS, type Activity, type BandPrompt, type SlotView } from './ui/band.tsx'
 
 type Engine = EngineInterface
@@ -35,6 +36,7 @@ const booted = atom({ plugin: 'longpi', key: 'booted' } as const, false)
 const coach = atom({ plugin: 'longpi', key: 'coach' } as const, false)
 const healthTurn = atom({ plugin: 'longpi', key: 'healthTurn' } as const, false)
 const band = atom({ plugin: 'longpi', key: 'band' } as const, null as BandPrompt | null)
+const cards = atom({ plugin: 'longpi', key: 'cards' } as const, {} as Record<string, CardState>)
 
 // --- the engine as the core's I/O -------------------------------------------------------------------
 
@@ -588,6 +590,46 @@ export const register: Register = (on) => {
         void post($, 'codex', { action: 'nudge', event: 'reveal_later', ref }, { quiet: true, reload: ['codex/slot'] })
       },
     })
+  })
+
+  on('ui.render', { component: 'ToolUse', props: { tool: /^mcp__longpi__/ } }, async ($, e, next) => {
+    const id = e.props.tool_use_id
+    const state = (await read($, cards))[id] ?? {}
+    const setCard = (patch: CardState) => update($, cards, (all) => ({ ...all, [id]: { ...(all[id] ?? {}), ...patch } }))
+    const tree = cardTree($.ui.resolve(e), {
+      tool: e.props.tool,
+      input: (e.props.input && typeof e.props.input === 'object' ? e.props.input : {}) as Record<string, unknown>,
+      output: e.props.output,
+      isRunning: e.props.isRunning,
+      isErrored: e.props.isErrored,
+    }, state, {
+      adoptDraft: (draft, source) => {
+        void (async () => {
+          await setCard({ busy: true, error: '' })
+          const res = await post($, 'plan-draft/accept', { draft, ...(source.focus.length ? { focus: source.focus } : {}), ...(source.markers.length ? { markers: source.markers } : {}) }, { quiet: true, reload: ['tracking', 'plan-draft'] })
+          const plan = res.json.plan as { version?: number } | undefined
+          if (res.ok && plan?.version) await setCard({ busy: false, adopted: plan.version })
+          else await setCard({ busy: false, error: Array.isArray(res.json.problems) ? (res.json.problems as string[]).join(' ') : typeof res.json.error === 'string' ? res.json.error : '没有采用，请稍后再试' })
+        })()
+      },
+      undoCheckins: (items) => {
+        void (async () => {
+          await setCard({ busy: true })
+          for (const item of items) await post($, 'checkin', { item, done: null }, { quiet: true, reload: ['tracking'] })
+          await setCard({ busy: false, undone: true })
+        })()
+      },
+      fill: (text) => void $.prompt.fill({ text, mode: 'replace' }),
+      open: (tab) => void openPane($, (TAB_WORDS[tab] ?? tab) as Tab),
+    }, Math.max(40, (e.viewport?.columns ?? 100) - 4))
+    return tree ?? next(e)
+  })
+
+  // The card above says what the call did; the raw JSON under it stays out of the transcript (ctrl+o shows it).
+  on('ui.render', { component: 'ToolResult', props: { tool: /^mcp__longpi__/ } }, async ($, e, next) => {
+    if (e.props.isErrored) return next(e)
+    const { Box } = $.ui.resolve(e)
+    return <Box />
   })
 
   on('tool.call', { tool: /^mcp__longpi__/ }, async ($, e) => {
