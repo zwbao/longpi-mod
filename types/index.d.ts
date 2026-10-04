@@ -29,6 +29,8 @@ export type RouteCache = {
   json: unknown
   loading: boolean
   error: string
+  /** A route that answers text rather than JSON (a report, a calendar file), as text. */
+  text?: string
 }
 
 /** Personal numbers are folded by default in the band and the chat cards; 显示 opens them for 60 s. */

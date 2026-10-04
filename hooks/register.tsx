@@ -131,7 +131,11 @@ async function loadRoute($: Engine, path: string, force = false, fetchPath = pat
   try {
     const out = await route(rt, 'GET', `/api/longpi/${fetchPath}`)
     const json = out.json as { error?: unknown } | null
-    next = { at: await $.clock.now(), status: out.status, json: out.json, loading: false, error: out.status === 200 ? '' : typeof json?.error === 'string' ? json.error : `HTTP ${out.status}` }
+    next = {
+      at: await $.clock.now(), status: out.status, json: out.json, loading: false,
+      error: out.status === 200 ? '' : typeof json?.error === 'string' ? json.error : `HTTP ${out.status}`,
+      ...(out.text ? { text: out.text.slice(0, 600_000) } : {}),
+    }
   } catch (error) {
     next = { at: await $.clock.now(), status: 0, json: null, loading: false, error: error instanceof Error ? error.message : String(error) }
   }

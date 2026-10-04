@@ -244,9 +244,9 @@ export async function runTool(rt: Runtime, name: string, args: Record<string, un
 }
 
 /** Call one of the core's routes the way the health page did, inside an operation. */
-export async function route<T = unknown>(rt: Runtime, method: string, path: string, body?: unknown): Promise<{ status: number; json: T }> {
+export async function route<T = unknown>(rt: Runtime, method: string, path: string, body?: unknown): Promise<{ status: number; json: T; text: string }> {
   const answer = await op(() => rt.ctx.call(method, path, body))
-  return { status: answer.status, json: answer.json as T }
+  return { status: answer.status, json: answer.json as T, text: answer.json === null ? answer.text : '' }
 }
 
 /** A route answer that does not need the copy refreshed first (a second read in the same pass). */
