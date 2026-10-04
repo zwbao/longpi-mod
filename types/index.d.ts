@@ -67,6 +67,12 @@ declare module 'claude-code' {
       notice: Notice
       tick: number
       booted: boolean
+      /** This session is in coach mode: Pi's persona joins the system prompt. */
+      coach: boolean
+      /** The last turn used LongPi: the next prompt gets the snapshot. */
+      healthTurn: boolean
+      /** The prompt slot above the prompt: a stand-up line or the reveal notice. */
+      band: { kind: 'standup' | 'reveal'; ref: string; text: string; at: number } | null
     }
   }
 }
