@@ -51,6 +51,9 @@ function still(ctx: Ctx): boolean {
   return ctx.privacy.presentation
 }
 
+/** 去 on today's three things, while the pane holds the keyboard. */
+const THING_KEYS = ['q', 'w', 'e']
+
 /** The 总览 card: Pi (animated by the pane's idle driver), its line, and today's three things. */
 export function PiCard(ctx: Ctx): Node {
   const game = ctx.json<GameView>('game')
@@ -64,7 +67,7 @@ export function PiCard(ctx: Ctx): Node {
     <Box key={`thing-${thing.id}`} flexDirection="row" gap={1}>
       <Text color={thing.done ? C.good : C.dim}>{thing.done ? '✓' : `${i + 1}.`}</Text>
       <Box flexShrink={1}><Text {...(thing.done ? { dimColor: true, strikethrough: true } : {})}>{zh(fit(thing.text_zh, right - 10))}</Text></Box>
-      {thing.done ? null : <Button key={`thing-go-${i}`} plain label="去" onPress={() => run(ctx, thing.action)} />}
+      {thing.done ? null : <Button key={`thing-go-${i}`} plain {...(THING_KEYS[i] ? { hotkey: THING_KEYS[i] } : {})} label="去" onPress={() => run(ctx, thing.action)} />}
     </Box>
   ))
   return (
