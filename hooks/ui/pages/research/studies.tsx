@@ -32,13 +32,14 @@ export function withdraw(ctx: Ctx, study: StudyRow): void {
   void ctx.act.ask(`退出「${study.title_zh}」？尚未发出的部分将被删除，已发出的合计无法收回。`, ['退出这项研究', '先不退出'], '退出研究').then(async (choice) => {
     if (choice !== '退出这项研究') return
     const res = await ctx.act.post('science/withdraw', { study_id: study.id, confirm: true }, { reload: SCIENCE_ROUTES, done: '已退出。' })
-    const statement = typeof res.json.statement_zh === 'string' ? res.json.statement_zh : ''
-    setSub(ctx, `note.${study.id}`, res.ok ? `已退出。${statement}` : String(res.json.error ?? '退出失败'))
+    setSub(ctx, `note.${study.id}`, res.ok ? '已退出。' : String(res.json.error ?? '退出失败'))
+    if (res.ok) setSub(ctx, `run.${study.id}`, '')
   })
 }
 
 function runLocal(ctx: Ctx, study: StudyRow): void {
   void ctx.act.post('science/run', { study_id: study.id, confirm: true }, { reload: SCIENCE_ROUTES, done: '已在这台电脑上算完。' }).then((res) => {
+    setSub(ctx, `note.${study.id}`, '')
     if (res.ok) setSub(ctx, `run.${study.id}`, JSON.stringify({ give_back_zh: res.json.give_back_zh, waiting_zh: res.json.waiting_zh, sent: res.json.sent, local: res.json.local, result: res.json.result }))
     else setSub(ctx, `note.${study.id}`, String(res.json.error ?? '没有算成'))
   })
@@ -66,7 +67,7 @@ function RunBlock(ctx: Ctx, study: StudyRow, mode: string, width: number): Node 
     <Box key={`run-${study.id}`} flexDirection="column" marginTop={1} width={width}>
       <Text bold>这台电脑上的结果</Text>
       {(run.local ?? []).map((row, i) => <Text key={`lr-${i}`} wrap="wrap">{wrapTo(scrubVisible(localText(row.detail_zh)), width)}</Text>)}
-      {run.give_back_zh ? <Text key="gb" dimColor wrap="wrap">{wrapTo(scrubVisible(withoutStaysLocal(run.give_back_zh)), width)}</Text> : null}
+      {run.give_back_zh ? <Text key="gb" dimColor wrap="wrap">{wrapTo(scrubVisible(withoutStaysLocal(run.give_back_zh)).replace(/已发出的合计无法收回。[^。]*。/g, '').trim(), width)}</Text> : null}
       {mode === 'simulated' && stats.length > 0
         ? (
           <Box key="exports" flexDirection="column">

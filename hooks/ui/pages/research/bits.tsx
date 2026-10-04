@@ -2,11 +2,15 @@
 import type { RenderElement } from 'claude-code'
 
 import type { Ctx, Els, Node } from '../../types.ts'
-import { C, cells, fit } from '../../kit.tsx'
+import { C, cells, fit, zh } from '../../kit.tsx'
 
 const NO_START = new Set([...'，。、；：！？）」』】》〉…·％%,.;:!?)]}'])
 const NO_END = new Set([...'（「『【《〈([{'])
 const WORDISH = /[A-Za-z0-9._\-+/]/
+// Characters a terminal may draw one cell wide but the layout may count as two (East Asian ambiguous width):
+// counted as two when breaking lines, so a line never overflows and gets broken again mid-word.
+const AMBIGUOUS = /[–—…·“”‘’±×÷→←↑↓≈≤≥°µ§※]/
+const cellsSafe = (ch: string): number => (AMBIGUOUS.test(ch) ? 2 : cells(ch))
 
 /**
  * Text broken into lines of `width` cells the Chinese way: a line breaks where the column ends (not before a
@@ -20,7 +24,7 @@ export function wrapTo(text: string, width: number): string {
     let line: string[] = []
     let w = 0
     for (const ch of para) {
-      const cw = cells(ch)
+      const cw = cellsSafe(ch)
       if (w + cw > cols && line.length > 0) {
         let carry: string[] = []
         if (NO_START.has(ch)) {
@@ -35,7 +39,7 @@ export function wrapTo(text: string, width: number): string {
         while (line.length > 1 && NO_END.has(line[line.length - 1] as string)) carry = [...line.splice(line.length - 1, 1), ...carry]
         out.push(line.join('').trimEnd())
         line = carry
-        w = carry.reduce((sum, c) => sum + cells(c), 0)
+        w = carry.reduce((sum, c) => sum + cellsSafe(c), 0)
         if (ch === ' ' && line.length === 0) continue
       }
       line.push(ch)
@@ -46,8 +50,6 @@ export function wrapTo(text: string, width: number): string {
   return out.join('\n')
 }
 
-/** Without a width: spaces become no-break spaces, so Ink breaks at the column, not before a whole sentence. */
-export const nb = (text: string): string => text.replace(/ /g, '\u00a0')
 
 /** The research lane's own small choices live under this prefix in view.sub. */
 export const sub = (ctx: Ctx, key: string): string => ctx.view.sub[`research.${key}`] ?? ''
@@ -83,7 +85,7 @@ export function FailLine(ctx: Ctx, path: string, error: string, key: string, lea
   const { Box, Text, Button } = ctx.E
   return (
     <Box key={key} flexDirection="column">
-      <Text color={C.warn} wrap="wrap">{nb(`${lead}：${error || '未知原因'}`)}</Text>
+      <Text color={C.warn} wrap="wrap">{zh(`${lead}：${error || '未知原因'}`)}</Text>
       <Button key={`${key}-retry`} plain label="重试" onPress={() => ctx.act.load([path], true)} />
     </Box>
   )

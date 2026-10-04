@@ -16,7 +16,7 @@ const DESIGNS = [
 ] as const
 
 const ARM_COLOR: Record<ScheduleBlock['arm'], string> = { morning: C.teal, after_dinner: C.gold, washout: C.dim }
-const ARM_GLYPH: Record<ScheduleBlock['arm'], string> = { morning: '■', after_dinner: '■', washout: '·' }
+const ARM_GLYPH: Record<ScheduleBlock['arm'], string> = { morning: '█', after_dinner: '▒', washout: '·' }
 
 function days(block: ScheduleBlock): number {
   return Math.max(1, Math.round((Date.parse(`${block.to}T00:00:00Z`) - Date.parse(`${block.from}T00:00:00Z`)) / 86_400_000) + 1)
@@ -24,7 +24,7 @@ function days(block: ScheduleBlock): number {
 
 /** 洗脱 in plain words: a few ordinary days that are not compared. */
 const plainBlock = (label: string) => label.replace('洗脱期，不纳入比较', '照常生活，不作比较')
-const plainProtocol = (text: string) => scrubVisible(localText(text)).replace(/洗脱/g, '照常生活').replace(/本机用种子随机决定/g, '这台电脑随机决定').replace(/，种子不出这台电脑/g, '')
+const plainProtocol = (text: string) => scrubVisible(localText(text)).replace(/洗脱/g, '照常生活').replace(/本机用种子随机决定/g, '这台电脑随机决定').replace(/，种子不出这台电脑/g, '').replace(/^ABAB：/, '轮换：').replace(/按 ?ABBA ?对调/g, '对调')
 
 export function planOf(ctx: Ctx): NOf1Plan | null {
   return subJson<NOf1Plan>(ctx, 'nof1')
@@ -60,8 +60,8 @@ export function PlanBlock(ctx: Ctx, plan: NOf1Plan, opts: { compact?: boolean } 
         ))}
       </Box>
       <Box key="legend" flexDirection="row" gap={2}>
-        <Text color={C.teal}>■ 早晨走</Text>
-        <Text color={C.gold}>■ 晚饭后走</Text>
+        <Text color={C.teal}>█ 早晨走</Text>
+        <Text color={C.gold}>▒ 晚饭后走</Text>
         <Text dimColor>· 照常生活</Text>
       </Box>
       {status ? <Text key="status" color={C.accent}>{status}</Text> : null}
