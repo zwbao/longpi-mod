@@ -49,7 +49,6 @@ const GROUP_ZH: Array<[string, string]> = [
   ['genetic', '基因'],
   ['organ_ai_estimate', '器官 AI 预测'],
 ]
-const KIND_ZH: Record<string, string> = { computed: '为你计算', descriptive: '数据描述', population_position: '人群位置', llm_estimate: 'AI 预测', genetic_score: '基因评分' }
 
 const ENTITY: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", nbsp: ' ', apos: "'" }
 
@@ -103,11 +102,14 @@ export function ReportView(ctx: Ctx, cur: Current | null): RenderElement {
         return Section(ctx.E, {
           key: `rg-${g.group}`, title: g.title, note: `${g.rows.length} 项`, width: ctx.width,
           children: [
+            g.group === 'organ_ai_estimate' ? P(ctx, '均为 AI 预测；疾病风险为 10 年，后面是可能的范围。', 'ai-cap', { dim: true }) : null,
+            g.group === 'method' && g.rows.some((r) => r.kind === 'descriptive') ? P(ctx, '灰字是「数据描述」：质控或计数，不是健康判断。', 'desc-cap', { dim: true }) : null,
             ...shown.map((r, i) => {
-              const value = fmt(r)
-              const kind = KIND_ZH[r.kind ?? ''] ?? ''
-              const tag = kind && kind !== '为你计算' && kind !== 'AI 预测' ? `  ${kind}` : ''
-              return Row(ctx.E, t(r.label_zh), `${fit(value, Math.floor(inner / 2))}${tag}`, { key: `r-${g.group}-${i}`, width: inner, dimLabel: r.kind === 'descriptive' })
+              const estimate = r.kind === 'llm_estimate'
+              const range = estimate ? rangeText(r) : ''
+              const value = estimate ? `${valueText(r)}${range ? `  ${range}` : ''}` : fmt(r)
+              const label = estimate ? cleanLabel(t(r.label_zh)) : t(r.label_zh)
+              return Row(ctx.E, label, fit(value, Math.floor(inner / 2)), { key: `r-${g.group}-${i}`, width: inner, dimLabel: r.kind === 'descriptive' })
             }),
             g.rows.length > 8 ? Fold(ctx, `rg.${g.group}`, `全部 ${g.rows.length} 项`) : null,
           ],
