@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "note": "Findings that send a person to a doctor before any lifestyle plan (M1). The values and limits are decided in src/plan-safety.ts clinicalStop (tested); this table says which values form one finding, where to go, what to ask and what to request. Reviewed wording is welcome; keep one line per question.",
+  "patterns": [
+    {
+      "id": "red-cell",
+      "rule": "triage.pattern.red_cell",
+      "keys": ["hgb", "mcv", "rdw", "ferritin"],
+      "priority": "must_surface",
+      "label_zh": "红细胞和铁",
+      "department_zh": "全科或血液科",
+      "tests_zh": [
+        "复查血常规（含网织红细胞计数）",
+        "铁蛋白、血清铁、总铁结合力和转铁蛋白饱和度",
+        "维生素 B12 和叶酸",
+        "大便潜血（查有没有消化道慢性失血；是否需要胃肠镜由医生决定）"
+      ],
+      "questions_zh": [
+        "这几次体检血红蛋白和平均红细胞体积一直在下降，最可能是什么原因？",
+        "需要查缺铁的原因吗（例如消化道失血、饮食或吸收问题）？",
+        "要不要补铁、怎么补、补多久、多久复查——请医生决定。",
+        "在查清原因之前，运动和饮食上有什么需要注意的？"
+      ],
+      "trend_markers": ["hb", "mcv", "mch", "rdw", "ferritin", "mchc"]
+    },
+    {
+      "id": "undiagnosed-diabetes",
+      "rule": "triage.critical.undiagnosed_diabetes",
+      "keys": ["glucose", "hba1c"],
+      "priority": "must_surface",
+      "label_zh": "血糖",
+      "department_zh": "内分泌科",
+      "tests_zh": ["复查空腹血糖和糖化血红蛋白", "必要时口服葡萄糖耐量试验（OGTT）", "尿常规、肾功能和血脂"],
+      "questions_zh": ["这个血糖是否已经达到糖尿病的诊断标准，需要复查确认吗？", "需不需要开始治疗，还是先生活方式干预、多久复查？", "有哪些并发症需要筛查（眼底、肾功能、足部）？"],
+      "trend_markers": ["glucose", "hba1c"]
+    },
+    {
+      "id": "ldl-very-high",
+      "rule": "triage.critical.ldl_very_high",
+      "keys": ["ldl"],
+      "priority": "must_surface",
+      "label_zh": "低密度脂蛋白胆固醇",
+      "department_zh": "心内科或内分泌科",
+      "tests_zh": ["复查血脂四项", "甲状腺功能、肝肾功能", "必要时家族性高胆固醇血症评估"],
+      "questions_zh": ["这么高的 LDL-C 需要用药吗？目标值是多少？", "家里人要不要也查一下血脂？"],
+      "trend_markers": ["ldl", "tc"]
+    },
+    {
+      "id": "sbp-very-high",
+      "rule": "triage.critical.sbp_very_high",
+      "keys": ["sbp"],
+      "priority": "must_surface",
+      "label_zh": "血压",
+      "department_zh": "心内科（尽快）",
+      "tests_zh": ["诊室和家庭血压复测", "心电图、肾功能、尿常规"],
+      "questions_zh": ["血压这么高，需要马上用药吗？", "家里测血压多久测一次、怎么记录？"],
+      "trend_markers": ["sbp", "dbp"]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+// Every file under dataDir (~/.dsh/longpi) and the module that writes it (AA §3.5). New files are added here first.
+
+export const DATA_FILES = {
+  profile: { path: 'profile.json', writer: 'M11/M7' },
+  connection: { path: 'connection.json', writer: 'M7' },
+  planPrefs: { path: 'plan_prefs.json', writer: 'M3' },
+  interventions: { path: 'interventions', writer: 'M3' },
+  schedule: { path: 'schedule', writer: 'M6' },
+  medicationStatements: { path: 'medication_statements.jsonl', writer: 'M7' },
+  followup: { path: 'followup.json', writer: 'M6' },
+  memory: { path: 'memory.json', writer: 'M0' },
+  memoryLog: { path: 'memory_log.jsonl', writer: 'M0' },
+  events: { path: 'events.jsonl', writer: 'M0' },
+  eventsCursor: { path: 'events_cursor.json', writer: 'M0' },
+  usage: { path: 'usage.jsonl', writer: 'M0' },
+  surfaces: { path: 'surfaces.json', writer: 'M5' },
+  surfacesLog: { path: 'surfaces_log.jsonl', writer: 'M5' },
+  triage: { path: 'triage.json', writer: 'M1' },
+  briefs: { path: 'briefs', writer: 'M1' },
+  feedback: { path: 'feedback.jsonl', writer: 'M4' },
+  engage: { path: 'engage', writer: 'M6' },
+  datain: { path: 'datain', writer: 'M7' },
+  science: { path: 'science', writer: 'M8' },
+  privacy: { path: 'privacy', writer: 'M11' },
+} as const

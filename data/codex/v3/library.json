@@ -1,0 +1,5479 @@
+{
+ "version": 3,
+ "library": {
+  "revision": "2026.40.0",
+  "skills": 179
+ },
+ "chapters": [
+  {
+   "id": "clock",
+   "no": 1,
+   "title_zh": "身体的钟",
+   "motif": "clock",
+   "intro_zh": "生物年龄有很多种算法：血液化验、DNA 甲基化、手环脉搏。这一章讲它们怎么算、稳不稳、能说明什么。",
+   "size": 26
+  },
+  {
+   "id": "organ",
+   "no": 2,
+   "title_zh": "器官与代谢",
+   "motif": "organ",
+   "intro_zh": "同一个人的不同器官可能老得不一样快。研究者从血浆蛋白、代谢物、影像和常规化验里估每个器官的状态。",
+   "size": 28
+  },
+  {
+   "id": "brain",
+   "no": 3,
+   "title_zh": "大脑与心理",
+   "motif": "brain",
+   "intro_zh": "大脑衰老和痴呆风险是论文最多的方向之一：从血液标志物、脑影像，一直到单个神经元，也包括孤独感这样的心理因素。",
+   "size": 23
+  },
+  {
+   "id": "immune",
+   "no": 4,
+   "title_zh": "免疫与炎症",
+   "motif": "immune",
+   "intro_zh": "年纪越大，免疫系统越容易处在低度炎症里，研究者叫它「炎性衰老」。衰老细胞也在这里登场。",
+   "size": 15
+  },
+  {
+   "id": "repair",
+   "no": 5,
+   "title_zh": "细胞的维修",
+   "motif": "repair",
+   "intro_zh": "细胞靠自噬清理垃圾、靠线粒体供能、靠营养感应决定什么时候修补。很多抗衰老药物的靶点都在这里。",
+   "size": 21
+  },
+  {
+   "id": "tissue",
+   "no": 6,
+   "title_zh": "组织与再生",
+   "motif": "tissue",
+   "intro_zh": "皮肤、肌肉和软骨怎么变老，有的动物又为什么能长回来。",
+   "size": 22
+  },
+  {
+   "id": "gene",
+   "no": 7,
+   "title_zh": "生殖与基因",
+   "motif": "gene",
+   "intro_zh": "卵巢是最早衰老的器官之一；百岁老人的基因里藏着线索，药物代谢和饮酒反应也写在基因里。",
+   "size": 16
+  },
+  {
+   "id": "span",
+   "no": 8,
+   "title_zh": "寿命与节律",
+   "motif": "span",
+   "intro_zh": "寿命怎么量、衰弱从哪来、生物钟乱了会怎样，以及别的物种为什么活得更久。",
+   "size": 18
+  }
+ ],
+ "studies": [
+  {
+   "id": "s-accelerated-biological-aging-risk",
+   "skill": "accelerated-biological-aging-risk",
+   "no": "001",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "用美国全国健康调查数据建立并验证的公式，属人群研究。",
+   "title_zh": "九项化验算出的身体年龄",
+   "line_zh": "美国全国健康调查的成年人里，九项常规化验加年龄算出的「表型年龄」偏大的人，之后去世的更多。",
+   "about_zh": "研究者用约 1 万名美国成年人的数据，从 42 项化验里挑出白蛋白、肌酐、血糖、C 反应蛋白等九项，和实际年龄合成「表型年龄」。在另一批 6209 人里验证：实际年龄相同的人，表型年龄每大 1 岁，之后 12 年内去世的风险高约 9%。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Levine",
+    "et_al": true,
+    "journal": "Aging",
+    "year": 2018,
+    "doi": "10.18632/aging.101414",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": "健康页上的「身体年龄」就是用这个公式算的。",
+   "art": {
+    "motif": "clock",
+    "seed": 3876226861
+   }
+  },
+  {
+   "id": "s-ageing-clocks-digital-twins",
+   "skill": "ageing-clocks-digital-twins",
+   "no": "002",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "30 名健康人的随访观察研究。",
+   "title_zh": "多次复测，生物年龄稳不稳",
+   "line_zh": "30 名健康人 13 个月里多次检测：各种时钟算的生物年龄人与人差别大，同一个人前后相对稳定。",
+   "about_zh": "研究者给这些人算了 29 种甲基化时钟，以及化验、蛋白和代谢物时钟共 9 种。甲基化时钟在同一个人身上最稳。同一份血样重复测，一种常用甲基化时钟最多相差 2.56 岁。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Pusparum",
+    "et_al": true,
+    "journal": "npj Digital Medicine",
+    "year": 2025,
+    "doi": "10.1038/s41746-025-01911-9",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 1501827127
+   }
+  },
+  {
+   "id": "s-aging-biomarker-framework",
+   "skill": "aging-biomarker-framework",
+   "no": "003",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "多个人群队列数据的比较评估。",
+   "title_zh": "猜岁数和预测死亡，两回事",
+   "line_zh": "在 2 万多人的多个队列里，传统衰老时钟估实际年龄准不准，和它预测死亡准不准没有关联。",
+   "about_zh": "研究者做了一套开源工具，用同一流程评估 39 种衰老指标。估年龄最准的是一种皮肤和血液甲基化时钟；与死亡关联最强的是另一种甲基化时钟，它也最能预测健康寿命。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Ying",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00987-y",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 1424964747
+   }
+  },
+  {
+   "id": "s-biological-aging-generational-shifts",
+   "skill": "biological-aging-generational-shifts",
+   "no": "004",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "英国生物样本库的队列研究。",
+   "title_zh": "越晚出生，生物年龄越偏大",
+   "line_zh": "英国 15 万名 55 岁以下的人里，越晚出生，化验算的生物年龄越偏大；偏大的人早发实体癌更常见。",
+   "about_zh": "研究者用常规化验算的「表型年龄」衡量全身衰老。1965–1974 年出生的人，表型年龄超出实际年龄的幅度比 1950–1954 年出生的人更大。偏大的人，55 岁前得实体癌更常见，主要是肺癌、消化道癌和子宫癌。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Tian",
+    "et_al": true,
+    "journal": "Nature Medicine",
+    "year": 2026,
+    "doi": "10.1038/s41591-026-04448-w",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": "健康页上的「身体年龄」用的也是这种表型年龄。",
+   "art": {
+    "motif": "clock",
+    "seed": 1290083279
+   }
+  },
+  {
+   "id": "s-blood-epigenetic-intrinsic-capacity",
+   "skill": "blood-epigenetic-intrinsic-capacity",
+   "no": "005",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "在人群队列中建立、在另一个队列中验证的指标。",
+   "title_zh": "一管血，估身心能力",
+   "line_zh": "血液甲基化估出的身心能力分数，在美国 1680 人的队列里，与死亡的关联强于前两代甲基化时钟。",
+   "about_zh": "研究者先在一个 1014 人的队列里评估认知、行动、心理、视听和活力五个方面，合成衡量身心能力的「内在能力」分数，再从血液 DNA 甲基化里挑出 91 个位点来估它。年纪越大的人，估出的分数越低。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Fuentealba",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00883-5",
+    "preprint": false,
+    "coi_zh": "第一作者和通讯作者是本文相关成果一项临时专利申请的共同发明人。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 644717210
+   }
+  },
+  {
+   "id": "s-blood-protein-assessment",
+   "skill": "blood-protein-assessment",
+   "no": "006",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "英国生物样本库的队列研究。",
+   "title_zh": "千种血液蛋白看十年发病",
+   "line_zh": "英国 4.7 万人里，在 24 项常规因素之外加上血液蛋白分数，5 种病和死亡的 10 年预测更准。",
+   "about_zh": "研究者测了每人血浆里的 1468 种蛋白，发现 963 种与 21 种老年常见病或死亡有关联。那 24 项是年龄、性别之外的生活方式、常规化验和体格测量。以 2 型糖尿病为例，蛋白分数区分得病与否的能力，比糖化血红蛋白和多基因风险分都好。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Gadd",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00655-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 3963767602
+   }
+  },
+  {
+   "id": "s-calerie-methylation-clocks",
+   "skill": "calerie-methylation-clocks",
+   "no": "007",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "随机试验血样的事后分析。",
+   "title_zh": "少吃两年，只一个时钟变慢",
+   "line_zh": "随机试验的事后分析：健康人少吃两年，三种衰老时钟里只有衡量每年老多快的那种慢了 2–3%。",
+   "about_zh": "试验让没有肥胖的健康成年人把热量减少四分之一，实际平均只减了约 12%。研究者事后检测血样的 DNA 甲基化：比起照常吃的对照组，衡量衰老速度的指标慢了 2–3%，即每过一年身体少老 2–3%；另外两种估算生物年龄的时钟没有变化。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Waziry",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2023,
+    "doi": "10.1038/s43587-022-00357-y",
+    "preprint": false,
+    "coi_zh": "两位作者（含通讯作者）是文中衡量衰老速度的那种指标的发明人，这项杜克大学和奥塔哥大学的发明已授权给一家商业公司。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 2942557317
+   }
+  },
+  {
+   "id": "s-digital-telomere-measurement-sequencing",
+   "skill": "digital-telomere-measurement-sequencing",
+   "no": "008",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "人血样本的小样本横断面比较，属方法研究。",
+   "title_zh": "一条一条量端粒",
+   "line_zh": "用纳米孔测序逐条量血细胞端粒：14 名健康人里，年纪越大的人，长端粒越少、短端粒越多。",
+   "about_zh": "这种方法能把每一条端粒的长度单独读出来。研究者还测了端粒维持基因有缺陷的人（有的还没有症状）：他们的短端粒堆积得更明显，用长度分布训练的模型区分他们和健康人的能力是 0.91（满分 1）。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Sanchez",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2024,
+    "doi": "10.1038/s41467-024-49007-4",
+    "preprint": false,
+    "coi_zh": "第一作者和通讯作者是这种端粒测量临床用途的一项临时专利申请的发明人。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 3007365603
+   }
+  },
+  {
+   "id": "s-epigenetic-clock-reliability",
+   "skill": "epigenetic-clock-reliability",
+   "no": "009",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "人血样本重复测量的方法研究。",
+   "title_zh": "同一管血，测出两个岁数",
+   "line_zh": "同一份血样测两次，几种常用甲基化时钟能差出好几岁；改造后的版本多数差距在 1.5 岁以内。",
+   "about_zh": "研究者比较了 36 对重复测量的全血样本：其中一种甲基化时钟，两次相差的中位数是 2.4 岁，最多 8.6 岁。先把 7.8 万个位点的信息压缩成少数综合指标再训练，这个时钟的中位差降到 0.6 岁。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Higgins-Chen",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2022,
+    "doi": "10.1038/s43587-022-00248-2",
+    "preprint": false,
+    "coi_zh": "两位通讯作者用本文技术做的衰老指标经耶鲁大学授权给一家商业公司，这家公司提供了部分重复测量数据。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 4229398984
+   }
+  },
+  {
+   "id": "s-epigenetic-frailty-risk-score",
+   "skill": "epigenetic-frailty-risk-score",
+   "no": "010",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "两个老年人群队列研究。",
+   "title_zh": "用血液甲基化估衰弱",
+   "line_zh": "在德国两个老年人群队列里，用 20 个血液甲基化位点算的分数越高的人，衰弱越常见。",
+   "about_zh": "研究者在约 1000 名德国老人的血样里，从 42 万多个位点中筛出 20 个，合成衰弱风险分，再到另一个老年队列验证。在验证队列里，分数最高的四分之一人群，衰弱的几率约为最低四分之一的 2.77 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Li",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2022,
+    "doi": "10.1038/s41467-022-32893-x",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 41288753
+   }
+  },
+  {
+   "id": "s-face-aging-rate-cancer",
+   "skill": "face-aging-rate-cancer",
+   "no": "011",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "癌症病人的队列研究。",
+   "title_zh": "两张照片看老得多快",
+   "line_zh": "2276 名放疗癌症病人里，按前后两次照片估的面容年龄老得快的人，之后去世的更多。",
+   "about_zh": "研究者用一种人工智能算法，从病人就诊时拍的脸部照片估出「面容年龄」，两次之差除以间隔时间就是面容老化速度。照片相隔 2–4 年的病人里，面容老得比日历快的人，死亡风险约为其余病人的 1.65 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Haugg",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-025-66758-w",
+    "preprint": false,
+    "coi_zh": "包括第一作者和通讯作者在内的三位作者申报：他们所在的医疗系统已为包括面容年龄在内的两种面部健康算法申请临时专利。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 2489349653
+   }
+  },
+  {
+   "id": "s-fasting-mimicking-diet",
+   "skill": "fasting-mimicking-diet",
+   "no": "012",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "两项试验血样的二次分析，只统计做完的人，比的是试验前后。",
+   "title_zh": "吃着饭假装断食",
+   "line_zh": "两项试验的二次分析：只算做完的 86 人，用 7 项指标算的生物年龄中位数比试验前低 2.6 岁。",
+   "about_zh": "受试者每月连吃 5 天特制的低热量植物性餐，共 3 轮。这种生物年龄用白蛋白、肌酐、C 反应蛋白、糖化血红蛋白等 6 项化验加收缩压算出。同期 19 名对照者平均高了 0.78 岁，变化不显著。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Brandhorst",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2024,
+    "doi": "10.1038/s41467-024-45260-9",
+    "preprint": false,
+    "coi_zh": "试验用的模拟断食餐由一家公司提供；作者所在大学把本研究涉及的知识产权授权给这家公司，可能从中获得使用费；通讯作者和另一位作者持有这家公司的股份，没有参与数据的收集和分析。"
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 792062687
+   }
+  },
+  {
+   "id": "s-leukocyte-telomere-length",
+   "skill": "leukocyte-telomere-length",
+   "no": "013",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "英国生物样本库的横断面分析。",
+   "title_zh": "量了 47 万人的端粒",
+   "line_zh": "英国 47 万人里，年纪大的人和男性，白细胞端粒偏短；男女之差相当于约 7 岁的年龄差。",
+   "about_zh": "研究者用同一套方法测了英国生物样本库 47 万多人的白细胞端粒。非洲裔和华人血统的人，端粒比欧洲白人更长。研究者还用 1351 人相隔约 5 年的两次样本，估算了同一个人前后测量的波动。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Codd",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2022,
+    "doi": "10.1038/s43587-021-00166-9",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 1522867405
+   }
+  },
+  {
+   "id": "s-life-cycle-biological-clock",
+   "skill": "life-cycle-biological-clock",
+   "no": "014",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "用常规病历数据建立的模型研究。",
+   "title_zh": "从婴儿到老年的一只钟",
+   "line_zh": "用近 970 万人的常规病历和化验训练的时钟，儿童段与生长发育相关，成人段与衰老和慢病相关。",
+   "about_zh": "研究者把 2463 万次就诊的化验和病历交给一种人工智能模型，估算每个人的生物年龄。成人时钟里影响最大的是尿素偏高、白蛋白偏低和红细胞分布宽度偏高；在英国人群中验证，估出的年龄和实际年龄平均相差 4.14 岁。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Wang",
+    "et_al": true,
+    "journal": "Nature Medicine",
+    "year": 2025,
+    "doi": "10.1038/s41591-025-04006-w",
+    "preprint": false,
+    "coi_zh": "第一作者和一位通讯作者为这项成果申请了专利。"
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 1447813225
+   }
+  },
+  {
+   "id": "s-nanopore-parent-origin-methylation",
+   "skill": "nanopore-parent-origin-methylation",
+   "no": "015",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "大样本人血的横断面分析。",
+   "title_zh": "爸给的和妈给的，老得不同",
+   "line_zh": "全血纳米孔测序发现：只有父或母那份起作用的「印记」区域，两份 DNA 的甲基化随年龄变化不同。",
+   "about_zh": "研究者测了 7284 份全血样本、近 1800 万个甲基化位点，用其中 1373 个造了时钟，估年龄的误差中位数为 2.43 岁。把甲基化分到父亲和母亲各自那份 DNA 上后发现，一个叫 DIRAS3 的基因上，父亲那份随年龄甲基化升高。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Sigurpalsdottir",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-76240-w",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 2077870270
+   }
+  },
+  {
+   "id": "s-omniage-mitotic-clonal-hematopoiesis",
+   "skill": "omniage-mitotic-clonal-hematopoiesis",
+   "no": "016",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "多个人血数据集的比较分析，属工具研究。",
+   "title_zh": "把 413 种衰老指标放一起",
+   "line_zh": "在大批血液数据里，记录干细胞分裂次数的时钟，与用甲基化推算的「克隆性造血」信号相关。",
+   "about_zh": "研究者把 12 类、413 种衰老指标做成一个软件包，在大批血样里互相比较。克隆性造血是指一部分血液干细胞带着突变越长越多；这里用的是甲基化推算值，各队列都没有直接测突变。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Du",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-76038-w",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 2078388572
+   }
+  },
+  {
+   "id": "s-principal-component-clinical-aging",
+   "skill": "principal-component-clinical-aging",
+   "no": "017",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "用全国健康调查数据建立并验证的模型。",
+   "title_zh": "把体检单压成一只钟",
+   "line_zh": "用美国全国健康调查的体检和化验数据做的临床衰老时钟，预测 20 年内死亡比只看年龄更准。",
+   "about_zh": "研究者用主成分分析把临床指标压缩成几组综合信号，找出代谢紊乱、心肾功能下降和炎症几类与不健康衰老有关的信号。预测 20 年死亡，只用 61 个参数的简化版时钟区分能力是 0.87，只看年龄是 0.83（满分 1）。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Fong",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00646-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 1298707538
+   }
+  },
+  {
+   "id": "s-semaglutide-epigenetic-aging-trial",
+   "skill": "semaglutide-epigenetic-aging-trial",
+   "no": "018",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "随机试验血样的事后探索分析，衰老时钟不是预先设定的结局。",
+   "title_zh": "司美格鲁肽与衰老时钟",
+   "line_zh": "随机试验的事后分析：伴脂肪堆积的艾滋病病毒感染者用药 32 周，几种衰老时钟比安慰剂组走得慢。",
+   "about_zh": "参加者是伴脂肪异常堆积的艾滋病病毒感染者，45 人用司美格鲁肽，39 人用安慰剂。试验原本看的是内脏脂肪，衰老时钟不在原定观察项里，是研究者事后用血样测 DNA 甲基化得出的。一种衡量衰老速度的指标，用药组比安慰剂组慢 9%。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Corley",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-72861-3",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 3238224373
+   }
+  },
+  {
+   "id": "s-sleep-chart-biological-ageing",
+   "skill": "sleep-chart-biological-ageing",
+   "no": "019",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "英国生物样本库的关联分析，睡眠时长是自报的。",
+   "title_zh": "睡眠和生物年龄的 U 形线",
+   "line_zh": "英国中老年人里，自报睡眠偏短或偏长的人，多个器官的生物年龄偏大，睡 6.4–7.8 小时的人最小。",
+   "about_zh": "研究者把自报睡眠时长和 23 种来自影像、血浆蛋白和代谢物的生物年龄对照，9 种呈两头高、中间低的曲线。和睡 6–8 小时的人比，睡不到 6 小时的人之后去世的风险高约 50%，超过 8 小时的高约 40%。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "The MULTI Consortium",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2026,
+    "doi": "10.1038/s41586-026-10524-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 1770727565
+   }
+  },
+  {
+   "id": "s-stochastic-epigenetic-aging",
+   "skill": "stochastic-epigenetic-aging",
+   "no": "020",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "人血数据的模拟与比较分析，属方法研究。",
+   "title_zh": "时钟有多少靠随机",
+   "line_zh": "在 25 个队列 2 万多份血样里，一种早期甲基化时钟的准确度有 66–75% 可以用随机变化解释。",
+   "about_zh": "研究者先用免疫细胞数据搭了甲基化随机变化的模拟模型，再和真实时钟比。随机能解释的比例，在另一种更准的时钟里高达 90%，在按健康结局训练的一种时钟里是 63%，说明后者更多反映非随机的生物变化。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Tong",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00600-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 789632553
+   }
+  },
+  {
+   "id": "s-time-seq-dna-methylation",
+   "skill": "time-seq-dna-methylation",
+   "no": "021",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "一句话的结论来自 1056 人的血样，属人群研究；论文其余部分主要在小鼠里做。",
+   "title_zh": "给衰老时钟省钱",
+   "line_zh": "一种省时省钱的甲基化测法：用 1056 人的血样做出的衰老时钟，估年龄的误差中位数为 3.39 岁。",
+   "about_zh": "研究者给每份样本的 DNA 打上标签，把许多样本混在一起测，只读和时钟有关的位点。大部分实验在小鼠的多种组织里做，小鼠时钟能反映饮食等干预的效果；人血时钟是论文的最后一部分。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Griffin",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-023-00555-2",
+    "preprint": false,
+    "coi_zh": "第一作者和通讯作者是这项测法专利申请的发明人，专利已授权给一家公司；通讯作者是这家公司的创始人和股东，第一作者作为这家公司的顾问拿过少量股权。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 1807226551
+   }
+  },
+  {
+   "id": "s-wearable-aging-clock",
+   "skill": "wearable-aging-clock",
+   "no": "022",
+   "chapter": "clock",
+   "tier": "human",
+   "tier_reason_zh": "可穿戴设备用户的观察性队列研究。",
+   "title_zh": "手表测出的脉搏年龄",
+   "line_zh": "在一项手表健康研究里，用手腕脉搏波估出的年龄比实际年龄大的人，心脏病、心衰和糖尿病更常见。",
+   "about_zh": "研究者用约 2000 万段 60 秒的手腕光学脉搏信号（手表背面用光测心率的那种）训练模型来估年龄。在健康参与者里，估出的年龄和实际年龄平均差 2.43 岁。这个年龄差还和吸烟、运动、睡眠有关。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Miller",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2025,
+    "doi": "10.1038/s41467-025-64275-4",
+    "preprint": false,
+    "coi_zh": "全部作者都是研究所用手表厂商的员工并持有该公司股票；这项手表健康研究由该公司和美国心脏协会出资。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 1754426256
+   }
+  },
+  {
+   "id": "s-epigenetic-age-single-cells",
+   "skill": "epigenetic-age-single-cells",
+   "no": "023",
+   "chapter": "clock",
+   "tier": "animal",
+   "tier_reason_zh": "方法在小鼠组织里建立和验证。",
+   "title_zh": "给单个细胞算岁数",
+   "line_zh": "在小鼠里，一种新方法能从单个细胞稀疏的甲基化数据估出细胞年龄，同一组织的细胞年龄各不相同。",
+   "about_zh": "单个细胞能测到的甲基化位点很少，每个位点只有「有」或「无」两种状态，常规时钟用不上。研究者把它和整块组织的参照数据结合，逐个位点估算。在小鼠肝细胞里（去掉 2 个离群细胞后），估出的年龄与实际月龄相差的中位数约 2.1 个月。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Trapp",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2021,
+    "doi": "10.1038/s43587-021-00134-3",
+    "preprint": false,
+    "coi_zh": "全体作者都是这项方法专利申请的发明人。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 291227299
+   }
+  },
+  {
+   "id": "s-epigenetic-aging-naked-mole",
+   "skill": "epigenetic-aging-naked-mole",
+   "no": "024",
+   "chapter": "clock",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自裸鼹鼠血样。",
+   "title_zh": "不见老的裸鼹鼠也在老",
+   "line_zh": "死亡率不随年龄上升的裸鼹鼠，血液 DNA 甲基化照样随年龄变化，从甲基化看也在变老。",
+   "about_zh": "研究者测了 107 份裸鼹鼠血样的 300 多万个位点，用 26 个位点造出能估年龄的时钟。从甲基化看，裸鼹鼠变老比小鼠慢得多、比人快得多，和三者的最长寿命（裸鼹鼠 31 年、小鼠 4 年、人 122.5 年）相符。",
+   "species": [
+    "naked_mole_rat"
+   ],
+   "meet": [
+    "naked_mole_rat"
+   ],
+   "source": {
+    "first_author": "Kerepesi",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2022,
+    "doi": "10.1038/s41467-022-27959-9",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 2406262335
+   }
+  },
+  {
+   "id": "s-naked-mole-queen-methylation-clock",
+   "skill": "naked-mole-queen-methylation-clock",
+   "no": "025",
+   "chapter": "clock",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自裸鼹鼠样本。",
+   "title_zh": "裸鼹鼠女王的钟走得慢",
+   "line_zh": "裸鼹鼠的甲基化时钟照样在走；负责繁殖的「女王」，血液和皮肤的时钟比不繁殖的同伴走得慢。",
+   "about_zh": "研究者用一种针对哺乳动物共有位点的芯片测了 385 份裸鼹鼠样本，造出全组织、血液、皮肤、肝、肾等时钟。另有人和裸鼹鼠通用的时钟，按各自的最长寿命（裸鼹鼠约 37 年、人约 122.5 年）换算年龄。",
+   "species": [
+    "naked_mole_rat"
+   ],
+   "meet": [
+    "naked_mole_rat"
+   ],
+   "source": {
+    "first_author": "Horvath",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2021,
+    "doi": "10.1038/s43587-021-00152-1",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 3888855269
+   }
+  },
+  {
+   "id": "s-scepiage-single-cell-ageing",
+   "skill": "scepiage-single-cell-ageing",
+   "no": "026",
+   "chapter": "clock",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自小鼠血细胞。",
+   "title_zh": "小鼠血细胞，各有各的岁数",
+   "line_zh": "在小鼠血液里，单个细胞的甲基化年龄分布比技术误差能解释的更宽，细胞之间老化程度不一。",
+   "about_zh": "研究者测了不同年龄小鼠外周血单细胞的甲基化和基因表达，造出一种只测到少量位点时也能估年龄的预测器。在没参与训练的血液样本上，它估出的年龄和实际周龄平均差约 10 周。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Bonder",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2024,
+    "doi": "10.1038/s41467-024-51833-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "clock",
+    "seed": 2146363404
+   }
+  },
+  {
+   "id": "s-amino-acid-biological-age",
+   "skill": "amino-acid-biological-age",
+   "no": "027",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自多个人群队列血样的建模和关联分析。",
+   "title_zh": "血里的氨基酸估年龄",
+   "line_zh": "用 18 种血液氨基酸估年龄；估出的年龄比实际偏大的人，衰弱和年龄相关疾病更常见。",
+   "about_zh": "研究者汇总 1 到 89 岁人群的血液氨基酸数据，用 4,529 人训练、1,130 人测试。测试集里估出的年龄和实际年龄平均差约 7.5 岁；论文还做了只用 8 种氨基酸的简版。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Ding",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-73371-y",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 4109634527
+   }
+  },
+  {
+   "id": "s-biological-age-ct-cardiometabolic",
+   "skill": "biological-age-ct-cardiometabolic",
+   "no": "028",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自 12 万多名成人腹部 CT 的回顾性队列。",
+   "title_zh": "腹部 CT 里的生物年龄",
+   "line_zh": "12 万多名成人的腹部 CT 里，自动量出的肌肉、脂肪、钙化等，预测生存比只看年龄性别等更准。",
+   "about_zh": "研究者用人工智能从 CT 量出肌肉密度、主动脉钙化、内脏脂肪、骨密度等，建成不用年龄性别的模型，贡献最大的是肌肉密度。校正年龄和性别后，评分最差的四分之一的人，死亡风险是最好四分之一的 8.7 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Pickhardt",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2025,
+    "doi": "10.1038/s41467-025-56741-w",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 200971851
+   }
+  },
+  {
+   "id": "s-blood-based-dna-damage",
+   "skill": "blood-based-dna-damage",
+   "no": "029",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自帕金森病人随访队列的血样分析。",
+   "title_zh": "帕金森病人血里的长基因",
+   "line_zh": "帕金森病人血液里较长的基因表达被压低，提示 DNA 损伤；首诊时只见于后来运动症状加重快的人。",
+   "about_zh": "研究者追踪帕金森病人的血液基因表达；DNA 损伤越多，越长的基因越难被完整读出。首诊 3 年后（第 8 次随访），表达下调的 229 个基因中位长度约 4.1 万个碱基对，上调的 1,106 个约 2.6 万。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Sproviero",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00926-x",
+    "preprint": false,
+    "coi_zh": "一位作者是「用血液 DNA 损伤特征判断帕金森病预后」专利申请的发明人。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 3387323329
+   }
+  },
+  {
+   "id": "s-china-par-ascvd-risk",
+   "skill": "china-par-ascvd-risk",
+   "no": "030",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "风险公式研究，用 35–74 岁中国人群队列建立。",
+   "title_zh": "中国人的心血管风险公式",
+   "line_zh": "用 35–74 岁中国人群数据建的男女两套公式，按年龄、血压、血脂、腰围等估 10 年心血管病风险。",
+   "about_zh": "研究者用两个中国队列（35–74 岁和 35–59 岁成人）建模，算 10 年内得心梗、冠心病死亡或脑卒中的风险。2019 年中国指南用它分层：低于 5% 为低危，10% 及以上为高危。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Yang",
+    "et_al": true,
+    "journal": "Circulation",
+    "year": 2016,
+    "doi": "10.1161/circulationaha.116.022367",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": "健康页上的『10 年心血管风险』就是用这个公式算的。",
+   "art": {
+    "motif": "organ",
+    "seed": 3629652136
+   }
+  },
+  {
+   "id": "s-ckd-epi-2021-egfr",
+   "skill": "ckd-epi-2021-egfr",
+   "no": "031",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "估算公式研究，用成人测量数据建立并验证。",
+   "title_zh": "去掉种族的肾功能公式",
+   "line_zh": "去掉种族项后重新拟合的肾功能估算公式里，血肌酐加胱抑素 C 一起算比只用一项更准。",
+   "about_zh": "肾小球滤过率指肾脏每分钟滤过的血浆量，常用血肌酐估算。研究者用 8,254 人和 5,352 人的数据重新拟合公式，在另外 4,050 人里验证；两项一起算时，种族之间的差别也更小。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Inker",
+    "et_al": true,
+    "journal": "New England Journal of Medicine",
+    "year": 2021,
+    "doi": "10.1056/nejmoa2102953",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": "健康页上的『肾功能 eGFR』（肾小球滤过率估计值）就是用这个公式算的。",
+   "art": {
+    "motif": "organ",
+    "seed": 769744903
+   }
+  },
+  {
+   "id": "s-divergent-white-matter-metabolic",
+   "skill": "divergent-white-matter-metabolic",
+   "no": "032",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自两个脑影像队列的纵向关联分析。",
+   "title_zh": "脑白质代谢一降一升",
+   "line_zh": "胼胝体等处的白质糖代谢随年龄下降，放射冠处上升；前者高、后者低的人，之后认知下降更慢。",
+   "about_zh": "研究者分析两个队列 3,142 人、共 15,287 次随访的脑部葡萄糖代谢扫描和磁共振。胼胝体、扣带代谢高的人认知较好，放射冠代谢高的人认知较差，论文认为后者是大脑在代偿。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Zhang",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-70707-6",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 1533348306
+   }
+  },
+  {
+   "id": "s-genetic-architecture-biological-age",
+   "skill": "genetic-architecture-biological-age",
+   "no": "033",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库人群的全基因组关联分析。",
+   "title_zh": "器官老得快慢，基因占几成",
+   "line_zh": "欧洲血统的英国人里，九个器官系统的「年龄差」都部分可遗传，合计关联 393 个基因位点。",
+   "about_zh": "研究者用影像、体格和生理指标估出脑、心血管、眼、肝、免疫、代谢、肌骨、肺、肾的年龄，再减去实际年龄。常见基因变异能解释的个体差异，脑最高约 47%，免疫最低约 21%。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Wen",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00662-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 3228570744
+   }
+  },
+  {
+   "id": "s-hemispheric-brain-age",
+   "skill": "hemispheric-brain-age",
+   "no": "034",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库脑影像的横断面分析。",
+   "title_zh": "大脑的左右不对称",
+   "line_zh": "4.8 万名英国中老年人的脑磁共振里，多数灰质和白质指标左右不对称，年龄越大的人越明显。",
+   "about_zh": "研究者用左减右、再除以左加右来衡量：840 个白质指标里 793 个、117 个灰质指标里 115 个左右不同。分别用左、右半球估出的「脑年龄」，两边差距在年龄大的人里反而更小。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Korbmacher",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2024,
+    "doi": "10.1038/s41467-024-45282-3",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 1667318209
+   }
+  },
+  {
+   "id": "s-histological-aging-signatures",
+   "skill": "histological-aging-signatures",
+   "no": "035",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自人体组织切片的横断面分析。",
+   "title_zh": "切片里看出组织年龄",
+   "line_zh": "人工智能看 983 人、40 种组织的病理切片，从组织形态估出各组织的年龄，平均误差约 4.9 岁。",
+   "about_zh": "研究者分析 25,712 张全切片图像，为每种组织各做一个「组织时钟」。组织年龄偏大与端粒变短、已有疾病等相伴；40 个时钟里有 4 个样本不到 100 份，结论偏弱。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Abila",
+    "et_al": true,
+    "journal": "Nature Medicine",
+    "year": 2026,
+    "doi": "10.1038/s41591-026-04566-5",
+    "preprint": false,
+    "coi_zh": "四位作者在利益声明里申报了专利形式的经济利益。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 3325969552
+   }
+  },
+  {
+   "id": "s-imaging-organ-aging-clock",
+   "skill": "imaging-organ-aging-clock",
+   "no": "036",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库影像队列的随访关联。",
+   "title_zh": "影像里的七个器官年龄",
+   "line_zh": "英国生物样本库里，影像估出的某个器官年龄偏大的人，日后这个器官的疾病更常见，例如脑与痴呆。",
+   "about_zh": "研究者用 11,000 名健康参与者的 1,777 项影像测量，给脑、心脏、体成分、肾、肝、胰腺和眼各建一个年龄模型。脑灰质年龄每偏大约 5.5 岁，日后痴呆风险约为 1.8 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Ren",
+    "et_al": true,
+    "journal": "npj Digital Medicine",
+    "year": 2026,
+    "doi": "10.1038/s41746-026-02488-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 1073354235
+   }
+  },
+  {
+   "id": "s-lensage-index-biological-age",
+   "skill": "lensage-index-biological-age",
+   "no": "037",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自人群队列里晶状体年龄与疾病、死亡的关联。",
+   "title_zh": "晶状体照片估年龄",
+   "line_zh": "从晶状体照片估年龄；估得比实际年龄大得越多的人，年龄相关眼病、全身疾病和死亡越常见。",
+   "about_zh": "研究者用 20–96 岁成人的晶状体照片训练深度学习模型，在相对健康的人里，估出的年龄和实际年龄平均差 4.25–4.82 岁。论文还试了用手机拍的照片（50 人）。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Li",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2023,
+    "doi": "10.1038/s41467-023-42934-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 725745475
+   }
+  },
+  {
+   "id": "s-longitudinal-serum-proteome-mapping",
+   "skill": "longitudinal-serum-proteome-mapping",
+   "no": "038",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自中老年人群队列的随访关联。",
+   "title_zh": "血清蛋白里的健康衰老分",
+   "line_zh": "中老年人 9 年里多次抽血：用 22 种血清蛋白算的「健康衰老分」越高的人，之后得慢性病越少见。",
+   "about_zh": "研究者分析 3,796 人的 7,565 份血清，找到在两批人里都与年龄相关的 86 种蛋白。分数每高一个标准差，慢性病风险低 72%，2 型糖尿病低 53%，高血压低 40%。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Tang",
+    "et_al": true,
+    "journal": "Nature Metabolism",
+    "year": 2025,
+    "doi": "10.1038/s42255-024-01185-7",
+    "preprint": false,
+    "coi_zh": "一位通讯作者是 Westlake Omics 公司的股东。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 2150561199
+   }
+  },
+  {
+   "id": "s-lung-parenchyma-aging-clock",
+   "skill": "lung-parenchyma-aging-clock",
+   "no": "039",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自不同年龄人群肺组织样本的横断面比较。",
+   "title_zh": "肺组织怎样变老",
+   "line_zh": "比较不同年龄者的肺组织测序：年纪越大，肺泡细胞增殖越少，免疫 T 细胞越多、炎症信号越强。",
+   "about_zh": "研究者汇总人肺组织的单细胞和空间测序，看各类细胞随年龄的变化：巨噬细胞亚群减少，T 细胞增多且更显「疲惫」。最后用 578 份整块组织和 181 份单细胞样本训练了估算肺年龄的模型。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Xu",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-75427-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 2285128770
+   }
+  },
+  {
+   "id": "s-mri-multi-organ-clocks",
+   "skill": "mri-multi-organ-clocks",
+   "no": "040",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库磁共振数据的随访关联。",
+   "title_zh": "磁共振看七个器官的年龄",
+   "line_zh": "英国生物样本库的磁共振给七个器官估年龄：脑、脂肪、胰腺估得偏老的人，日后糖尿病更常见。",
+   "about_zh": "七个器官是脑、心脏、肝、脂肪、脾、肾和胰腺，估出的年龄与实际年龄平均差约 5 岁。脑、脂肪、脾和肝的年龄差与日后死亡有关：脑和脂肪偏老的人死亡更常见，脾和肝偏老的人反而更少见。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "The MULTI Consortium",
+    "et_al": true,
+    "journal": "Nature Medicine",
+    "year": 2026,
+    "doi": "10.1038/s41591-025-03999-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 2476193707
+   }
+  },
+  {
+   "id": "s-multi-organ-metabolome-age",
+   "skill": "multi-organ-metabolome-age",
+   "no": "041",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库人群的建模和遗传分析。",
+   "title_zh": "血液代谢物里的器官年龄",
+   "line_zh": "27 万多人的血液代谢物给五个器官系统估年龄，误差约 6 岁；基因分析提示与代谢病、高血压有关。",
+   "about_zh": "研究者用英国生物样本库的 107 种血液代谢物，给消化、肝、免疫、内分泌和代谢五个系统建模。估出的年龄和实际年龄相关不强（相关系数 0.25–0.42，1 为完全一致）；常见基因变异能解释 9%–18% 的个体差异。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "The MULTI consortium",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2025,
+    "doi": "10.1038/s41467-025-59964-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 1817271330
+   }
+  },
+  {
+   "id": "s-navy-circumference-body-fat",
+   "skill": "navy-circumference-body-fat",
+   "no": "042",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "估算公式研究，用海军现役人员的测量数据建立。",
+   "title_zh": "一把软尺量体脂",
+   "line_zh": "美国海军以 602 名男性、214 名女性的水下称重为准，拟合出用身高和颈腰臀围估体脂率的公式。",
+   "about_zh": "男性用腰围、颈围和身高，女性再加臀围，先算体密度再换算成体脂率。和水下称重相比，估计误差男性约 3.5、女性约 3.7 个百分点；男性公式又在另外 100 名海军人员里验证过。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Hodgdon",
+    "et_al": false,
+    "journal": "Naval Health Research Center Report No. 84-11",
+    "year": 1984,
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": "健康页上『体脂率与腰围』里的体脂率就是用这套公式算的。",
+   "art": {
+    "motif": "organ",
+    "seed": 1235918630
+   }
+  },
+  {
+   "id": "s-omicmage-biological-age-multiomics",
+   "skill": "omicmage-biological-age-multiomics",
+   "no": "043",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自医院生物样本库和两个验证队列的建模与关联分析。",
+   "title_zh": "从病历年龄到甲基化年龄",
+   "line_zh": "常规化验建出的「病历年龄」，可用血液 DNA 甲基化复现；它偏大的人慢性病和死亡更常见。",
+   "about_zh": "研究者先用一家医院生物样本库 31,264 人的 19 项临床指标，建出反映死亡风险的病历年龄。再用 1,097 个 DNA 甲基化位点复现它，测试集里与病历年龄平均差约 8.5 岁；完整版还用甲基化去替代部分蛋白和代谢物。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Chen",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01073-7",
+    "preprint": false,
+    "coi_zh": "研究由提供 OMICmAge 商业检测的 TruDiagnostic 公司资助，多名作者是该公司员工，部分作者为这项成果申请了专利。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 2292197966
+   }
+  },
+  {
+   "id": "s-oral-microbiome-signatures",
+   "skill": "oral-microbiome-signatures",
+   "no": "044",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自美国全国调查人群的随访关联。",
+   "title_zh": "口腔细菌里的年龄",
+   "line_zh": "美国 4,675 名成人的口腔菌里，64 个菌属随年龄变化；据此估的年龄偏大的人，死亡和衰弱更常见。",
+   "about_zh": "样本是美国全国健康与营养调查里 30–70 岁成人的漱口水。模型估年龄的误差不小：验证组平均差约 9.2 岁；在另一组 1,293 人里只能用 37 个菌属重训，平均差约 12.6 岁。饮食和用药与它关系不大。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Zhao",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-72096-2",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 854541084
+   }
+  },
+  {
+   "id": "s-organ-aging-genetic-architecture",
+   "skill": "organ-aging-genetic-architecture",
+   "no": "045",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库人群的遗传关联与孟德尔随机化分析。",
+   "title_zh": "13 个器官老化的基因图",
+   "line_zh": "血浆蛋白估的 13 个器官年龄关联 119 个基因位点；基因推断提示吸烟与肺、肠、肾、胃偏老有关。",
+   "about_zh": "研究者用英国 51,936 人的血浆蛋白，给脂肪、动脉、脑、心脏、肝、肺、肌肉、皮肤等器官建年龄模型；119 个位点里有 27 个为多个器官共有。基因推断还提示，心脏和肌肉老得快与心衰有关，肾老得快与高血压有关。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Zhu",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2025,
+    "doi": "10.1038/s41467-025-67223-4",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 2117445467
+   }
+  },
+  {
+   "id": "s-organ-aging-plasma-proteome",
+   "skill": "organ-aging-plasma-proteome",
+   "no": "046",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自五个人群队列的血浆蛋白关联分析。",
+   "title_zh": "一管血估 11 个器官年龄",
+   "line_zh": "5,676 名成人的血浆蛋白显示，约五分之一的人有一个器官明显偏老；心脏偏老的人日后心衰更常见。",
+   "about_zh": "研究者用 856 种主要来自某个器官的血浆蛋白，在五个队列里用机器学习估 11 个器官的年龄，1.7% 的人多个器官同时偏老。心脏年龄每偏大约 4.1 岁，心衰风险约为 2.5 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Oh",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2023,
+    "doi": "10.1038/s41586-023-06802-1",
+    "preprint": false,
+    "coi_zh": "四位作者和斯坦福大学为这项研究申请了专利；其中三位是 Teal Omics 公司的联合创始人和科学顾问，持有该公司股份。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 39585416
+   }
+  },
+  {
+   "id": "s-organ-specific-proteomic-aging",
+   "skill": "organ-specific-proteomic-aging",
+   "no": "047",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英、中、美人群队列的血浆蛋白关联分析。",
+   "title_zh": "跨三国验证的器官蛋白钟",
+   "line_zh": "英国 4 万多人的血浆蛋白建出 10 个器官年龄钟；器官偏老的人日后患病和死亡更常见。",
+   "about_zh": "研究者从 2,916 种蛋白里挑出 418 种主要来自某个器官的蛋白，每个器官的钟用 5 种（心脏）到 76 种（免疫）。在中国 3,977 人和美国 800 人的队列里，估年龄也很准；脑偏老与死亡的关联最强。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Wang",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-01016-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 785247693
+   }
+  },
+  {
+   "id": "s-plasma-proteomic-cellular-aging",
+   "skill": "plasma-proteomic-cellular-aging",
+   "no": "048",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自大规模人群血浆蛋白的建模和随访关联。",
+   "title_zh": "一管血估各类细胞的年龄",
+   "line_zh": "血浆蛋白能分别估出神经元、免疫细胞、胶质细胞等的年龄；某类细胞偏老与日后发病和死亡有关。",
+   "about_zh": "研究者用 6 万多人的 7,000 多种血浆蛋白，按蛋白主要来自哪类细胞，给 40 多种细胞分别建年龄模型。约 20%–25% 的人有一种细胞明显偏老；免疫和神经细胞偏年轻的人死亡风险更低。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Ding",
+    "et_al": true,
+    "journal": "Nature Medicine",
+    "year": 2026,
+    "doi": "10.1038/s41591-026-04446-y",
+    "preprint": false,
+    "coi_zh": "两位作者是 Teal Omics 公司的联合创始人和科学顾问，持有该公司股份。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 889276258
+   }
+  },
+  {
+   "id": "s-plasma-proteomics-brain-immune",
+   "skill": "plasma-proteomics-brain-immune",
+   "no": "049",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库人群的随访关联。",
+   "title_zh": "脑和免疫偏年轻的人更长寿",
+   "line_zh": "英国 4 万多人的血浆蛋白里，脑和免疫的蛋白年龄都明显偏小的人，随访期间死亡风险低一半多。",
+   "about_zh": "研究者用 44,498 人的 2,916 种血浆蛋白估 11 个器官的年龄。与器官年龄正常的人相比，脑明显偏老的人阿尔茨海默病风险约为 3.1 倍；明显偏老的器官有 8 个及以上时，死亡风险约为 8.3 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Oh",
+    "et_al": true,
+    "journal": "Nature Medicine",
+    "year": 2025,
+    "doi": "10.1038/s41591-025-03798-1",
+    "preprint": false,
+    "coi_zh": "三位作者是 Teal Omics 公司的联合创始人和科学顾问，持有该公司股份。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 1706243576
+   }
+  },
+  {
+   "id": "s-proteomic-aging-clock",
+   "skill": "proteomic-aging-clock",
+   "no": "050",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英、中、芬人群队列的血浆蛋白关联分析。",
+   "title_zh": "204 种血浆蛋白估年龄",
+   "line_zh": "英国 4.5 万人建的「蛋白年龄」在中国和芬兰人群里同样准；蛋白年龄偏大的人多病和死亡更常见。",
+   "about_zh": "测试集里蛋白年龄和实际年龄高度一致（相关系数 0.94，1 为完全一致），中国队列 0.92，芬兰 0.94。蛋白年龄最偏大的 5% 的人平均比实际大 6.3 岁，最偏小的 5% 平均小 6 岁。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Argentieri",
+    "et_al": true,
+    "journal": "Nature Medicine",
+    "year": 2024,
+    "doi": "10.1038/s41591-024-03164-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 3370337149
+   }
+  },
+  {
+   "id": "s-proteomic-clocks-eye-aging",
+   "skill": "proteomic-clocks-eye-aging",
+   "no": "051",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自三个人群队列的横断面和随访关联。",
+   "title_zh": "蛋白年龄与眼睛老化",
+   "line_zh": "三个队列 5.5 万人里，白内障、糖尿病视网膜病变、黄斑变性或青光眼患者的血浆蛋白年龄偏大。",
+   "about_zh": "完整的蛋白时钟用 2,100 多种蛋白，估年龄平均差约 2.4 岁；只用一组心血管代谢相关蛋白的精简版平均差 3.25 岁，检测成本约降九成。蛋白年龄偏大的人，视网膜神经纤维层（把视觉信号送往大脑）偏薄。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Yang",
+    "et_al": true,
+    "journal": "npj Digital Medicine",
+    "year": 2026,
+    "doi": "10.1038/s41746-026-02805-0",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 4035815696
+   }
+  },
+  {
+   "id": "s-retinal-aging-biomarkers-longitudinal",
+   "skill": "retinal-aging-biomarkers-longitudinal",
+   "no": "052",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库人群的随访关联。",
+   "title_zh": "眼底照片里的年龄",
+   "line_zh": "英国人群里，眼底照片估出的视网膜年龄每比实际大 10 岁，死亡风险约高 35%。",
+   "about_zh": "模型用英国和中国健康人群的眼底照片训练，平均误差 2.8 岁。在英国 45,436 人里，视网膜年龄每比实际大 1 岁，白内障风险约高 11%，青光眼约高 9%，黄斑变性约高 8%。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Yu",
+    "et_al": true,
+    "journal": "npj Digital Medicine",
+    "year": 2025,
+    "doi": "10.1038/s41746-025-01751-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 3522102382
+   }
+  },
+  {
+   "id": "s-structural-signature-plasma-proteins",
+   "skill": "structural-signature-plasma-proteins",
+   "no": "053",
+   "chapter": "organ",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自病例对照研究的血浆样本。",
+   "title_zh": "蛋白形状与阿尔茨海默病",
+   "line_zh": "用 3 种血浆蛋白的结构特征区分健康人、轻度认知障碍和阿尔茨海默病患者，准确率约 83%。",
+   "about_zh": "研究者比较 520 人的血浆，用质谱测蛋白上赖氨酸露在外面的比例：健康人平均 93.2%，轻度认知障碍 92.0%，阿尔茨海默病 91.1%。区分三组用的是一种补体蛋白、丛集蛋白和载脂蛋白 B 的肽段，在 470 份样本里检验。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Son",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01078-2",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 3123779741
+   }
+  },
+  {
+   "id": "s-transcriptomic-hallmarks-mammalian-ageing",
+   "skill": "transcriptomic-hallmarks-mammalian-ageing",
+   "no": "054",
+   "chapter": "organ",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自小鼠和大鼠的死亡时钟与干预数据；猕猴和人的数据用来比对方向。",
+   "title_zh": "四种哺乳动物的衰老基因",
+   "line_zh": "在小鼠和大鼠里，用基因表达训练的「预期死亡时钟」能区分延寿和缩寿的干预。",
+   "about_zh": "研究者汇总小鼠、大鼠的 4,539 份和猕猴、人的 6,626 份组织样本。让细胞停止分裂的 CDKN1A 等基因随衰老升高，几种胶原基因下降，在不同物种里方向一致；英国生物样本库里，CDKN1A 的血液蛋白水平与死亡和多病有关。",
+   "species": [
+    "multi_species"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Tyshkovskiy",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2026,
+    "doi": "10.1038/s41586-026-10542-3",
+    "preprint": false,
+    "coi_zh": "两位作者就这项研究的相关内容申请了美国专利。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "organ",
+    "seed": 2578131571
+   }
+  },
+  {
+   "id": "s-biomarker-panels-proteomic-profiling",
+   "skill": "biomarker-panels-proteomic-profiling",
+   "no": "055",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自人群队列里脑脊液与脑部影像的横断面比较。",
+   "title_zh": "脑小血管病的蛋白线索",
+   "line_zh": "1,670 人的脑脊液：有白质病变、微出血或脑梗死灶的人，一组与血管壁重塑有关的蛋白都偏高。",
+   "about_zh": "脑小血管病是脑内细小血管的病变，磁共振上可见白质病变、微出血和梗死灶。分开看，与白质病变相关的蛋白最多（707 种），与微出血相关的最少（84 种）。其中一部分在血浆里也能测到，在英国生物样本库里预测日后脑血管事件比现行临床风险评分更准。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Hristovska",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01081-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 3086945815
+   }
+  },
+  {
+   "id": "s-blood-metabolome-brain-health",
+   "skill": "blood-metabolome-brain-health",
+   "no": "056",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自一个人群队列里的横断面关联分析。",
+   "title_zh": "血液代谢物与中年认知",
+   "line_zh": "荷兰 1,082 名中年人：血液里 14 种代谢物与认知成绩相关，麦角硫因偏高的人认知得分也偏高。",
+   "about_zh": "研究者对照了 991 种血液代谢物和认知测试、脑部磁共振，这 14 种在另外两组老年人里得到重复。麦角硫因可从食物（比如蘑菇）中获得。用抗酸药（治胃酸的药）的人认知得分偏低、麦角硫因也偏低，这层关联里有 31.5% 与麦角硫因偏低有关。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Ahmad",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01149-4",
+    "preprint": false,
+    "coi_zh": "两位通讯作者等三人是用代谢组学诊断、治疗神经系统疾病的系列专利的发明人，并持有同一家公司的股份；其中一位通讯作者还持有本研究所用代谢检测平台公司的股份。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 2146675279
+   }
+  },
+  {
+   "id": "s-cerebrospinal-fluid-molecular-subtypes",
+   "skill": "cerebrospinal-fluid-molecular-subtypes",
+   "no": "057",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自患者与对照者的脑脊液比较。",
+   "title_zh": "阿尔茨海默病的五种亚型",
+   "line_zh": "419 名阿尔茨海默病患者按脑脊液蛋白分成五种亚型，各型的遗传风险特点不同。",
+   "about_zh": "研究者用质谱测脑脊液，找出 1,058 种与对照者水平不同的蛋白，再按这些蛋白把每位患者归入一型。各型特点不同，比如有的免疫反应偏强，有的血脑屏障受损；临床进展和生存时间也有差别。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Tijms",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-023-00550-7",
+    "preprint": false,
+    "coi_zh": "第一作者等两位作者是这套脑脊液蛋白分型的专利共同发明人。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 3763668198
+   }
+  },
+  {
+   "id": "s-chromatin-rna-ageing-brain",
+   "skill": "chromatin-rna-ageing-brain",
+   "no": "058",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自老年捐献者脑组织的观察。",
+   "title_zh": "逐个细胞核看脑老化",
+   "line_zh": "老年捐献者的大脑里，DNA 近处接触少的细胞核基因表达偏「老」，也与阿尔茨海默病病变相关。",
+   "about_zh": "DNA 在细胞核里折叠成团，相隔不远的片段常常贴在一起。研究者开发了一种技术，能在同一个细胞核里同时读出这种折叠接触和基因表达，共读了 14 位捐献者的 9,087 个额叶皮层细胞核。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Wen",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2024,
+    "doi": "10.1038/s41586-024-07239-w",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 106862195
+   }
+  },
+  {
+   "id": "s-dissecting-genetic-proteomic-risk",
+   "skill": "dissecting-genetic-proteomic-risk",
+   "no": "059",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自多个人群队列的基因关联分析。",
+   "title_zh": "谵妄背后的基因和蛋白",
+   "line_zh": "带风险型载脂蛋白 E 基因（ε4）的人更常出现谵妄（突发的意识混乱），扣除痴呆的影响后仍如此。",
+   "about_zh": "研究汇总了约 106 万人的基因数据，其中 11,931 人发生过谵妄。每多带一份 ε4 型的标志变异，发生谵妄的几率约升到 1.6 倍。在英国生物样本库的 32,652 人里，还有 109 种血浆蛋白与日后发生谵妄相关。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Raptis",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-01018-6",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 2801253037
+   }
+  },
+  {
+   "id": "s-hippocampal-neurogenesis-adulthood-ageing",
+   "skill": "hippocampal-neurogenesis-adulthood-ageing",
+   "no": "060",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自死后脑组织的组间比较。",
+   "title_zh": "记忆超常老人的新神经元",
+   "line_zh": "死后海马：记忆超常老人的未成熟神经元多于阿尔茨海默病患者，约为健康老人两倍但统计上不显著。",
+   "about_zh": "研究者用单细胞测序读了 355,997 个海马细胞核，来自年轻人、健康老人、记忆超常者、早期病变者和阿尔茨海默病患者。记忆超常者指 80 岁及以上、情景记忆不低于 50–59 岁人群的老人。他们的神经母细胞（会长成神经元）也明显比患者多。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Disouky",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2026,
+    "doi": "10.1038/s41586-026-10169-4",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 594298520
+   }
+  },
+  {
+   "id": "s-mci-cognitive-signatures",
+   "skill": "mci-cognitive-signatures",
+   "no": "061",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自两组人群队列的影像建模。",
+   "title_zh": "把认知障碍和正常老化分开",
+   "line_zh": "两个队列的脑磁共振：深度学习分出轻度认知障碍特有的脑改变，与记忆、注意和执行功能受损相关。",
+   "about_zh": "模型在北京 918 人中建立，在另一组 1,293 人里验证。用它预测轻度认知障碍者会不会转成阿尔茨海默病，曲线下面积 0.83（满分 1，0.5 相当于瞎猜），高于全脑萎缩的 0.74 和脑脊液指标的 0.77。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Peng",
+    "et_al": true,
+    "journal": "npj Digital Medicine",
+    "year": 2026,
+    "doi": "10.1038/s41746-026-02597-3",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 1750468547
+   }
+  },
+  {
+   "id": "s-neurodegeneration-proteomics-biomarker",
+   "skill": "neurodegeneration-proteomics-biomarker",
+   "no": "062",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自多个队列里患者与对照的血浆比较。",
+   "title_zh": "23 个队列拼一个蛋白库",
+   "line_zh": "近 1.9 万人的体液蛋白汇成一库：一批蛋白在至少 6 个队列的阿尔茨海默病患者血浆里都偏高。",
+   "about_zh": "全球联盟汇集 23 个队列的血浆、血清和脑脊液，涵盖阿尔茨海默病、帕金森病、额颞叶痴呆和渐冻症。阿尔茨海默病患者血浆里一致偏高的有乙酰胆碱酯酶等。带风险型载脂蛋白 E 基因（ε4）的人有一组血浆蛋白特征，四种病里都能看到。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Imam",
+    "et_al": true,
+    "journal": "Nature Medicine",
+    "year": 2025,
+    "doi": "10.1038/s41591-025-03834-0",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 2496059544
+   }
+  },
+  {
+   "id": "s-plasma-proteome-dementia-biomarkers",
+   "skill": "plasma-proteome-dementia-biomarkers",
+   "no": "063",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自患者与对照的血浆比较。",
+   "title_zh": "三种痴呆的血液记号",
+   "line_zh": "1,318 份血浆：阿尔茨海默病、路易体痴呆、额颞叶痴呆各有一组升降不同的蛋白，可用来区分。",
+   "about_zh": "胶质纤维酸性蛋白（来自脑内胶质细胞）沿阿尔茨海默病病程升高最明显，路易体痴呆的两种整合素偏低，额颞叶痴呆则是神经丝轻链偏高、胶质纤维酸性蛋白偏低。只靠这两项区分额颞叶痴呆和阿尔茨海默病，曲线下面积 0.83（满分 1，0.5 相当于瞎猜）。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Bellomo",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01162-7",
+    "preprint": false,
+    "coi_zh": "通讯作者之一与本研究所用蛋白检测平台的公司有科研合同，并收过该公司的咨询费或演讲费。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 1185965685
+   }
+  },
+  {
+   "id": "s-plasma-proteome-future-dementia",
+   "skill": "plasma-proteome-future-dementia",
+   "no": "064",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库的前瞻性队列。",
+   "title_zh": "四种蛋白与日后痴呆",
+   "line_zh": "英国 52,645 名没有痴呆的成年人：血浆里有四种蛋白与日后患痴呆的关联最一致。",
+   "about_zh": "研究者测了这些人的血浆蛋白，再看谁后来得了痴呆。关联最一致的四种是胶质纤维酸性蛋白、神经丝轻链、生长分化因子 15 和潜伏性转化生长因子 β 结合蛋白 2。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Guo",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-023-00565-0",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 3363747343
+   }
+  },
+  {
+   "id": "s-proteomic-apoe-alzheimers-signatures",
+   "skill": "proteomic-apoe-alzheimers-signatures",
+   "no": "065",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自多队列血浆样本的横断面比较。",
+   "title_zh": "风险型与保护型基因的蛋白",
+   "line_zh": "3,289 人的血浆：载脂蛋白 E 基因为风险型 ε4 或保护型 ε2 的人，各有一批蛋白与常见型不同。",
+   "about_zh": "与最常见的 ε3/ε3 型相比，带 ε4 的人有 357 种蛋白改变，带 ε2 的人有 192 种。ε2 的这 192 种里有 140 种（73%）在认知正常的人身上就已出现；这些改变在脑内出现淀粉样蛋白病变之前就能测到。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Lu",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01123-0",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 3905537550
+   }
+  },
+  {
+   "id": "s-serum-proteomics-apoe-signatures",
+   "skill": "serum-proteomics-apoe-signatures",
+   "no": "066",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自一个前瞻性人群队列。",
+   "title_zh": "冰岛老人血清里的线索",
+   "line_zh": "冰岛 5,127 位老人随访十多年：303 种血清蛋白与新发阿尔茨海默病有关，140 种与风险基因无关。",
+   "about_zh": "这些老人平均 76.6 岁，中位随访 12.8 年，期间 655 人新患阿尔茨海默病。另有 17 种蛋白的关联强烈取决于是否带载脂蛋白 E 基因的 ε4 型（风险型），其中 4 种被 ε4 拉低，患病时却升高。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Frick",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00693-1",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 1188549241
+   }
+  },
+  {
+   "id": "s-ulk1-autophagy-alzheimers",
+   "skill": "ulk1-autophagy-alzheimers",
+   "no": "067",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自同一批人四年前后的血样和脑脊液比较。",
+   "title_zh": "细胞清理的启动酶在减少",
+   "line_zh": "一组认知正常的人四年后复测：血清里启动细胞自噬的酶 ULK1 少了约四成，脑脊液里少了约两成。",
+   "about_zh": "自噬是细胞分解、回收自身受损部件的过程。阿尔茨海默病患者的 ULK1 也偏低；在这种病的模型小鼠里提高 ULK1，自噬增强、病变减轻、认知衰退推迟。细胞实验里，两种激活 ULK1 的化合物减少了 tau 蛋白结团，一种抑制剂则让结团加重。",
+   "species": [
+    "human",
+    "cell_line"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Pan",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01108-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 1046675918
+   }
+  },
+  {
+   "id": "s-uls8-loneliness-scale",
+   "skill": "uls8-loneliness-scale",
+   "no": "068",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "这是一项问卷量表的编制研究。",
+   "title_zh": "八道题量孤独",
+   "line_zh": "从 20 题的孤独量表里挑出最能代表孤独感的 8 题，做成简式量表，检验后认为可靠、有效。",
+   "about_zh": "每题按「从不」到「经常」记 1–4 分，第 3、6 题反着计分，总分 8–32 分，越高越孤独。分数按连续值来看，目前没有公认的高低分档。作者还发现，孤独感与所测的六种健康行为没有关联。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Hays & DiMatteo",
+    "et_al": false,
+    "journal": "Journal of Personality Assessment",
+    "year": 1987,
+    "doi": "10.1207/s15327752jpa5101_6",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 493477193
+   }
+  },
+  {
+   "id": "s-vulnerable-brain-regions",
+   "skill": "vulnerable-brain-regions",
+   "no": "069",
+   "chapter": "brain",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自英国生物样本库的横断面影像分析。",
+   "title_zh": "最晚长成、最早变老的脑区",
+   "line_zh": "英国约 4 万人的脑扫描：有糖尿病、交通污染重、饮酒频繁的人，这片脆弱脑区的灰质偏少。",
+   "about_zh": "这片高阶脑区青春期最晚发育成熟、老年最早衰退，与阿尔茨海默病和精神分裂症都有关。研究者把 12 种可改变的因素放进同一个模型，糖尿病、二氧化氮（交通污染的指标）和饮酒频率的关联最强；12 种因素合起来只解释了约 1.5% 的个体差异。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Manuello",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2024,
+    "doi": "10.1038/s41467-024-46344-2",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 997498864
+   }
+  },
+  {
+   "id": "s-aging-mouse-brain-atlas",
+   "skill": "aging-mouse-brain-atlas",
+   "no": "070",
+   "chapter": "brain",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自不同年龄小鼠的脑组织测序。",
+   "title_zh": "小鼠大脑，白质先老",
+   "line_zh": "小鼠 15 个脑区的基因表达图谱：富含白质的区域老得最早、最明显，胼胝体的速度约为皮层 3 倍。",
+   "about_zh": "研究者从 59 只 3–28 个月大的小鼠身上分区取样。胼胝体（连接左右半脑的白质带）在 12 到 18 个月之间，表达改变的基因数增加约十倍；海马、丘脑和下丘脑低于平均速度，内嗅皮层几乎不受影响。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Hahn",
+    "et_al": true,
+    "journal": "Cell",
+    "year": 2023,
+    "doi": "10.1016/j.cell.2023.07.027",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 3052466570
+   }
+  },
+  {
+   "id": "s-cilia-autophagy-cognitive-resilience",
+   "skill": "cilia-autophagy-cognitive-resilience",
+   "no": "071",
+   "chapter": "brain",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自老年小鼠实验。",
+   "title_zh": "神经元天线与细胞清理",
+   "line_zh": "老年雄性小鼠海马神经元的纤毛（细胞的「天线」）和自噬一起衰退，补回纤毛蛋白后认知改善。",
+   "about_zh": "骨骼分泌的激素骨钙素，要经过纤毛上一种叫 GPR158 的受体，才能启动神经元的自噬（细胞自我清理）。培养的海马神经元里，约 75% 能在纤毛上看到这个受体。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Rivagorda",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-024-00791-0",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 3586043107
+   }
+  },
+  {
+   "id": "s-gdf11-neuronal-autophagy",
+   "skill": "gdf11-neuronal-autophagy",
+   "no": "072",
+   "chapter": "brain",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自老年小鼠实验，人的部分只是一次血清比较。",
+   "title_zh": "一种血液蛋白与小鼠抑郁",
+   "line_zh": "老年雄性小鼠连续数周注射一种血液蛋白（生长分化因子 11），神经元自噬增强，抑郁样行为减轻。",
+   "about_zh": "实验用 22 个月大的小鼠，这种蛋白通过增强海马神经元的自噬（细胞清理自身受损部件）起作用。在人里，一组巴西年轻人中，重度抑郁者血清里这种蛋白的中位数是 11.66 皮克/毫升，约为对照者（22.69）的一半。",
+   "species": [
+    "mouse",
+    "human"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Moigneu",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2023,
+    "doi": "10.1038/s43587-022-00352-3",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 1121261572
+   }
+  },
+  {
+   "id": "s-mitophagy-inducers-alzheimers",
+   "skill": "mitophagy-inducers-alzheimers",
+   "no": "073",
+   "chapter": "brain",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自阿尔茨海默病模型线虫和小鼠。",
+   "title_zh": "机器学习挑出的自噬分子",
+   "line_zh": "机器学习从天然化合物库挑出的山奈酚和丹叶大黄素，改善了阿尔茨海默病模型线虫和小鼠的记忆。",
+   "about_zh": "研究者把分子结构转成可比较的向量，挑出 18 个与已知线粒体自噬（清除受损线粒体）诱导剂相似的分子，其中 8 个在细胞里起效，命中率 44%，常规高通量筛选约为 0.14%。模型小鼠连续两个月灌服这两种分子后，迷宫等记忆测试成绩变好。",
+   "species": [
+    "cell_line",
+    "c_elegans",
+    "mouse"
+   ],
+   "meet": [
+    "c_elegans",
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Xie",
+    "et_al": true,
+    "journal": "Nature Biomedical Engineering",
+    "year": 2022,
+    "doi": "10.1038/s41551-021-00819-5",
+    "preprint": false,
+    "coi_zh": "第一作者和两位通讯作者等五人已为「用线粒体自噬诱导物治疗阿尔茨海默病」申请专利；另有几位作者是一家人工智能制药公司的员工，索取本研究的人工智能数据须经该公司审核。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 4054574126
+   }
+  },
+  {
+   "id": "s-neurogenic-aging-clocks",
+   "skill": "neurogenic-aging-clocks",
+   "no": "074",
+   "chapter": "brain",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自小鼠实验。",
+   "title_zh": "神经干细胞的衰老时钟",
+   "line_zh": "老年小鼠和年轻小鼠连通血液后，神经干细胞的「时钟年龄」平均小约 4.5 个月，运动的作用较小。",
+   "about_zh": "研究者测了 28 只 3–29 个月大小鼠脑内神经干细胞区的单个细胞，为六类细胞各建一个衰老时钟，误差在 1.6–5.4 个月。运动后，两类细胞的时钟年龄也略有变小，但逐只小鼠统计时不显著。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Buckley",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2022,
+    "doi": "10.1038/s43587-022-00335-4",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 464971809
+   }
+  },
+  {
+   "id": "s-neuron-aging-clocks",
+   "skill": "neuron-aging-clocks",
+   "no": "075",
+   "chapter": "brain",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自线虫实验。",
+   "title_zh": "线虫的神经元各有年龄",
+   "line_zh": "线虫实验：不同神经元的衰老速度不同，带纤毛的感觉神经元老得更快、退化更早。",
+   "about_zh": "研究者把衰老时钟用到线虫每一类神经元的基因表达上，分出最年轻和最年老的各 20%。用药物降低蛋白质合成，能减轻老得快的神经元的退化；计算筛选出的丁香酸（一种植物代谢物）等两种化合物也延缓了退化。",
+   "species": [
+    "c_elegans"
+   ],
+   "meet": [
+    "c_elegans"
+   ],
+   "source": {
+    "first_author": "Gallrein",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01067-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 1975534909
+   }
+  },
+  {
+   "id": "s-spatial-mapping-senolytic-targeting",
+   "skill": "spatial-mapping-senolytic-targeting",
+   "no": "076",
+   "chapter": "brain",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自自然衰老小鼠的实验。",
+   "title_zh": "白质里的衰老免疫细胞",
+   "line_zh": "老年小鼠海马旁的白质里聚着一群衰老的脑内免疫细胞，清除衰老细胞后，雌鼠的这群细胞减少。",
+   "about_zh": "研究者在自然衰老的小鼠脑里做空间基因表达分析，发现这群小胶质细胞集中在海马伞，同时带有衰老标志和疾病相关特征。灌服一种清除衰老细胞的药或用基因方法清除衰老细胞后，小胶质细胞的形态和分布更接近年轻小鼠。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Carver",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01154-7",
+    "preprint": false,
+    "coi_zh": "第一作者、通讯作者和梅奥诊所持有与细胞衰老研究相关的知识产权。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 2186096415
+   }
+  },
+  {
+   "id": "s-apoe2-pericyte-lipid",
+   "skill": "apoe2-pericyte-lipid",
+   "no": "077",
+   "chapter": "brain",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自体外培养的人源细胞。",
+   "title_zh": "长寿基因型与脑血管细胞",
+   "line_zh": "人干细胞培养的脑血管周细胞：载脂蛋白 E 基因为 ε2 型（与长寿相关）的，脂滴更少、屏障更牢。",
+   "about_zh": "周细胞包在脑毛细血管外面，帮助维持血脑屏障。与 ε3、ε4 型相比，ε2 型周细胞的屏障更完整、积存的 β 淀粉样蛋白更少；与 ε3 型相比有 218 种蛋白明显不同。给 ε3、ε4 型细胞加入 ε2 型蛋白，能部分挽回差别。",
+   "species": [
+    "cell_line"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Kadir",
+    "et_al": true,
+    "journal": "Brain",
+    "year": 2026,
+    "doi": "10.1093/brain/awag311",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "brain",
+    "seed": 1470188889
+   }
+  },
+  {
+   "id": "s-nicotinamide-riboside-airway-inflammation",
+   "skill": "nicotinamide-riboside-airway-inflammation",
+   "no": "078",
+   "chapter": "immune",
+   "tier": "trial",
+   "tier_reason_zh": "一句话写的是随机对照试验预先设定的主要结局。",
+   "title_zh": "烟酰胺核糖与慢阻肺的痰",
+   "line_zh": "随机双盲试验：60 岁及以上慢阻肺患者补烟酰胺核糖 6 周，痰里一种炎症因子比安慰剂组低约一半。",
+   "about_zh": "40 名稳定期患者随机分组，每天服 2 克烟酰胺核糖或安慰剂。试验事先定的主要指标是痰里一种叫 IL-8 的炎症因子：第 6 周补充组比安慰剂组低 52.6%，停用 12 周后仍更低；血浆里的炎症因子 IL-6 没有变化。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Norheim",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00758-1",
+    "preprint": false,
+    "coi_zh": "两名作者是为试验提供烟酰胺核糖和安慰剂胶囊的公司的员工，并持有该公司股份。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 3970872689
+   }
+  },
+  {
+   "id": "s-cd38-recent-thymic-emigrants",
+   "skill": "cd38-recent-thymic-emigrants",
+   "no": "079",
+   "chapter": "immune",
+   "tier": "human",
+   "tier_reason_zh": "一句话的两个发现都来自人体样本（胸腺和血），年龄结论是 158 名成人血样的横断面比较。",
+   "title_zh": "胸腺新兵的记号",
+   "line_zh": "刚出胸腺的 T 细胞表面一种叫 CD38 的标记很高；158 名 25–85 岁成人中，年长者这种细胞更少。",
+   "about_zh": "胸腺是 T 细胞成熟的地方。研究者用单细胞测序和流式细胞术分析还没遇过病原的初始 T 细胞，发现表面标记 CD38 很高的那群正是刚出胸腺的；年长者里这群更少，另一种标记 CXCR3 高的细胞更多。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Bohacova",
+    "et_al": true,
+    "journal": "Immunity",
+    "year": 2024,
+    "doi": "10.1016/j.immuni.2024.08.019",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 210208667
+   }
+  },
+  {
+   "id": "s-hospital-infection-epilepsy-risk",
+   "skill": "hospital-infection-epilepsy-risk",
+   "no": "080",
+   "chapter": "immune",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自登记数据的巢式病例对照研究，是关联。",
+   "title_zh": "感染住院与晚年癫痫",
+   "line_zh": "英国和瑞典的人群数据里，因感染住过院的人 50 岁后新发癫痫更常见，感染后一年内最明显。",
+   "about_zh": "研究者在英国生物样本库和瑞典全国登记里，比较 50 岁后新发癫痫者和没得癫痫者此前的感染住院。确诊前一年内因感染住过院的，得癫痫的几率是没因感染住院者的约 5 倍（英国）和 3.5 倍（瑞典），10 年以上仍有 1.7 倍和 1.5 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Zhuang",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-01005-x",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 3064920705
+   }
+  },
+  {
+   "id": "s-immune-aging-clock-runx1",
+   "skill": "immune-aging-clock-runx1",
+   "no": "081",
+   "chapter": "immune",
+   "tier": "human",
+   "tier_reason_zh": "一句话写的是用 230 人血样建的免疫时钟，属于人群建模研究；补回 RUNX1 的是细胞和活体实验。",
+   "title_zh": "一管血里的免疫时钟",
+   "line_zh": "用 230 人血液免疫细胞的单细胞数据建「免疫时钟」，估出的年龄与实际年龄平均差约 5.7 岁。",
+   "about_zh": "研究者用免疫细胞的比例、各类细胞的基因表达和 T 细胞受体训练时钟；单看一类细胞的基因表达，平均误差约 5 到 10 岁。年长者 T 细胞里一个叫 RUNX1 的调控基因更少；在细胞实验和活体实验里，给年老的 T 细胞补回它，衰老迹象减轻。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Ping",
+    "et_al": true,
+    "journal": "Immunity",
+    "year": 2026,
+    "doi": "10.1016/j.immuni.2026.02.007",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 1503195761
+   }
+  },
+  {
+   "id": "s-immune-mendelian-dementia",
+   "skill": "immune-mendelian-dementia",
+   "no": "082",
+   "chapter": "immune",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自遗传分析和观察性用药数据，没有随机分组。",
+   "title_zh": "痴呆与自身免疫",
+   "line_zh": "基因分析和芬兰人群的用药记录都提示：自身免疫与阿尔茨海默病等致痴呆的病有关。",
+   "about_zh": "研究者用孟德尔随机化（借天生基因差异推断因果）筛查 1827 个免疫和血脑屏障指标，127 个与致痴呆的病有关。用约 11.8 万芬兰人的用药记录模拟试验：遗传风险排前一半者中，用抗炎药甲氨蝶呤者阿尔茨海默病风险约为不用者的 0.64 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Lindbohm",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2022,
+    "doi": "10.1038/s43587-022-00293-x",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 2690700636
+   }
+  },
+  {
+   "id": "s-senescent-cells-gene-set",
+   "skill": "senescent-cells-gene-set",
+   "no": "083",
+   "chapter": "immune",
+   "tier": "human",
+   "tier_reason_zh": "一句话写的是绝经后与年轻女性骨活检的横断面比较。",
+   "title_zh": "衰老细胞的基因清单",
+   "line_zh": "125 个基因组成的衰老细胞清单，在绝经后女性的骨活检里比在年轻女性里表达更高。",
+   "about_zh": "研究者从 15 篇研究里挑出 125 个与衰老细胞有关的基因。约 30 岁和约 73 岁的女性各 19 人的骨活检里，这组基因在年长组更高，另一组 15 对 15 的女性里也是如此；在小鼠里用基因手段清除衰老细胞后，骨里这组基因的表达下降。",
+   "species": [
+    "human",
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Saul",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2022,
+    "doi": "10.1038/s41467-022-32552-1",
+    "preprint": false,
+    "coi_zh": "三名作者与这项研究有经济利益关系：梅奥诊所和明尼苏达大学持有衰老细胞清除药物及其用途、衰老相关分泌物标志物的专利。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 3442767034
+   }
+  },
+  {
+   "id": "s-sex-specific-immune-aging",
+   "skill": "sex-specific-immune-aging",
+   "no": "084",
+   "chapter": "immune",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自不同年龄人群血样的横断面比较。",
+   "title_zh": "免疫变老，男女不同步",
+   "line_zh": "比较 1828 名 19–97 岁者的血液免疫细胞，年龄差异集中在约 40 岁和 60 岁后，男女步调不同。",
+   "about_zh": "研究者汇总四个大型数据集，分析 1021 名女性和 807 名男性血液免疫细胞的单细胞基因表达。女性在晚年出现更多免疫细胞的衰老特征，男性较早就有 T 细胞代谢的波动；男女分开训练的深度学习年龄时钟，比合在一起训练的更准。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Park",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-76737-4",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 2827402937
+   }
+  },
+  {
+   "id": "s-ageing-inflammatory-marker",
+   "skill": "ageing-inflammatory-marker",
+   "no": "085",
+   "chapter": "immune",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自小鼠巨噬细胞实验，人的全血数据是附带的关联分析。",
+   "title_zh": "炎性衰老的钙开关",
+   "line_zh": "老年小鼠巨噬细胞（一种免疫细胞）的线粒体吸钙变弱；吸钙一弱，炎症信号就被放大。",
+   "about_zh": "年老小鼠的巨噬细胞吸钙比年轻小鼠少；在小鼠和人的巨噬细胞里去掉或减少负责吸钙的蛋白，炎症反应都变强。700 份人全血样本里，两个与吸钙有关的基因在年长者中偏低，一批炎症基因偏高。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Seegren",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2023,
+    "doi": "10.1038/s43587-023-00436-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 2625305675
+   }
+  },
+  {
+   "id": "s-cgas-sting-ageing-inflammation",
+   "skill": "cgas-sting-ageing-inflammation",
+   "no": "086",
+   "chapter": "immune",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自老年小鼠的用药实验。",
+   "title_zh": "把自己的 DNA 当敌人",
+   "line_zh": "给老年小鼠用药挡住一条感知 DNA 的炎症通路，多个器官和脑的炎症减轻，体力和记忆变好。",
+   "about_zh": "细胞质里出现本不该在那里的 DNA 时，一条叫 cGAS–STING 的通路会拉响炎症警报。老年小鼠注射它的抑制剂两个 8 周疗程后，握力、跑步耐力和记忆测试都变好；在减重手术取下的人脂肪组织里，抑制剂也压低了衰老细胞放出的炎症信号。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Gulen",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2023,
+    "doi": "10.1038/s41586-023-06373-1",
+    "preprint": false,
+    "coi_zh": "论文声明通讯作者是 IFM Due 公司的科学联合创始人；致谢写明 IFM Therapeutics 公司为研究提供了材料和数据。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 2893497685
+   }
+  },
+  {
+   "id": "s-hsc-inflammatory-memory",
+   "skill": "hsc-inflammatory-memory",
+   "no": "087",
+   "chapter": "immune",
+   "tier": "animal",
+   "tier_reason_zh": "一句话是把人造血干细胞移植进小鼠后做的炎症—恢复实验，属于动物实验；人群血样是附带的关联分析。",
+   "title_zh": "造血干细胞记得炎症",
+   "line_zh": "把人的造血干细胞移植进小鼠，经历炎症再恢复后，有一群干细胞仍带着炎症的分子印记。",
+   "about_zh": "研究者给移植了人造血干细胞的小鼠注射引发炎症的物质，恢复后找到一群更少分裂、带着炎症印记的干细胞，印记还会传给它造出的免疫细胞。428 名加拿大成人的血里，较年轻者中印记较多的人，用六项血常规算的死亡风险分偏高；年长组里这种关联很弱。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Zeng",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2026,
+    "doi": "10.1038/s41586-026-10522-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 3611679411
+   }
+  },
+  {
+   "id": "s-platelet-factors-ageing-cognition",
+   "skill": "platelet-factors-ageing-cognition",
+   "no": "088",
+   "chapter": "immune",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自老年雄性小鼠实验。",
+   "title_zh": "血小板因子与小鼠记忆",
+   "line_zh": "给老年雄性小鼠注射一种血小板放出的蛋白（血小板因子 4），脑部炎症减轻，记忆测试变好。",
+   "about_zh": "研究者先把年轻小鼠血浆中含血小板的部分输给老年小鼠，海马（管记忆的脑区）的炎症变轻。年轻小鼠和年轻人血液制备物里的血小板因子 4 比老年的高；24 天内给老年小鼠注射 8 次，海马和血浆里多种炎症指标下降，血浆 β2-微球蛋白没有下降。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Schroer",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2023,
+    "doi": "10.1038/s41586-023-06436-3",
+    "preprint": false,
+    "coi_zh": "加州大学已就这项研究申请临时专利（「血小板因子与认知改善」），两名并列第一作者和通讯作者是发明人。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 27367832
+   }
+  },
+  {
+   "id": "s-ramanomics-senescence",
+   "skill": "ramanomics-senescence",
+   "no": "089",
+   "chapter": "immune",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自年轻和年老小鼠的肺和皮肤组织。",
+   "title_zh": "给衰老细胞拍化学照",
+   "line_zh": "用不需染色的激光光谱给小鼠的肺和皮肤成像，两种组织里的衰老细胞带着同一个脂质光谱信号。",
+   "about_zh": "研究者把拉曼成像（用激光读出分子振动）和单细胞、空间基因表达对到同一块组织上，比较年轻和年老小鼠。衰老细胞在肺里偏向组织重塑，在皮肤里偏向表皮分化；小鼠伤口愈合时，衰老细胞的脂质信号也增强。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Zhang",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01219-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 886507152
+   }
+  },
+  {
+   "id": "s-ras-titration-senescent-state",
+   "skill": "ras-titration-senescent-state",
+   "no": "090",
+   "chapter": "immune",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自小鼠肝脏实验。",
+   "title_zh": "癌基因开多大，结局两样",
+   "line_zh": "在小鼠肝脏里，致癌基因 RAS 开得高，细胞衰老后被免疫清除；开得低，细胞躲过清除、长出肿瘤。",
+   "about_zh": "研究者在一种人视网膜来源的细胞系和小鼠肝细胞里，把突变的 RAS 基因调成高低几档。最高一档的肝细胞进入衰老、招来大量免疫细胞，基因导入后约第 12 到 30 天被清除；低档几乎招不来免疫细胞，后来长出肝脏肿瘤。",
+   "species": [
+    "cell_line",
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Chan",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2024,
+    "doi": "10.1038/s41586-024-07797-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 2162713451
+   }
+  },
+  {
+   "id": "s-paracrine-senescence-inflammation",
+   "skill": "paracrine-senescence-inflammation",
+   "no": "091",
+   "chapter": "immune",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自培养的人细胞和类器官实验。",
+   "title_zh": "新冠感染让邻居细胞衰老",
+   "line_zh": "在培养的人细胞和支气管类器官里，被新冠病毒感染的细胞让旁边未感染的细胞进入衰老样状态。",
+   "about_zh": "感染细胞放出的炎症因子是诱因，它们在感染后第 6 天达到高峰后回落；进入衰老样状态的细胞放出的另一些炎症因子，在病毒测不到后仍不消退。重症新冠后遗症患者的肺细胞里，衰老相关基因升高；感染的小鼠用清除衰老细胞的药后，肺里的衰老迹象减少。",
+   "species": [
+    "human",
+    "cell_line",
+    "other"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Tsuji",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2022,
+    "doi": "10.1038/s43587-022-00170-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 2711222305
+   }
+  },
+  {
+   "id": "s-replicative-senescence-proteome",
+   "skill": "replicative-senescence-proteome",
+   "no": "092",
+   "chapter": "immune",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自培养的人肺成纤维细胞。",
+   "title_zh": "细胞老了，蛋白怎么变",
+   "line_zh": "培养的人肺成纤维细胞反复分裂直到衰老，蛋白协同变化：染色质上的蛋白普遍减少。",
+   "about_zh": "研究者用质谱在分裂的不同阶段测了 5923 种蛋白，其中 14% 随衰老明显变化，65% 的变化是减少。负责造蛋白的机器也减少，线粒体蛋白更多变得不可溶，清理废旧蛋白的自噬和蛋白酶体功能变弱。",
+   "species": [
+    "cell_line"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Da Silva Fernandes",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-77686-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "immune",
+    "seed": 2217909020
+   }
+  },
+  {
+   "id": "s-blood-mtdna-mutation-accumulation",
+   "skill": "blood-mtdna-mutation-accumulation",
+   "no": "093",
+   "chapter": "repair",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自大规模人群血液测序的横断面比较。",
+   "title_zh": "血里的线粒体突变从哪来",
+   "line_zh": "在 73 万多人的血液测序里，60 岁以上的人线粒体 DNA 单个碱基的突变明显更多，类型像复制出错。",
+   "about_zh": "研究者用英美两个人群库的全基因组数据，数出血里线粒体 DNA 的低比例突变，类型不像常说的氧化损伤。他们的解释是：突变起初随机产生、测不出来，等某个血液干细胞的后代大量扩增后才显现；与突变多少相关的几个基因位点，也都和这种扩增有关。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Gupta",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2026,
+    "doi": "10.1038/s41586-026-10569-6",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 3631346308
+   }
+  },
+  {
+   "id": "s-mtdna-copy-number-heteroplasmy",
+   "skill": "mtdna-copy-number-heteroplasmy",
+   "no": "094",
+   "chapter": "repair",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自大规模人群血液测序的关联分析。",
+   "title_zh": "核基因也管线粒体",
+   "line_zh": "在 27 万多人的血液测序里，年纪越大的人线粒体 DNA 份数越少，份数还和许多核基因位点有关。",
+   "about_zh": "线粒体是细胞的「发电站」，自带一小段 DNA，每个细胞里有很多份。校正血细胞组成等因素后，份数大约每十年少 2%。单个碱基的线粒体突变多是后天产生，70 岁后急剧增多；大约每 192 人里有 1 人带有十种已知致病突变中的至少一种。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Gupta",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2023,
+    "doi": "10.1038/s41586-023-06426-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 1769111541
+   }
+  },
+  {
+   "id": "s-ampk-aldolase-aldometanib",
+   "skill": "ampk-aldolase-aldometanib",
+   "no": "095",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "延寿结果来自线虫和小鼠实验，作用机制在细胞里证明。",
+   "title_zh": "骗细胞「缺糖」的小分子",
+   "line_zh": "一种让细胞误以为缺糖、从而打开能量开关的小分子，延长了线虫和小鼠的寿命。",
+   "about_zh": "这种小分子堵住糖代谢酶「醛缩酶」上的一个位置，细胞随即打开感知能量不足的开关（AMPK）。小鼠从 1 岁起在饮水里给药，雌雄寿命都延长约 7%，雄性中位寿命从 796 天到 855 天。它还能降低雄性小鼠的血糖，不引起低血糖。",
+   "species": [
+    "mouse",
+    "c_elegans"
+   ],
+   "meet": [
+    "mouse",
+    "c_elegans"
+   ],
+   "source": {
+    "first_author": "Zhang",
+    "et_al": true,
+    "journal": "Nature Metabolism",
+    "year": 2022,
+    "doi": "10.1038/s42255-022-00640-7",
+    "preprint": false,
+    "coi_zh": "第一作者和两名通讯作者是这种化合物治疗用途专利的发明人。"
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 2101471017
+   }
+  },
+  {
+   "id": "s-ampk-gamma1-refeeding-longevity",
+   "skill": "ampk-gamma1-refeeding-longevity",
+   "no": "096",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自转基因绿松石鳉实验，人的部分只是血细胞里的关联。",
+   "title_zh": "老鱼吃饱了，脂肪还当饿着",
+   "line_zh": "绿松石鳉老了，能量开关里随进食调动的零件变少；让它保持活跃的转基因鱼代谢更好、更长寿。",
+   "about_zh": "绿松石鳉只活 6–7 个月。老鱼吃饱后，脂肪的基因表达仍像在挨饿；这个零件保持活跃的两种转基因鱼，中位寿命比普通鱼长 14% 和 20%。人的部分是关联：93 名 65–90 岁老人中，血细胞里这个零件的基因表达越低，衰弱评分越高。",
+   "species": [
+    "human",
+    "killifish"
+   ],
+   "meet": [
+    "killifish"
+   ],
+   "source": {
+    "first_author": "Ripa",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2023,
+    "doi": "10.1038/s43587-023-00521-y",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 997857501
+   }
+  },
+  {
+   "id": "s-chaperone-autophagy-tissue-aging",
+   "skill": "chaperone-autophagy-tissue-aging",
+   "no": "097",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自年轻和老年荧光标记小鼠的比较。",
+   "title_zh": "小鼠的蛋白回收，雌雄有别",
+   "line_zh": "在带荧光标记的小鼠里，一种「挑拣式」蛋白回收在多数器官随年龄减弱，雄鼠减得更多。",
+   "about_zh": "这种回收叫分子伴侣介导的自噬：细胞把带特定标签的蛋白逐个送进溶酶体（细胞的回收站）分解。研究者比较 4–6 月龄和 24–28 月龄的小鼠，按器官、细胞类型和性别统计。减弱常伴随能做这种回收的溶酶体变少；雌鼠的脂肪组织反而上升。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Khawaja",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-024-00799-6",
+    "preprint": false,
+    "coi_zh": "通讯作者之一 Cuervo 是 Life Biosciences 公司自噬项目的联合创始人和科学顾问。"
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 350729040
+   }
+  },
+  {
+   "id": "s-endothelial-cebpb-aep-nampt",
+   "skill": "endothelial-cebpb-aep-nampt",
+   "no": "098",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自转基因小鼠实验，人只有少量尸检样本。",
+   "title_zh": "血管里有个内鬼",
+   "line_zh": "小鼠血管内壁里的「剪刀」随年龄变活跃，剪坏造 NAD+（产能要用的分子）的酶，全身跟着变老。",
+   "about_zh": "「剪刀」是一种切蛋白的酶。血管内壁多表达它的雄鼠，中位寿命 518 天，普通雄鼠 769 天；在血管衰老加快的转基因小鼠里去掉「剪刀」，或把被剪的酶改成剪不断的版本，寿命延长。人的尸检样本里，年纪大的人血管内壁这条通路也偏高。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Li",
+    "et_al": true,
+    "journal": "Science Advances",
+    "year": 2026,
+    "doi": "10.1126/sciadv.aed1961",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 3514102479
+   }
+  },
+  {
+   "id": "s-grainyhead-drug-inducible-lifespan",
+   "skill": "grainyhead-drug-inducible-lifespan",
+   "no": "099",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "寿命结果来自线虫实验；人的部分只是基因表达和血糖的关联。",
+   "title_zh": "给线虫的长寿基因找钥匙",
+   "line_zh": "多表达一个调控基因的线虫平均寿命长 16.3%；能打开这个基因的三种化合物也让线虫更长寿。",
+   "about_zh": "研究者从 2560 种化合物里筛出能打开它的，再测线虫寿命：抗癌药伏立诺他、扩血管药罂粟碱和植物成分荜茇酰胺分别延长 12.3%、11.4% 和 10.7%。人的数据里，肌肉里这个基因表达高的人空腹血糖偏低。",
+   "species": [
+    "c_elegans"
+   ],
+   "meet": [
+    "c_elegans"
+   ],
+   "source": {
+    "first_author": "Grigolon",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2022,
+    "doi": "10.1038/s41467-021-27732-4",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 3347549215
+   }
+  },
+  {
+   "id": "s-hepassocin-ampk-liver-aging",
+   "skill": "hepassocin-ampk-liver-aging",
+   "no": "100",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自基因敲除的 12 月龄小鼠，人只有含量比较。",
+   "title_zh": "老肝少了一种自产蛋白",
+   "line_zh": "敲除一种肝脏自产蛋白的中年小鼠，肝细胞衰老更重、易积脂肪，切掉部分肝后再生很差。",
+   "about_zh": "这种蛋白由肝细胞分泌，12 月龄小鼠和老年人血里、肝里的含量都比年轻时低。它经一串信号打开肝细胞的能量开关（AMPK）。切掉三分之二的肝后，给缺它的小鼠用这个开关的激活剂，或给普通 12 月龄小鼠补这种蛋白，肝的再生都变好。",
+   "species": [
+    "mouse",
+    "human"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Yang",
+    "et_al": true,
+    "journal": "Signal Transduction and Targeted Therapy",
+    "year": 2026,
+    "doi": "10.1038/s41392-026-02773-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 4293678278
+   }
+  },
+  {
+   "id": "s-insulin-igf-pten-longevity",
+   "skill": "insulin-igf-pten-longevity",
+   "no": "101",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自线虫遗传实验，人只有体外酶活测定。",
+   "title_zh": "活得久，也要动得了",
+   "line_zh": "胰岛素信号调弱的线虫活得久但动得少；同一通路上一个蛋白再改一个氨基酸，长寿还在，运动变好。",
+   "about_zh": "在线虫里调弱胰岛素类信号，寿命和抗感染力会大增，但行动、生长和生殖常变差。筛到的这个突变保住了长寿和抗感染力，成年后行动变好。人体对应蛋白的同一突变，一种酶活性明显下降，另一种仍有正常蛋白的 57.3%；它见于一种罕见遗传综合征。",
+   "species": [
+    "c_elegans"
+   ],
+   "meet": [
+    "c_elegans"
+   ],
+   "source": {
+    "first_author": "Park",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2021,
+    "doi": "10.1038/s41467-021-25920-w",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 2704816764
+   }
+  },
+  {
+   "id": "s-mtdna-ribonucleotide-inflammation",
+   "skill": "mtdna-ribonucleotide-inflammation",
+   "no": "102",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自基因缺陷小鼠和老年小鼠，并在衰老细胞里验证。",
+   "title_zh": "线粒体 DNA 掺了「错砖」",
+   "line_zh": "造 DNA 的原料失衡时，线粒体 DNA 掺进 RNA 的「砖」，碎片漏出引发炎症；见于小鼠和衰老细胞。",
+   "about_zh": "DNA 本该用「脱氧」版的砖，原料失衡时会误掺 RNA 的砖。缺一种线粒体 DNA 修剪酶的小鼠，肾脏炎症随年龄加重，漏出线粒体的一段 DNA 碎片约为普通小鼠的五倍。普通老年小鼠多种组织里错掺也更多；给衰老细胞补「脱氧」原料能压低炎症。",
+   "species": [
+    "mouse",
+    "cell_line"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Bahat",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2025,
+    "doi": "10.1038/s41586-025-09541-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 285427260
+   }
+  },
+  {
+   "id": "s-rapamycin-early-adult-autophagy",
+   "skill": "rapamycin-early-adult-autophagy",
+   "no": "103",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自雌果蝇寿命实验，小鼠部分也是动物实验。",
+   "title_zh": "果蝇早吃药，好处留到老",
+   "line_zh": "雌果蝇只在成年后头 15 天吃雷帕霉素，延寿和护肠的效果就接近终身服用。",
+   "about_zh": "雷帕霉素是一种抑制细胞生长信号的处方药。短期用药后，雌果蝇肠道细胞的自噬（细胞的自我清理）一直偏高，好处由此留了下来。小鼠从 3 月龄起用药 3 个月，停药 6 个月后，肠道的多项改善仍然保持。",
+   "species": [
+    "drosophila",
+    "mouse"
+   ],
+   "meet": [
+    "drosophila",
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Juricic",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2022,
+    "doi": "10.1038/s43587-022-00278-w",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 1738702925
+   }
+  },
+  {
+   "id": "s-rapamycin-enterocyte-sex",
+   "skill": "rapamycin-enterocyte-sex",
+   "no": "104",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自果蝇寿命和遗传实验。",
+   "title_zh": "雷帕霉素偏爱雌果蝇",
+   "line_zh": "雷帕霉素延长了雌果蝇的寿命，雄果蝇没有延长；差别来自肠道细胞自身的性别。",
+   "about_zh": "雷帕霉素是一种抑制细胞生长信号的处方药。它增强雌果蝇肠道细胞的自噬（细胞的自我清理），延缓雌性特有的肠道老化，肠道细胞缩小到对照的约 75%，和雄果蝇相近。雄果蝇的自噬本来就高，吃药也不再升高。",
+   "species": [
+    "drosophila",
+    "mouse"
+   ],
+   "meet": [
+    "drosophila",
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Regan",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2022,
+    "doi": "10.1038/s43587-022-00308-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 1907087217
+   }
+  },
+  {
+   "id": "s-selective-senolytic-platform",
+   "skill": "selective-senolytic-platform",
+   "no": "105",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "一句话写的是小鼠体内的选择性清除，细胞实验是前期验证。",
+   "title_zh": "顺着「垃圾」找衰老细胞",
+   "line_zh": "衰老细胞里堆着一种色素「垃圾」；让药顺着它找上门，小鼠里能挑着清除衰老细胞、全身毒性小。",
+   "about_zh": "这种「垃圾」叫脂褐素。研究者把能抓脂褐素的分子和清衰老细胞常用的抗癌药达沙替尼连在一起，装进纳米胶束，药到了衰老细胞里才释放。细胞实验和小鼠实验里，它都能挑出衰老细胞清掉。",
+   "species": [
+    "cell_line",
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Magkouta",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00747-4",
+    "preprint": false,
+    "coi_zh": "文中的化合物正在申请专利，涉及包括通讯作者在内的两名作者。"
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 1679291268
+   }
+  },
+  {
+   "id": "s-senescent-glia-mitochondria-lipid",
+   "skill": "senescent-glia-mitochondria-lipid",
+   "no": "106",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自果蝇脑的实验。",
+   "title_zh": "线粒体出错，胶质跟着老",
+   "line_zh": "在老果蝇脑里，神经元的线粒体出问题会催生衰老的胶质细胞，后者又让别的胶质细胞堆积脂肪。",
+   "about_zh": "胶质细胞是脑里给神经元打下手的细胞。研究者用一种应激信号的活性找出衰老胶质，在老果蝇脑里只占约 1–3%。在它们里面压低这种信号，衰老标志和脂肪堆积减少，果蝇活得更久，但脑里的氧化损伤增加，神经元的线粒体仍然不好。",
+   "species": [
+    "drosophila"
+   ],
+   "meet": [
+    "drosophila"
+   ],
+   "source": {
+    "first_author": "Byrns",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2024,
+    "doi": "10.1038/s41586-024-07516-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 2120766338
+   }
+  },
+  {
+   "id": "s-senolytic-car-t-metabolic",
+   "skill": "senolytic-car-t-metabolic",
+   "no": "107",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自老年小鼠和高脂饮食小鼠实验。",
+   "title_zh": "专清衰老细胞的免疫细胞",
+   "line_zh": "把免疫细胞改造成专认衰老细胞的「导弹」，老年小鼠输一次，糖代谢和运动能力都变好。",
+   "about_zh": "研究者借用治疗某些血液癌症的免疫细胞改造技术，让它认出衰老细胞表面一种随年龄增多的蛋白。高脂饮食的小鼠也有类似改善。3 月龄小鼠输一次，12 个月后这些细胞仍在体内，老了血糖更好；运动能力的好处后来减弱。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Amor",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-023-00560-5",
+    "preprint": false,
+    "coi_zh": "第一作者等四名作者是这类清除衰老细胞的改造免疫细胞相关专利申请的发明人。"
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 1665587146
+   }
+  },
+  {
+   "id": "s-sirt1-hepatocyte-nampt",
+   "skill": "sirt1-hepatocyte-nampt",
+   "no": "108",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自肝细胞基因敲除和过表达的小鼠实验。",
+   "title_zh": "肝里一种酶，兵分两路",
+   "line_zh": "小鼠肝里一种酶护着糖脂代谢，只有部分作用要经过 SIRT1（一种调控基因开关的蛋白）。",
+   "about_zh": "这种酶负责制造 NAD+（细胞产能要用的分子）。肝细胞缺了它，小鼠禁食时调体温变差，更易出现饮食引起的血糖问题；多了它，肥胖小鼠的血糖和血脂改善。去掉 SIRT1 后，改善血糖血脂的作用还在，夜里产热和一种肝脏代谢激素升高的作用消失。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Higgins",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2022,
+    "doi": "10.1038/s41467-022-28717-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 3932333970
+   }
+  },
+  {
+   "id": "s-sirtuin2-opc-remyelination",
+   "skill": "sirtuin2-opc-remyelination",
+   "no": "109",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自提前衰老的基因缺陷小鼠实验。",
+   "title_zh": "早衰小鼠的「电线皮」修复",
+   "line_zh": "早衰小鼠注射 NAD+（产能要用的分子）的原料后，脑里受损的髓鞘（神经的「绝缘皮」）修复更好。",
+   "about_zh": "老年小鼠脑里，能长成髓鞘细胞的前体细胞中，细胞核里有 SIRT2（一种调控基因开关的蛋白）的只有年轻小鼠的约 1/3。一种基因缺陷、提前衰老的小鼠每天注射这种原料 3 个月，受损处重新包上髓鞘的神经纤维多了一倍。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Ma",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2022,
+    "doi": "10.1038/s41467-022-28844-1",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 2037739563
+   }
+  },
+  {
+   "id": "s-terpenoid-autophagy-sarcopenia",
+   "skill": "terpenoid-autophagy-sarcopenia",
+   "no": "110",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自斑马鱼筛选和早衰小鼠实验。",
+   "title_zh": "香料分子帮细胞大扫除",
+   "line_zh": "斑马鱼筛查发现百里香酚等香料分子能增强细胞的自我清理；早衰小鼠口服百里香酚，肌肉衰退变慢。",
+   "about_zh": "这种自我清理叫自噬。研究者在斑马鱼身上筛查食物里的分子，百里香和牛至里的百里香酚、香芹酚最强。早衰小鼠口服百里香酚 12 周，肌纤维横截面比对照大约 13%，骨骼肌按 DNA 化学标记估算的年龄低约 20%。",
+   "species": [
+    "zebrafish",
+    "mouse",
+    "cell_line"
+   ],
+   "meet": [
+    "zebrafish",
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Civiletto",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00957-4",
+    "preprint": false,
+    "coi_zh": "多名作者是食品公司雀巢旗下研究院的员工；雀巢已为相关成果申请专利，发明人包括本文作者。"
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 195203976
+   }
+  },
+  {
+   "id": "s-trigonelline-nad-precursor-muscle",
+   "skill": "trigonelline-nad-precursor-muscle",
+   "no": "111",
+   "chapter": "repair",
+   "tier": "animal",
+   "tier_reason_zh": "一句话写的是老年雄性小鼠的补充实验；人群部分只是关联。",
+   "title_zh": "葫芦巴碱与老年小鼠的肌肉",
+   "line_zh": "老年雄性小鼠的饲料里加葫芦巴碱后，握力和抗疲劳能力变好，最大肌肉收缩力没有变化。",
+   "about_zh": "葫芦巴碱是咖啡豆、葫芦巴籽里的一种天然分子，在线虫、小鼠和人的肌肉细胞里能变成 NAD+（细胞产能要用的分子）。老年雄性小鼠吃含它的饲料 12 周，肌肉随年龄变得易疲劳的程度减轻约一半。人群部分是关联：肌少症患者血里的葫芦巴碱偏低。",
+   "species": [
+    "human",
+    "cell_line"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Membrez",
+    "et_al": true,
+    "journal": "Nature Metabolism",
+    "year": 2024,
+    "doi": "10.1038/s42255-024-00997-x",
+    "preprint": false,
+    "coi_zh": "多名作者是食品公司雀巢旗下研究院的员工，研究经费部分来自雀巢。"
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 3696418295
+   }
+  },
+  {
+   "id": "s-mtdna-cell-level-selection",
+   "skill": "mtdna-cell-level-selection",
+   "no": "112",
+   "chapter": "repair",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自培养的人细胞系实验。",
+   "title_zh": "线粒体突变，看环境定去留",
+   "line_zh": "培养的人细胞里，改变蛋白的线粒体突变占比高时细胞被淘汰，不改蛋白的留下；去留还看环境。",
+   "about_zh": "研究者用基因编辑给细胞装上线粒体突变，再逐个细胞追踪。同一家族细胞的突变占比基本不变，变的是哪些细胞活下来：占比超过约 60% 的细胞家族 5 天内消失。糖源换成半乳糖时淘汰更狠，低氧则有缓冲。",
+   "species": [
+    "cell_line"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Kotrys",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2024,
+    "doi": "10.1038/s41586-024-07332-0",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 3821516016
+   }
+  },
+  {
+   "id": "s-senolytic-human-brain-aging",
+   "skill": "senolytic-human-brain-aging",
+   "no": "113",
+   "chapter": "repair",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自体外培养的人脑类器官。",
+   "title_zh": "给「迷你大脑」清衰老细胞",
+   "line_zh": "在培养 8 个月的人脑类器官里，清除衰老细胞的药减轻了炎症，按基因表达估算的年龄也下降。",
+   "about_zh": "类器官是用人的干细胞在培养皿里长出的「迷你大脑」，培养久了会积累衰老细胞。研究者试了三种清除衰老细胞的药物方案。另一部分实验里，这些药减少了新冠病毒在类器官里引起的衰老；感染新冠的转基因小鼠用药后病情更轻。",
+   "species": [
+    "cell_line",
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Aguado",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2023,
+    "doi": "10.1038/s43587-023-00519-6",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "repair",
+    "seed": 763630883
+   }
+  },
+  {
+   "id": "s-facial-skin-somatic-mutations",
+   "skill": "facial-skin-somatic-mutations",
+   "no": "114",
+   "chapter": "tissue",
+   "tier": "human",
+   "tier_reason_zh": "比较两国供者皮肤样本的横断面研究。",
+   "title_zh": "两国人眼皮里的突变",
+   "line_zh": "11 位中老年人的眼睑皮肤测序：英国人的突变负荷约是新加坡人的 4 倍，多为紫外线造成的类型。",
+   "about_zh": "研究者测了新加坡 5 人（平均 62 岁）眼睑整形时切下的皮肤，与此前测过的英国 6 人（平均 68 岁）比较。估算的突变负荷：英国人每百万个碱基 6.3 个，新加坡人 1.6 个。新加坡日照更强，皮肤癌却少得多，研究者推测与遗传差异有关。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "King",
+    "et_al": true,
+    "journal": "Nature Genetics",
+    "year": 2023,
+    "doi": "10.1038/s41588-023-01468-x",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 1185046169
+   }
+  },
+  {
+   "id": "s-human-skeletal-muscle-aging-atlas",
+   "skill": "human-skeletal-muscle-aging-atlas",
+   "no": "115",
+   "chapter": "tissue",
+   "tier": "human",
+   "tier_reason_zh": "年轻与年老供者肌肉样本的横断面比较。",
+   "title_zh": "人肌肉的衰老图谱",
+   "line_zh": "比较年轻人和老年人的肋间肌细胞：老人的一类快肌纤维几乎消失，慢肌纤维占比上升。",
+   "about_zh": "研究者取 17 位已故器官捐献者（约 20–40 岁 8 位、60–75 岁 9 位）的肋间肌，逐个细胞测基因活性。老人肌肉里一类肌肉干细胞减少最明显，制造核糖体（细胞里造蛋白质的机器）的基因活性下降；与神经肌肉接头有关的细胞核增多。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Kedlian",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00613-3",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 3590105385
+   }
+  },
+  {
+   "id": "s-single-cell-somatic-mutational",
+   "skill": "single-cell-somatic-mutational",
+   "no": "116",
+   "chapter": "tissue",
+   "tier": "human",
+   "tier_reason_zh": "来自不同年龄供者软骨样本的横断面分析。",
+   "title_zh": "软骨细胞也在攒突变",
+   "line_zh": "年纪越大的人，髋部软骨细胞里的突变越多；骨关节炎患者的软骨里增加得反而更慢。",
+   "about_zh": "研究者从 17 位 26–90 岁的人的髋部股骨头软骨里取出 100 个软骨细胞，逐个测全基因组。按年龄算，每个细胞每年约多 33 个单碱基突变；分组看，没有骨关节炎的人约 56 个，骨关节炎病灶处约 19 个。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Ren",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-01011-z",
+    "preprint": false,
+    "coi_zh": "三位作者（含通讯作者）创办了做单细胞测序和突变检测的公司并持股。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 2265229646
+   }
+  },
+  {
+   "id": "s-tcell-age-molecular-reprogramming",
+   "skill": "tcell-age-molecular-reprogramming",
+   "no": "117",
+   "chapter": "tissue",
+   "tier": "human",
+   "tier_reason_zh": "女孩与年长女性血样的横断面比较。",
+   "title_zh": "随年龄变少的 T 细胞",
+   "line_zh": "11–13 岁女孩与 55–65 岁女性的 T 细胞：一类新发现的亚群在女孩中多，在年长女性中少得多。",
+   "about_zh": "研究者用一种能同时读基因表达、表面蛋白和染色质状态的单细胞方法，分析了两组各 8 人血液里的 32 万多个 T 细胞。在「初始」杀伤性 T 细胞里，这类亚群在女孩中占 3.3%，在年长女性中占 0.8%；初始辅助 T 细胞也有明显改变。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Thomson",
+    "et_al": true,
+    "journal": "Nature Immunology",
+    "year": 2023,
+    "doi": "10.1038/s41590-023-01641-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 3181733429
+   }
+  },
+  {
+   "id": "s-aged-skin-il36-osteoarthritis",
+   "skill": "aged-skin-il36-osteoarthritis",
+   "no": "118",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自雄性小鼠实验。",
+   "title_zh": "老皮肤拖累关节",
+   "line_zh": "雄性小鼠实验：年老皮肤里一种「炎症刹车」蛋白减少，促炎因子进到关节，加重骨关节炎。",
+   "about_zh": "这种刹车蛋白在早衰皮肤小鼠、老年小鼠和老年骨关节炎患者的表皮里都偏少。在小鼠皮肤细胞里敲掉它，骨关节炎更重；把装有它或一种治脓疱型银屑病的抗体药的微针贴进皮肤，骨关节炎减轻。体外测试中，微针一周放出所装蛋白的约 73%。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Chen",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-68399-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 1653530200
+   }
+  },
+  {
+   "id": "s-ddx5-cartilage-fibrosis",
+   "skill": "ddx5-cartilage-fibrosis",
+   "no": "119",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自软骨细胞敲除这个基因的小鼠实验。",
+   "title_zh": "少了它，软骨长成疤",
+   "line_zh": "小鼠实验：软骨细胞缺了一种叫 DDX5 的蛋白，骨关节炎时软骨更易纤维化，损伤更重。",
+   "about_zh": "人骨关节炎软骨里这种蛋白明显减少。研究者在小鼠软骨细胞里敲掉它，像疤一样的Ⅰ型胶原增多，正常软骨的Ⅱ型胶原减少，降解软骨的酶也增多。它是通过改变几种基因转录本的拼接方式起作用的。",
+   "species": [
+    "mouse",
+    "cell_line"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Liu",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00624-0",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 247704683
+   }
+  },
+  {
+   "id": "s-elastin-fragments-innate-aging",
+   "skill": "elastin-fragments-innate-aging",
+   "no": "120",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "缩短寿命和激活免疫的主结论来自小鼠实验，人群数据只显示碎片随年龄升高。",
+   "title_zh": "弹性蛋白碎片催老",
+   "line_zh": "小鼠实验：弹性蛋白分解出的碎片会激活免疫细胞、引发炎症，让小鼠的寿命变短。",
+   "about_zh": "弹性蛋白让皮肤和血管有弹性。在 1068 人的队列里，血清中这类碎片随年龄升高。小鼠实验中，碎片里的一段短肽经神经氨酸酶（弹性蛋白受体的一部分）激活单核细胞和巨噬细胞（两类免疫细胞）；用药抑制这种酶，自然衰老小鼠的寿命最多延长 17%。",
+   "species": [
+    "human",
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Yi",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00961-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 436344722
+   }
+  },
+  {
+   "id": "s-foxo3-osteoarthritis-ferroptosis",
+   "skill": "foxo3-osteoarthritis-ferroptosis",
+   "no": "121",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自高脂饮食小鼠实验。",
+   "title_zh": "胖出来的关节炎",
+   "line_zh": "高脂饮食喂胖的小鼠关节软骨退化；往关节里送入一种叫 FOXO3 的应激基因，退化减轻。",
+   "about_zh": "肥胖小鼠的软骨细胞、破骨细胞和骨髓干细胞里 DNA 损伤增多。研究者用病毒把 FOXO3 送进关节，软骨退化减轻；关节软骨下方骨里破骨细胞过度生成，与一种叫「铁死亡」的细胞死亡方式有关。人关节置换取下的样本也做了验证。",
+   "species": [
+    "mouse",
+    "cell_line"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Zhao",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2025,
+    "doi": "10.1038/s41467-025-59883-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 947046402
+   }
+  },
+  {
+   "id": "s-hgps-skin-base-editor",
+   "skill": "hgps-skin-base-editor",
+   "no": "122",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自早衰症模型小鼠实验。",
+   "title_zh": "给早衰皮肤改一个字母",
+   "line_zh": "儿童早衰症小鼠实验：短暂送入一种基因编辑工具，改正部分皮肤细胞的突变后，皮肤状况改善。",
+   "about_zh": "儿童早衰症源于一个基因上单个字母的突变，会产生有害的早衰蛋白。研究者用不整合进基因组的病毒短暂送入编辑工具，校正了 20.8–24.1% 的小鼠皮肤细胞；四周后皮肤状况改善，还出现成片不含早衰蛋白的表皮细胞。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Whisenant",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2022,
+    "doi": "10.1038/s41467-022-30800-y",
+    "preprint": false,
+    "coi_zh": "一位作者是一家基因编辑公司的创始人和股东。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 343196193
+   }
+  },
+  {
+   "id": "s-iron-fibrosis-senescence",
+   "skill": "iron-fibrosis-senescence",
+   "no": "123",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "铁推动衰老和纤维化的主结论来自小鼠和细胞实验，人体只有少量组织和磁共振数据。",
+   "title_zh": "铁越积越多，组织结疤",
+   "line_zh": "小鼠实验：血管或溶血损伤后铁在组织里堆积，推动细胞衰老和纤维化（组织结疤变硬）。",
+   "about_zh": "研究者在多种纤维化小鼠和病人的组织里都看到铁堆积；衰老细胞在外部铁恢复正常后仍持续囤铁，并分泌更多炎症因子。在 13 名移植肾患者里，纤维化较重的人，磁共振测到的肾皮质铁信号更高。",
+   "species": [
+    "mouse",
+    "human"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Maus",
+    "et_al": true,
+    "journal": "Nature Metabolism",
+    "year": 2023,
+    "doi": "10.1038/s42255-023-00928-2",
+    "preprint": false,
+    "coi_zh": "通讯作者之一持有几家衰老细胞疗法和抗衰老公司的股份，并任其中两家的顾问。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 3966456352
+   }
+  },
+  {
+   "id": "s-muscle-chaperone-autophagy",
+   "skill": "muscle-chaperone-autophagy",
+   "no": "124",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "敲掉和调高这条通路的主结论来自小鼠实验，人体肌肉样本只作佐证。",
+   "title_zh": "肌肉回收站老了",
+   "line_zh": "小鼠实验：肌肉里一种专挑特定蛋白分解的通路随年龄变弱；敲掉它，肌肉逐渐病变、力气变小。",
+   "about_zh": "这条通路叫分子伴侣介导的自噬，饥饿、运动和损伤修复时会加强。研究者用基因手段在老年小鼠里把它调高，肌肉的衰老表现部分减轻。在健康人的肌肉样本里，按蛋白水平估算的这条通路活性在男性中随年龄下降，65 岁以后降得最陡。",
+   "species": [
+    "mouse",
+    "human"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Santiago-Fernández",
+    "et_al": true,
+    "journal": "Nature Metabolism",
+    "year": 2025,
+    "doi": "10.1038/s42255-025-01412-9",
+    "preprint": false,
+    "coi_zh": "通讯作者在部分研究期间是一家公司自噬研发项目的联合创始人和科学顾问。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 1814047619
+   }
+  },
+  {
+   "id": "s-muscle-regeneration-lifespan",
+   "skill": "muscle-regeneration-lifespan",
+   "no": "125",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自不同年龄小鼠的肌肉损伤实验。",
+   "title_zh": "老肌肉伤处的衰老干细胞",
+   "line_zh": "小鼠实验：年老和高龄小鼠的肌肉受伤后，伤处出现更多带衰老特征的肌肉干细胞。",
+   "about_zh": "研究者用毒素损伤约 5、20 和 26 月龄小鼠的小腿前侧肌肉，在修复的多个时间点逐个细胞测基因活性，并画出切片上的基因地图。8 类免疫细胞的进退节奏随年龄提前或拖后；带衰老特征的干细胞只在老龄肌肉的损伤区明显增多。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Walter",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00756-3",
+    "preprint": false,
+    "coi_zh": "一位作者持有一家清除衰老细胞药物公司的股份，此前担任其顾问。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 418151743
+   }
+  },
+  {
+   "id": "s-muscle-regeneration-somatic-mutation",
+   "skill": "muscle-regeneration-somatic-mutation",
+   "no": "126",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自基因改造小鼠的肌肉损伤实验。",
+   "title_zh": "突变攒多了，肌肉修不好",
+   "line_zh": "小鼠实验：让肌肉干细胞积累更多后天基因突变，肌肉反复受伤后再生变差、握力下降。",
+   "about_zh": "研究者在小鼠肌肉干细胞里删掉两个修复 DNA 的基因，再让肌肉连续受伤三轮，突变便随每次再生累积。这些小鼠的肌纤维更细，肌肉长得少，握力下降。另一种突变增多而 DNA 损伤较轻的小鼠也有类似问题。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Vrtačnik",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00941-y",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 3811326809
+   }
+  },
+  {
+   "id": "s-parabiosis-brain-transcriptome",
+   "skill": "parabiosis-brain-transcriptome",
+   "no": "127",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自异龄小鼠连体实验。",
+   "title_zh": "连体之后，脑细胞变了",
+   "line_zh": "年轻与年老小鼠连体共享血液后，老年鼠多类脑细胞的基因表达往年轻方向变，年轻鼠的往老方向变。",
+   "about_zh": "研究者把年轻和年老小鼠手术连在一起，再对脑做单细胞测序，共分析 10 万多个细胞、31 类主要细胞。脑血管内壁的内皮细胞变化最明显。有 41 个基因在老年和年轻小鼠身上朝相反方向变化。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Ximerakis",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2023,
+    "doi": "10.1038/s43587-023-00373-6",
+    "preprint": false,
+    "coi_zh": "通讯作者之一创办了几家开发神经系统等疾病疗法的公司并持股，还是一家血浆蛋白公司的顾问。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 116508929
+   }
+  },
+  {
+   "id": "s-parabiosis-noncoding-rna-aging",
+   "skill": "parabiosis-noncoding-rna-aging",
+   "no": "128",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自小鼠多器官测序和连体实验。",
+   "title_zh": "各器官各老各的",
+   "line_zh": "小鼠 16 个器官的衰老变化大多各走各的，只有 8 种调控基因的微小 RNA 在多个器官里一起变。",
+   "about_zh": "研究者在 1 到 27 月龄的十个时间点采集小鼠 16 个器官的 771 份样本，测其中不编码蛋白质的 RNA。这 8 种微小 RNA 在血浆里也测得到；其中随年龄变化最明显的一种，在老年小鼠与年轻小鼠连体后，肝脏里的水平回到接近年轻小鼠。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Wagner",
+    "et_al": true,
+    "journal": "Nature Biotechnology",
+    "year": 2024,
+    "doi": "10.1038/s41587-023-01751-6",
+    "preprint": false,
+    "coi_zh": "通讯作者之一是一家开发血液非编码 RNA 检测的公司的科学顾问。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 1264609703
+   }
+  },
+  {
+   "id": "s-planarian-regeneration-rejuvenation",
+   "skill": "planarian-regeneration-rejuvenation",
+   "no": "129",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自涡虫实验。",
+   "title_zh": "老涡虫重新长一遍",
+   "line_zh": "老年的有性涡虫被截掉一部分、重新长出来后，新旧组织里的多种衰老变化都退了回去。",
+   "about_zh": "这种涡虫出生后 18 个月内就会长出多余的眼睛，生育力和活动力下降，氧化压力升高。4–7 月龄涡虫的卵囊平均有 59% 能孵化，12–24 月龄约 6%，18–24 月龄的截肢再生后回到 58%。离伤口较远的旧组织也出现了同样的回退。",
+   "species": [
+    "planarian"
+   ],
+   "meet": [
+    "planarian"
+   ],
+   "source": {
+    "first_author": "Dai",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00847-9",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 70459194
+   }
+  },
+  {
+   "id": "s-senescent-macrophage-muscle-atrophy",
+   "skill": "senescent-macrophage-muscle-atrophy",
+   "no": "130",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "衰老巨噬细胞诱发铁死亡的主结论来自骨关节炎小鼠实验，人体只有 15 人的肌肉测量。",
+   "title_zh": "关节炎旁的肌肉为何变细",
+   "line_zh": "骨关节炎小鼠的大腿肌肉里，衰老的巨噬细胞诱发肌细胞「铁死亡」，加重肌肉萎缩。",
+   "about_zh": "15 名单侧膝骨关节炎患者，患侧大腿围比另一侧小约 18 毫米，力量也更弱。在小鼠里，肌肉中的巨噬细胞（一类免疫细胞）随病程逐渐衰老，诱使肌细胞因铁过多、脂质被氧化而死亡；给小鼠用辅酶 Q10 后，肌萎缩减轻。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Xiang",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00907-0",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 1512957119
+   }
+  },
+  {
+   "id": "s-skin-il17-aging",
+   "skill": "skin-il17-aging",
+   "no": "131",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自老年小鼠实验。",
+   "title_zh": "老皮肤里的炎症信号",
+   "line_zh": "老年小鼠皮肤里的免疫细胞多分泌炎症因子白介素 17；阻断它 12 周，部分老化表现推迟。",
+   "about_zh": "研究者对小鼠真皮做单细胞测序：老年小鼠（80–90 周龄，成年组 17–25 周龄）皮肤里的几类淋巴细胞偏向分泌白介素 17 这种炎症因子。从 73 周龄起每周注射三次中和抗体、持续 12 周，皮肤炎症减轻。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Solá",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2023,
+    "doi": "10.1038/s43587-023-00431-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 2639732679
+   }
+  },
+  {
+   "id": "s-urinary-senescence-fibrosis-probe",
+   "skill": "urinary-senescence-fibrosis-probe",
+   "no": "132",
+   "chapter": "tissue",
+   "tier": "animal",
+   "tier_reason_zh": "检测效果在小鼠肺肿瘤和肺纤维化模型里验证，人体样本只用来挑选标志物。",
+   "title_zh": "验尿查衰老细胞",
+   "line_zh": "小鼠实验：注射一种纳米探针后验尿，可以跟踪肺部肿瘤和肺纤维化里衰老细胞的多少。",
+   "about_zh": "探针由人血清白蛋白连着金纳米团簇，中间的肽链能被衰老细胞分泌的一种酶切开。切下的金团簇经肾排进尿里，再用变色反应读出。研究者用它跟踪了化疗引起的细胞衰老，以及清除衰老细胞的药物效果。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Hartono",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2026,
+    "doi": "10.1038/s43587-026-01116-z",
+    "preprint": false,
+    "coi_zh": "两位通讯作者在内的三位作者参与一家开发新一代清除衰老细胞药物的衍生公司。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 1358642723
+   }
+  },
+  {
+   "id": "s-cardiac-ageing-matrix-mechanics",
+   "skill": "cardiac-ageing-matrix-mechanics",
+   "no": "133",
+   "chapter": "tissue",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自培养在支架上的小鼠心脏细胞。",
+   "title_zh": "心脏变硬，还是基质变了",
+   "line_zh": "体外实验：小鼠心脏成纤维细胞长在年轻心脏的基质上，即使支架偏硬，也更能保持静止、不去造疤。",
+   "about_zh": "研究者把年轻或年老小鼠心脏去掉细胞后的基质嵌进可调软硬的水凝胶。用纳米压痕测，年老心脏组织的硬度均值是 38.6 千帕，约为年轻心脏（13.1 千帕）的 3 倍。年轻基质的成分信号能压过偏硬带来的造疤信号。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Sun",
+    "et_al": true,
+    "journal": "Nature Materials",
+    "year": 2025,
+    "doi": "10.1038/s41563-025-02234-6",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 2887632052
+   }
+  },
+  {
+   "id": "s-dermal-fibroblast-aging-cytometry",
+   "skill": "dermal-fibroblast-aging-cytometry",
+   "no": "134",
+   "chapter": "tissue",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自培养的人皮肤细胞。",
+   "title_zh": "给皮肤细胞逐个验老",
+   "line_zh": "体外实验：一种纳米传感器能在不伤细胞的情况下，逐个读出培养的人皮肤成纤维细胞的老化特征。",
+   "about_zh": "培养的人真皮成纤维细胞流过一排近红外纳米传感器，被读出大小、形状、折射率和过氧化氢外流四项特征，约 1 小时能测 10 万个细胞。第 5 代细胞作年轻对照，第 15 代作衰老参照，用途是给再生医学挑细胞。",
+   "species": [
+    "cell_line"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Song",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2025,
+    "doi": "10.1038/s41467-025-61590-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 3305479821
+   }
+  },
+  {
+   "id": "s-lamin-cysteine-epigenome-reprogramming",
+   "skill": "lamin-cysteine-epigenome-reprogramming",
+   "no": "135",
+   "chapter": "tissue",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自培养的小鼠胚胎干细胞。",
+   "title_zh": "核纤层蛋白管着半胱氨酸",
+   "line_zh": "小鼠胚胎干细胞实验：核纤层蛋白缺失或带早衰突变，都会改变半胱氨酸的代谢去向和干细胞的走向。",
+   "about_zh": "核纤层蛋白衬在细胞核内壁，它的突变会导致儿童早衰症。没有它时，更多半胱氨酸（一种氨基酸）被转化成给包裹 DNA 的蛋白加化学标记的原料，干细胞提前走向下一发育阶段；早衰突变则让这条通路变弱。调节两种相关的酶能纠正这些异常。",
+   "species": [
+    "mouse",
+    "cell_line"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Wang",
+    "et_al": true,
+    "journal": "Nature Metabolism",
+    "year": 2026,
+    "doi": "10.1038/s42255-025-01443-2",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "tissue",
+    "seed": 361828722
+   }
+  },
+  {
+   "id": "s-cell-type-polygenic-regulome",
+   "skill": "cell-type-polygenic-regulome",
+   "no": "136",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "方法研究，主结论来自人的基因关联数据和人中脑单细胞数据。",
+   "title_zh": "疾病基因在哪类细胞起作用",
+   "line_zh": "新方法合并人群基因数据和单细胞数据，在人中脑里找出 77 组与帕金森病有关的衰老调控网络。",
+   "about_zh": "每组「调控网络」是一个管基因开关的蛋白，加上它控制的一批基因。研究者先用 31 种免疫和衰老相关性状的基因数据检验这个方法，再用到人中脑上：这 77 组网络分布在 7 类脑细胞里。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Ma",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-01027-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 502604202
+   }
+  },
+  {
+   "id": "s-centenarian-longevity-genes",
+   "skill": "centenarian-longevity-genes",
+   "no": "137",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "病例对照研究，比较百岁老人和对照的基因。",
+   "title_zh": "百岁老人少了坏突变",
+   "line_zh": "阿什肯纳兹犹太人里，百岁老人身上「让基因失灵」的罕见突变比对照少 11–22%。",
+   "about_zh": "研究者比较 338 位百岁老人和 420 位对照的全部基因编码区。逐个基因看，35 个基因的这类突变在百岁老人里明显更少，其中 14 个在英国生物样本库的父母寿命数据里也得到佐证。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Ying",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2024,
+    "doi": "10.1038/s41467-024-52967-2",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 3126609624
+   }
+  },
+  {
+   "id": "s-cpic-pharmacogenomics",
+   "skill": "cpic-pharmacogenomics",
+   "no": "138",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "专家共识研究，对象是人的药物基因检测报告用语。",
+   "title_zh": "药物基因报告的统一用语",
+   "line_zh": "药物基因检测报告各家用词不一，一个指南联盟请专家做了五轮问卷，定下「慢代谢型」等统一说法。",
+   "about_zh": "这个联盟叫临床药物基因组学实施联盟（CPIC）。最后定下一套描述基因变异功能的词，如功能正常、功能下降、无功能；另有三套描述检测结论的词，分别用于代谢酶、转运蛋白和高风险基因型。此后 CPIC 新出和更新的指南都用这套词。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Caudle",
+    "et_al": true,
+    "journal": "Genetics in Medicine",
+    "year": 2017,
+    "doi": "10.1038/gim.2016.87",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 874183677
+   }
+  },
+  {
+   "id": "s-human-longevity-progress-review",
+   "skill": "human-longevity-progress-review",
+   "no": "139",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "人群研究，用 450 个地区的死亡统计分析寿命趋势。",
+   "title_zh": "寿命涨慢了，领先地区例外",
+   "line_zh": "西欧 450 个地区的死亡数据：2005 年后，落后地区的预期寿命增长放慢，领先地区仍稳定增长。",
+   "about_zh": "研究者比较 1992–2019 年各地区的预期寿命。1992–2005 年各地普遍快速增长，落后地区追得最快。之后的放慢和 55–74 岁人群死亡率上升紧密相关，德国和法国的大片地区尤其明显。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Bonnet",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-68828-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 1592358303
+   }
+  },
+  {
+   "id": "s-human-ovarian-aging-foxp1",
+   "skill": "human-ovarian-aging-foxp1",
+   "no": "140",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "主结论来自不同年龄女性卵巢组织的横断面比较。",
+   "title_zh": "卵巢变老，基因开关变弱",
+   "line_zh": "人卵巢细胞图谱里，年长组的基因开关 FOXP1 比年轻组低，多种细胞的衰老信号更强。",
+   "about_zh": "研究者把 15 位因宫颈癌或子宫内膜癌手术切下的卵巢分成 18–28、36–39、47–49 岁三组，逐个细胞测基因活动并在切片上定位八种细胞。细胞实验显示 FOXP1 能压住一个促衰老基因；在小鼠里敲掉 FOXP1，卵巢会提早衰退。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Wu",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00607-1",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 2390922823
+   }
+  },
+  {
+   "id": "s-human-ovarian-aging-multiomics",
+   "skill": "human-ovarian-aging-multiomics",
+   "no": "141",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "横断面比较，用的是年轻和年长女性的卵巢组织。",
+   "title_zh": "老卵巢里的生长信号",
+   "line_zh": "4 位 49–54 岁女性的卵巢和 4 位 23–29 岁的相比，一条推动细胞生长的信号通路 mTOR 更活跃。",
+   "about_zh": "研究者逐个细胞核测基因活动和 DNA 的开放程度，找到 3,455 个随年龄改变的基因。年长组卵巢里包裹卵子的颗粒细胞和卵泡膜细胞比例更低；mTOR 的变化在卵巢比其他组织更突出。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Jin",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00762-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 1019166161
+   }
+  },
+  {
+   "id": "s-iief5-erectile-function",
+   "skill": "iief5-erectile-function",
+   "no": "142",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "问卷研究，在 1152 名男性里定出切点和分档。",
+   "title_zh": "五道题测勃起功能",
+   "line_zh": "从 15 题的勃起功能问卷里选出 5 题，男性自评总分以 21 分为界，最能区分有无勃起功能障碍。",
+   "about_zh": "研究者在 1152 名男性（1036 名勃起功能障碍患者、116 名对照）里检验这份简版问卷。以 21 分为界，98% 的患者被识别出来，对照里 88% 判为正常。总分 5–25 分，另分成从无到重度的五档。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Rosen",
+    "et_al": true,
+    "journal": "International Journal of Impotence Research",
+    "year": 1999,
+    "doi": "10.1038/sj.ijir.3900472",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 2742989676
+   }
+  },
+  {
+   "id": "s-multiomic-human-longevity",
+   "skill": "multiomic-human-longevity",
+   "no": "143",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "人群遗传学研究，用的是人的基因关联汇总数据。",
+   "title_zh": "甲基化年龄背后的基因",
+   "line_zh": "整合多种人群基因数据，找到 22 个和「甲基化年龄偏快」有关、7 个和长寿有关的高可信基因关联。",
+   "about_zh": "甲基化年龄是用 DNA 上的化学标记估算的生物年龄。研究者用基因数据推算各组织的基因活跃程度，对照四种甲基化时钟和一个综合健康寿命、寿命与极端长寿的指标。FLOT1、KPNA4、TMX2 三个基因是新发现。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Mavromatis",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2023,
+    "doi": "10.1038/s41467-023-37729-w",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 1636147632
+   }
+  },
+  {
+   "id": "s-nutrigenetic-variant-panel",
+   "skill": "nutrigenetic-variant-panel",
+   "no": "144",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "综述，汇总的是日本和中国台湾的病例对照研究。",
+   "title_zh": "喝酒脸红与食管癌",
+   "line_zh": "日本和中国台湾的病例对照研究里，带一份「喝酒脸红」型基因的饮酒者，食管鳞癌明显更常见。",
+   "about_zh": "这是一篇综述。脸红是因为分解乙醛（酒精代谢出的有毒物质）的酶 ALDH2 活性低。喝酒量相近时，带一份脸红型基因的人得食管鳞癌的几率是基因正常者的 3.7–18.1 倍；带两份的人几乎喝不了酒，反而没有这份额外风险。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Brooks",
+    "et_al": true,
+    "journal": "PLoS Medicine",
+    "year": 2009,
+    "doi": "10.1371/journal.pmed.1000050",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 3378517739
+   }
+  },
+  {
+   "id": "s-ovarian-ageing-cancer-mutation",
+   "skill": "ovarian-ageing-cancer-mutation",
+   "no": "145",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "人群队列里的基因关联研究。",
+   "title_zh": "绝经年龄和癌症的共同基因",
+   "line_zh": "英国生物样本库的基因数据：天生带 SAMHD1 受损突变的女性绝经更晚，男女携带者患癌也都更常见。",
+   "about_zh": "研究者在 10.7 万名英国女性里查罕见突变，找到几个和绝经年龄有关的基因。ZNF518A 基因带截短突变的人绝经平均早 5.61 年；SAMHD1 受损者绝经晚 1.35 年，患癌几率女性约为不携带者的 1.6 倍，男性约 2.1 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Stankovic",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2024,
+    "doi": "10.1038/s41586-024-07931-x",
+    "preprint": false,
+    "coi_zh": "一位通讯作者收取过一家女性激素与生育力检测公司的咨询费。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 3803571864
+   }
+  },
+  {
+   "id": "s-polygenic-gut-metagenomic-risk",
+   "skill": "polygenic-gut-metagenomic-risk",
+   "no": "146",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "人群队列研究。",
+   "title_zh": "基因加菌群，预测略准一点",
+   "line_zh": "芬兰 5676 人的队列：在常规危险因素外加上基因风险分和肠道菌群分，四种病的预测都略准一些。",
+   "about_zh": "四种病是冠心病、2 型糖尿病、阿尔茨海默病和前列腺癌。预测准确度以 0.5 为瞎猜、1 为全对：冠心病从只用常规因素的 0.771 升到 0.794，2 型糖尿病从 0.785 升到 0.799。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Liu",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00590-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 2117864002
+   }
+  },
+  {
+   "id": "s-testis-transcriptomic-atlas-lifespan",
+   "skill": "testis-transcriptomic-atlas-lifespan",
+   "no": "147",
+   "chapter": "gene",
+   "tier": "human",
+   "tier_reason_zh": "横断面研究，比较不同年龄捐献者的睾丸组织。",
+   "title_zh": "睾丸里先老的是配角细胞",
+   "line_zh": "21–69 岁男性的睾丸细胞图谱里，生精细胞周围的体细胞随年龄变化，比生精细胞本身更明显。",
+   "about_zh": "研究者测了 35 位已故器官捐献者的 21 万多个睾丸细胞的基因活动。第一波变化见于 30 多岁组，包在生精小管外的管周细胞已有改变；第二波在 50 多岁组，造睾酮的莱迪希细胞和巨噬细胞功能改变。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Cui",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00824-2",
+    "preprint": false,
+    "coi_zh": "三位作者（含两位通讯作者）创办了一家研究男性生殖细胞生长与分化的生物技术公司，另一位作者是该公司员工。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 3892925573
+   }
+  },
+  {
+   "id": "s-cd38-ovarian-aging",
+   "skill": "cd38-ovarian-aging",
+   "no": "148",
+   "chapter": "gene",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自小鼠实验。",
+   "title_zh": "卵巢先老的一个推手",
+   "line_zh": "8 个月大的中年小鼠，卵巢里分解 NAD+（细胞产能要用的分子）的酶 CD38 增多，其他器官还没变。",
+   "about_zh": "研究者比较 2 个月和 8 个月大小鼠的卵巢、肝、肌肉、脑、心、肾、肺，只有卵巢出现 CD38 升高、NAD+ 下降。敲除 CD38 的小鼠老了仍保留更多卵泡和生育力；给中年小鼠用 CD38 抑制剂，生育力也更好。",
+   "species": [
+    "mouse",
+    "human"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Yang",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2023,
+    "doi": "10.1038/s43587-023-00532-9",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 3608818327
+   }
+  },
+  {
+   "id": "s-foxo-oser1-oxidative-lifespan",
+   "skill": "foxo-oser1-oxidative-lifespan",
+   "no": "149",
+   "chapter": "gene",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自家蚕、线虫和果蝇实验，人群数据只是附带的变异关联。",
+   "title_zh": "蚕、线虫和果蝇的长寿蛋白",
+   "line_zh": "家蚕、线虫和果蝇多造一种抗氧化损伤的蛋白 OSER1 后，寿命都变长；少造则变短。",
+   "about_zh": "OSER1 受一类和长寿有关的基因开关蛋白 FOXO 调控。多了它的果蝇更扛得住氧化、饥饿和高温。人群部分查了这个基因上的 49 个常见变异，有 2 个和长寿的关联在多重比较校正后仍成立。",
+   "species": [
+    "human",
+    "multi_species"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Song",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2024,
+    "doi": "10.1038/s41467-024-51542-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 1583301789
+   }
+  },
+  {
+   "id": "s-naked-mole-ovarian-reserve",
+   "skill": "naked-mole-ovarian-reserve",
+   "no": "150",
+   "chapter": "gene",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自裸鼹鼠实验。",
+   "title_zh": "出生后才造卵的裸鼹鼠",
+   "line_zh": "裸鼹鼠的卵子到出生后才开始生成，出生第 5 到第 8 天，卵巢里的生殖细胞数明显增加。",
+   "about_zh": "研究者在出生后不同日龄的卵巢切片上数生殖细胞，第 8 天时最多，比同样大小的其他啮齿动物多得多。小鼠的卵子生成则主要在出生前完成；裸鼹鼠的生育期可长达约 30 年。",
+   "species": [
+    "naked_mole_rat"
+   ],
+   "meet": [
+    "naked_mole_rat"
+   ],
+   "source": {
+    "first_author": "Brieño-Enríquez",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2023,
+    "doi": "10.1038/s41467-023-36284-8",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 2097106338
+   }
+  },
+  {
+   "id": "s-oocyte-mitochondrial-complex-i",
+   "skill": "oocyte-mitochondrial-complex-i",
+   "no": "151",
+   "chapter": "gene",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自取出体外的爪蟾和人卵母细胞实验。",
+   "title_zh": "卵子省掉一个零件防氧化",
+   "line_zh": "非洲爪蟾和人的早期卵母细胞几乎不组装线粒体的「复合体 I」，以此避开会伤细胞的活性氧。",
+   "about_zh": "复合体 I 是线粒体产能链条的第一站。研究者主要用爪蟾卵母细胞，也看了 19–34 岁手术供者的人卵母细胞：早期卵母细胞测不到活性氧；用药堵住复合体 I，长大的卵母细胞会死，早期的仍有存活。",
+   "species": [
+    "other"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Rodríguez-Nuevo",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2022,
+    "doi": "10.1038/s41586-022-04979-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "gene",
+    "seed": 1040760905
+   }
+  },
+  {
+   "id": "s-circadian-frailty-older-adults",
+   "skill": "circadian-frailty-older-adults",
+   "no": "152",
+   "chapter": "span",
+   "tier": "human",
+   "tier_reason_zh": "老年人队列里的关联研究，节律由手腕记录仪测量。",
+   "title_zh": "作息乱与衰弱",
+   "line_zh": "平均 81 岁的老人里，手腕记录仪测出昼夜节律偏弱、偏乱的人，日后更常出现衰弱。",
+   "about_zh": "1022 位老人戴手腕活动记录仪，研究者算出昼夜活动反差、节律稳定度等指标，再随访谁变得衰弱（握力、步速、体质指数、疲劳、活动量五项里至少三项不达标）。这些指标每变差一个标准差（同龄人间常见的差距），日后出现衰弱的风险高 21%–41%。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Cai",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2023,
+    "doi": "10.1038/s41467-023-42727-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 14902732
+   }
+  },
+  {
+   "id": "s-environmental-genetic-aging-mortality",
+   "skill": "environmental-genetic-aging-mortality",
+   "no": "153",
+   "chapter": "span",
+   "tier": "human",
+   "tier_reason_zh": "英国生物样本库的队列分析，环境、基因与死亡都是关联。",
+   "title_zh": "环境比基因更能解释死亡",
+   "line_zh": "英国 49 万人里，年龄性别之外，环境和生活方式多解释 17 个百分点的死亡差异，基因不到 2 个。",
+   "about_zh": "研究者在英国生物样本库里逐一筛查 164 种环境和生活因素，留下 25 个与死亡、与一种血液蛋白衰老指标都相关的因素，其中 23 个可以改变，如吸烟、体力活动、收入。不过对痴呆和几种癌症的发病，遗传风险解释得更多。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Argentieri",
+    "et_al": true,
+    "journal": "Nature Medicine",
+    "year": 2025,
+    "doi": "10.1038/s41591-024-03483-9",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 148771784
+   }
+  },
+  {
+   "id": "s-genome-wide-proteomics-frailty",
+   "skill": "genome-wide-proteomics-frailty",
+   "no": "154",
+   "chapter": "span",
+   "tier": "human",
+   "tier_reason_zh": "大型人群基因库里的全基因组关联研究。",
+   "title_zh": "从住院记录找衰弱基因",
+   "line_zh": "芬兰和英国两大基因库里，按住院诊断算衰弱分，找到 53 个相关基因变异，其中 45 个是新发现。",
+   "about_zh": "衰弱用「医院衰弱风险分」衡量：住院诊断里 109 类病各有权重，相加低于 5 分算低、超过 15 分算高。研究者扫描全基因组，再对照血液蛋白水平，筛出可能参与衰弱的基因和蛋白。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Mak",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2025,
+    "doi": "10.1038/s43587-025-00925-y",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 1911717922
+   }
+  },
+  {
+   "id": "s-metabolomic-frailty-subtypes",
+   "skill": "metabolomic-frailty-subtypes",
+   "no": "155",
+   "chapter": "span",
+   "tier": "human",
+   "tier_reason_zh": "英国生物样本库的队列分析，亚型与疾病风险是关联。",
+   "title_zh": "衰弱分四种代谢型",
+   "line_zh": "英国约 2.8 万名衰弱者按 11 种血液代谢物分成四型，其中两型的人日后慢性病和死亡都更多。",
+   "about_zh": "研究者用英国生物样本库 16 万人的核磁共振血液代谢检测，从 251 项指标里挑出 11 项，把其中衰弱的人分成四型。中位随访 13.8 年，以 2 型糖尿病为例，最高的一型发病风险约是第一型的 3 倍。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Xiao",
+    "et_al": true,
+    "journal": "npj Digital Medicine",
+    "year": 2025,
+    "doi": "10.1038/s41746-025-02075-2",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 4264942047
+   }
+  },
+  {
+   "id": "s-one-year-mortality-aging-marker",
+   "skill": "one-year-mortality-aging-marker",
+   "no": "156",
+   "chapter": "span",
+   "tier": "human",
+   "tier_reason_zh": "全国登记数据上的预测模型研究。",
+   "title_zh": "准确却不公平的死亡预测",
+   "line_zh": "用芬兰全国登记数据训练的模型预测一年内死亡，比只看年龄性别更准，但对不同人群准度不一。",
+   "about_zh": "研究者用 2020 年初在世的 536 万芬兰人、8620 项医疗和社会经济记录训练深度学习模型。区分一年内是否去世的得分是 0.944（满分 1，完全靠猜是 0.5），只用年龄和性别是 0.897；对年轻女性最准，对老年男性最差。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Vabalas",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00657-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 3047258515
+   }
+  },
+  {
+   "id": "s-plasma-protein-risk-score",
+   "skill": "plasma-protein-risk-score",
+   "no": "157",
+   "chapter": "span",
+   "tier": "human",
+   "tier_reason_zh": "队列研究里建立并验证的风险分，分数与骨折是关联。",
+   "title_zh": "髋部骨折的血液蛋白分",
+   "line_zh": "血液蛋白风险分越高的人，日后髋部骨折越多；加进常用的骨折风险工具，预测只小幅提高。",
+   "about_zh": "研究者从约 5000 项血液蛋白里挑出 18 项组成风险分，在三个队列 5.6 万人里验证：分数每高一个标准差，髋部骨折风险高 63%。在英国队列里与常用骨折风险工具合用，区分得分从 0.735 升到 0.776（满分 1）。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Austin",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2024,
+    "doi": "10.1038/s43587-024-00639-7",
+    "preprint": false,
+    "coi_zh": "一位作者是维护和开发骨折风险工具 FRAX 的公司的董事，研究正是拿蛋白分和 FRAX 做比较。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 3450124184
+   }
+  },
+  {
+   "id": "s-rmeq-chronotype",
+   "skill": "rmeq-chronotype",
+   "no": "158",
+   "chapter": "span",
+   "tier": "human",
+   "tier_reason_zh": "自答问卷的编制研究，在成人样本里检验。",
+   "title_zh": "五道题分出晨型夜型",
+   "line_zh": "从 19 题的晨型夜型自答问卷里挑出 5 题，总分 4–25，分成从明确夜型到明确晨型五档。",
+   "about_zh": "这 5 题问的是：自由安排时几点起床、醒后半小时多累、晚上几点犯困、几点状态最好、自认偏晨还是偏夜。研究者在不同作息和年龄的成人里检验了这套简版。4–7 分是明确夜型，12–17 分是中间型，22–25 分是明确晨型。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Adan & Almirall",
+    "et_al": false,
+    "journal": "Personality and Individual Differences",
+    "year": 1991,
+    "doi": "10.1016/0191-8869(91)90110-w",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 474797086
+   }
+  },
+  {
+   "id": "s-sleep-study-life-expectancy",
+   "skill": "sleep-study-life-expectancy",
+   "no": "159",
+   "chapter": "span",
+   "tier": "human",
+   "tier_reason_zh": "多个睡眠队列的模型研究，年龄差与死亡是关联。",
+   "title_zh": "睡一夜，测个岁数",
+   "line_zh": "用整夜睡眠监测估出的年龄，每比实际大 10 岁，日后全因死亡率高约 29%。",
+   "about_zh": "研究者用 2500 份整夜多导睡眠监测（在睡眠室贴电极记录一整夜）训练深度学习模型，在另外 10699 份上检验，平均误差约 5.8 岁。按 60 岁的人估算，估出年龄比实际小 10 岁和大 10 岁，预期寿命相差约 8.7 年。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Brink-Kjaer",
+    "et_al": true,
+    "journal": "npj Digital Medicine",
+    "year": 2022,
+    "doi": "10.1038/s41746-022-00630-9",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 3717332118
+   }
+  },
+  {
+   "id": "s-wearable-circadian-aging-biomarker",
+   "skill": "wearable-circadian-aging-biomarker",
+   "no": "160",
+   "chapter": "span",
+   "tier": "human",
+   "tier_reason_zh": "英国生物样本库的队列研究，节律年龄与死亡是关联。",
+   "title_zh": "七天腕部记录算节律年龄",
+   "line_zh": "英国 7.6 万名中老年人戴七天腕部记录仪，按节律算出的年龄每比实际大 1 岁，死亡风险高约 8%。",
+   "about_zh": "模型用三项节律指标：一天的平均活动量、昼夜起伏的幅度、活动高峰落在几点，加上实际年龄，按五年死亡风险换算成年龄。平均活动量越大、起伏越明显，算出的年龄越小。在 3371 名美国人里换一种记录仪检验，结果相近。",
+   "species": [
+    "human"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Shim",
+    "et_al": true,
+    "journal": "npj Digital Medicine",
+    "year": 2024,
+    "doi": "10.1038/s41746-024-01111-x",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 2614976733
+   }
+  },
+  {
+   "id": "s-ageing-mortality-tradeoffs",
+   "skill": "ageing-mortality-tradeoffs",
+   "no": "161",
+   "chapter": "span",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自遗传背景混杂的小鼠群体。",
+   "title_zh": "寿命基因会随年龄变脸",
+   "line_zh": "6438 只杂交小鼠里找到 29 个影响寿命的基因区域，不少区域的作用随年龄反转，雌雄也不同。",
+   "about_zh": "研究者从 6438 只刚进入青春期的小鼠开始，一路跟到活过 1100 天（约 3 岁）的 559 只，在越来越老的存活群体里反复寻找影响死亡的区域。另有 30 个区域关系到体重和预期寿命的关联，这些效应都是雄鼠更强。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Arends",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2026,
+    "doi": "10.1038/s41586-026-10407-9",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 3167626057
+   }
+  },
+  {
+   "id": "s-butterfly-longevity-slowed-ageing",
+   "skill": "butterfly-longevity-slowed-ageing",
+   "no": "162",
+   "chapter": "span",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自袖蝶和近缘蝶的寿命记录与饲养实验。",
+   "title_zh": "袖蝶活得久也老得慢",
+   "line_zh": "吃花粉的袖蝶最长寿命平均约 177 天，约是不吃花粉的近缘蝶（约 58 天）的三倍，衰老也更慢。",
+   "about_zh": "研究者汇集蝴蝶馆、野外标记重捕和饲养种群的记录比较寿命，并用 941 只蝶拟合死亡率随年龄上升的曲线。不给一种袖蝶花粉时，它的基础死亡率约翻倍，随年龄上升的速度却没变。",
+   "species": [
+    "butterfly"
+   ],
+   "meet": [
+    "butterfly"
+   ],
+   "source": {
+    "first_author": "Foley",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-73635-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 1908226385
+   }
+  },
+  {
+   "id": "s-circadian-caloric-restriction-longevity",
+   "skill": "circadian-caloric-restriction-longevity",
+   "no": "163",
+   "chapter": "span",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自雄性小鼠的寿命实验。",
+   "title_zh": "什么时候吃，也算数",
+   "line_zh": "同样少吃三成，在夜里（小鼠醒着的时候）进食的雄性小鼠活得最久，中位寿命延长约三分之一。",
+   "about_zh": "研究者给雄性小鼠设了五种少吃三成的喂法，进食集中在白天、夜里，或分散在全天。自由吃的小鼠中位寿命 792 天；同样少吃，全天分散只延长约 10%，白天吃约 19%–21%，夜里吃约 34%–35%。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Acosta-Rodríguez",
+    "et_al": true,
+    "journal": "Science",
+    "year": 2022,
+    "doi": "10.1126/science.abk0297",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 1259938092
+   }
+  },
+  {
+   "id": "s-circadian-insulin-peptide-aging",
+   "skill": "circadian-insulin-peptide-aging",
+   "no": "164",
+   "chapter": "span",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自果蝇实验。",
+   "title_zh": "一种酶帮老果蝇守住节律",
+   "line_zh": "果蝇里，一种分解赖氨酸的酶突变后，40 日龄老果蝇的昼夜活动节律明显变弱。",
+   "about_zh": "研究者比较 3 日龄和 40 日龄的果蝇。这种酶突变后，几个胰岛素样肽基因附近的组蛋白标记（包裹 DNA 的蛋白上的化学标签）发生变化，这些基因表达升高；遗传实验显示，节律变化要经过这条途径。",
+   "species": [
+    "drosophila"
+   ],
+   "meet": [
+    "drosophila"
+   ],
+   "source": {
+    "first_author": "Lv",
+    "et_al": true,
+    "journal": "Nature Communications",
+    "year": 2024,
+    "doi": "10.1038/s41467-024-47740-4",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 183431731
+   }
+  },
+  {
+   "id": "s-circadian-nad-meibomian-aging",
+   "skill": "circadian-nad-meibomian-aging",
+   "no": "165",
+   "chapter": "span",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自小鼠实验，人只查了这类酶的表达。",
+   "title_zh": "眼皮油腺怎么变老",
+   "line_zh": "小鼠眼睑油腺里，一种依赖 NAD（一种辅酶）的酶就地合成激素，老了活性下降，腺体功能变差。",
+   "about_zh": "睑板腺长在眼睑里，分泌防止泪水蒸发的油脂。研究者在小鼠里发现，这种酶的活性随昼夜起伏；去掉它，腺体萎缩；在眼表提高 NAD 后，腺体细胞增殖变好，干眼减轻。人的睑板腺里也有这类酶。",
+   "species": [
+    "mouse"
+   ],
+   "meet": [
+    "mouse"
+   ],
+   "source": {
+    "first_author": "Sasaki",
+    "et_al": true,
+    "journal": "Nature Aging",
+    "year": 2022,
+    "doi": "10.1038/s43587-021-00167-8",
+    "preprint": false,
+    "coi_zh": "三位作者就 NMN、NR（两种提高 NAD 的物质）的新用途申请了专利，其中两位是眼药企业千寿制药的员工；另有作者获该公司研究资助。"
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 3795438640
+   }
+  },
+  {
+   "id": "s-gompertz-celegans-decrepitude",
+   "skill": "gompertz-celegans-decrepitude",
+   "no": "166",
+   "chapter": "span",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自线虫实验。",
+   "title_zh": "活得更久，弱得更久",
+   "line_zh": "长寿线虫的死亡率随年龄上升得较慢，主要是衰弱期拉长了，衰老速度本身没有变慢。",
+   "about_zh": "研究者在六个试验里记录 8830 条线虫的寿命，以及每条虫还能正常爬动的健康期和之后的衰弱期，两者相加就是寿命。死亡率上升变慢的群体，多出的日子更多落在衰弱期；基础死亡率降低的，才更像健康期变长。",
+   "species": [
+    "c_elegans"
+   ],
+   "meet": [
+    "c_elegans"
+   ],
+   "source": {
+    "first_author": "Zhang & Gems",
+    "et_al": false,
+    "journal": "Nature Communications",
+    "year": 2026,
+    "doi": "10.1038/s41467-026-71780-7",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 959205261
+   }
+  },
+  {
+   "id": "s-mammal-cancer-risk-lifespan",
+   "skill": "mammal-cancer-risk-lifespan",
+   "no": "167",
+   "chapter": "span",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自动物园哺乳动物的死亡和病理记录。",
+   "title_zh": "动物园里的癌症账",
+   "line_zh": "191 种动物园哺乳动物死于癌症的比例从零到过半不等，和体型大小、预期寿命基本无关。",
+   "about_zh": "研究者汇总动物园 11 万只成年哺乳动物的记录，其中 11840 只死后做过病理检查。小型有袋动物考瓦里的癌症死亡比例高达 57%，印度黑羚 196 份病理记录里没有一例癌症。体重和预期寿命分别只能解释物种间差异的 0.8% 和 2.9%。",
+   "species": [
+    "multi_species"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Vincze",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2022,
+    "doi": "10.1038/s41586-021-04224-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": false,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 3556896634
+   }
+  },
+  {
+   "id": "s-mammal-somatic-mutation-lifespan",
+   "skill": "mammal-somatic-mutation-lifespan",
+   "no": "168",
+   "chapter": "span",
+   "tier": "animal",
+   "tier_reason_zh": "主结论来自跨物种比较，人只是 16 个物种之一。",
+   "title_zh": "寿命越长，突变越慢",
+   "line_zh": "16 种哺乳动物（含人）的肠道细胞里，每年新增的体细胞突变数和物种寿命成反比。",
+   "about_zh": "研究者给 16 个物种、56 个个体的 208 个肠道隐窝（肠壁上的小凹，细胞都来自同一个干细胞）测序，清点一生积累的突变。人每年约增 47 个，小鼠约 796 个；物种寿命相差约 30 倍，到各自寿命终点时突变总数只差约 3 倍。",
+   "species": [
+    "multi_species"
+   ],
+   "meet": [],
+   "source": {
+    "first_author": "Cagan",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2022,
+    "doi": "10.1038/s41586-022-04618-z",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 3159763880
+   }
+  },
+  {
+   "id": "s-bowhead-whale-dna-repair",
+   "skill": "bowhead-whale-dna-repair",
+   "no": "169",
+   "chapter": "span",
+   "tier": "cell",
+   "tier_reason_zh": "主结论来自弓头鲸和人的细胞实验；果蝇实验是补充。",
+   "title_zh": "弓头鲸修 DNA 更拿手",
+   "line_zh": "弓头鲸的细胞修补 DNA 断裂比其他哺乳动物的更强也更准，一种遇冷会增多的蛋白是原因之一。",
+   "about_zh": "研究者比较弓头鲸和人的成纤维细胞（结缔组织里的常见细胞）。意外的是，在都已导入端粒酶的前提下，弓头鲸细胞再加两种致癌改变就能在培养中癌变，人的要三种；它防癌更像是靠修得好。在果蝇体内表达这种蛋白，果蝇活得更久，也更耐辐射。",
+   "species": [
+    "bowhead_whale",
+    "cell_line"
+   ],
+   "meet": [
+    "bowhead_whale"
+   ],
+   "source": {
+    "first_author": "Firsanov",
+    "et_al": true,
+    "journal": "Nature",
+    "year": 2025,
+    "doi": "10.1038/s41586-025-09694-5",
+    "preprint": false,
+    "coi_zh": null
+   },
+   "research_assay": true,
+   "feature_zh": null,
+   "art": {
+    "motif": "span",
+    "seed": 218058401
+   }
+  }
+ ],
+ "species": [
+  {
+   "id": "sp-mouse",
+   "no": "S1",
+   "name_zh": "小鼠",
+   "latin": "Mus musculus",
+   "lifespan_zh": "2–3 年",
+   "lifespan_years": 2.5,
+   "hook_zh": "实验室长寿研究的主力",
+   "body_zh": "实验室小鼠一般活 2 到 3 年。很多抗衰老药物都先在小鼠身上试。",
+   "key": "mouse",
+   "studies": [
+    "s-epigenetic-age-single-cells",
+    "s-scepiage-single-cell-ageing",
+    "s-aging-mouse-brain-atlas",
+    "s-cilia-autophagy-cognitive-resilience",
+    "s-gdf11-neuronal-autophagy",
+    "s-mitophagy-inducers-alzheimers",
+    "s-neurogenic-aging-clocks",
+    "s-spatial-mapping-senolytic-targeting",
+    "s-senescent-cells-gene-set",
+    "s-cgas-sting-ageing-inflammation",
+    "s-platelet-factors-ageing-cognition",
+    "s-ramanomics-senescence",
+    "s-ras-titration-senescent-state",
+    "s-ampk-aldolase-aldometanib",
+    "s-chaperone-autophagy-tissue-aging",
+    "s-endothelial-cebpb-aep-nampt",
+    "s-hepassocin-ampk-liver-aging",
+    "s-mtdna-ribonucleotide-inflammation",
+    "s-rapamycin-early-adult-autophagy",
+    "s-rapamycin-enterocyte-sex",
+    "s-selective-senolytic-platform",
+    "s-senolytic-car-t-metabolic",
+    "s-sirt1-hepatocyte-nampt",
+    "s-sirtuin2-opc-remyelination",
+    "s-terpenoid-autophagy-sarcopenia",
+    "s-senolytic-human-brain-aging",
+    "s-aged-skin-il36-osteoarthritis",
+    "s-ddx5-cartilage-fibrosis",
+    "s-elastin-fragments-innate-aging",
+    "s-foxo3-osteoarthritis-ferroptosis",
+    "s-hgps-skin-base-editor",
+    "s-iron-fibrosis-senescence",
+    "s-muscle-chaperone-autophagy",
+    "s-muscle-regeneration-lifespan",
+    "s-muscle-regeneration-somatic-mutation",
+    "s-parabiosis-brain-transcriptome",
+    "s-parabiosis-noncoding-rna-aging",
+    "s-senescent-macrophage-muscle-atrophy",
+    "s-skin-il17-aging",
+    "s-urinary-senescence-fibrosis-probe",
+    "s-cardiac-ageing-matrix-mechanics",
+    "s-lamin-cysteine-epigenome-reprogramming",
+    "s-cd38-ovarian-aging",
+    "s-ageing-mortality-tradeoffs",
+    "s-circadian-caloric-restriction-longevity",
+    "s-circadian-nad-meibomian-aging"
+   ]
+  },
+  {
+   "id": "sp-c_elegans",
+   "no": "S2",
+   "name_zh": "秀丽隐杆线虫",
+   "latin": "Caenorhabditis elegans",
+   "lifespan_zh": "约 3 周",
+   "lifespan_years": 0.058,
+   "hook_zh": "一毫米长，活三周",
+   "body_zh": "减弱胰岛素信号能让线虫的寿命成倍延长，这是长寿遗传学的起点之一。",
+   "key": "c_elegans",
+   "studies": [
+    "s-mitophagy-inducers-alzheimers",
+    "s-neuron-aging-clocks",
+    "s-ampk-aldolase-aldometanib",
+    "s-grainyhead-drug-inducible-lifespan",
+    "s-insulin-igf-pten-longevity",
+    "s-gompertz-celegans-decrepitude"
+   ]
+  },
+  {
+   "id": "sp-drosophila",
+   "no": "S3",
+   "name_zh": "黑腹果蝇",
+   "latin": "Drosophila melanogaster",
+   "lifespan_zh": "2–3 个月",
+   "lifespan_years": 0.2,
+   "hook_zh": "几个月走完一生",
+   "body_zh": "实验室果蝇一般活 2 到 3 个月，饮食限制和雷帕霉素研究常用它。",
+   "key": "drosophila",
+   "studies": [
+    "s-rapamycin-early-adult-autophagy",
+    "s-rapamycin-enterocyte-sex",
+    "s-senescent-glia-mitochondria-lipid",
+    "s-circadian-insulin-peptide-aging"
+   ]
+  },
+  {
+   "id": "sp-killifish",
+   "no": "S4",
+   "name_zh": "绿松石鳉",
+   "latin": "Nothobranchius furzeri",
+   "lifespan_zh": "4–8 个月",
+   "lifespan_years": 0.5,
+   "hook_zh": "寿命最短的实验脊椎动物之一",
+   "body_zh": "生在会干涸的季节性水塘里，一般只活几个月，适合快速观察衰老。",
+   "key": "killifish",
+   "studies": [
+    "s-ampk-gamma1-refeeding-longevity"
+   ]
+  },
+  {
+   "id": "sp-zebrafish",
+   "no": "S5",
+   "name_zh": "斑马鱼",
+   "latin": "Danio rerio",
+   "lifespan_zh": "3–5 年",
+   "lifespan_years": 3.5,
+   "hook_zh": "透明的鱼苗",
+   "body_zh": "胚胎透明、繁殖快，常用来大规模筛选分子。",
+   "key": "zebrafish",
+   "studies": [
+    "s-terpenoid-autophagy-sarcopenia"
+   ]
+  },
+  {
+   "id": "sp-planarian",
+   "no": "S6",
+   "name_zh": "涡虫",
+   "latin": "Schmidtea mediterranea",
+   "lifespan_zh": "可再生",
+   "lifespan_years": null,
+   "hook_zh": "切开会长回来",
+   "body_zh": "一小块组织就能再生出完整的个体。有性品系也会衰老。",
+   "key": "planarian",
+   "studies": [
+    "s-planarian-regeneration-rejuvenation"
+   ]
+  },
+  {
+   "id": "sp-butterfly",
+   "no": "S7",
+   "name_zh": "袖蝶",
+   "latin": "Heliconius",
+   "lifespan_zh": "成虫数月",
+   "lifespan_years": 0.5,
+   "hook_zh": "吃花粉的长寿蝴蝶",
+   "body_zh": "袖蝶成虫能活好几个月，比多数蝴蝶长得多。",
+   "key": "butterfly",
+   "studies": [
+    "s-butterfly-longevity-slowed-ageing"
+   ]
+  },
+  {
+   "id": "sp-naked_mole_rat",
+   "no": "S8",
+   "name_zh": "裸鼹鼠",
+   "latin": "Heterocephalus glaber",
+   "lifespan_zh": "30 多年",
+   "lifespan_years": 37,
+   "hook_zh": "几乎不显老的地下居民",
+   "body_zh": "体型和小鼠差不多，却能活 30 多年；成年后死亡风险几乎不随年龄上升。",
+   "key": "naked_mole_rat",
+   "studies": [
+    "s-epigenetic-aging-naked-mole",
+    "s-naked-mole-queen-methylation-clock",
+    "s-naked-mole-ovarian-reserve"
+   ]
+  },
+  {
+   "id": "sp-bowhead_whale",
+   "no": "S9",
+   "name_zh": "弓头鲸",
+   "latin": "Balaena mysticetus",
+   "lifespan_zh": "200 年以上",
+   "lifespan_years": 211,
+   "hook_zh": "能活两百年的哺乳动物",
+   "body_zh": "据估计可活 200 年以上，是已知最长寿的哺乳动物。",
+   "key": "bowhead_whale",
+   "studies": [
+    "s-bowhead-whale-dna-repair"
+   ]
+  }
+ ],
+ "pending": []
+}

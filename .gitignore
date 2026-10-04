@@ -1,0 +1,4 @@
+.claude-plugin/types/
+node_modules/
+*.b64tmp
+.DS_Store

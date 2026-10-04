@@ -1,0 +1,194 @@
+{
+  "schema": "longpi.study/1",
+  "sponsor": {
+    "name": "LongPi 模拟研究",
+    "contact": "local-only@example.invalid"
+  },
+  "eligibility": {
+    "age": [
+      18,
+      90
+    ],
+    "minors": false
+  },
+  "data": {
+    "inputs": [
+      {
+        "key": "glucose",
+        "source": "record",
+        "window_days": 3650
+      },
+      {
+        "key": "hba1c",
+        "source": "record",
+        "window_days": 3650
+      },
+      {
+        "key": "hb",
+        "source": "record",
+        "window_days": 3650
+      },
+      {
+        "key": "tc",
+        "source": "record",
+        "window_days": 3650
+      },
+      {
+        "key": "ldl",
+        "source": "record",
+        "window_days": 3650
+      },
+      {
+        "key": "hdl",
+        "source": "record",
+        "window_days": 3650
+      },
+      {
+        "key": "tg",
+        "source": "record",
+        "window_days": 3650
+      },
+      {
+        "key": "creatinine",
+        "source": "record",
+        "window_days": 3650
+      },
+      {
+        "key": "sbp",
+        "source": "record",
+        "window_days": 3650
+      },
+      {
+        "key": "albumin",
+        "source": "record",
+        "window_days": 3650
+      }
+    ],
+    "excluded": [
+      "genetics",
+      "free_text",
+      "identifiers",
+      "images"
+    ]
+  },
+  "consent": {
+    "text_version": "rcv-1",
+    "text_zh_sha256": "d846d5db269b04c495fa782510ce3e55ce805d7b8ad2d384e05c9d7efbf97c16",
+    "withdraw": "any_time",
+    "after_withdraw": "delete_unreleased",
+    "comprehension": [
+      {
+        "id": "leave",
+        "question_zh": "离开这台电脑的是什么？",
+        "options_zh": [
+          "原始化验单",
+          "加了噪声并遮住的合计，不是原始化验单",
+          "基因数据"
+        ],
+        "correct": 1
+      },
+      {
+        "id": "quit",
+        "question_zh": "想退出时怎么办？",
+        "options_zh": [
+          "不能退出",
+          "可以随时退出；未发布的份额会删除，已经发布的合计不能撤回",
+          "要等研究结束"
+        ],
+        "correct": 1
+      },
+      {
+        "id": "dx",
+        "question_zh": "这个结果可以当作诊断吗？",
+        "options_zh": [
+          "可以，它能下诊断",
+          "不可以，它只描述波动，看病还是找医生",
+          "可以代替看医生"
+        ],
+        "correct": 1
+      }
+    ]
+  },
+  "give_back": {
+    "participant_zh": "把你自己的结果和群体合计都写回来，并写明噪声会带来多大差别。",
+    "community": true
+  },
+  "endpoints": {
+    "aggregator": "http://127.0.0.1:18184"
+  },
+  "id": "rcv-calibration",
+  "version": "1.0.0",
+  "title_zh": "体检常见指标的个人波动",
+  "summary_zh": "用你历次体检里的常见指标，在本机估算个人波动，再和文献里的参考变化值对照。送出的只有加噪后的合计。",
+  "kind": "observational",
+  "ethics": {
+    "committee": null,
+    "approval_id": null,
+    "registry": {
+      "name": "none",
+      "id": null
+    }
+  },
+  "analysis": {
+    "local": [
+      {
+        "stat": "rcv_calibration",
+        "key": "glucose"
+      },
+      {
+        "stat": "rcv_calibration",
+        "key": "hba1c"
+      },
+      {
+        "stat": "rcv_calibration",
+        "key": "hb"
+      },
+      {
+        "stat": "rcv_calibration",
+        "key": "tc"
+      },
+      {
+        "stat": "rcv_calibration",
+        "key": "ldl"
+      },
+      {
+        "stat": "rcv_calibration",
+        "key": "hdl"
+      },
+      {
+        "stat": "rcv_calibration",
+        "key": "tg"
+      },
+      {
+        "stat": "rcv_calibration",
+        "key": "creatinine"
+      },
+      {
+        "stat": "rcv_calibration",
+        "key": "sbp"
+      },
+      {
+        "stat": "rcv_calibration",
+        "key": "albumin"
+      }
+    ],
+    "release": {
+      "dp": {
+        "mechanism": "laplace",
+        "epsilon": 1,
+        "delta": 0,
+        "clip": [
+          0,
+          40
+        ]
+      },
+      "aggregation": "secure_sum",
+      "min_cohort": 20
+    }
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "longpi-sim-dev-1",
+    "sig": "9jUG43NvZUiFiM6vcyAOzQpHqubvTQHm6K9A+n3Ga11GggB21ve+9wQdo4qO5SNjW5l66JSaIUzj53BWOuMvAw=="
+  }
+}

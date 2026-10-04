@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "note": "Screening topics to raise with a doctor, by age, sex and family history (M1). Topics, not orders: the doctor decides. Sources: China's national cancer screening guidance for breast, cervical and colorectal cancer; a first-degree relative with breast cancer before 50 means starting earlier and asking about genetic counselling.",
+  "rules": [
+    { "id": "breast-family", "sex": "female", "age": [18, 80], "family_rx": "乳腺癌|乳癌", "priority": "must_surface", "topic_zh": "家里有人得过乳腺癌：比一般人更早开始乳腺筛查（乳腺超声，按医生建议加钼靶或磁共振），并问问要不要做遗传咨询", "prompt_zh": "家里有人得过乳腺癌，我该怎么筛查？" },
+    { "id": "breast-age", "sex": "female", "age": [35, 69], "priority": "should_surface", "topic_zh": "按你的年龄，可以问医生乳腺筛查（乳腺超声，40 岁起可加钼靶）", "prompt_zh": "像我这个年龄该做哪些乳腺和宫颈筛查？" },
+    { "id": "cervix-age", "sex": "female", "age": [25, 65], "priority": "should_surface", "topic_zh": "按你的年龄，可以问医生宫颈筛查（HPV 或 TCT，间隔听医生的）", "prompt_zh": "像我这个年龄该做哪些乳腺和宫颈筛查？" },
+    { "id": "colorectal-age", "sex": "any", "age": [45, 75], "priority": "should_surface", "topic_zh": "45 岁以后，可以问医生大肠癌筛查（便潜血或肠镜）", "prompt_zh": "我这个年龄要做肠镜吗？" }
+  ]
+}

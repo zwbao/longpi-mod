@@ -1,0 +1,582 @@
+{
+  "version": 3,
+  "note": "docs/codex-design.md 1.2 §3.2. Values measured on most days (wristband, home blood pressure, weight, meter glucose) are judged against the person's own day-to-day spread plus a minimal meaningful difference ('mid'); the reference change value is kept for two lab results (LDL). The mid values are defaults for the owner to review (mid_note says why).",
+  "metrics": {
+    "rhr": {
+      "label_zh": "静息心率",
+      "unit_zh": "次/分",
+      "better": "lower",
+      "method": "personal",
+      "mid": 2,
+      "mid_note": "design §3.2 example: resting heart rate 2 beats/min",
+      "names": [
+        "dailyRestingHeartRates",
+        "restingHeartRates",
+        "restingHeartRate",
+        "dailyAvgRestingHeartRates"
+      ],
+      "decimals": 0
+    },
+    "hrv": {
+      "label_zh": "心率变异性",
+      "unit_zh": "毫秒",
+      "better": "higher",
+      "method": "personal",
+      "mid": 3,
+      "mid_note": "about 5–10% of a typical nightly RMSSD of 30–60 ms",
+      "names": [
+        "hrvRMSSD",
+        "hrvRmssd",
+        "sleepHeartRateRMSSD",
+        "dailyRmssd",
+        "hrvDatas",
+        "hrv",
+        "hrvSDNN"
+      ],
+      "decimals": 0
+    },
+    "sleep": {
+      "label_zh": "睡眠时长",
+      "unit_zh": "小时",
+      "better": "none",
+      "method": "personal",
+      "mid": 0.25,
+      "mid_note": "15 minutes; smaller than the 30 minutes the experiment asks for",
+      "names": [
+        "dailyTotalSleepTime",
+        "sleepDuration",
+        "dailySleepDuration"
+      ],
+      "decimals": 1
+    },
+    "onset": {
+      "label_zh": "入睡时间的波动",
+      "unit_zh": "分钟",
+      "better": "lower",
+      "method": "personal",
+      "mid": 15,
+      "mid_note": "daily distance of sleep onset from the period's median; 15 minutes",
+      "names": [
+        "sleepStartTime"
+      ],
+      "decimals": 0
+    },
+    "wakings": {
+      "label_zh": "夜间醒来次数",
+      "unit_zh": "次",
+      "better": "lower",
+      "method": "personal",
+      "mid": 0.5,
+      "mid_note": "half a waking per night on average",
+      "names": [
+        "dailyAwakeTimes",
+        "awakenings",
+        "sleepDisturbances"
+      ],
+      "decimals": 1
+    },
+    "steps": {
+      "label_zh": "白天步数",
+      "unit_zh": "步",
+      "better": "higher",
+      "method": "personal",
+      "mid": 1000,
+      "mid_note": "1,000 steps a day",
+      "names": [
+        "dailySteps",
+        "dailyTotalSteps"
+      ],
+      "decimals": 0
+    },
+    "sbp": {
+      "label_zh": "家庭收缩压",
+      "unit_zh": "mmHg",
+      "better": "lower",
+      "method": "personal",
+      "marker": "sbp",
+      "names": [
+        "systolicPressures"
+      ],
+      "self": "sbp",
+      "decimals": 0,
+      "mid": 5,
+      "mid_note": "5 mmHg on the two-week mean of home systolic pressure; about what salt-reduction trials report; owner-reviewable"
+    },
+    "weight": {
+      "label_zh": "体重",
+      "unit_zh": "公斤",
+      "better": "none",
+      "method": "personal",
+      "marker": "weight",
+      "names": [
+        "bodyMasss",
+        "bodyMass",
+        "dailyWeight"
+      ],
+      "self": "weight",
+      "decimals": 1,
+      "mid": 0.5,
+      "mid_note": "0.5 kg on the two-week mean; day-to-day water swings are about this size; owner-reviewable"
+    },
+    "waist": {
+      "label_zh": "腰围",
+      "unit_zh": "厘米",
+      "better": "lower",
+      "method": "personal",
+      "mid": 1,
+      "mid_note": "1 cm, about the error of a home tape measure",
+      "names": [],
+      "self": "waist",
+      "decimals": 1
+    },
+    "glucose": {
+      "label_zh": "血糖仪读数的日均值",
+      "unit_zh": "mmol/L",
+      "better": "lower",
+      "method": "personal",
+      "marker": "glucose",
+      "names": [
+        "bloodGlucoses"
+      ],
+      "decimals": 1,
+      "mid": 0.3,
+      "mid_note": "0.3 mmol/L on the daily mean of meter readings; owner-reviewable"
+    },
+    "ldl": {
+      "label_zh": "LDL 胆固醇（「坏」胆固醇）",
+      "unit_zh": "mmol/L",
+      "better": "lower",
+      "method": "lab",
+      "marker": "ldl",
+      "names": [],
+      "decimals": 2
+    }
+  },
+  "experiments": [
+    {
+      "id": "walk-after-meal",
+      "icon": "walk",
+      "title_zh": "饭后走 10 分钟",
+      "do_zh": "午饭或晚饭后走 10 分钟。",
+      "days": 14,
+      "primary": [
+        "rhr"
+      ],
+      "also": [
+        "weight",
+        "glucose"
+      ],
+      "adherence": "checkin",
+      "checkin_zh": "今天饭后走了 10 分钟",
+      "needs": [
+        "wristband"
+      ],
+      "randomizable": true,
+      "questions": [],
+      "variants": {},
+      "exclude": {
+        "drug_classes": [],
+        "conditions": [],
+        "findings": []
+      },
+      "relevance": {
+        "words": [
+          "走",
+          "步行",
+          "散步",
+          "饭后",
+          "运动",
+          "步数"
+        ],
+        "focus": [
+          "cardio",
+          "glucose",
+          "weight"
+        ]
+      },
+      "source_zh": "来自你的方案",
+      "cards": []
+    },
+    {
+      "id": "fixed-wake",
+      "icon": "alarm",
+      "title_zh": "起床时间固定",
+      "do_zh": "工作日起床时间前后不超过 30 分钟，周末不超过 60 分钟。",
+      "days": 14,
+      "primary": [
+        "onset"
+      ],
+      "also": [
+        "sleep",
+        "hrv"
+      ],
+      "adherence": "wake_fixed",
+      "checkin_zh": "今天按时起床了",
+      "needs": [
+        "wristband"
+      ],
+      "randomizable": false,
+      "questions": [
+        {
+          "id": "night_shift",
+          "text_zh": "你常上夜班吗？",
+          "yes": {
+            "variant": "fixed-bed"
+          }
+        },
+        {
+          "id": "early_kids",
+          "text_zh": "周末要早起带孩子吗？",
+          "yes": {
+            "variant": "weekdays"
+          }
+        }
+      ],
+      "variants": {
+        "fixed-bed": {
+          "title_zh": "上床时间固定",
+          "do_zh": "每次睡觉的上床时间前后不超过 30 分钟，按你的班次来。"
+        },
+        "weekdays": {
+          "title_zh": "工作日起床时间固定",
+          "do_zh": "只管工作日：起床时间前后不超过 30 分钟。周末不算。",
+          "scope": "weekdays"
+        }
+      },
+      "exclude": {
+        "drug_classes": [],
+        "conditions": [],
+        "findings": []
+      },
+      "relevance": {
+        "words": [
+          "作息",
+          "起床",
+          "睡眠",
+          "早睡",
+          "熬夜"
+        ],
+        "focus": [
+          "sleep"
+        ]
+      },
+      "source_zh": "研究卡「作息乱与衰弱」「七天手环看节律」",
+      "cards": []
+    },
+    {
+      "id": "sleep-plus-30",
+      "icon": "moon",
+      "title_zh": "睡眠多 30 分钟",
+      "do_zh": "每晚比前两周的平均多睡 30 分钟。",
+      "days": 14,
+      "primary": [
+        "hrv",
+        "rhr"
+      ],
+      "also": [
+        "sleep",
+        "steps"
+      ],
+      "adherence": "sleep_longer",
+      "checkin_zh": "昨晚多睡了 30 分钟",
+      "needs": [
+        "wristband"
+      ],
+      "randomizable": false,
+      "questions": [
+        {
+          "id": "nocturia",
+          "text_zh": "夜里常要起夜吗？",
+          "yes": {
+            "swap": "less-water"
+          }
+        }
+      ],
+      "variants": {},
+      "exclude": {
+        "drug_classes": [],
+        "conditions": [],
+        "findings": []
+      },
+      "relevance": {
+        "words": [
+          "睡眠",
+          "睡够",
+          "早睡",
+          "熬夜"
+        ],
+        "focus": [
+          "sleep"
+        ]
+      },
+      "source_zh": "来自你的方案",
+      "cards": []
+    },
+    {
+      "id": "less-water",
+      "icon": "cup",
+      "title_zh": "睡前 2 小时少喝水",
+      "do_zh": "睡前 2 小时内不喝大杯水和汤。",
+      "days": 14,
+      "primary": [
+        "wakings"
+      ],
+      "also": [
+        "sleep"
+      ],
+      "adherence": "checkin",
+      "checkin_zh": "今天睡前 2 小时没喝大杯水和汤",
+      "needs": [
+        "wristband"
+      ],
+      "randomizable": true,
+      "questions": [],
+      "variants": {},
+      "exclude": {
+        "drug_classes": [],
+        "conditions": [
+          "ckd"
+        ],
+        "findings": []
+      },
+      "relevance": {
+        "words": [
+          "起夜",
+          "夜尿",
+          "醒来",
+          "前列腺"
+        ],
+        "focus": [
+          "sleep"
+        ]
+      },
+      "source_zh": "来自你的方案",
+      "cards": []
+    },
+    {
+      "id": "stand-90",
+      "icon": "chair",
+      "title_zh": "每坐 90 分钟起身一次",
+      "do_zh": "起身提醒出现时站起来走两分钟。",
+      "days": 14,
+      "primary": [
+        "rhr"
+      ],
+      "also": [
+        "glucose"
+      ],
+      "adherence": "standup",
+      "checkin_zh": "",
+      "needs": [
+        "wristband"
+      ],
+      "randomizable": false,
+      "questions": [],
+      "variants": {},
+      "exclude": {
+        "drug_classes": [],
+        "conditions": [],
+        "findings": []
+      },
+      "relevance": {
+        "words": [
+          "久坐",
+          "起身",
+          "站起来",
+          "活动"
+        ],
+        "focus": [
+          "cardio",
+          "glucose",
+          "weight"
+        ]
+      },
+      "source_zh": "来自你的方案",
+      "cards": []
+    },
+    {
+      "id": "home-bp",
+      "icon": "bp",
+      "title_zh": "早晚量血压",
+      "do_zh": "每天早上起床后、晚上睡前各量一次家庭血压。做饭少放盐；吃食堂和外卖时选少盐的菜，不喝汤。",
+      "days": 14,
+      "primary": [
+        "sbp"
+      ],
+      "also": [
+        "weight"
+      ],
+      "adherence": "bp_reading",
+      "checkin_zh": "",
+      "needs": [
+        "bp_cuff"
+      ],
+      "randomizable": false,
+      "questions": [],
+      "variants": {},
+      "exclude": {
+        "drug_classes": [],
+        "conditions": [],
+        "findings": [
+          "finding-sbp-very-high"
+        ]
+      },
+      "relevance": {
+        "words": [
+          "血压",
+          "盐",
+          "减盐",
+          "少盐",
+          "高血压"
+        ],
+        "focus": [
+          "cardio"
+        ]
+      },
+      "source_zh": "来自你的方案；研究卡「中国人自己的心血管风险公式」",
+      "cards": []
+    },
+    {
+      "id": "no-sugary-drinks",
+      "icon": "cup",
+      "title_zh": "戒掉含糖饮料",
+      "do_zh": "两周不喝奶茶、可乐等含糖饮料。",
+      "days": 14,
+      "primary": [
+        "weight",
+        "waist"
+      ],
+      "also": [
+        "waist"
+      ],
+      "adherence": "checkin",
+      "checkin_zh": "今天没喝含糖饮料",
+      "needs": [
+        "scale"
+      ],
+      "randomizable": false,
+      "questions": [],
+      "variants": {},
+      "exclude": {
+        "drug_classes": [],
+        "conditions": [],
+        "findings": [
+          "finding-undiagnosed-diabetes"
+        ]
+      },
+      "relevance": {
+        "words": [
+          "糖",
+          "奶茶",
+          "饮料",
+          "可乐",
+          "尿酸",
+          "体重",
+          "减重"
+        ],
+        "focus": [
+          "weight",
+          "glucose"
+        ]
+      },
+      "source_zh": "来自你的方案",
+      "cards": [],
+      "retest_markers": [
+        "ua",
+        "tg"
+      ]
+    },
+    {
+      "id": "early-dinner",
+      "icon": "bowl",
+      "title_zh": "晚饭提前",
+      "do_zh": "晚饭离睡觉至少 3 小时。",
+      "days": 14,
+      "primary": [
+        "rhr"
+      ],
+      "also": [
+        "sleep",
+        "weight"
+      ],
+      "adherence": "checkin",
+      "checkin_zh": "今天晚饭离睡觉超过 3 小时",
+      "needs": [
+        "wristband"
+      ],
+      "randomizable": true,
+      "questions": [],
+      "variants": {},
+      "exclude": {
+        "drug_classes": [
+          "insulin",
+          "sulfonylurea"
+        ],
+        "conditions": [
+          "diabetes"
+        ],
+        "findings": [
+          "finding-undiagnosed-diabetes"
+        ]
+      },
+      "relevance": {
+        "words": [
+          "晚饭",
+          "夜宵",
+          "进食时间",
+          "限时进食"
+        ],
+        "focus": [
+          "glucose",
+          "weight",
+          "sleep"
+        ]
+      },
+      "source_zh": "来自你的方案；研究卡「什么时候吃，也算数」（小鼠，仅作背景）",
+      "cards": []
+    },
+    {
+      "id": "lipid-diet-8w",
+      "icon": "bowl",
+      "title_zh": "8 周降脂饮食",
+      "do_zh": "每天一份燕麦或豆类，用坚果替代零食，少吃肥肉和油炸。",
+      "days": 56,
+      "primary": [
+        "ldl"
+      ],
+      "also": [],
+      "adherence": "checkin",
+      "checkin_zh": "今天吃了燕麦或豆类，没吃油炸",
+      "needs": [
+        "retest_window"
+      ],
+      "randomizable": false,
+      "questions": [],
+      "variants": {},
+      "exclude": {
+        "drug_classes": [],
+        "conditions": [],
+        "findings": [
+          "finding-ldl-very-high"
+        ]
+      },
+      "relevance": {
+        "words": [
+          "血脂",
+          "胆固醇",
+          "LDL",
+          "低密度",
+          "燕麦"
+        ],
+        "focus": [
+          "cardio"
+        ]
+      },
+      "source_zh": "来自你的方案",
+      "cards": [],
+      "retest_markers": [
+        "ldl"
+      ]
+    }
+  ]
+}

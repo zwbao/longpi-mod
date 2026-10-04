@@ -1,0 +1,11 @@
+dsh-plugin-longpi is MIT licensed (see LICENSE).
+
+vendor/dsh-plugin-mirobody holds the runtime files of a tagged release of
+dsh-plugin-mirobody (https://github.com/zwbao/dsh-plugin-mirobody), Apache-2.0,
+with its own LICENSE and NOTICE in that directory. LongPi mounts it and calls
+its Python bridge; it does not reimplement LOINC or UCUM. Mirobody and its
+terminology licences stay with that project: https://github.com/thetahealth/mirobody
+
+The longevity methods and reference tables stay in the longevity-skills
+checkout configured by skillsHome (https://github.com/zwbao/longevity-skills).
+This package does not redistribute them.
