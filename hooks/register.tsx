@@ -232,8 +232,11 @@ async function enterCoach($: Engine): Promise<string[]> {
 
 const PERSON_FRAME = '[LongPi] The person opened this from LongPi. Speak as Pi, their longevity coach; the LongPi snapshot below is from the plugin, not their words.'
 
+/** A turn in the person's words. Never from inside the hook that holds the current dispatch: a moment later. */
 function sayAsPerson($: Engine, text: string): void {
-  void $.prompt.submit({ text, asUser: true })
+  $.clock.after(0, () => {
+    void $.prompt.submit({ text, asUser: true }).catch(() => undefined)
+  })
 }
 
 // --- the actions a page's press runs ------------------------------------------------------------------
@@ -549,16 +552,18 @@ export const register: Register = (on) => {
     await $.command.register({ name: 'longpi', description: 'LongPi 长寿教练：健康页、长寿图鉴、方案与打卡', argumentHint: '[总览|化验|方案|图鉴|档案|设置|setup|演示模式|你想问的话]' })
     await update($, booted, () => true)
     if (rt && (!rt.skillsHome || !rt.python)) $.ui.toast('LongPi：方法库或计算环境还没装好。输入 /longpi setup 一键安装。')
+    // Background work: a failure (the module unloading under it) is never an unhandled rejection.
+    const quietly = (work: Promise<unknown>) => void work.catch(() => undefined)
     $.clock.every(3_000, () => {
-      void flushPending()
+      quietly(flushPending())
     })
     $.clock.every(60_000, () => {
-      void update($, tick, (t) => t + 1)
-      void loadRoute($, 'codex/slot', true)
-      if (turnSince !== null) void noteActivity($)
+      quietly(update($, tick, (t) => t + 1))
+      quietly(loadRoute($, 'codex/slot', true))
+      if (turnSince !== null) quietly(noteActivity($))
     })
     $.clock.every(15_000, () => {
-      void decideBand($)
+      quietly(decideBand($))
     })
     void loadRoute($, 'codex/slot')
     return next(e)
