@@ -119,6 +119,14 @@ const EMPTY: RouteCache = { at: 0, status: 0, json: null, loading: false, error:
 
 /** Read one route into the cache. `fetchPath` may carry ?refresh=1 while the cache key stays the bare path. */
 async function loadRoute($: Engine, path: string, force = false, fetchPath = path): Promise<void> {
+  try {
+    await loadRouteNow($, path, force, fetchPath)
+  } catch {
+    // the module unloaded under a background read: nothing to keep
+  }
+}
+
+async function loadRouteNow($: Engine, path: string, force: boolean, fetchPath: string): Promise<void> {
   const rt = runtime()
   if (!rt) return
   const now = await $.clock.now()
@@ -172,6 +180,14 @@ async function refreshAll($: Engine): Promise<void> {
 
 /** After a write: what the page named, and the journey (every page's header reads it). */
 async function reloadAfter($: Engine, paths: readonly string[]): Promise<void> {
+  try {
+    await reloadNow($, paths)
+  } catch {
+    // the module unloaded under a background read
+  }
+}
+
+async function reloadNow($: Engine, paths: readonly string[]): Promise<void> {
   const all = [...new Set(['journey', ...paths])]
   await update($, data, (cache) => {
     const out = { ...cache }
@@ -232,10 +248,19 @@ async function enterCoach($: Engine): Promise<string[]> {
 
 const PERSON_FRAME = '[LongPi] The person opened this from LongPi. Speak as Pi, their longevity coach; the LongPi snapshot below is from the plugin, not their words.'
 
-/** A turn in the person's words. Never from inside the hook that holds the current dispatch: a moment later. */
+/**
+ * A turn in the person's words, with Pi's rules and the LongPi snapshot ahead of it as a message only the model
+ * reads (the engine runs no plugin's own prompt.submit hook on the prompts it submits). Never from inside the
+ * hook that holds the current dispatch: a moment later.
+ */
 function sayAsPerson($: Engine, text: string): void {
   $.clock.after(0, () => {
-    void $.prompt.submit({ text, asUser: true }).catch(() => undefined)
+    void (async () => {
+      const extra = await enterCoach($).catch(() => [] as string[])
+      await $.session.append({ message: { type: 'user', content: [{ type: 'text', text: [PERSON_FRAME, ...extra].join('\n\n') }] } })
+        .catch((error: unknown) => $.ui.log(`longpi: snapshot not attached: ${error instanceof Error ? error.message : String(error)}`, { to: 'debug' }))
+      await $.prompt.submit({ text, asUser: true })
+    })().catch(() => undefined)
   })
 }
 
@@ -584,8 +609,13 @@ export const register: Register = (on) => {
     // A prompt from /longpi, or the next one after a turn that used LongPi: the snapshot rides along.
     if (!isOwn && !(await read($, healthTurn))) return next(e)
     await update($, healthTurn, () => false)
-    const extra = isOwn ? await enterCoach($) : [await snapshotNow()].filter(Boolean)
-    if (extra.length === 0) return next(e)
+    let extra: string[] = []
+    try {
+      extra = isOwn ? await enterCoach($) : [await snapshotNow()].filter(Boolean)
+    } catch (error) {
+      $.ui.log(`longpi: snapshot failed: ${error instanceof Error ? error.message : String(error)}`, { to: 'debug' })
+    }
+    if (extra.length === 0 && !isOwn) return next(e)
     return next({ ...e, context: [...(e.context ?? []), ...(isOwn ? [PERSON_FRAME] : []), ...extra] })
   })
 

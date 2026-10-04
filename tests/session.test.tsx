@@ -26,7 +26,7 @@ function world(on: On) {
   }
   const missing = (path: string) => Object.assign(new Error(`ENOENT: no such file or directory, '${path}'`), { code: 'ENOENT' })
   mock.store(on)
-  mock.clock(on, { now: T0 })
+  const clock = mock.clock(on, { now: T0 })
   mock.env(on, { HOME, LANG: 'zh_CN.UTF-8', PATH: '/usr/bin:/bin' })
   on('fs.read', ($, e) => {
     const node = files.get(e.path)
@@ -53,16 +53,17 @@ function world(on: On) {
     for (const dir of dirs) if (dir.startsWith(prefix) && dir !== e.path && !dir.slice(prefix.length).includes('/')) names.set(dir.slice(prefix.length), 'dir')
     return { value: [...names].map(([name, kind]) => ({ name, kind, size: kind === 'file' ? files.get(`${prefix}${name}`)?.text.length ?? 0 : 0, mtimeMs: kind === 'file' ? files.get(`${prefix}${name}`)?.mtime ?? 0 : 0, isLink: false })) }
   })
+  const ran = (exitCode: number, stdout = '', stderr = '') => ({ value: { exitCode, stdout, stderr, isStdoutTruncated: false, isStderrTruncated: false } })
   on('process.run', ($, e) => {
     commands.push([...e.argv])
     const [cmd = '', ...args] = e.argv
-    if (cmd === 'uname') return { value: { exitCode: 0, stdout: 'Darwin\n', stderr: '' } }
+    if (cmd === 'uname') return ran(0, 'Darwin\n')
     if (cmd === 'mkdir') {
       for (const path of args.filter((arg) => arg.startsWith('/'))) mkdirp(path)
-      return { value: { exitCode: 0, stdout: '', stderr: '' } }
+      return ran(0)
     }
-    if (cmd === 'rm' || cmd === 'chmod') return { value: { exitCode: 0, stdout: '', stderr: '' } }
-    return { value: { exitCode: 127, stdout: '', stderr: `${cmd}: not found` } }
+    if (cmd === 'rm' || cmd === 'chmod') return ran(0)
+    return ran(127, '', `${cmd}: not found`)
   })
   on('session.id', () => ({ value: 'test-session' }))
   on('ui.open', () => ({ value: { isPlaced: true } }))
@@ -71,7 +72,9 @@ function world(on: On) {
     return { value: undefined }
   })
   on('ui.status', () => ({ value: undefined }))
-  on('ui.log', () => ({ value: undefined }))
+  on('ui.log', ($, e) => {
+    return { value: undefined }
+  })
   on('ui.render', ($, e) => {
     const { Text } = $.ui.resolve(e)
     return <Text>engine</Text>
@@ -79,7 +82,7 @@ function world(on: On) {
   on('tool.register', ($, e) => ({ value: { tool: `mcp__longpi__${e.name}` } }))
   on('command.register', ($, e) => ({ value: { command: e.name } }))
   on('session.start', ($, e) => ({ cwd: e.cwd }))
-  return { files, toasts, commands }
+  return { files, toasts, commands, clock }
 }
 
 const REPORT = {
@@ -127,28 +130,36 @@ describe('LongPi in a Claude Code session', () => {
     await $.command.run({ command: 'longpi', args: '', origin: { kind: 'composer' }, presentation: { isFullscreen: true, columns: 180 } })
     for (const surface of ['terminal', 'desktop'] as const) {
       const ui = await $.ui.mount({ plugin: 'longpi', surface, component: 'Pane', requestId: 'longpi', props: PANE })
-      expect(await ui.find({ type: 'Text', text: /LongPi ·/ })).toBeDefined()
-      expect(await ui.find({ type: 'Button', key: 'tab-overview' })).toBeDefined()
+      const has = async (label: string, query: Parameters<typeof ui.find>[0]) => {
+        const found = await ui.find(query)
+        if (!found) console.log('MISSING', surface, label, JSON.stringify(await ui.drawn()).slice(0, 3000))
+        return found
+      }
+      expect(await has('header', { type: 'Text', text: /LongPi ·/ })).toBeDefined()
+      expect(await has('tab-overview', { type: 'Button', key: 'tab-overview' })).toBeDefined()
       await ui.press({ key: 'tab-codex' })
-      expect(await ui.find({ type: 'Text', text: /长寿图鉴/ })).toBeDefined()
+      expect(await has('codex', { type: 'Text', text: /长寿图鉴/ })).toBeDefined()
+      // 更多 toggles the secondary pages; the choice is the session's, kept across mounts.
+      if (!(await ui.find({ type: 'Button', key: 'tab-settings' }))) await ui.press({ key: 'tab-more' })
+      expect(await has('tab-settings', { type: 'Button', key: 'tab-settings' })).toBeDefined()
       await ui.press({ key: 'tab-more' })
-      expect(await ui.find({ type: 'Button', key: 'tab-settings' })).toBeDefined()
       await ui.unmount()
     }
   })
 
-  test('/longpi with a question asks Pi in the person\'s words, with the snapshot for the model alone', async ($, on) => {
-    world(on)
-    let seen: { text: string; context: readonly string[] } | null = null
+  test('/longpi with a question asks Pi in the person\'s words and turns coach mode on', async ($, on) => {
+    const { clock } = world(on)
+    let asked = ''
     on('prompt.submit', ($, e) => {
-      seen = { text: e.text, context: e.context ?? [] }
+      asked = e.text
       return { text: e.text }
     })
+    on('prompt.compose', () => ({ sections: [] }))
     await $.session.start(START)
     await $.command.run({ command: 'longpi', args: '我的身体年龄怎么样', origin: { kind: 'composer' }, presentation: { isFullscreen: false, columns: 120 } })
-    await mock.settle?.()
-    const got = seen as { text: string; context: readonly string[] } | null
-    expect(got?.text).toBe('我的身体年龄怎么样')
-    expect((got?.context ?? []).join('\n')).toContain('LongPi')
+    await clock.advance(10)
+    expect(asked).toBe('我的身体年龄怎么样')
+    const composed = await $.prompt.compose({ model: 'claude-opus-5-5', promptModel: 'claude-opus-5-5', surfaces: ['terminal'], tools: [], outputStyle: null, traits: [] })
+    expect(composed.sections.map((s) => s.id)).toContain('longpi:coach')
   })
 })
