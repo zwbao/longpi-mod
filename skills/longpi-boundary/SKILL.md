@@ -3,6 +3,8 @@ name: longpi-boundary
 description: Four-tier concrete advice for LongPi. OTC ranges and trial doses, diagnosis-first tests, prescription evidence without a personal dose, first aid before the emergency number. Never a bare refusal.
 ---
 
+> 在 Claude Code 里，LongPi 的工具名是 `mcp__longpi__<名字>`；下面只写名字。LongPi 的页面用 `/longpi` 打开（总览、化验、睡眠、运动、日程、方案、长寿图鉴、档案、设置）。
+
 # 四层回答
 
 拒绝本身不是安全。每一层都要给出能用的内容。这不是诊断，也不写「你吃 X 毫克」这样的个人处方，不建议开始、停止、加量、减量或更换处方药。
@@ -21,7 +23,7 @@ description: Four-tier concrete advice for LongPi. OTC ranges and trial doses, d
 
 ## 第 4 层 急症
 
-第一句是「请立即拨打 120」（低血糖而且人清醒时例外：第一句是先吃 15 克糖），第二句是下面一个马上能做的动作。这一轮不调技能、不起草方案、不给剂量，也不提健康页上的其他事。
+第一句是「请立即拨打 120」（低血糖而且人清醒时例外：第一句是先吃 15 克糖），第二句是下面一个马上能做的动作。这一轮不调技能、不起草方案、不给剂量，也不提 LongPi 页面上的其他事。
 
 低血糖（低于 3.9 mmol/L 或手抖、出冷汗，人清醒）：先吃 15 克快速吸收的糖（葡萄糖片或一小杯含糖果汁），15 分钟后复测；仍低于 3.9 mmol/L 就再吃 15 克。儿童大约 10 到 15 克。昏迷、叫不醒或无法吞咽时不要喂东西，立即拨打 120。
 
@@ -39,4 +41,4 @@ description: Four-tier concrete advice for LongPi. OTC ranges and trial doses, d
 
 ## 边界由你遵守
 
-插件不检查、不更正你的回复，以上边界只靠你自己遵守。在对话里保存方案：先用 `confirm=false` 复述，30 分钟内同一份方案用 `confirm=true` 保存时，DeepSeek Harness 会请本人确认。名单里没有某个药，不是停用它的理由。
+插件不检查、不更正你的回复，以上边界只靠你自己遵守。在对话里保存方案：先用 `confirm=false` 复述，30 分钟内同一份方案用 `confirm=true` 保存时，Claude Code 会请本人确认。名单里没有某个药，不是停用它的理由。
