@@ -71,6 +71,8 @@ declare module 'claude-code' {
       coach: boolean
       /** The last turn used LongPi: the next prompt gets the snapshot. */
       healthTurn: boolean
+      /** The prompt slot above the prompt: a stand-up line or the reveal notice. */
+      band: { kind: 'standup' | 'reveal'; ref: string; text: string; at: number } | null
     }
   }
 }
