@@ -24,7 +24,7 @@
     "title": "NADase CD38 is a key determinant of ovarian aging",
     "title_zh": "卵巢烟酰胺酶",
     "journal": "Nature Aging",
-    "year": 2023,
+    "year": 2024,
     "authors": "Yang 等",
     "article_url": "https://www.nature.com/articles/s43587-023-00532-9",
     "supplements": [
@@ -36,7 +36,7 @@
     "card_notes": [
       "论文没有给出自己的代码仓库。测序数据在 SRA，登录号留在 claims，不写入个人结果。"
     ],
-    "summary_zh": "这项研究比较多个器官后，发现卵巢更早出现 CD38 升高和 NAD+ 下降。在小鼠里抑制这种酶，卵巢的 NAD+ 和生育相关读数有变化。",
+    "summary_zh": "这项研究比较青年和中年小鼠的多个器官，发现卵巢更早出现 CD38 升高和 NAD+ 下降。在小鼠里抑制这种酶，卵巢的 NAD+ 和生育相关读数有变化。",
     "summary_status": "draft"
   },
   "entry": {

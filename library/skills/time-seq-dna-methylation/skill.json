@@ -4,9 +4,10 @@
   "kind": "paper",
   "tier": "A",
   "species": [
-    "human"
+    "human",
+    "mouse"
   ],
-  "evidence": "cohort",
+  "evidence": "method",
   "domains": [
     "甲基化"
   ],
@@ -27,7 +28,7 @@
     "authors": "Griffin 等",
     "article_url": "https://doi.org/10.1038/s43587-023-00555-2",
     "code_url": "https://github.com/patricktgriffin/TIME-Seq",
-    "summary_zh": "这项研究用 TIME-Seq 读血液甲基化。位点到齐、百分比在零到一百时，按公开仓库里的系数算年龄。缺位点不填补。",
+    "summary_zh": "这项研究开发了低成本的甲基化测序方法 TIME-seq，在多种小鼠组织里建立的衰老时钟准确，饮食和基因治疗等干预也能在时钟上看到；最后又用人群血样建立了人血时钟。个人报告只在位点到齐、百分比在零到一百时，按作者公开的人血时钟系数算你的甲基化年龄，缺位点不填补。",
     "summary_status": "draft"
   },
   "entry": {

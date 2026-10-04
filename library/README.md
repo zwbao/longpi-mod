@@ -362,7 +362,7 @@ python3 -m tools.lsk test --changed origin/main   # 只测相对 main 改动过�
 ### 长寿基因
 
 - `skills/cell-type-polygenic-regulome/` — 调控子的细胞类型特异性和遗传相关性。
-- `skills/human-longevity-progress-review/` — 这篇综述没有给出可核对的基因或变异名单。
+- `skills/human-longevity-progress-review/` — 这项研究没有给出可核对的基因或变异名单。
 
 ### 比较生物学
 

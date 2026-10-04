@@ -23,6 +23,6 @@ python3 "$SKILL/scripts/personal_report.py" \
   --out out
 ```
 
-`--measurements` 用 `item,value,unit` 三列，可含 `bmi`（也认 `BMI`、`体质指数`），单位是 kg/m²，单位列可以留空；只有 `item,value` 两列也行。`--age` 用岁，必须给。`skill.json` 列出名字、单位和合理范围（体质指数 10–100，年龄 18–110 岁）。没有年龄、单位不能换算、数值不在合理范围或读不出来时不对照：报告写明原因，脚本退出码 3。`out/result.json` 写出 `age_group`（十年组）和 `age_over_45_and_bmi_30`（是或否）。
+`--measurements` 用 `item,value,unit` 三列，可含 `bmi`（也认 `BMI`、`体质指数`），单位是 kg/m²，单位列可以留空；只有 `item,value` 两列也行。`--age` 用岁，必须给。`skill.json` 列出名字、单位和合理范围（体质指数 10–100，年龄 18–110 岁）。没有年龄、单位不能换算、数值不在合理范围或读不出来时不对照：报告写明原因，脚本退出码 3。`out/result.json` 写出 `age_group`（十年组）、`age_over_45` 和 `bmi_30_or_more`（各为是或否）。论文图 6c 把年龄和体质指数分别建模，两项各自是风险因素，报告不把它们合成一个切点。
 
 方法说明见 [references/claims.md](references/claims.md) 和 [references/contract.md](references/contract.md)。

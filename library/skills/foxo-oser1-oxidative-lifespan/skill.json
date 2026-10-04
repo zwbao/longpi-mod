@@ -5,9 +5,11 @@
   "tier": "B",
   "species": [
     "human",
-    "multi_species"
+    "c_elegans",
+    "drosophila",
+    "other"
   ],
-  "evidence": "case_control",
+  "evidence": "animal",
   "domains": [
     "长寿基因"
   ],

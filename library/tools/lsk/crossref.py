@@ -60,12 +60,37 @@ def fetch_raw(doi: str, refresh: bool = False, timeout: float = 20.0) -> Optiona
     return message
 
 
-def _year(message: Dict[str, Any]) -> Optional[int]:
-    for key in ("published-print", "published-online", "issued", "created"):
-        parts = (message.get(key) or {}).get("date-parts") or []
+def _first_year(record: Dict[str, Any], keys: tuple) -> Optional[int]:
+    for key in keys:
+        parts = (record.get(key) or {}).get("date-parts") or []
         if parts and parts[0] and parts[0][0]:
             return int(parts[0][0])
     return None
+
+
+def _year(message: Dict[str, Any]) -> Optional[int]:
+    """The citation year: the year of the volume or issue the paper is in.
+
+    Nature Aging and Nature Communications deposit no print date for the
+    article, only for its issue, so the issue date comes first. A paper that is
+    online but not yet in an issue gets its online year; re-run the year sweep
+    once the issue is out, because `lsk check` works offline and cannot see it.
+    """
+    issue = _first_year(message.get("journal-issue") or {}, ("published-print", "published-online"))
+    if issue:
+        return issue
+    return _first_year(message, ("published-print", "published-online", "issued", "created"))
+
+
+def author_text(families: list) -> str:
+    """One author: the name. Two: 「A 与 B」. Three or more: 「A 等」."""
+    if not families or not families[0]:
+        return ""
+    if len(families) == 1:
+        return families[0]
+    if len(families) == 2 and families[1]:
+        return f"{families[0]} 与 {families[1]}"
+    return f"{families[0]} 等"
 
 
 def _clean(text: str) -> str:
@@ -81,18 +106,12 @@ def summarize(message: Optional[Dict[str, Any]]) -> Dict[str, Any]:
     titles = message.get("title") or []
     journals = message.get("container-title") or []
     authors = message.get("author") or []
-    first = ""
-    if authors:
-        head = authors[0]
-        first = head.get("family") or head.get("name") or ""
-    author_text = ""
-    if first:
-        author_text = first if len(authors) == 1 else f"{first} 等"
+    families = [item.get("family") or item.get("name") or "" for item in authors]
     out = {
         "title": _clean(titles[0]) if titles else "",
         "journal": _clean(journals[0]) if journals else "",
         "year": _year(message),
-        "authors": author_text,
+        "authors": author_text(families),
         "abstract": _clean(message.get("abstract", "")),
         "type": message.get("type", ""),
         "publisher": message.get("publisher", ""),

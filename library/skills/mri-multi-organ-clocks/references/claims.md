@@ -1,6 +1,6 @@
 # 论文、仓库、另一套同名东西
 
-Nature Medicine（2025），doi:10.1038/s41591-025-03999-8。全文读自 EuropePMC PMC12823390。构建清单的 github 为空。
+Nature Medicine 32:82–92（2026），doi:10.1038/s41591-025-03999-8。全文读自 EuropePMC PMC12823390。构建清单的 github 为空。
 
 | | 内容 |
 | --- | --- |

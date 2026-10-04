@@ -8,7 +8,7 @@
     "c_elegans",
     "mouse"
   ],
-  "evidence": "in_vitro",
+  "evidence": "animal",
   "domains": [
     "脑、认知与痴呆",
     "自噬"

@@ -6,6 +6,7 @@
   "species": [
     "human",
     "cell_line",
+    "mouse",
     "other"
   ],
   "evidence": "in_vitro",

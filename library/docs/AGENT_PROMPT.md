@@ -73,6 +73,8 @@ python3 -m tools.lsk doi "https://doi.org/10.1038/S41586-026-01234-5."   # → 1
 - 人群研究但个人只能查表（点名的基因、蛋白、化合物、干预、方向），或者是干预的随机试验、荟萃分析：B。
 - 看不出来的：pending，不生成任何东西。
 
+分级看的是个人读出用到的那部分人体数据。论文的人体部分够做 A 或 B、主结论却来自动物或细胞实验时，分级照人体部分定；`evidence` 和 `species` 照整篇论文写（见 3.5），两者不矛盾。
+
 每篇同时标出：
 
 - `data_type`：个人需要什么数据。取值 routine_labs、wearable、questionnaire、home_measurement（血压、腰围、握力、步速）、repeated_measures、genotype、imaging、methylation、proteomics、metabolomics、transcriptomics、research_assay、immune_profile、telomere、none。
@@ -91,7 +93,12 @@ python3 -m tools.lsk doi "https://doi.org/10.1038/S41586-026-01234-5."   # → 1
 4. **目录**：`skills/<方法名>/`，名字按方法，不按论文。包含 `SKILL.md`、`skill.json`、`examples.md`、`references/`、`scripts/personal_report.py`、`scripts/presets.py`、`tests/`。`skillkit.py` 和 `paper_card.py` 由 `lsk build` 复制进来，不要手改。
 5. **`skill.json`**（schema：`schema/skill.schema.json`，照 `skills/accelerated-biological-aging-risk/skill.json` 写）：
    - `tier`、`species`、`evidence`、`domains`、`blurb_zh`（普通人的叫法）、`intents`（从 `intents.json` 里选）、`triage.reason_zh`。
-   - `paper`：规范化的 `doi`、`title`、`title_zh`、`journal`、`year`、`authors`、`article_url`、`supplements`、`summary_zh`（两句：研究做了什么；个人报告只算什么），`summary_status: "draft"`。
+   - `species`：论文自己的实验用到的全部物种，不只是技能读的那一种。人群队列加小鼠实验写 `["human", "mouse"]`；人细胞移植进小鼠也要加 `mouse`。
+   - `evidence`：`summary_zh` 第一句那个主结论的研究设计，不是技能所读数据的来源。随机试验血样的事后、二次或探索分析写 `rct_secondary`，只有预设主要结局才写 `rct`；主体是动物实验、只附少量人体数据的写 `animal`；同一次采血按年龄比较的写 `cross_sectional`，即使受试者来自某个队列；专家共识或指南写 `consensus`。综述还是原创研究，以 PubMed 或 Europe PMC 的出版类型为准。各取值的定义见 `schema/skill.schema.json`。
+   - `paper`：规范化的 `doi`、`title`、`title_zh`、`journal`、`year`、`authors`、`article_url`、`supplements`、`summary_zh`，`summary_status: "draft"`。
+   - `year` 写卷期年：Nature Aging 4:110–128 是 2024 年，哪怕 2023 年 12 月已在线发表。还没编进卷期时写在线年，编进后再改。`claims.md`、`SKILL.md` 和 `upsert-paper --year` 用同一个年份。
+   - `authors`：一位作者写姓；两位写「A 与 B」；三位及以上写「A 等」。
+   - `summary_zh` 两句，写给普通人：第一句写研究发现了什么，并写明对象（人、小鼠、线虫……）；随机试验的再分析写明「事后分析」或「二次分析」。第二句写个人报告只算什么。不写研究结果的数字和建议用语；不写面向用户的免责句（边界句放在报告里）；不写工具名、包名、函数名、参数或仓库状态。
    - `entry`：脚本、测量文件参数和表头、`--age`、`--sex`、`--out`、`result_json: true`；依赖非标准库时写 `runtime` 和 `scripts/requirements.txt`。
    - `inputs`：每个输入的 `key`（带单位，如 `crp_mg_dl`）、`label_zh`、`aliases`（中英文化验单、设备上的叫法）、`loinc`（确定才写）、`unit`、`accept`（其他单位和精确换算系数，涉及摩尔换算写 `molar_mass`）、`range`（能抓出填错单位的合理范围，不是参考范围）、`unit_required`（常见错单位仍落在范围内时）、`required`、`from`（measurements、profile、argument、output）。
    - `outputs`：报告算出的每个数或分档。

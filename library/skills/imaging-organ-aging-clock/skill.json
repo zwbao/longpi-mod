@@ -28,8 +28,11 @@
     "authors": "Ren 等",
     "article_url": "https://doi.org/10.1038/s41746-026-02488-7",
     "code_url": "https://github.com/hitrp/MultiOrganImagingAging/",
-    "summary_zh": "这项研究用影像表型做器官年龄。论文给出的仓库当时克隆不到，偏差校正的截距也没有印出。已经给出预测年龄时，报告用预测年龄减去实足年龄。",
-    "summary_status": "draft"
+    "summary_zh": "这项研究用上千项影像指标为七个器官建立器官年龄，发现某个器官的年龄差主要与这个器官相关的新发疾病和死亡有关。已经给出各器官预测年龄时，个人报告用预测年龄减去实足年龄。",
+    "summary_status": "draft",
+    "card_notes": [
+      "论文给出的仓库当时克隆不到，偏差校正的截距也没有印出，所以报告不从影像指标重算器官年龄。"
+    ]
   },
   "entry": {
     "script": "scripts/personal_report.py",

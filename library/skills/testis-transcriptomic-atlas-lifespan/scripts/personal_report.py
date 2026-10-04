@@ -165,14 +165,13 @@ def method_lines(kv, age, rows=None):
     if label is None:
         return "这次没有落在图谱年龄范围内的年龄，所以没有对照衰老阶段。", lines
     intro = f"这次按年龄把你放在{label}这一组。"
+    intro += (
+        f"论文图 6c 把年龄和体质指数分别建模：年龄（尤其大于 {FIG6C_AGE:g} 岁）和体质指数（尤其至少 {BMI_CUT:g}）"
+        "各自是生育力下降的潜在风险因素。这不是诊断。"
+    )
+    intro += f"你的年龄{'大于' if age > FIG6C_AGE else '没有超过'} {FIG6C_AGE:g} 岁。"
     if bmi is not None:
-        intro += (
-            f"体质指数是 {bmi:g}。论文把大于 {FIG6C_AGE:g} 岁并且体质指数至少 {BMI_CUT:g} 写成生育力的一个风险因素。这不是诊断。"
-        )
-        if age > FIG6C_AGE and bmi >= BMI_CUT:
-            intro += "按这句写法，年龄和体质指数同时落在里面。"
-        else:
-            intro += "按这句写法，没有同时落在里面。"
+        intro += f"体质指数是 {bmi:g}，{'至少' if bmi >= BMI_CUT else '低于'} {BMI_CUT:g}。"
     return intro, lines
 
 
@@ -253,12 +252,15 @@ def collect_inputs(measurements, age):
     return collected.values.get("bmi"), problems
 
 
-def age_bmi_statement(age, bmi):
-    """是 or 否 for the Fig. 6c sentence method_lines() checks, or None when it does not check it."""
+def fig6c_flags(age, bmi):
+    """是 or 否 for each Fig. 6c risk factor, which the paper models separately; None when it is not checked."""
     from presets import BMI_CUT, FIG6C_AGE
-    if decade_label(age) is None or bmi is None:
-        return None
-    return "是" if age > FIG6C_AGE and bmi >= BMI_CUT else "否"
+    if decade_label(age) is None:
+        return {"age_over_45": None, "bmi_30_or_more": None}
+    return {
+        "age_over_45": "是" if age > FIG6C_AGE else "否",
+        "bmi_30_or_more": None if bmi is None else ("是" if bmi >= BMI_CUT else "否"),
+    }
 
 
 def report(out, meds, labs, measurements, age=None):
@@ -274,14 +276,11 @@ def report(out, meds, labs, measurements, age=None):
             "这次没有计算。原因如下：", "输入没有通过检查，所以没有对照衰老阶段。原因如下："
         )
         path.write_text(_with_paper_card(text), encoding="utf-8")
-        skillkit.write_result(out, manifest, {"age_group": None, "age_over_45_and_bmi_30": None})
+        skillkit.write_result(out, manifest, {"age_group": None, **fig6c_flags(None, None)})
         return path
     kv = {} if bmi is None else {"bmi": repr(bmi)}
     path = write_report(out, render_values(age, load_meds(meds), labs, kv))
-    skillkit.write_result(out, manifest, {
-        "age_group": decade_label(age),
-        "age_over_45_and_bmi_30": age_bmi_statement(age, bmi),
-    })
+    skillkit.write_result(out, manifest, {"age_group": decade_label(age), **fig6c_flags(age, bmi)})
     return path
 
 

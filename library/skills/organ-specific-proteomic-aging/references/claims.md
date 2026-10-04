@@ -1,6 +1,6 @@
 # 论文、仓库、另一套同名东西
 
-Wang 等，Nature Aging（2025），doi:10.1038/s43587-025-01016-8。全文读自 EuropePMC PMC12823432。
+Wang 等，Nature Aging（2026），doi:10.1038/s43587-025-01016-8。全文读自 EuropePMC PMC12823432。
 
 | | 内容 |
 | --- | --- |

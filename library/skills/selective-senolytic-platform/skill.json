@@ -7,7 +7,7 @@
     "cell_line",
     "mouse"
   ],
-  "evidence": "in_vitro",
+  "evidence": "animal",
   "domains": [
     "老年保护"
   ],
@@ -24,7 +24,7 @@
     "title": "Generation of a selective senolytic platform using a micelle-encapsulated Sudan Black B conjugated analog",
     "title_zh": "脂褐素导向的清除平台",
     "journal": "Nature Aging",
-    "year": 2024,
+    "year": 2025,
     "authors": "Magkouta 等",
     "article_url": "https://www.nature.com/articles/s43587-024-00747-4",
     "supplements": [

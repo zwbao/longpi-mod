@@ -5,9 +5,11 @@
   "tier": "B",
   "species": [
     "human",
-    "cell_line"
+    "cell_line",
+    "c_elegans",
+    "mouse"
   ],
-  "evidence": "case_control",
+  "evidence": "animal",
   "domains": [
     "营养感应",
     "骨骼肌"

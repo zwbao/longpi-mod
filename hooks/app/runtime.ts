@@ -94,7 +94,8 @@ export async function findSkillsHome(io: Io, configured: string, pluginRoot = ''
   const updated = home ? join(home, '.longpi', 'longevity-skills') : ''
   const vb = bundled ? await versionAt(io, bundled) : null
   const vu = updated ? await versionAt(io, updated) : null
-  if (vu && (!vb || newer(vu, vb))) return updated
+  // The weekly copy is pulled from the library's main branch: at the same version it is at least as new.
+  if (vu && (!vb || !newer(vb, vu))) return updated
   if (vb) return bundled
   for (const dir of skillsHomeCandidates(configured)) if (await versionAt(io, dir)) return dir
   return ''

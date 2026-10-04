@@ -5,7 +5,9 @@
   "tier": "A",
   "species": [
     "human",
-    "cell_line"
+    "cell_line",
+    "mouse",
+    "c_elegans"
   ],
   "evidence": "cohort",
   "domains": [

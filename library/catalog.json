@@ -1393,9 +1393,10 @@
       "kind": "paper",
       "tier": "B",
       "species": [
-        "human"
+        "human",
+        "mouse"
       ],
-      "evidence": "cross_sectional",
+      "evidence": "animal",
       "domains": [
         "免疫与炎症"
       ],
@@ -1805,7 +1806,7 @@
         "human",
         "killifish"
       ],
-      "evidence": "cross_sectional",
+      "evidence": "animal",
       "domains": [
         "营养感应"
       ],
@@ -2369,7 +2370,7 @@
       "species": [
         "human"
       ],
-      "evidence": "cohort",
+      "evidence": "cross_sectional",
       "domains": [
         "脑、认知与痴呆"
       ],
@@ -2536,7 +2537,7 @@
       "species": [
         "human"
       ],
-      "evidence": "rct",
+      "evidence": "rct_secondary",
       "domains": [
         "甲基化"
       ],
@@ -2625,7 +2626,7 @@
         "title": "NADase CD38 is a key determinant of ovarian aging",
         "title_zh": "卵巢烟酰胺酶",
         "journal": "Nature Aging",
-        "year": 2023
+        "year": 2024
       }
     },
     {
@@ -2687,7 +2688,7 @@
         "title": "Integrating polygenic signals and single-cell multiomics identifies cell-type-specific regulomes critical for immune- and aging-related diseases",
         "title_zh": "细胞类型里的调控子",
         "journal": "Nature Aging",
-        "year": 2025
+        "year": 2026
       }
     },
     {
@@ -3555,7 +3556,7 @@
       "species": [
         "human"
       ],
-      "evidence": "database",
+      "evidence": "consensus",
       "domains": [
         "用药与基因"
       ],
@@ -3792,7 +3793,7 @@
         "title": "Dissecting the genetic and proteomic risk factors for delirium",
         "title_zh": "谵妄相关蛋白",
         "journal": "Nature Aging",
-        "year": 2025
+        "year": 2026
       }
     },
     {
@@ -3836,7 +3837,7 @@
         "human",
         "mouse"
       ],
-      "evidence": "cohort",
+      "evidence": "animal",
       "domains": [
         "基质、软骨与纤维化"
       ],
@@ -5129,7 +5130,7 @@
       "species": [
         "human"
       ],
-      "evidence": "rct",
+      "evidence": "rct_secondary",
       "domains": [
         "临床年龄与可穿戴"
       ],
@@ -5294,9 +5295,11 @@
       "tier": "B",
       "species": [
         "human",
-        "multi_species"
+        "c_elegans",
+        "drosophila",
+        "other"
       ],
-      "evidence": "case_control",
+      "evidence": "animal",
       "domains": [
         "长寿基因"
       ],
@@ -7782,9 +7785,10 @@
       "kind": "paper",
       "tier": "B",
       "species": [
-        "human"
+        "human",
+        "mouse"
       ],
-      "evidence": "cross_sectional",
+      "evidence": "animal",
       "domains": [
         "免疫与炎症"
       ],
@@ -7818,12 +7822,12 @@
       "species": [
         "human"
       ],
-      "evidence": "review",
+      "evidence": "cross_sectional",
       "domains": [
         "长寿基因"
       ],
-      "blurb_zh": "这篇综述没有给出可核对的基因或变异名单。",
-      "description": "Checks whether a gene or variant the user names is stated by Bonnet et al., Nature Communications 2026 (doi:10.1038/s41467-026-68828-z). Use when the user mentions this review of sustainable progress in human longevity or regional life expectancy in Western Europe. The review names no gene or variant, so the matched list stays empty. Labs do not add names.",
+      "blurb_zh": "这项研究没有给出可核对的基因或变异名单。",
+      "description": "Checks whether a gene or variant the user names is stated by Bonnet et al., Nature Communications 2026 (doi:10.1038/s41467-026-68828-z). Use when the user mentions this study of sustainable progress in human longevity or regional life expectancy in Western Europe. The paper names no gene or variant, so the matched list stays empty. Labs do not add names.",
       "intents": [],
       "has_script": true,
       "entry": {
@@ -7905,7 +7909,7 @@
         "title": "Molecular and genetic insights into human ovarian aging from single-nuclei multi-omics analyses",
         "title_zh": "人卵巢单核多组学",
         "journal": "Nature Aging",
-        "year": 2024
+        "year": 2025
       }
     },
     {
@@ -8297,7 +8301,7 @@
       "species": [
         "human"
       ],
-      "evidence": "cohort",
+      "evidence": "cross_sectional",
       "domains": [
         "免疫与炎症"
       ],
@@ -9143,7 +9147,7 @@
         "c_elegans",
         "mouse"
       ],
-      "evidence": "in_vitro",
+      "evidence": "animal",
       "domains": [
         "脑、认知与痴呆",
         "自噬"
@@ -9637,7 +9641,7 @@
         "title": "DNA methylation clocks tick in naked mole rats but queens age more slowly than nonbreeders",
         "title_zh": "裸鼹鼠甲基化时钟",
         "journal": "Nature Aging",
-        "year": 2021
+        "year": 2022
       }
     },
     {
@@ -9942,7 +9946,7 @@
         "title": "Cell-type-specific aging clocks to quantify aging and rejuvenation in neurogenic regions of the brain",
         "title_zh": "神经发生区细胞时钟",
         "journal": "Nature Aging",
-        "year": 2022
+        "year": 2023
       }
     },
     {
@@ -10315,7 +10319,7 @@
         "title": "Revealing the genetic architectures underlying organ-specific aging based on proteomic data",
         "title_zh": "器官衰老遗传结构",
         "journal": "Nature Communications",
-        "year": 2025
+        "year": 2026
       }
     },
     {
@@ -10380,7 +10384,7 @@
         "title": "Organ-specific proteomic aging clocks predict disease and longevity across diverse populations",
         "title_zh": "器官蛋白质年龄差",
         "journal": "Nature Aging",
-        "year": 2025
+        "year": 2026
       }
     },
     {
@@ -10489,6 +10493,7 @@
       "species": [
         "human",
         "cell_line",
+        "mouse",
         "other"
       ],
       "evidence": "in_vitro",
@@ -11714,7 +11719,7 @@
         "cell_line",
         "mouse"
       ],
-      "evidence": "in_vitro",
+      "evidence": "animal",
       "domains": [
         "免疫与炎症"
       ],
@@ -12066,7 +12071,7 @@
         "cell_line",
         "mouse"
       ],
-      "evidence": "in_vitro",
+      "evidence": "animal",
       "domains": [
         "老年保护"
       ],
@@ -12089,7 +12094,7 @@
         "title": "Generation of a selective senolytic platform using a micelle-encapsulated Sudan Black B conjugated analog",
         "title_zh": "脂褐素导向的清除平台",
         "journal": "Nature Aging",
-        "year": 2024
+        "year": 2025
       }
     },
     {
@@ -12099,7 +12104,7 @@
       "species": [
         "human"
       ],
-      "evidence": "rct",
+      "evidence": "rct_secondary",
       "domains": [
         "甲基化"
       ],
@@ -12477,7 +12482,7 @@
       "species": [
         "human"
       ],
-      "evidence": "cohort",
+      "evidence": "cross_sectional",
       "domains": [
         "免疫与炎症"
       ],
@@ -13079,9 +13084,14 @@
           "note_zh": "20多岁、30多岁、40多岁、50多岁或60多岁；年龄不在 21–29、30–39、40–49、50–59、60–69 这几段里时为空。"
         },
         {
-          "key": "age_over_45_and_bmi_30",
-          "label_zh": "年龄大于 45 岁并且体质指数至少 30",
-          "note_zh": "是或否，照论文图 6c 那句写法核对，不是诊断。没有体质指数或年龄不在图谱十年组里时为空。"
+          "key": "age_over_45",
+          "label_zh": "年龄大于 45 岁",
+          "note_zh": "是或否。论文图 6c 单独为年龄建模，年龄（尤其 45 岁以上）是生育力下降的潜在风险因素，不是诊断。年龄不在图谱十年组里时为空。"
+        },
+        {
+          "key": "bmi_30_or_more",
+          "label_zh": "体质指数至少 30",
+          "note_zh": "是或否。论文图 6c 单独为体质指数建模，体质指数（尤其至少 30）是生育力下降的潜在风险因素，不是诊断。没有体质指数或年龄不在图谱十年组里时为空。"
         }
       ],
       "paper": {
@@ -13097,9 +13107,10 @@
       "kind": "paper",
       "tier": "A",
       "species": [
-        "human"
+        "human",
+        "mouse"
       ],
-      "evidence": "cohort",
+      "evidence": "method",
       "domains": [
         "甲基化"
       ],
@@ -13163,9 +13174,11 @@
       "tier": "B",
       "species": [
         "human",
-        "cell_line"
+        "cell_line",
+        "c_elegans",
+        "mouse"
       ],
-      "evidence": "case_control",
+      "evidence": "animal",
       "domains": [
         "营养感应",
         "骨骼肌"
@@ -13196,7 +13209,9 @@
       "tier": "A",
       "species": [
         "human",
-        "cell_line"
+        "cell_line",
+        "mouse",
+        "c_elegans"
       ],
       "evidence": "cohort",
       "domains": [
