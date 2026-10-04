@@ -362,7 +362,7 @@ export function BodyAgeCard(ctx: Ctx, props: { journey: Journey; tracking: Track
   const bandRange = band != null && first?.advance != null ? { lo: first.advance - band, hi: first.advance + band } : null
   const info = [
     BIOAGE_INFO,
-    band != null ? `正常波动范围：首次检查 ±${fmt(band)} 岁${partial ? `（未含${bio?.band_missing?.join('、')}）` : ''}。趋势线里灰色的点在范围内，彩色的点落在范围外，才视为真实变化。` : '',
+    band != null ? `正常波动范围：首次检查 ±${fmt(band)} 岁${partial ? `（未含${bio?.band_missing?.join('、')}）` : ''}。${trend.length > 1 ? '趋势线里灰色的点在范围内，彩色的点落在范围外，才视为真实变化。' : '落在范围外才视为真实变化。'}` : '',
     date ? `最近一次：${chineseDate(date, today)}体检，共 ${count} 次完整血检。` : '',
   ].filter(Boolean)
   return Card(ctx, {

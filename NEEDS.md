@@ -15,3 +15,7 @@
   for the pane (`inClaude`, `inPane` in `pages/overview/words.ts`); the chat and other pages still show the
   originals. The consent scope is still named `data_flow_deepseek` (posted, never shown).
 - The pane banner ("下一步：… g: 开始") still shows while the onboarding steps are already on screen.
+- **Promote `wrapZh` / `Para` to kit.** `pages/overview/ui.tsx` has a line breaker for Chinese paragraphs set to a
+  known width: breaks between characters, keeps numbers and Latin words whole, and never starts a line with
+  。，、」… (Ink's own wrap leaves a lone 「。」 on the last line when a sentence fills the width exactly). Other
+  pages will want it; kit's `zh` alone does not prevent the dangling mark.

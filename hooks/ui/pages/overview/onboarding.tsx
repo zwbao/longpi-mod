@@ -45,6 +45,8 @@ function go(ctx: Ctx, step: number): void {
 function close(ctx: Ctx): void {
   setSub(ctx, 'step', '')
   setSub(ctx, 'onboarding', '0')
+  // Every answer went out in a whole-set save by now: from here the saved profile speaks (the chat may change it).
+  for (const key of DRAFT_KEYS) setSub(ctx, key, '')
 }
 
 function Stepper(ctx: Ctx, journey: Journey, step: number): RenderElement {

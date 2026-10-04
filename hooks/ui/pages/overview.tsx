@@ -11,7 +11,7 @@ import { NotableChanges } from './overview/changes.tsx'
 import { AskPi, InsightCard, NextCard, PartialNote, ScienceIntro } from './overview/extras.tsx'
 import { journeyOf, trackingOf, type Stage } from './overview/journey.ts'
 import { Onboarding } from './overview/onboarding.tsx'
-import { AddPerson, DemoInvite, PeopleRow, PERSON_ROUTES, PersonNotice } from './overview/people.tsx'
+import { AddPerson, DemoInvite, PeopleRow, PersonNotice } from './overview/people.tsx'
 import { ResultsRow } from './overview/results.tsx'
 import { TodayCard } from './overview/today.tsx'
 import { coveredByCare } from './overview/words.ts'
@@ -57,12 +57,24 @@ function draw(ctx: Ctx): Node {
   )
 }
 
+/** What 总览 reads: the dashboard's routes, the setup's (privacy copy, reminder) only while it shows, the
+ * wearable values only while 今日洞察 can show, and an open doctor brief. */
 export const page: Page = {
   tab: 'overview',
   label: '总览',
-  routes: (view) => {
+  routes: (view, json) => {
     const brief = briefRoute(view.sub)
-    return [...PERSON_ROUTES, ...(brief ? [brief] : [])]
+    const journey = json?.('journey') ?? null
+    const stage = typeof journey?.stage === 'string' ? journey.stage as Stage : 'consent'
+    const asked = view.sub['overview.onboarding'] ?? ''
+    const setup = asked === '1' || (asked !== '0' && EARLY.includes(stage)) || journey == null
+    const insight = json?.<{ enabled?: boolean }>('codex/slot')?.enabled === true
+    return [
+      'journey', 'tracking', 'people', 'surfaces', 'triage', 'codex/slot', 'science/invite',
+      ...(setup ? ['privacy', 'followup'] : []),
+      ...(insight ? ['indicators'] : []),
+      ...(brief ? [brief] : []),
+    ]
   },
   draw,
 }
