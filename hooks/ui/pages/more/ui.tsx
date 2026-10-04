@@ -19,7 +19,7 @@ export function Fold(ctx: Ctx, props: { page: string; id: string; title: string;
   const open = isOpen(ctx, props.page, props.id, props.fallback ?? '')
   const room = Math.max(6, ctx.width - cells(props.title) - 6)
   const head = (
-    <Box key={`fold-${props.id}`} flexDirection="row" justifyContent="space-between" width={ctx.width} marginTop={open ? 1 : 0}>
+    <Box key={`fold-${props.id}`} flexDirection="row" justifyContent="space-between" width={ctx.width}>
       <Button key={`fold-${props.id}-btn`} plain label={`${open ? '▾' : '▸'} ${props.title}`} onPress={() => toggleOpen(ctx, props.page, props.id, props.fallback ?? '')} />
       {props.summary ? <Text dimColor={!props.tone} color={props.tone}>{fit(props.summary, room)}</Text> : null}
     </Box>
@@ -101,7 +101,7 @@ export function Field(ctx: Ctx, props: { key: string; label: string; value?: str
         onSubmit={(value: string) => props.onSubmit(value)}
         {...(props.onInput ? { onInput: (value: string) => props.onInput?.(value) } : {})}
       />
-      {props.hint ? <Text dimColor wrap="wrap">{`${' '.repeat((props.labelWidth ?? LABEL) + 2)}${props.hint}`}</Text> : null}
+      {props.hint ? Para(ctx, props.hint, { key: `${props.key}-hint`, dim: true, indent: (props.labelWidth ?? LABEL) + 2 }) : null}
     </Box>
   )
 }
@@ -123,62 +123,138 @@ export function Pick(ctx: Ctx, props: { key: string; label: string; options: Rea
 }
 
 /** A label and a value on one line, the label in a fixed column. */
-export function Row(E: Els, label: string, value: string, opts: { key?: string; color?: string; dim?: boolean; labelWidth?: number } = {}): RenderElement {
-  const { Box, Text } = E
+/** A label and a value on one line, the label in a fixed column; the value wraps under itself. */
+export function Row(ctx: Ctx, label: string, value: string, opts: { key?: string; color?: string; dim?: boolean; labelWidth?: number; width?: number } = {}): RenderElement {
+  const { Box, Text } = ctx.E
+  const lw = (opts.labelWidth ?? LABEL) + 2
+  const lines = wrapCells(value, Math.max(8, (opts.width ?? ctx.width - 2) - lw))
   return (
     <Box key={opts.key ?? `row-${label}`} flexDirection="row">
-      <Text dimColor>{pad(label, (opts.labelWidth ?? LABEL) + 2)}</Text>
-      <Text color={opts.color} dimColor={opts.dim} wrap="wrap">{value}</Text>
+      <Text dimColor>{pad(label, lw)}</Text>
+      <Box flexDirection="column">
+        {lines.map((line, i) => <Text key={`l${i}`} color={opts.color} dimColor={opts.dim}>{line}</Text>)}
+      </Box>
     </Box>
   )
 }
 
-export function Err(E: Els, text: string, key = 'err'): Node {
-  if (!text) return null
-  const { Text } = E
-  return <Text key={key} color={C.bad} wrap="wrap">{text}</Text>
+// --- paragraphs ------------------------------------------------------------------------------------------
+
+/** Characters a line must not start with (they hang on the line before). */
+const NO_START = new Set([...'，。、；：！？）」』》〉】,.;:!?)%·…'])
+
+/**
+ * Lines of at most `width` cells: Chinese breaks between any two characters, a Latin word or number never
+ * splits, and a line never starts with closing punctuation.
+ */
+export function wrapCells(text: string, width: number): string[] {
+  const out: string[] = []
+  for (const para of text.split('\n')) {
+    const tokens = para.match(/[A-Za-z0-9][A-Za-z0-9.,:/%~+\-_'@#&=?]*|\s+|./gu) ?? []
+    let line: string[] = []
+    let used = 0
+    const flush = () => {
+      out.push(line.join('').trimEnd())
+      line = []
+      used = 0
+    }
+    for (const token of tokens) {
+      const w = cells(token)
+      if (/^\s+$/.test(token)) {
+        if (used > 0 && used + 1 <= width) {
+          line.push(' ')
+          used += 1
+        }
+        continue
+      }
+      if (used + w > width && used > 0) {
+        // Closing punctuation pulls the token before it down with it.
+        const carry: string[] = []
+        if (NO_START.has(token) && line.length > 1) carry.push(line.pop() as string)
+        flush()
+        for (const piece of carry) {
+          line.push(piece)
+          used += cells(piece)
+        }
+      }
+      if (w > width) {
+        // A word longer than the line: cut it.
+        let rest = token
+        while (cells(rest) > width - used) {
+          const cut = fit(rest, width - used).replace(/…$/, '')
+          line.push(cut)
+          flush()
+          rest = rest.slice(cut.length)
+        }
+        line.push(rest)
+        used += cells(rest)
+        continue
+      }
+      line.push(token)
+      used += w
+    }
+    if (line.length > 0 || out.length === 0) flush()
+  }
+  return out
 }
 
-export function Ok(E: Els, text: string, key = 'ok'): Node {
-  if (!text) return null
-  const { Text } = E
-  return <Text key={key} color={C.good} wrap="wrap">{text}</Text>
+/** A wrapped paragraph in `width` cells (default: a section body's). */
+export function Para(ctx: Ctx, text: string, opts: { key: string; dim?: boolean; color?: string; bold?: boolean; width?: number; indent?: number }): RenderElement {
+  const { Box, Text } = ctx.E
+  const indent = ' '.repeat(opts.indent ?? 0)
+  const lines = wrapCells(text, Math.max(8, (opts.width ?? ctx.width - 2) - (opts.indent ?? 0)))
+  return (
+    <Box key={opts.key} flexDirection="column">
+      {lines.map((line, i) => <Text key={`l${i}`} dimColor={opts.dim} color={opts.color} bold={opts.bold}>{`${indent}${line}`}</Text>)}
+    </Box>
+  )
 }
 
-export function Note(E: Els, text: string, key: string): Node {
-  if (!text) return null
-  const { Text } = E
-  return <Text key={key} dimColor wrap="wrap">{text}</Text>
+export function Err(ctx: Ctx, text: string, key = 'err'): Node {
+  return text ? Para(ctx, text, { key, color: C.bad }) : null
 }
 
-export function Subhead(E: Els, text: string, key: string, note = ''): RenderElement {
+export function Ok(ctx: Ctx, text: string, key = 'ok'): Node {
+  return text ? Para(ctx, text, { key, color: C.good }) : null
+}
+
+export function Note(ctx: Ctx, text: string, key: string, width?: number): Node {
+  return text ? Para(ctx, text, { key, dim: true, ...(width ? { width } : {}) }) : null
+}
+
+export function Subhead(E: Els, text: string, key: string, note = '', top = true): RenderElement {
   const { Box, Text } = E
   return (
-    <Box key={key} flexDirection="row" gap={2} marginTop={1}>
+    <Box key={key} flexDirection="row" gap={2} marginTop={top ? 1 : 0}>
       <Text bold>{text}</Text>
       {note ? <Text dimColor>{note}</Text> : null}
     </Box>
   )
 }
 
-/** A bullet list, wrapped. */
-export function Bullets(E: Els, lines: readonly string[], key: string, dim = false): Node {
+/** A bullet list, wrapped under its own text. */
+export function Bullets(ctx: Ctx, lines: readonly string[], key: string, dim = false): Node {
   if (lines.length === 0) return null
-  const { Box, Text } = E
+  const { Box, Text } = ctx.E
   return (
     <Box key={key} flexDirection="column">
-      {lines.map((line, i) => <Text key={`${key}-${i}`} dimColor={dim} wrap="wrap">{`· ${line}`}</Text>)}
+      {lines.map((line, i) => (
+        <Box key={`${key}-${i}`} flexDirection="row">
+          <Text dimColor={dim}>· </Text>
+          {Para(ctx, line, { key: `${key}-${i}-t`, dim, width: ctx.width - 4 })}
+        </Box>
+      ))}
     </Box>
   )
 }
 
 /** A status mark: ● green on, ● grey off, ● red failed. */
-export function Dot(E: Els, state: 'on' | 'off' | 'bad', text: string, key = 'dot'): RenderElement {
-  const { Box, Text } = E
+export function Dot(ctx: Ctx, state: 'on' | 'off' | 'bad', text: string, key = 'dot'): RenderElement {
+  const { Box, Text } = ctx.E
   return (
     <Box key={key} flexDirection="row" gap={1}>
       <Text color={state === 'on' ? C.good : state === 'bad' ? C.bad : C.dim}>●</Text>
-      <Text wrap="wrap">{text}</Text>
+      {Para(ctx, text, { key: `${key}-t`, width: ctx.width - 4 })}
     </Box>
   )
 }

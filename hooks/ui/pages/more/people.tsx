@@ -3,7 +3,7 @@
 
 import type { Ctx, Node } from '../../types.ts'
 import { Buttons, C, fit } from '../../kit.tsx'
-import { Choice, Err, Field, Note, Subhead } from './ui.tsx'
+import { Choice, Err, Field, Note, Para, Subhead } from './ui.tsx'
 import type { People, PersonRow } from './types.ts'
 import { errorOf, flag, setSub, sub, toggleFlag } from './util.ts'
 
@@ -44,7 +44,10 @@ async function remove(ctx: Ctx, person: PersonRow): Promise<void> {
 function addForm(ctx: Ctx, view: People): Node[] {
   const E = ctx.E
   if (!view.can_create_in_mirobody) {
-    return [Note(E, '这台电脑上暂时还不能为家人另建档案，LongPi 正在补上这一步。现在可以先看示例档案，了解档案完整后的样子。', 'person-cannot')]
+    return [
+      Note(ctx, '这台电脑上暂时还不能为家人另建档案，LongPi 正在补上这一步。', 'person-cannot'),
+      Buttons(ctx.E, [{ key: 'person-close', label: '收起', onPress: () => setSub(ctx, 'people.add', '') }], 'person-close-row'),
+    ]
   }
   const label = sub(ctx, 'person.label')
   const name = sub(ctx, 'person.name')
@@ -65,12 +68,12 @@ function addForm(ctx: Ctx, view: People): Node[] {
     if (added?.id) await choose(ctx, { id: added.id, label_zh: added.label_zh ?? label, name: name.trim(), connected: true, managed: true })
   }
   return [
-    Note(E, '将为家人建立独立档案，家人无需单独注册。家人的体检、方案和深度分析都和你的分开。', 'person-intro'),
+    Note(ctx, '将为家人建立独立档案，家人无需单独注册。家人的体检、方案和深度分析都和你的分开。', 'person-intro'),
     Field(ctx, { key: 'person-label', label: '称呼', value: label, placeholder: '如 爸爸、妈妈', submitLabel: '记下', onInput: (v) => setSub(ctx, 'person.label', v), onSubmit: (v) => setSub(ctx, 'person.label', v) }),
     Field(ctx, { key: 'person-year', label: '出生年份', value: year, placeholder: '例如 1960', submitLabel: '记下', onInput: (v) => setSub(ctx, 'person.year', v), onSubmit: (v) => setSub(ctx, 'person.year', v) }),
     Field(ctx, { key: 'person-name', label: '姓名', value: name, placeholder: '报告上的真实姓名', submitLabel: '记下', hint: '报告上的真实姓名，用于核对交给 Claude 的报告是否属于本人', onInput: (v) => setSub(ctx, 'person.name', v), onSubmit: (v) => setSub(ctx, 'person.name', v) }),
     Choice(E, 'person-sex', [{ value: 'male', label: '男' }, { value: 'female', label: '女' }], sex, (v) => setSub(ctx, 'person.sex', v), '生理性别'),
-    Err(E, sub(ctx, 'person.error'), 'person-err'),
+    Err(ctx, sub(ctx, 'person.error'), 'person-err'),
     Buttons(E, [
       { key: 'person-add', label: '添加', primary: true, onPress: () => { void add() } },
       { key: 'person-cancel', label: '取消', onPress: () => setSub(ctx, 'people.add', '') },
@@ -82,7 +85,7 @@ export function PeopleSection(ctx: Ctx): Node[] {
   const E = ctx.E
   const { Box, Text, Button } = E
   const view = ctx.json<People>('people')
-  if (!view) return [Note(E, '正在读取…', 'people-loading')]
+  if (!view) return [Note(ctx, '正在读取…', 'people-loading')]
   const shown = view.people.find((p) => p.id === view.active)
   const rows = [...view.people.filter((p) => !p.demo), ...view.people.filter((p) => p.demo)]
   const adding = flag(ctx, 'people.add')
@@ -91,12 +94,12 @@ export function PeopleSection(ctx: Ctx): Node[] {
       ? (
         <Box key="people-demo" flexDirection="column" borderStyle="round" borderColor={C.accent} paddingX={1} width={ctx.width - 2}>
           <Text bold>你在看示例档案</Text>
-          <Text wrap="wrap">{`${shown.name}（虚构人物，58 岁）完整使用 LongPi 后的样子：两次体检、手环数据、一次深度分析和执行了三周的方案。数据都是合成的，不对应任何真实的人。`}</Text>
-          <Text dimColor wrap="wrap">可在此随意操作，改动不会保存，下次打开时恢复原样。查看完毕后，请在下面切换回「我」。</Text>
+          {Para(ctx, `${shown.name}（虚构人物，58 岁）完整使用 LongPi 后的样子：两次体检、手环数据、一次深度分析和执行了三周的方案。数据都是合成的，不对应任何真实的人。`, { key: 'demo-what', width: ctx.width - 6 })}
+          {Para(ctx, '可在此随意操作，改动不会保存，下次打开时恢复原样。查看完毕后，请在下面切换回「我」。', { key: 'demo-how', dim: true, width: ctx.width - 6 })}
         </Box>
       )
       : null,
-    shown && shown.id !== 'self' && shown.link_error_zh ? <Text key="people-link" color={C.warn} wrap="wrap">{shown.link_error_zh}</Text> : null,
+    shown && shown.id !== 'self' && shown.link_error_zh ? Para(ctx, shown.link_error_zh, { key: 'people-link', color: C.warn }) : null,
     ...rows.map((p) => {
       const active = p.id === view.active
       const tags = [active ? '在看' : '', p.demo ? '示例' : '', p.id !== 'self' && p.link_error_zh ? '链接待续期' : ''].filter(Boolean).join(' · ')
@@ -114,7 +117,7 @@ export function PeopleSection(ctx: Ctx): Node[] {
         </Box>
       )
     }),
-    Err(E, sub(ctx, 'people.error'), 'people-err'),
+    Err(ctx, sub(ctx, 'people.error'), 'people-err'),
     adding ? Subhead(E, '添加家人', 'person-add-head') : null,
     ...(adding ? addForm(ctx, view) : [Buttons(E, [{ key: 'people-add-open', label: '添加家人', onPress: () => toggleFlag(ctx, 'people.add') }], 'people-add-row')]),
   ]

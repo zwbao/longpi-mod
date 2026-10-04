@@ -56,8 +56,8 @@ function status(ctx: Ctx, connection: Connection): RenderElement {
   const found = ok && connection.summary ? `找到：${summaryParts(connection.summary).join(' · ')}` : ok && local ? '还没有体检数据。' : ''
   return (
     <Box key="conn-status" flexDirection="column">
-      {Dot(E, ok ? 'on' : bad ? 'bad' : 'off', head, 'conn-dot')}
-      {found ? Note(E, `  ${found}`, 'conn-found') : null}
+      {Dot(ctx, ok ? 'on' : bad ? 'bad' : 'off', head, 'conn-dot')}
+      {found ? Note(ctx, `  ${found}`, 'conn-found') : null}
     </Box>
   )
 }
@@ -115,17 +115,17 @@ function manual(ctx: Ctx, connection: Connection): Node[] {
   }
 
   return [
-    connection.source === 'saved' && !isLocal(connection) ? Note(E, `当前地址 ${connection.url_masked}`, 'conn-current') : null,
-    Note(E, '仅在安装人员提供连接地址时填写，一般无需设置。', 'conn-why'),
+    connection.source === 'saved' && !isLocal(connection) ? Note(ctx, `当前地址 ${connection.url_masked}`, 'conn-current') : null,
+    Note(ctx, '仅在安装人员提供连接地址时填写，一般无需设置。', 'conn-why'),
     Field(ctx, { key: 'conn-url', label: '连接地址', value: url, placeholder: 'https://…', submitLabel: '记下', onInput: (value) => setSub(ctx, 'conn.url', value), onSubmit: (value) => setSub(ctx, 'conn.url', value) }),
     Field(ctx, { key: 'conn-token', label: '访问令牌', value: token, placeholder: '选填：地址中已包含时可留空', submitLabel: '记下', onInput: (value) => setSub(ctx, 'conn.token', value), onSubmit: (value) => setSub(ctx, 'conn.token', value) }),
-    failed ? Err(E, result.slice(1), 'conn-result') : Ok(E, result, 'conn-result'),
+    failed ? Err(ctx, result.slice(1), 'conn-result') : Ok(ctx, result, 'conn-result'),
     Buttons(E, [
       { key: 'conn-test', label: busy === 'test' ? '测试中…' : '测试连接', onPress: () => { if (!busy) void test() } },
       { key: 'conn-save', label: busy === 'save' ? '测试并保存中…' : '保存', primary: true, onPress: () => { if (!busy) void save() } },
       ...(!isLocal(connection) ? [{ key: 'conn-clear', label: '改回这台电脑上的记录', onPress: () => { void clear() } }] : []),
     ], 'conn-buttons'),
-    Note(E, '保存前会先用此地址读取记录目录，读取成功后才保存；地址和令牌仅保存在这台电脑上。', 'conn-fine'),
+    Note(ctx, '保存前会先用此地址读取记录目录，读取成功后才保存；地址和令牌仅保存在这台电脑上。', 'conn-fine'),
   ]
 }
 
@@ -134,13 +134,13 @@ export function ConnectionSection(ctx: Ctx, scope: string): Node[] {
   const cached = ctx.route('connection')
   const connection = ctx.json<Connection>('connection')
   if (!connection) {
-    if (!cached || cached.loading) return [Note(E, '正在读取连接状态…', 'conn-loading')]
-    return [Err(E, `连接状态没有读到：${cached.error || '请稍后再试'}`, 'conn-err'), Buttons(E, [{ key: 'conn-retry', label: '重试', onPress: () => ctx.act.load(['connection'], true) }], 'conn-retry-row')]
+    if (!cached || cached.loading) return [Note(ctx, '正在读取连接状态…', 'conn-loading')]
+    return [Err(ctx, `连接状态没有读到：${cached.error || '请稍后再试'}`, 'conn-err'), Buttons(E, [{ key: 'conn-retry', label: '重试', onPress: () => ctx.act.load(['connection'], true) }], 'conn-retry-row')]
   }
   const open = flag(ctx, `${scope}.manual`)
   return [
     status(ctx, connection),
-    Note(E, '添加记录：把体检报告的 PDF 或照片拖进对话框（或粘贴文件路径）交给 Claude，它会读出数值，存在这台电脑上。手环、血压计导出的表格也一样。', 'conn-how'),
+    Note(ctx, '添加记录：把体检报告的 PDF 或照片拖进对话框（或粘贴文件路径）交给 Claude，它会读出数值，存在这台电脑上。手环、血压计导出的表格也一样。', 'conn-how'),
     Buttons(E, [{ key: `${scope}-report`, label: '录入一份报告', onPress: () => ctx.act.fill(REPORT_PROMPT) }], `${scope}-report-row`),
     SubFold(E, `${scope}-manual`, '手动连接（安装人员使用）', open, () => toggleFlag(ctx, `${scope}.manual`)),
     ...(open ? manual(ctx, connection) : []),

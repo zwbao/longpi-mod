@@ -5,7 +5,7 @@
 import type { RenderElement } from 'claude-code'
 
 import type { Ctx, Node } from '../../types.ts'
-import { Choice, Err, Field, LABEL, Note, Subhead } from './ui.tsx'
+import { Choice, Err, Field, LABEL, Note, Para, Subhead } from './ui.tsx'
 import type { Focus, Journey, JourneyQuestion, RiskFact } from './types.ts'
 import { errorOf, setSub, sub } from './util.ts'
 
@@ -118,7 +118,7 @@ export function Basics(ctx: Ctx, journey: Journey): Node[] {
     const note = `解锁：${row.unlocks_zh || '心血管风险'}${row.men_only ? (female ? ' · 女性公式不使用此项，可跳过' : ' · 只用于男性的公式') : ''}`
     return (
       <Box key={`fact-${key}`} flexDirection="column" marginTop={0}>
-        <Text wrap="wrap">{row.label_zh}</Text>
+        {Para(ctx, row.label_zh, { key: `fact-${key}-label` })}
         <Box flexDirection="row" gap={2} paddingLeft={2} flexWrap="wrap">
           {Choice(E, `rf-${key}`, ANSWERS, answerOf(journey, key), (value) => {
             void save(ctx, { risk: { [key]: value === 'yes' ? true : value === 'no' ? false : null } }, '已保存。')
@@ -135,10 +135,10 @@ export function Basics(ctx: Ctx, journey: Journey): Node[] {
     Field(ctx, { key: 'pf-year', label: '出生年份', value: sub(ctx, 'pf.d.year') || (p.birthYear == null ? '' : String(p.birthYear)), placeholder: '例如 1968（选填）', onSubmit: saveYear }),
     Choice(E, 'pf-sex', [{ value: 'male', label: '男' }, { value: 'female', label: '女' }], p.sex === 'male' || p.sex === 'female' ? p.sex : '', (value) => { void save(ctx, { sex: value }) }, '性别'),
     <Text key="pf-unlock" dimColor>{`${' '.repeat(LABEL + 2)}解锁：${unlockOf(journey, 'age')}`}</Text>,
-    Note(E, '改好一项按回车就保存；选项点一下就保存。', 'pf-how'),
-    Err(E, sub(ctx, 'pf.error'), 'pf-err'),
+    Note(ctx, '改好一项按回车就保存；选项点一下就保存。', 'pf-how'),
+    Err(ctx, sub(ctx, 'pf.error'), 'pf-err'),
     Subhead(E, '心血管风险还需要这 6 项', 'pf-facts-head'),
-    Note(E, `已回答 ${answered} 项。如不确定，请选择「不确定」，不会按「否」处理。`, 'pf-facts-note'),
+    Note(ctx, `已回答 ${answered} 项。如不确定，请选择「不确定」，不会按「否」处理。`, 'pf-facts-note'),
     ...list.map(factRow),
     Subhead(E, '你最关心什么', 'pf-focus-head', '可多选，按选择顺序排列'),
     <Box key="pf-focus" flexDirection="row" gap={2} flexWrap="wrap">
@@ -155,6 +155,6 @@ export function Basics(ctx: Ctx, journey: Journey): Node[] {
         )
       })}
     </Box>,
-    p.complete ? Note(E, '已是最新', 'pf-fresh') : null,
+    p.complete ? Note(ctx, '已是最新', 'pf-fresh') : null,
   ]
 }

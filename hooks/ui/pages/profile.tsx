@@ -14,7 +14,7 @@ import { PrivacySection, privacySummary } from './more/privacy.tsx'
 import { SelfSection, selfField, selfSummary } from './more/self.tsx'
 import { Body, Err, Fold, Note, Ok } from './more/ui.tsx'
 import type { Addon, Connection, Journey } from './more/types.ts'
-import { setSub, sub } from './more/util.ts'
+import { openSection, sub } from './more/util.ts'
 
 const PAGE = 'profile'
 
@@ -38,8 +38,8 @@ function Addons(ctx: Ctx, journey: Journey): Node[] {
           {note ? <Text dimColor>{note}</Text> : null}
         </Box>
         {addon.self_measurable && key ? selfField(ctx, journey, key, `addon${i}`) : null}
-        {Err(E, sub(ctx, `addon${i}.error`), `addon-${i}-err`)}
-        {Ok(E, sub(ctx, `addon${i}.msg`), `addon-${i}-msg`)}
+        {Err(ctx, sub(ctx, `addon${i}.error`), `addon-${i}-err`)}
+        {Ok(ctx, sub(ctx, `addon${i}.msg`), `addon-${i}-msg`)}
       </Box>
     )
   }
@@ -60,7 +60,7 @@ function draw(ctx: Ctx): Node {
     { id: 'basics', title: '基本情况', summary: basicsSummary(journey), body: () => Basics(ctx, journey) },
     { id: 'self', title: '自测', summary: selfSummary(journey), body: () => SelfSection(ctx, journey) },
     { id: 'connection', title: '数据连接', summary: connectionLine(connection), body: () => ConnectionSection(ctx, 'profile') },
-    { id: 'export', title: '导出', summary: '报告 · 会员档案 · 日历 · 完整档案', body: () => ExportSection(ctx, { local, openPrivacy: () => setSub(ctx, `${PAGE}.open`, 'privacy') }) },
+    { id: 'export', title: '导出', summary: '报告 · 会员档案 · 日历 · 完整档案', body: () => ExportSection(ctx, { local, openPrivacy: () => openSection(ctx, PAGE, 'privacy') }) },
     { id: 'member', title: '会员档案', summary: memberSummary(ctx), body: () => MemberSection(ctx) },
     { id: 'findings', title: '报告里的叙述', summary: findingsSummary(ctx), body: () => FindingsSection(ctx) },
     { id: 'meds', title: '用药', summary: medsSummary(ctx), body: () => MedsSection(ctx) },
@@ -77,7 +77,7 @@ function draw(ctx: Ctx): Node {
 
   return (
     <Box flexDirection="column">
-      {Note(ctx.E, '档案只保存在这台电脑上。按一行展开，再按一次收起。', 'profile-lead')}
+      {Note(ctx, '档案只保存在这台电脑上。按 ▸ 一行展开，再按一次收起。', 'profile-lead')}
       {sections.filter((section) => section.show !== false).flatMap((section) => {
         const fold = Fold(ctx, { page: PAGE, id: section.id, title: section.title, summary: section.summary, fallback: 'basics' })
         return [fold.head, fold.open ? Body(ctx, section.id, section.body()) : null]

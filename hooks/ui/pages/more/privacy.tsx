@@ -5,7 +5,7 @@
 import type { Ctx, Node } from '../../types.ts'
 import { Buttons, C } from '../../kit.tsx'
 import { NO_SAVE, archiveNote, saver } from './exports.tsx'
-import { Bullets, Err, Note, Ok, SubFold, Subhead } from './ui.tsx'
+import { Bullets, Err, Note, Ok, Para, SubFold, Subhead } from './ui.tsx'
 import type { Privacy } from './types.ts'
 import { day, errorOf, flag, hostText, setSub, sub, toggleFlag } from './util.ts'
 
@@ -65,9 +65,9 @@ function consents(ctx: Ctx, status: Privacy): Node[] {
       {status.consents.pipl_sensitive?.at ? <Text dimColor>{day(ctx, status.consents.pipl_sensitive.at)}</Text> : null}
     </Box>,
     pipl === 'granted' || pipl === 'declined' ? SubFold(E, 'pipl-text', '同意书全文', showText, () => toggleFlag(ctx, 'privacy.pipl')) : null,
-    showText ? Note(E, hostText(copy.pipl?.lead ?? '这一页是单独的一次同意。'), 'pipl-lead') : null,
-    ...(showText ? (copy.pipl?.paragraphs ?? []).map((line, i) => <Text key={`pipl-p${i}`} wrap="wrap">{hostText(line)}</Text>) : []),
-    child && copy.minor?.under_14 ? <Text key="pipl-child" color={C.warn} wrap="wrap">{copy.minor.under_14}</Text> : null,
+    showText ? Note(ctx, hostText(copy.pipl?.lead ?? '这一页是单独的一次同意。'), 'pipl-lead') : null,
+    ...(showText ? (copy.pipl?.paragraphs ?? []).map((line, i) => Para(ctx, hostText(line), { key: `pipl-p${i}` })) : []),
+    child && copy.minor?.under_14 ? Para(ctx, copy.minor.under_14, { key: 'pipl-child', color: C.warn }) : null,
     pipl === 'granted'
       ? Buttons(E, [{ key: 'pipl-withdraw', label: '撤回', onPress: () => { void withdrawPipl() } }], 'pipl-buttons')
       : Buttons(E, [
@@ -104,14 +104,15 @@ export function PrivacySection(ctx: Ctx, opts: { local: boolean; withExport: boo
   const cached = ctx.route('privacy')
   const status = ctx.json<Privacy>('privacy')
   if (!status) {
-    if (!cached || cached.loading) return [Note(E, '正在读取隐私说明…', 'privacy-loading')]
-    return [Err(E, `未能读取隐私说明：${cached.error || '请稍后再试'}`, 'privacy-failed')]
+    if (!cached || cached.loading) return [Note(ctx, '正在读取隐私说明…', 'privacy-loading')]
+    return [Err(ctx, `未能读取隐私说明：${cached.error || '请稍后再试'}`, 'privacy-failed')]
   }
   const flow = status.copy.data_flow
   const phrase = status.delete?.phrase ?? status.copy.delete?.phrase ?? '删除全部'
   const note = status.delete?.note ?? status.copy.delete?.note ?? ''
   const minorLine = status.minor?.ask_age ? (status.copy.minor?.ask ?? '请填写年龄') : status.minor?.minor ? (status.copy.minor?.under_18 ?? '未满 18 岁') : ''
-  const local = [...(flow?.stays_local ?? []), ...(opts.local ? ['体检和手环的数值也存在这台电脑上的健康记录里：你交给 Claude 的报告，读出的数值存在这里。'] : [])]
+  // The web host's workspaces do not exist in Claude Code: that line is left out.
+  const local = [...(flow?.stays_local ?? []).filter((line) => !/工作区/.test(line)), ...(opts.local ? ['体检和手环的数值也存在这台电脑上的健康记录里：你交给 Claude 的报告，读出的数值存在这里。'] : [])]
   const write = saver(ctx)
 
   const remove = async () => {
@@ -128,29 +129,29 @@ export function PrivacySection(ctx: Ctx, opts: { local: boolean; withExport: boo
   }
 
   return [
-    Subhead(E, flow?.title ?? '数据去哪里', 'flow-title'),
-    Note(E, '发送给 Claude 的数据', 'flow-model-head'),
-    Bullets(E, (flow?.to_deepseek ?? []).map(hostText), 'flow-model'),
-    Note(E, '保存在这台电脑上的数据', 'flow-local-head'),
-    Bullets(E, local, 'flow-local'),
-    !opts.local && (flow?.mirobody ?? []).length > 0 ? Note(E, '保存在连接的健康记录中的数据', 'flow-remote-head') : null,
-    !opts.local ? Bullets(E, flow?.mirobody ?? [], 'flow-remote') : null,
-    flow?.name && !(flow.to_deepseek ?? []).some((line) => /名字|称呼|姓名/.test(line)) ? Note(E, hostText(flow.name), 'flow-name') : null,
+    Subhead(E, flow?.title ?? '数据去哪里', 'flow-title', '', false),
+    Note(ctx, '发送给 Claude 的数据', 'flow-model-head'),
+    Bullets(ctx, (flow?.to_deepseek ?? []).map(hostText), 'flow-model'),
+    Note(ctx, '保存在这台电脑上的数据', 'flow-local-head'),
+    Bullets(ctx, local, 'flow-local'),
+    !opts.local && (flow?.mirobody ?? []).length > 0 ? Note(ctx, '保存在连接的健康记录中的数据', 'flow-remote-head') : null,
+    !opts.local ? Bullets(ctx, flow?.mirobody ?? [], 'flow-remote') : null,
+    flow?.name && !(flow.to_deepseek ?? []).some((line) => /名字|称呼|姓名/.test(line)) ? Note(ctx, hostText(flow.name), 'flow-name') : null,
     ...consents(ctx, status),
-    minorLine ? Note(E, minorLine, 'privacy-minor') : null,
+    minorLine ? Note(ctx, minorLine, 'privacy-minor') : null,
     opts.withExport ? Subhead(E, '导出', 'privacy-export-head') : null,
     opts.withExport
       ? write && status.export?.href
         ? Buttons(E, [{ key: 'privacy-export', label: '下载这台电脑上的 LongPi 档案', onPress: () => {
           void write('privacy/export', `longpi-export-${ctx.today}.zip`).then((out) => setSub(ctx, 'privacy.note', out.ok ? `已保存到 ${out.path ?? ''}` : ''))
         } }], 'privacy-export-row')
-        : Note(E, NO_SAVE, 'privacy-export-later')
+        : Note(ctx, NO_SAVE, 'privacy-export-later')
       : null,
-    opts.withExport && write ? Note(E, archiveNote(status, opts.local), 'privacy-export-note') : null,
+    opts.withExport && write ? Note(ctx, archiveNote(status, opts.local), 'privacy-export-note') : null,
     Subhead(E, '删除', 'privacy-delete-head'),
     Buttons(E, [{ key: 'privacy-delete', label: '删除这台电脑上的 LongPi 数据', onPress: () => { void remove() } }], 'privacy-delete-row'),
-    note ? Note(E, note, 'privacy-delete-note') : null,
-    Err(E, sub(ctx, 'privacy.error'), 'privacy-err'),
-    Ok(E, sub(ctx, 'privacy.note'), 'privacy-ok'),
+    note ? Note(ctx, note, 'privacy-delete-note') : null,
+    Err(ctx, sub(ctx, 'privacy.error'), 'privacy-err'),
+    Ok(ctx, sub(ctx, 'privacy.note'), 'privacy-ok'),
   ]
 }

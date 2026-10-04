@@ -15,14 +15,21 @@ export function setSub(ctx: Ctx, key: string, value: string): void {
   ctx.act.setSub(P + key, value)
 }
 
-/** One accordion open at a time per page: `fold` names it. */
+/**
+ * A section of a page is open or closed on its own (opening one never closes another: the focus ring keeps its
+ * place only while what lies before it stays the same). `fallback` names the section open by default.
+ */
 export function isOpen(ctx: Ctx, page: string, id: string, fallback = ''): boolean {
-  const open = ctx.view.sub[`${P}${page}.open`]
-  return (open === undefined ? fallback : open) === id
+  const open = ctx.view.sub[`${P}${page}.open.${id}`]
+  return open === undefined ? fallback === id : open === '1'
 }
 
 export function toggleOpen(ctx: Ctx, page: string, id: string, fallback = ''): void {
-  ctx.act.setSub(`${P}${page}.open`, isOpen(ctx, page, id, fallback) ? '-' : id)
+  ctx.act.setSub(`${P}${page}.open.${id}`, isOpen(ctx, page, id, fallback) ? '0' : '1')
+}
+
+export function openSection(ctx: Ctx, page: string, id: string): void {
+  ctx.act.setSub(`${P}${page}.open.${id}`, '1')
 }
 
 /** A small fold inside a section (更多设置, 高级): on or off. */
@@ -114,7 +121,7 @@ export function summaryParts(summary: RecordsSummary): string[] {
 
 /** The route copy names the web host's model and its record service; in Claude Code the model is Claude. */
 export function hostText(text: string): string {
-  return text.replace(/DeepSeek 模型/g, 'Claude').replace(/DeepSeek/g, 'Claude')
+  return text.replace(/你配置的 ?DeepSeek/g, 'Claude').replace(/DeepSeek 模型/g, 'Claude').replace(/DeepSeek/g, 'Claude')
 }
 
 /** An error the route answered, or a fallback. */

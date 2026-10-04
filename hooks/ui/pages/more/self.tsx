@@ -141,8 +141,8 @@ export function SelfSection(ctx: Ctx, journey: Journey): Node[] {
 
   const recent: Node[] = (() => {
     if (!log || (log.loading && log.json === null)) return []
-    if (log.status !== 200) return [Err(E, `自测记录没有读到：${log.error || '请稍后再试'}`, 'self-log-err')]
-    if (rows.length === 0) return [Note(E, '还没有自测记录。', 'self-none')]
+    if (log.status !== 200) return [Err(ctx, `自测记录没有读到：${log.error || '请稍后再试'}`, 'self-log-err')]
+    if (rows.length === 0) return [Note(ctx, '还没有自测记录。', 'self-none')]
     return [
       Subhead(E, '最近记录', 'self-recent-head'),
       ...rows.map((row) => (
@@ -185,10 +185,10 @@ export function SelfSection(ctx: Ctx, journey: Journey): Node[] {
         setSub(ctx, 'self.date', iso === ctx.today ? '' : iso)
       },
     }),
-    Err(E, sub(ctx, 'self.error'), 'self-err'),
-    Ok(E, sub(ctx, 'self.msg'), 'self-msg'),
-    Note(E, '填好一项按回车就记录。单位可选斤、尺或寸，将自动换算为 kg 和 cm（例如 140 斤）。', 'self-units'),
-    <Text key="self-bp-note" dimColor wrap="wrap">{BP_NOTE}</Text>,
+    Err(ctx, sub(ctx, 'self.error'), 'self-err'),
+    Ok(ctx, sub(ctx, 'self.msg'), 'self-msg'),
+    Note(ctx, '填好一项按回车就记录。单位可选斤、尺或寸，将自动换算为 kg 和 cm（例如 140 斤）。', 'self-units'),
+    Note(ctx, BP_NOTE, 'self-bp-note'),
     ...recent,
   ]
 }
