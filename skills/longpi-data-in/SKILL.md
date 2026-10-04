@@ -1,6 +1,6 @@
 ---
 name: longpi-data-in
-description: 把体检报告、化验单、手环导出、用药和诊断收进 LongPi。报告由 Claude 自己读，用 record_measurements 按原样录入；手环和 App 导出转成 CSV 后用 import_measurements_csv；叙述（TI-RADS、BI-RADS、总检）用 read_narrative_findings；用药用 record_medication_statement；诊断用 record_condition；甲基化、菌群、蛋白表用 forward_report 带 type。
+description: 把体检报告、化验单、手环导出、用药和诊断收进 LongPi。报告由 Claude 自己读，用 record_measurements 按原样录入；Apple 健康导出用 import_apple_health；其他手环和 App 导出转成 CSV 后用 import_measurements_csv；叙述（TI-RADS、BI-RADS、总检）用 read_narrative_findings；用药用 record_medication_statement；诊断用 record_condition；甲基化、菌群、蛋白表用 forward_report 带 type。
 ---
 
 > 在 Claude Code 里，LongPi 的工具名是 `mcp__longpi__<名字>`；下面只写名字。LongPi 的页面用 `/longpi` 打开（总览、化验、睡眠、运动、日程、方案、长寿图鉴、档案、设置）。
@@ -19,7 +19,9 @@ LongPi 的记录存在这台电脑上（`~/.longpi`），只来自对方交给�
 
 ## 手环、体重秤、血压计、App 导出
 
-把导出文件（CSV、XML、JSON 都行）先写成一个 CSV：表头 `date,name,value,unit`，可选 `loinc,ref_low,ref_high,time`，一行一个数值，名称和数值照导出原样。每天的手环指标尽量用这些名字：`dailySteps`（步数）、`restingHeartRate`（静息心率）、`hrvRmssd`（心率变异性）、`sleepDuration`（睡眠时长，分钟）、`sleepStartTime`、`sleepEndTime`。写好后用 `import_measurements_csv`，`path` 是 CSV 的绝对路径。长寿图鉴的实验靠这些每日数据判断结果。
+iPhone 的 Apple 健康导出（健康 App → 头像 → 导出所有健康数据，得到 export.zip）：直接用 `import_apple_health`，`export` 是 export.zip、export.xml 或解压后文件夹的绝对路径，在本机转换，不上传。
+
+其他手环和 App（华为、小米、Garmin 等）的导出文件（CSV、XML、JSON 都行）先写成一个 CSV：表头 `date,name,value,unit`，可选 `loinc,ref_low,ref_high,time`，一行一个数值，名称和数值照导出原样。每天的手环指标尽量用这些名字：`dailySteps`（步数）、`restingHeartRate`（静息心率）、`hrvRmssd`（心率变异性）、`sleepDuration`（睡眠时长，单位写 h 或 min）、`sleepStartTime`、`sleepEndTime`。写好后用 `import_measurements_csv`，`path` 是 CSV 的绝对路径。长寿图鉴的实验靠这些每日数据判断结果。
 
 对方自己量的腰围、家庭血压、体重：用 `save_self_measurement`，单位照对方说的传。
 

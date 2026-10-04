@@ -163,7 +163,7 @@ export async function boot(options: BootOptions): Promise<Runtime> {
 
   const ctx = new HostContext()
   const app = await op(() => apply(ctx, config))
-  registerRecordTools(ctx, () => config.dataDir, () => app.invalidate())
+  registerRecordTools(ctx, () => config.dataDir, () => app.invalidate(), () => config.skillPython || python)
   registerGame(ctx, () => rootDir, () => localDay(new Date()))
   current = { ctx, app, config, rootDir, skillsHome, python, booted: Date.now() }
   if (options.platform === 'darwin') void ensureNotifier(options.io, rootDir)

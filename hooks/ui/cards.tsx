@@ -67,6 +67,7 @@ export const TOOL_ZH: Record<string, string> = {
   withdraw_from_study: '退出研究',
   record_measurements: '录入体检数值',
   import_measurements_csv: '导入数据',
+  import_apple_health: '导入 Apple 健康数据',
 }
 
 type Raw = Record<string, unknown>
@@ -145,7 +146,7 @@ export function cardTree(E: Els, call: CardCall, state: CardState, act: CardActi
     })
   }
 
-  if (name === 'record_measurements' || name === 'import_measurements_csv') {
+  if (name === 'record_measurements' || name === 'import_measurements_csv' || name === 'import_apple_health') {
     const saved = numberOf(result.saved) ?? 0
     const already = numberOf(result.already_on_file) ?? 0
     const problems = strings(result.problems)

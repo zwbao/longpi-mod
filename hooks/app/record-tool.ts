@@ -6,6 +6,7 @@ import { existsSync, readFileSync } from '../sys/fs.ts'
 import { join } from '../sys/path.ts'
 import type { HostContext } from '../sys/cordis.ts'
 import { defineTool } from '../sys/dsh-tools.ts'
+import { host } from '../sys/host.ts'
 import { asJson } from '../core/json.ts'
 import { readLocalRecord, RECORD_FILE, writeLocalRecord, type LocalRecord, type Observation } from '../core/local-record.ts'
 import { resolveDataDir } from '../core/paths.ts'
@@ -118,7 +119,7 @@ export function parseCsv(raw: string): Item[] {
   })
 }
 
-export function registerRecordTools(ctx: HostContext, dataDir: () => string, invalidate: () => void): void {
+export function registerRecordTools(ctx: HostContext, dataDir: () => string, invalidate: () => void, python: () => string = () => 'python3'): void {
   const recordPath = () => join(resolveDataDir(dataDir()), RECORD_FILE)
 
   ctx.tools.register(defineTool({
@@ -195,6 +196,46 @@ export function registerRecordTools(ctx: HostContext, dataDir: () => string, inv
       const out = fileObservations(recordPath(), items, { date: isoDay(), source, file: text(args.file, 120) || path.split('/').pop() || 'import.csv' })
       if (out.saved > 0) invalidate()
       return asJson({ ok: out.saved > 0, saved: out.saved, already_on_file: out.skipped, problems: out.problems.slice(0, 20), problem_count: out.problems.length })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'import_apple_health',
+    description: 'Import an Apple Health export (the export.zip from iPhone 健康 → 头像 → 导出所有健康数据, or the unzipped folder or export.xml) into the record as daily wearable values: steps, resting heart rate, heart rate variability, hours asleep, lowest blood oxygen, active energy, VO2 max, weight and blood pressure. Runs on this computer; nothing is uploaded. Large exports take a minute.',
+    parameters: {
+      export: { type: 'string', required: true, description: 'Absolute path of export.zip, export.xml or the apple_health_export folder.' },
+      days: { type: 'number', description: 'How many days back to import (default 365).' },
+    },
+    output: jsonOut,
+    timeoutMs: 600000,
+    isConcurrencySafe: () => false,
+    async execute(args: { export?: string; days?: number }) {
+      const from = text(args.export, 500)
+      if (!from.startsWith('/')) return asJson({ ok: false, error: 'give the absolute path of the Apple Health export (export.zip, export.xml or the folder)' })
+      const days = Math.max(7, Math.min(3650, Math.round(Number(args.days) || 365)))
+      const h = host()
+      const out = join(resolveDataDir(dataDir()), 'imports', `apple-health-${isoDay()}.csv`)
+      await h.io.run(['mkdir', '-p', join(resolveDataDir(dataDir()), 'imports')]).catch(() => undefined)
+      const run = await h.io.run([python() || 'python3', join(h.pluginRoot, 'tools', 'apple_health.py'), from, '--days', String(days), '--out', out], { timeoutMs: 600000 })
+        .catch((error: unknown) => ({ exitCode: -1, stdout: '', stderr: error instanceof Error ? error.message : String(error) }))
+      if (run.exitCode !== 0) return asJson({ ok: false, error: run.stderr.trim().split('\n').slice(-2).join(' ') || 'the export could not be read' })
+      let raw = ''
+      try {
+        raw = await h.io.read(out)
+      } catch {
+        return asJson({ ok: false, error: 'the converted values could not be read back' })
+      }
+      const items = parseCsv(raw).slice(0, 40000)
+      const saved = fileObservations(recordPath(), items, { date: isoDay(), source: 'device', file: 'Apple 健康导出' })
+      if (saved.saved > 0) invalidate()
+      return asJson({
+        ok: saved.saved > 0 || saved.skipped > 0,
+        saved: saved.saved,
+        already_on_file: saved.skipped,
+        summary: run.stderr.trim(),
+        problems: saved.problems.slice(0, 10),
+        hint: saved.saved > 0 ? 'Say in one line what came in (which kinds of values, from when to when). The Codex experiments and 睡眠/运动 pages can use them now.' : 'Nothing new: the values were already on file, or the export had none of the kinds LongPi reads.',
+      })
     },
   }))
 }
