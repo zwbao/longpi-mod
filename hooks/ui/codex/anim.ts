@@ -6,7 +6,7 @@
 import { CARD_H, CARD_W, cardBack, pack, PACK_SHARDS, rng, SWIRL_H, SWIRL_W, swirlFrame, type Raster } from './art.ts'
 import { Frame, hex, hue, mix, NONE, shade, shrink } from './pixels.ts'
 
-export type PackPhase = 'idle' | 'shake' | 'burst' | 'deal' | 'flip' | 'cards'
+export type PackPhase = 'idle' | 'shake' | 'burst' | 'deal' | 'flip' | 'cards' | 'empty'
 export type RevealPhase = 'back' | 'turning' | 'foil' | 'front'
 
 export const DURATION: Record<string, number> = {
@@ -124,6 +124,10 @@ export function packFrame(scene: PackScene): Frame {
     case 'idle': {
       const bob = scene.still ? 0 : Math.round(Math.sin(t / 380) * 1.5)
       frame.sprite(sprite, px, py + bob)
+      return frame
+    }
+    case 'empty': {
+      frame.sprite(sprite, px, py, { dim: 0.45 })
       return frame
     }
     case 'shake': {

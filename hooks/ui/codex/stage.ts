@@ -79,6 +79,10 @@ export function stageAt(overlay: CodexOverlay, cols: number, now: number, still:
   const duration = durationOf(overlay, payload)
   const done = t >= duration
   const next = done ? nextPhase(overlay, payload) : null
+  if (overlay.kind === 'pack' && overlay.phase === 'cards' && overlay.chosen) {
+    const chosen = (payload.options ?? []).find((row) => row.id === overlay.chosen)
+    if (chosen) return { frame: showFrame(cols, optionFace(chosen)), done: true, next: null }
+  }
   if (overlay.kind === 'pack') {
     const faces = payload.packKind === 'retest'
       ? (payload.results ?? []).map((card) => resultFace(card))

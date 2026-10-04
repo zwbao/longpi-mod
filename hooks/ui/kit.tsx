@@ -16,6 +16,17 @@ export function cells(text: string): number {
   return n
 }
 
+const HAS_CJK = /[\u3000-\u9fff\uff00-\uffef]/
+
+/**
+ * Chinese prose for a wrapping Text. The terminal wraps at spaces, so a sentence like 「卡片底部 14 格是 14 天」
+ * breaks early at the space before a long run of characters. With its spaces made non-breaking the paragraph
+ * wraps at the edge, as Chinese should.
+ */
+export function zh(text: string): string {
+  return HAS_CJK.test(text) ? text.replace(/ /g, '\u00a0') : text
+}
+
 /** Cut a string to `cols` cells, ending with … when cut. */
 export function fit(text: string, cols: number): string {
   if (cells(text) <= cols) return text
@@ -132,14 +143,14 @@ export function Lines(E: Els, lines: readonly string[], opts: { key?: string; di
   const { Box, Text } = E
   return (
     <Box key={opts.key ?? `lines-${lines[0]?.slice(0, 12) ?? ''}`} flexDirection="column">
-      {lines.filter(Boolean).map((line, i) => <Text key={`l${i}`} dimColor={opts.dim} color={opts.color} wrap="wrap">{line}</Text>)}
+      {lines.filter(Boolean).map((line, i) => <Text key={`l${i}`} dimColor={opts.dim} color={opts.color} wrap="wrap">{zh(line)}</Text>)}
     </Box>
   )
 }
 
 export function Muted(E: Els, text: string, key?: string): RenderElement {
   const { Text } = E
-  return <Text key={key ?? `m-${text.slice(0, 16)}`} dimColor wrap="wrap">{text}</Text>
+  return <Text key={key ?? `m-${text.slice(0, 16)}`} dimColor wrap="wrap">{zh(text)}</Text>
 }
 
 export function Loading(E: Els, text = '正在读取…'): RenderElement {

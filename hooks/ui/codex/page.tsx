@@ -9,7 +9,7 @@ import type { RenderElement } from 'claude-code'
 import type { ChapterInfo, Footprint, ResultCard, RunResult, SpeciesInfo, StudyCard } from '../../core/contracts/codex.ts'
 import type { CodexView, ExperimentOption, RunView } from '../../core/engage/engine.ts'
 import { CODEX_INTRO, SEASON_INTRO } from '../../core/ux/plain.ts'
-import { C, cells, fit, Loading, Muted } from '../kit.tsx'
+import { C, cells, fit, Loading, Muted, zh } from '../kit.tsx'
 import type { Ctx, Els, Node, Page } from '../types.ts'
 import { cardBack, experimentFace, footprintFace, pack as packSprite, speciesFace, studyFace, type Raster } from './art.ts'
 import { cardLeft, cardText, packLayout, shelfFrame } from './anim.ts'
@@ -104,12 +104,12 @@ function H2(E: Els, text: string, key?: string): RenderElement {
 
 function Lead(E: Els, text: string, key?: string): RenderElement {
   const { Text } = E
-  return <Text key={key ?? `lead-${text.slice(0, 10)}`} wrap="wrap">{text}</Text>
+  return <Text key={key ?? `lead-${text.slice(0, 10)}`} wrap="wrap">{zh(text)}</Text>
 }
 
 function Cap(E: Els, text: string, key?: string): RenderElement {
   const { Text } = E
-  return <Text key={key ?? `cap-${text.slice(0, 10)}`} dimColor wrap="wrap">{text}</Text>
+  return <Text key={key ?? `cap-${text.slice(0, 10)}`} dimColor wrap="wrap">{zh(text)}</Text>
 }
 
 function Box2(ctx: Ctx, key: string, children: Array<RenderElement | null>, tone: string = '#30363d'): RenderElement {
@@ -456,7 +456,7 @@ function speciesTab(ctx: Ctx, lib: LibraryView | null, libState: string): Render
         </Box>
         <Box paddingLeft={2} flexDirection="column">
           {row.met
-            ? [<Text key="hook" color={C.gold} wrap="wrap">{row.hook_zh}</Text>, <Text key="body" wrap="wrap">{row.body_zh}</Text>]
+            ? [<Text key="hook" color={C.gold} wrap="wrap">{zh(String(row.hook_zh ?? ''))}</Text>, <Text key="body" wrap="wrap">{zh(String(row.body_zh ?? ''))}</Text>]
             : [<Text key="lock" dimColor wrap="wrap">{row.studies.length > 0 ? `图书馆里有 ${row.studies.length} 张研究卡用到它。读到其中一张，就会遇见它。` : '图书馆里暂时还没有用到它的研究卡。'}</Text>]}
         </Box>
       </Box>
@@ -475,7 +475,7 @@ function footprintsTab(ctx: Ctx, view: CodexView): RenderElement[] {
       : view.footprints.map((row: Footprint) => Pair(ctx, `fp-${row.id}`, face(ctx, `fp-face-${row.id}`, footprintFace(row.kind), 4, row.title_zh), 13, [
         <Text key="t" bold>{row.title_zh}</Text>,
         <Text key="d" color={C.gold}>{dayZh(row.day)}</Text>,
-        <Text key="x" wrap="wrap">{row.text_zh}</Text>,
+        <Text key="x" wrap="wrap">{zh(String(row.text_zh ?? ''))}</Text>,
       ]))),
     view.footprints.length > 0 ? <Box key="fp-sp" /> : null,
   ])]
@@ -564,9 +564,9 @@ function resultInfo(ctx: Ctx, run: RunView, result: RunResult): Array<RenderElem
   const open = sub(ctx, 'how') === '1'
   return [
     <Text key="t" bold color={C.teal}>{run.title_zh}</Text>,
-    <Text key="main" bold wrap="wrap">{result.primary.text_zh}</Text>,
-    result.praise_zh ? <Text key="praise" color={C.gold} wrap="wrap">{result.praise_zh}</Text> : null,
-    ...result.also.map((row) => <Text key={`also-${row.key}`} wrap="wrap">{row.text_zh}</Text>),
+    <Text key="main" bold wrap="wrap">{zh(String(result.primary.text_zh ?? ''))}</Text>,
+    result.praise_zh ? <Text key="praise" color={C.gold} wrap="wrap">{zh(String(result.praise_zh ?? ''))}</Text> : null,
+    ...result.also.map((row) => <Text key={`also-${row.key}`} wrap="wrap">{zh(String(row.text_zh ?? ''))}</Text>),
     <Text key="done" wrap="wrap">{result.done_zh ?? `${result.window_days} 天里做到了 ${result.done_days} 天。`}</Text>,
     run.randomized ? Cap(E, '这是随机版：比较的是做的日子和不做的日子。', 'rand') : null,
     Btn(ctx, 'how', open ? '收起「怎么算的」' : '怎么算的', () => setSub(ctx, 'how', open ? '' : '1'), { dim: true }),
@@ -584,14 +584,14 @@ function studyInfo(ctx: Ctx, card: LibStudy, lib: LibraryView | null, met: strin
   const head = [`${s.first_author}${s.et_al ? ' 等' : ''}`, s.journal, s.year ? String(s.year) : '', s.preprint ? '预印本' : ''].filter(Boolean).join(' · ')
   return [
     <Text key="t" bold color={tier.color}>{card.title_zh}</Text>,
-    <Text key="line" wrap="wrap">{card.line_zh}</Text>,
+    <Text key="line" wrap="wrap">{zh(String(card.line_zh ?? ''))}</Text>,
     <Text key="chips"><Text color={tier.color}>{`[${tier.metal} · ${tier.label}]`}</Text>{chapter ? <Text dimColor>{` [第 ${chapter.no} 章 · ${chapter.title_zh}]`}</Text> : null}</Text>,
     <Text key="about" wrap="wrap"><Text bold>这项研究　</Text>{card.about_zh}</Text>,
     card.relation_zh ? <Text key="mine" color={C.accent} wrap="wrap"><Text bold>和你的关系　</Text>{card.relation_zh}</Text> : null,
     <Text key="why" wrap="wrap"><Text bold>{`为什么是${tier.metal}色　`}</Text>{`${tier.metal} · ${tier.label}：${card.tier_reason_zh}`}</Text>,
     <Text key="src" dimColor wrap="wrap">{`出处：${head}`}</Text>,
     s.doi ? <Text key="doi" dimColor>{`DOI ${s.doi}`}</Text> : null,
-    s.coi_zh ? <Text key="coi" dimColor wrap="wrap">{s.coi_zh}</Text> : null,
+    s.coi_zh ? <Text key="coi" dimColor wrap="wrap">{zh(String(s.coi_zh ?? ''))}</Text> : null,
     <Text key="read" color={C.accent}>已读</Text>,
     ...met.map((key) => <Text key={`met-${key}`} color={C.gold}>{`遇见了 ${speciesName(key)}，已放进物种志。`}</Text>),
   ]
@@ -631,6 +631,8 @@ function stageTree(ctx: Ctx, view: CodexView | null, lib: LibraryView | null): R
     if (o.kind === 'study' && payload.study) full(`No.${payload.study.no}  ${TIERS[payload.study.tier].label}`, payload.study.title_zh)
     if (o.kind === 'species' && payload.species) full(`No.${payload.species.no}`, payload.species.name_zh)
     if (o.kind === 'choose' && payload.option) full(`实验 · ${payload.option.days} 天`, payload.option.title_zh)
+    const picked = o.kind === 'pack' && o.phase === 'cards' && o.chosen ? (payload.options ?? []).find((row) => row.id === o.chosen) : undefined
+    if (picked) full(`实验 · ${picked.days} 天`, picked.title_zh)
     if (o.kind === 'footprint' && payload.footprint) full('足迹', payload.footprint.title_zh)
   }
   const pictureBox = now ? (
@@ -665,8 +667,8 @@ function stageTree(ctx: Ctx, view: CodexView | null, lib: LibraryView | null): R
           <Box key={`rc-${card.id}`} flexDirection="column" marginTop={1}>
             <Text bold>{card.title_zh}</Text>
             {card.value_zh ? <Text bold color={C.gold}>{card.value_zh}</Text> : null}
-            <Text wrap="wrap">{card.compare_zh}</Text>
-            {card.note_zh && card.note_zh !== card.compare_zh ? <Text dimColor wrap="wrap">{card.note_zh}</Text> : null}
+            <Text wrap="wrap">{zh(String(card.compare_zh ?? ''))}</Text>
+            {card.note_zh && card.note_zh !== card.compare_zh ? <Text dimColor wrap="wrap">{zh(String(card.note_zh ?? ''))}</Text> : null}
           </Box>,
         )
       }
@@ -713,7 +715,7 @@ function stageTree(ctx: Ctx, view: CodexView | null, lib: LibraryView | null): R
     body.push(...studyInfo(ctx, card, lib, payload.met ?? []))
   } else if (o.kind === 'species' && payload.species) {
     const row = payload.species
-    body.push(<Text key="n" bold>{row.name_zh}</Text>, <Text key="l" dimColor>{row.latin}</Text>, <Text key="c" color={C.teal}>{`[寿命 ${row.lifespan_zh}] [${row.studies.length} 张研究卡]`}</Text>, <Text key="h" color={C.gold} wrap="wrap">{row.hook_zh}</Text>, <Text key="b" wrap="wrap">{row.body_zh}</Text>)
+    body.push(<Text key="n" bold>{row.name_zh}</Text>, <Text key="l" dimColor>{row.latin}</Text>, <Text key="c" color={C.teal}>{`[寿命 ${row.lifespan_zh}] [${row.studies.length} 张研究卡]`}</Text>, <Text key="h" color={C.gold} wrap="wrap">{zh(String(row.hook_zh ?? ''))}</Text>, <Text key="b" wrap="wrap">{zh(String(row.body_zh ?? ''))}</Text>)
   } else if (o.kind === 'choose' && payload.option) {
     body.push(...choosePanel(ctx, payload.option, payload, { label: '回到列表', run: () => ctx.act.codex.close() }))
   }
@@ -747,7 +749,7 @@ function draw(ctx: Ctx): Node {
     }
     return <Box flexDirection="column">{header(ctx, null)}{Loading(E, '正在打开长寿图鉴…')}</Box>
   }
-  const member = view.member ? Box2(ctx, 'member', [<Text key="m" wrap="wrap">{view.member.note_zh}</Text>], '#c9824a') : null
+  const member = view.member ? Box2(ctx, 'member', [<Text key="m" wrap="wrap">{zh(String(view.member.note_zh ?? ''))}</Text>], '#c9824a') : null
   if (!view.enabled) {
     const closed = view.reason === 'opt_out'
     return (
