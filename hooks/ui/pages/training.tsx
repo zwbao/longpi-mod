@@ -1,17 +1,15 @@
-// The 运动 page. (Stub: drawn by the page lane that owns it.)
+// The 运动 page: the activity rows of the record (the web's list with area training) and the wearable's steps
+// and resting heart rate day by day or by week, with averages and the person's usual range.
 import type { Ctx, Node, Page } from '../types.ts'
-import { Loading, Muted } from '../kit.tsx'
+import { areaRoutes, drawArea } from './life/area.tsx'
 
 function draw(ctx: Ctx): Node {
-  const { Box } = ctx.E
-  const journey = ctx.json('journey')
-  if (!journey && 'indicators?area=training'.includes('journey')) return Loading(ctx.E)
-  return <Box flexDirection="column">{Muted(ctx.E, '运动：建设中')}</Box>
+  return drawArea(ctx, 'training')
 }
 
 export const page: Page = {
   tab: 'training',
   label: '运动',
-  routes: () => ['indicators?area=training'],
+  routes: (view) => areaRoutes('training', view),
   draw,
 }

@@ -7,13 +7,16 @@ import type { EngineInterface, Register, RenderSurface } from 'claude-code'
 
 import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../types'
 import type { Io } from './sys/host.ts'
-import { boot, flushPending, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
+import { boot, flushPending, op, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
+import { fullBrief, SHORT_BRIEF } from './app/brief.ts'
+import { snapshotText } from './core/agents/orchestrator.ts'
 import { isoDay } from './core/interventions.ts'
 import { WRITE_TOOLS } from './core/agents/orchestrator.ts'
 import { pageOf, PAGES } from './ui/pages/index.ts'
 import { pageWidth, paneTree } from './ui/pane.tsx'
 import type { Actions, CodexActions, Ctx, PostResult } from './ui/types.ts'
 import { isAnimated, stageAt, stageCols } from './ui/codex/stage.ts'
+import { bandTree, nextBand, noteInput, sittingMinutes, STANDUP_VISIBLE_MS, type Activity, type BandPrompt, type SlotView } from './ui/band.tsx'
 
 type Engine = EngineInterface
 
@@ -29,6 +32,9 @@ const overlay = atom({ plugin: 'longpi', key: 'overlay' } as const, NO_OVERLAY)
 const notice = atom({ plugin: 'longpi', key: 'notice' } as const, null as { text: string; tone: 'info' | 'good' | 'warn'; at: number } | null)
 const tick = atom({ plugin: 'longpi', key: 'tick' } as const, 0)
 const booted = atom({ plugin: 'longpi', key: 'booted' } as const, false)
+const coach = atom({ plugin: 'longpi', key: 'coach' } as const, false)
+const healthTurn = atom({ plugin: 'longpi', key: 'healthTurn' } as const, false)
+const band = atom({ plugin: 'longpi', key: 'band' } as const, null as BandPrompt | null)
 
 // --- the engine as the core's I/O -------------------------------------------------------------------
 
@@ -136,7 +142,18 @@ async function loadRoutes($: Engine, paths: readonly string[], force = false): P
 
 async function routesOfView($: Engine): Promise<string[]> {
   const v = await read($, view)
-  return ['journey', 'people', ...pageOf(v.tab).routes(v)]
+  const cache = await read($, data)
+  const json = <T,>(path: string) => {
+    const held = cache[path]
+    return (held && held.status === 200 ? held.json : null) as T | null
+  }
+  return ['journey', 'people', ...pageOf(v.tab).routes(v, json)]
+}
+
+/** Read what the page shows now; a second pass picks up routes the first answers named. */
+async function loadView($: Engine): Promise<void> {
+  await loadRoutes($, await routesOfView($))
+  await loadRoutes($, await routesOfView($))
 }
 
 /** The 刷新 button: journey and tracking rebuilt from the record, every route of the page read again. */
@@ -182,6 +199,30 @@ async function post($: Engine, path: string, body: unknown, options: { reload?: 
 
 // --- talking to Pi ----------------------------------------------------------------------------------
 
+/** The LongPi snapshot (what the pane shows now, the top fact, what the person told LongPi), or ''. */
+async function snapshotNow(): Promise<string> {
+  const rt = runtime()
+  if (!rt) return ''
+  try {
+    const input = await op(() => rt.app.snapshot(4_000))
+    return input ? snapshotText(input) : ''
+  } catch {
+    return ''
+  }
+}
+
+/** Coach mode from here on: Pi's rules join the system prompt; the first time, they ride this message too. */
+async function enterCoach($: Engine): Promise<string[]> {
+  const rt = runtime()
+  const was = await read($, coach)
+  if (!was) await update($, coach, () => true)
+  const extra: string[] = []
+  if (!was && rt) extra.push(fullBrief(rt.app.mount))
+  const snapshot = await snapshotNow()
+  if (snapshot) extra.push(snapshot)
+  return extra
+}
+
 const PERSON_FRAME = '[LongPi] The person opened this from LongPi. Speak as Pi, their longevity coach; the LongPi snapshot below is from the plugin, not their words.'
 
 function sayAsPerson($: Engine, text: string): void {
@@ -192,7 +233,7 @@ function sayAsPerson($: Engine, text: string): void {
 
 async function go($: Engine, tab: Tab, sub?: Record<string, string>): Promise<void> {
   await update($, view, (v) => ({ tab, sub: { ...v.sub, ...(sub ?? {}) }, detail: null }))
-  await loadRoutes($, await routesOfView($))
+  await loadView($)
 }
 
 // --- the Codex stage -------------------------------------------------------------------------------
@@ -362,8 +403,8 @@ function codexActions($: Engine): CodexActions {
 function actionsFor($: Engine, surface: RenderSurface): Actions {
   return {
     go: (tab, sub) => void go($, tab, sub),
-    setSub: (key, value) => void update($, view, (v) => ({ ...v, sub: { ...v.sub, [key]: value } })),
-    detail: (id) => void update($, view, (v) => ({ ...v, detail: id })),
+    setSub: (key, value) => void update($, view, (v) => ({ ...v, sub: { ...v.sub, [key]: value } })).then(() => loadView($)),
+    detail: (id) => void update($, view, (v) => ({ ...v, detail: id })).then(() => loadView($)),
     load: (paths, force) => void loadRoutes($, paths, force),
     refresh: () => void refreshAll($),
     post: (path, body, options) => post($, path, body, options),
@@ -379,10 +420,73 @@ function actionsFor($: Engine, surface: RenderSurface): Actions {
     toast: (text) => void toastNotice($, text),
     copy: (text) => void $.ui.copy({ text, surface }).then((res) => { if (res.isCopied) $.ui.toast('已复制') }),
     reveal: () => void $.clock.now().then((now) => update($, privacy, (p) => ({ ...p, showUntil: now + 60_000 }))),
-    setPresentation: (on) => void update($, privacy, (p) => ({ ...p, presentation: on, showUntil: 0 })),
+    setPresentation: (on) => void setPresentation($, on),
     codex: codexActions($),
     close: () => void $.ui.close({ id: PANE }),
   }
+}
+
+// --- the prompt slot above the prompt -------------------------------------------------------------------
+
+/** When the main conversation's current turn began (a Claude turn running ≥60 s is when a stand-up fits). */
+let turnSince: number | null = null
+
+async function noteActivity($: Engine): Promise<void> {
+  const now = await $.clock.now()
+  const prev = ((await $.store.get('activity')) ?? null) as Activity | null
+  await $.store.set('activity', noteInput(now, prev))
+}
+
+/** 演示模式: LongPi's own switch and the Codex's, together. */
+async function setPresentation($: Engine, on: boolean): Promise<void> {
+  await update($, privacy, (p) => ({ ...p, presentation: on, showUntil: 0 }))
+  await update($, band, () => null)
+  $.ui.status(undefined)
+  void post($, 'codex', { action: 'prefs', presentation: on }, { quiet: true, reload: ['codex', 'codex/slot'] })
+}
+
+/** Every few seconds: whether the slot should show something now, and the neutral line in the status bar. */
+async function decideBand($: Engine): Promise<void> {
+  const rt = runtime()
+  if (!rt) return
+  const now = await $.clock.now()
+  const p = await read($, privacy)
+  const current = await read($, band)
+  if (current) {
+    if (p.presentation || (current.kind === 'standup' && now - current.at > STANDUP_VISIBLE_MS)) await update($, band, () => null)
+    return
+  }
+  const slotJson = (await read($, data))['codex/slot']?.json as { enabled?: boolean; presentation?: boolean; slot?: SlotView; pane_neutral_zh?: string | null } | null | undefined
+  const presentation = p.presentation || Boolean(slotJson?.presentation)
+  $.ui.status(!presentation && slotJson?.enabled && slotJson.pane_neutral_zh ? `长寿图鉴 · ${slotJson.pane_neutral_zh}` : undefined)
+  const activity = ((await $.store.get('activity')) ?? null) as Activity | null
+  const next = nextBand({
+    enabled: Boolean(slotJson?.enabled),
+    presentation,
+    slot: slotJson?.slot ?? null,
+    sitting: sittingMinutes(activity, now),
+    turnMs: turnSince === null ? 0 : now - turnSince,
+    now,
+  })
+  if (!next) return
+  await update($, band, () => next)
+  void post($, 'codex', next.kind === 'standup' ? { action: 'nudge', event: 'shown' } : { action: 'nudge', event: 'reveal_shown', ref: next.ref }, { quiet: true, reload: ['codex/slot'] })
+}
+
+async function revealFromBand($: Engine, ref: string): Promise<void> {
+  await update($, band, () => null)
+  void post($, 'codex', { action: 'nudge', event: 'reveal_open', ref }, { quiet: true, reload: ['codex/slot'] })
+  await update($, view, (v) => ({ ...v, tab: 'codex' as const, detail: null, sub: { ...v.sub, 'codex.tab': 'exp' } }))
+  await $.ui.open({ id: PANE, title: 'LongPi', focus: true, columns: 92 })
+  await loadRoutes($, ['codex', 'codex/library'], true)
+  const codexView = (await read($, data)).codex?.json as { ready?: Array<{ id: string }>; packs?: Array<{ id: string; kind: string; source_zh: string; options: unknown[]; opened: string | null }> } | null | undefined
+  const run = codexView?.ready?.find((row) => row.id === ref)
+  if (run) {
+    await setOverlay($, () => ({ ...NO_OVERLAY, kind: 'reveal', id: run.id, phase: 'back', since: Date.now(), payload: { run } }))
+    return
+  }
+  const pack = codexView?.packs?.find((row) => row.id === ref)
+  if (pack) await setOverlay($, () => ({ ...NO_OVERLAY, kind: 'pack', id: pack.id, phase: 'idle', since: Date.now(), payload: { packKind: pack.kind, sourceZh: pack.source_zh, options: [], results: [] } }))
 }
 
 // --- /longpi --------------------------------------------------------------------------------------
@@ -405,7 +509,7 @@ const TAB_WORDS: Record<string, Tab> = {
 async function openPane($: Engine, tab?: Tab): Promise<void> {
   if (tab) await update($, view, (v) => ({ ...v, tab, detail: null }))
   await $.ui.open({ id: PANE, title: 'LongPi', focus: true, columns: 92 })
-  void loadRoutes($, await routesOfView($))
+  void loadView($)
 }
 
 export const register: Register = (on) => {
@@ -420,8 +524,70 @@ export const register: Register = (on) => {
     })
     $.clock.every(60_000, () => {
       void update($, tick, (t) => t + 1)
+      void loadRoute($, 'codex/slot', true)
+      if (turnSince !== null) void noteActivity($)
     })
+    $.clock.every(15_000, () => {
+      void decideBand($)
+    })
+    void loadRoute($, 'codex/slot')
     return next(e)
+  })
+
+  on('prompt.compose', async ($, e, next) => {
+    const composed = await next(e)
+    const rt = runtime()
+    const sections = [{ id: 'longpi:brief', text: SHORT_BRIEF, scope: 'session' as const }]
+    if (rt && (await read($, coach))) sections.push({ id: 'longpi:coach', text: fullBrief(rt.app.mount), scope: 'session' as const })
+    return { sections: [...composed.sections, ...sections] }
+  })
+
+  on('prompt.submit', async ($, e, next) => {
+    const isOwn = e.origin.kind === 'plugin' && e.origin.name === 'longpi'
+    if (e.origin.kind !== 'composer' && !isOwn) return next(e)
+    await noteActivity($)
+    // A prompt from /longpi, or the next one after a turn that used LongPi: the snapshot rides along.
+    if (!isOwn && !(await read($, healthTurn))) return next(e)
+    await update($, healthTurn, () => false)
+    const extra = isOwn ? await enterCoach($) : [await snapshotNow()].filter(Boolean)
+    if (extra.length === 0) return next(e)
+    return next({ ...e, context: [...(e.context ?? []), ...(isOwn ? [PERSON_FRAME] : []), ...extra] })
+  })
+
+  on('turn.start', async ($, e, next) => {
+    turnSince = await $.clock.now()
+    await noteActivity($)
+    return next(e)
+  })
+
+  on('turn.complete', async ($, e, next) => {
+    const done = await next(e)
+    if (!e.agentId) {
+      turnSince = null
+      await noteActivity($)
+    }
+    return done
+  })
+
+  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    if (e.props.hasSurvey || e.props.view.agentId) return next(e)
+    const prompt = await read($, band)
+    if (!prompt || (await read($, privacy)).presentation) return next(e)
+    return bandTree($.ui.resolve(e), prompt, {
+      standupOk: () => {
+        void update($, band, () => null)
+        void post($, 'codex', { action: 'nudge', event: 'ok' }, { quiet: true, reload: ['codex/slot'] })
+      },
+      standupOff: () => {
+        void update($, band, () => null)
+        void post($, 'codex', { action: 'nudge', event: 'dismiss_today' }, { quiet: true, reload: ['codex/slot'] })
+      },
+      revealOpen: (ref) => void revealFromBand($, ref),
+      revealLater: (ref) => {
+        void update($, band, () => null)
+        void post($, 'codex', { action: 'nudge', event: 'reveal_later', ref }, { quiet: true, reload: ['codex/slot'] })
+      },
+    })
   })
 
   on('tool.call', { tool: /^mcp__longpi__/ }, async ($, e) => {
@@ -438,9 +604,12 @@ export const register: Register = (on) => {
       }
     }, session, String(callId ?? ''))
     if (out.denied) return { deny: out.denied }
+    await update($, healthTurn, () => true)
+    const firstTime = !(await read($, coach))
+    const context = firstTime ? await enterCoach($) : []
     // A write the pane shows: read its data again.
     if ((WRITE_TOOLS as readonly string[]).includes(name) || name === 'record_measurements') void reloadAfter($, ['tracking', 'codex', 'codex/slot', 'indicators?area=labs'])
-    return { result: out.text }
+    return context.length > 0 ? { result: out.text, context } : { result: out.text }
   })
 
   on('command.run', { command: 'longpi' }, async ($, e) => {
@@ -453,7 +622,7 @@ export const register: Register = (on) => {
     }
     if (first === '演示模式' || first === 'present') {
       const turnOn = !(await read($, privacy)).presentation
-      await update($, privacy, (p) => ({ ...p, presentation: turnOn, showUntil: 0 }))
+      await setPresentation($, turnOn)
       return { text: turnOn ? '演示模式已打开：LongPi 不再显示个人数字和提醒。再输入一次 /longpi 演示模式 关闭。' : '演示模式已关闭。' }
     }
     const tab = TAB_WORDS[first]
@@ -499,5 +668,4 @@ export const register: Register = (on) => {
   })
 
   void PAGES
-  void PERSON_FRAME
 }

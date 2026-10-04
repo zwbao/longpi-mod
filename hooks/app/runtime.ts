@@ -13,6 +13,7 @@ import { apply, configFrom, type Config, type LongPiApp } from '../core/index.ts
 import { resolveDataDir, resolveRootDir, skillsHomeCandidates } from '../core/paths.ts'
 import { setRecordDir } from '../core/mcp.ts'
 import { setRevision } from '../core/catalog.ts'
+import { registerRecordTools } from './record-tool.ts'
 
 export type Runtime = {
   ctx: HostContext
@@ -140,6 +141,7 @@ export async function boot(options: BootOptions): Promise<Runtime> {
 
   const ctx = new HostContext()
   const app = await op(() => apply(ctx, config))
+  registerRecordTools(ctx, () => config.dataDir, () => app.invalidate())
   current = { ctx, app, config, rootDir, skillsHome, python, booted: Date.now() }
   return current
 }
@@ -215,6 +217,13 @@ export async function runTool(rt: Runtime, name: string, args: Record<string, un
   const def = rt.ctx.toolDefs.get(name)
   if (!def) return { text: `LongPi has no tool ${name}.`, value: null, isError: true }
   const exec = { name, arguments: args, agent: { id: session, sessionId: session, session: { id: session } }, id: callId }
+  // A tool given a file outside LongPi's own folders (a CSV, a member file, an analysis export) reads it
+  // from the copy: load it first.
+  for (const [key, value] of Object.entries(args)) {
+    if (typeof value === 'string' && /(^|_)(path|dir|file)$/.test(key) && value.startsWith('/')) {
+      await vfs.ensure(host().io, value, { recursive: true, maxBytes: 4 * 1024 * 1024 }).catch(() => undefined)
+    }
+  }
   const decision = await op(() => rt.ctx.decide(exec))
   if (decision.kind === 'deny') return { text: decision.reason, value: null, isError: true, denied: decision.reason }
   if (decision.kind === 'ask') {
