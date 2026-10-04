@@ -8,7 +8,7 @@ import type { EngineInterface, Register, RenderSurface } from 'claude-code'
 import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../types'
 import type { Io } from './sys/host.ts'
 import { boot, flushPending, op, reloadLibrary, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
-import { runSetup } from './app/setup.ts'
+import { ensurePython, hasPackages, updateLibrary } from './app/setup.ts'
 import { fullBrief, SHORT_BRIEF } from './app/brief.ts'
 import { snapshotText } from './core/agents/orchestrator.ts'
 import { isoDay } from './core/interventions.ts'
@@ -545,26 +545,62 @@ async function revealFromBand($: Engine, ref: string): Promise<void> {
   if (pack) await setOverlay($, () => ({ ...NO_OVERLAY, kind: 'pack', id: pack.id, phase: 'idle', since: Date.now(), payload: { packKind: pack.kind, sourceZh: pack.source_zh, options: [], results: [] } }))
 }
 
-// --- /longpi setup ----------------------------------------------------------------------------------
+// --- what LongPi sets up by itself ---------------------------------------------------------------------
 
 let settingUp = false
+const WEEK_MS = 7 * 24 * 3_600_000
 
-async function setupLongPi($: Engine): Promise<void> {
+/**
+ * The full calculation environment, built quietly in the background the first time (and checked weekly);
+ * `manual` (/longpi setup) also updates the method library and says what it did.
+ */
+async function setupLongPi($: Engine, manual: boolean): Promise<void> {
   const rt = runtime()
   if (!rt || settingUp) return
   settingUp = true
+  const say = (line: string) => $.ui.status(`LongPi · ${line}`)
   try {
     const home = (await $.env.get('HOME')) ?? '/'
-    const out = await runSetup(ioOf($), home, { skillsHome: rt.skillsHome, python: rt.python }, (line) => $.ui.status(`LongPi · ${line}`))
+    const io = ioOf($)
+    const lines: string[] = []
+    if (manual) {
+      const lib = await updateLibrary(io, home, say)
+      lines.push(lib.line)
+    }
+    const env = await ensurePython(io, home, rt.python, say)
+    lines.push(...env.lines)
+    await $.store.set('env', { ok: env.ok, python: env.python, at: await $.clock.now() })
     await reloadLibrary()
     rt.app.invalidate()
-    const done = runtime()
     $.ui.status(undefined)
-    $.ui.log(`LongPi 安装：${out.lines.join(' ')}${done ? ` 方法库：${done.skillsHome || '未找到'}；Python：${done.python || '未找到'}` : ''}`)
-    await toastNotice($, out.ok ? 'LongPi 已就绪：方法库和计算环境都装好了。' : 'LongPi 安装没有全部完成，详情见上面的记录。', out.ok ? 'good' : 'warn')
+    const done = runtime()
+    if (manual) {
+      $.ui.log(`LongPi：${lines.join(' ')}${done ? ` 方法库 ${done.skillsHome || '未找到'}；Python ${done.python || '未找到'}` : ''}`)
+      await toastNotice($, env.ok ? 'LongPi 已就绪：方法库和计算环境都准备好了。' : '大多数方法已经能算；完整的计算环境这次没准备好，详情见上面的记录。', env.ok ? 'good' : 'warn')
+    } else if (env.ok && lines.length > 0) {
+      await toastNotice($, 'LongPi 的计算环境准备好了：所有方法都能算了。', 'good')
+    }
+  } catch (error) {
+    $.ui.status(undefined)
+    if (manual) await toastNotice($, `没有完成：${error instanceof Error ? error.message : String(error)}`, 'warn')
   } finally {
     settingUp = false
   }
+}
+
+/** At session start: build the environment once in the background if it is missing, re-check weekly. */
+async function maintain($: Engine): Promise<void> {
+  const rt = runtime()
+  if (!rt) return
+  const env = ((await $.store.get('env')) ?? null) as { ok?: boolean; python?: string; at?: number } | null
+  const now = await $.clock.now()
+  if (env?.ok && env.at && now - env.at < WEEK_MS) return
+  if (env && !env.ok && env.at && now - env.at < WEEK_MS) return
+  if (await hasPackages(ioOf($), rt.python)) {
+    await $.store.set('env', { ok: true, python: rt.python, at: now })
+    return
+  }
+  await setupLongPi($, false)
 }
 
 // --- /longpi --------------------------------------------------------------------------------------
@@ -597,7 +633,10 @@ export const register: Register = (on) => {
     if (rt) for (const spec of toolSpecs(rt)) await $.tool.register(spec)
     await $.command.register({ name: 'longpi', description: 'LongPi 长寿教练：健康页、长寿图鉴、方案与打卡', argumentHint: '[总览|化验|方案|图鉴|档案|设置|setup|演示模式|你想问的话]' })
     await update($, booted, () => true)
-    if (rt && (!rt.skillsHome || !rt.python)) $.ui.toast('LongPi：方法库或计算环境还没装好。输入 /longpi setup 一键安装。')
+    // The environment builds itself in the background a minute in, never in the way of the first prompt.
+    $.clock.after(60_000, () => {
+      void maintain($).catch(() => undefined)
+    })
     // Background work: a failure (the module unloading under it) is never an unhandled rejection.
     const quietly = (work: Promise<unknown>) => void work.catch(() => undefined)
     $.clock.every(3_000, () => {
@@ -747,7 +786,7 @@ export const register: Register = (on) => {
       return { text: `LongPi：${rt.ctx.toolDefs.size} 个工具，方法库 ${rt.skillsHome || '未安装'}，Python ${rt.python || '未找到'}` }
     }
     if (first === 'setup' || first === '安装' || first === '更新') {
-      void setupLongPi($)
+      void setupLongPi($, true)
       return { text: '正在安装或更新 LongPi 的方法库和计算环境，进度在状态栏，完成后会提示。' }
     }
     if (first === '演示模式' || first === 'present') {

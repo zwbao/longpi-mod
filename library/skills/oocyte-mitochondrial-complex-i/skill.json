@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "oocyte-mitochondrial-complex-i",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "other"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "卵巢与生殖"
+  ],
+  "blurb_zh": "卵母细胞阶段在复合体组装和鱼藤酮存活上的方向。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "以爪蟾卵母细胞为主的实验，输入是卵母细胞分期，不是个人可有的测量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-022-04979-5",
+    "title": "Oocytes maintain ROS-free mitochondrial metabolism by suppressing complex I",
+    "title_zh": "卵母细胞线粒体复合体",
+    "journal": "Nature",
+    "year": 2022,
+    "authors": "Rodríguez-Nuevo 等",
+    "article_url": "https://www.nature.com/articles/s41586-022-04979-5",
+    "supplements": [
+      {
+        "label": "Supplementary Table 1",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-022-04979-5/MediaObjects/41586_2022_4979_MOESM3_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "早期卵母细胞把呼吸链里的复合体一压到几乎不组装，从而避开活性氧。卵母细胞继续长大以后，复合体一才组装起来并变得必要。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

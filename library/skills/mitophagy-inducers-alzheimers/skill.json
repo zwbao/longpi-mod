@@ -1,0 +1,53 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "mitophagy-inducers-alzheimers",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "cell_line",
+    "c_elegans",
+    "mouse"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "脑、认知与痴呆",
+    "自噬"
+  ],
+  "blurb_zh": "正文点名的线粒体自噬诱导物。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "细胞和线虫实验筛出的化合物，脚本只列正文点名的八个线粒体自噬诱导物。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41551-021-00819-5",
+    "title": "Amelioration of Alzheimer’s disease pathology by mitophagy inducers identified via machine learning and a cross-species workflow",
+    "title_zh": "线粒体自噬诱导物的名单",
+    "journal": "Nature Biomedical Engineering",
+    "year": 2022,
+    "authors": "Xie 等",
+    "article_url": "https://www.nature.com/articles/s41551-021-00819-5",
+    "supplements": [
+      {
+        "label": "MOESM3 两两相似度",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41551-021-00819-5/MediaObjects/41551_2021_819_MOESM3_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出公开代码仓库。代码在专利审查中，向通讯作者索取。"
+    ],
+    "summary_zh": "这项研究把分子结构做成向量，从天然产物库里挑选线粒体自噬诱导物，再放到细胞、线虫和小鼠里核对。正文写出名字、并在细胞里诱导线粒体自噬的有八个分子，其中山奈酚和丹叶大黄素还改善了动物模型的记忆读出。动物实验里的浓度不是个人用法。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

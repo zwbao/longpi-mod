@@ -1,0 +1,323 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "accelerated-biological-aging-risk",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "九项血液指标和实足年龄的表型年龄。",
+  "intents": [
+    "biological_age",
+    "lab_meaning"
+  ],
+  "triage": {
+    "reason_zh": "用九项常规血检和实足年龄按BioAge原始系数算出个人表型年龄及与实足年龄之差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.18632/aging.101414",
+    "title": "An epigenetic biomarker of aging for lifespan and healthspan",
+    "title_zh": "表型年龄",
+    "journal": "Aging",
+    "year": 2018,
+    "authors": "Levine 等",
+    "article_url": "https://doi.org/10.18632/aging.101414",
+    "code_url": "https://github.com/dayoonkwon/BioAge",
+    "card_notes": [
+      "计算器系数是 Levine 等 Aging 2018（doi:10.18632/aging.101414）的表型年龄，实现为 BioAge phenoage_calc.R 的 orig=TRUE。",
+      "Gao 等 Nature Communications 2023（doi:10.1038/s41467-023-38013-7）用表型年龄研究抑郁和焦虑，没有发表这些系数。问卷切点只在交了问卷时使用，不改变表型年龄。"
+    ],
+    "summary_zh": "Levine 等在 2018 年用 NHANES III 的九项血液指标和实足年龄建立表型年龄，用来概括死亡风险。个人报告按 BioAge 包 phenoage_calc.R 的 orig=TRUE 系数计算这个年龄，以及它和实足年龄的差，并写明 10 年死亡数字是模型估计，不是你的风险，也不是寿命。Gao 等 2023 年用表型年龄研究抑郁和焦虑，没有发表这些系数；问卷切点只在交了问卷时使用，不改变算出的年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--biomarkers",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "sex_flag": "--sex",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true,
+    "targets_flag": "--targets",
+    "levers_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "albumin_gL",
+      "label_zh": "白蛋白",
+      "aliases": [
+        "albumin_gl",
+        "albumin",
+        "ALB",
+        "血清白蛋白",
+        "白蛋白(ALB)"
+      ],
+      "loinc": [
+        "1751-7"
+      ],
+      "unit": "g/L",
+      "accept": {
+        "g/dL": 10
+      },
+      "range": [
+        15,
+        65
+      ],
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "creat_umol",
+      "label_zh": "肌酐",
+      "aliases": [
+        "creatinine_umol",
+        "creatinine",
+        "CREA",
+        "Cr",
+        "Scr",
+        "血肌酐",
+        "肌酐(CREA)"
+      ],
+      "loinc": [
+        "14682-9",
+        "2160-0"
+      ],
+      "unit": "umol/L",
+      "accept": {
+        "mg/dL": 88.4
+      },
+      "molar_mass": 113.12,
+      "range": [
+        15,
+        2000
+      ],
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "glucose_mmol",
+      "label_zh": "血糖",
+      "aliases": [
+        "glucose",
+        "GLU",
+        "FPG",
+        "葡萄糖",
+        "空腹血糖",
+        "空腹葡萄糖",
+        "fasting glucose",
+        "空腹血葡萄糖",
+        "FBG"
+      ],
+      "loinc": [
+        "14771-0",
+        "1558-6",
+        "2345-7",
+        "14749-6"
+      ],
+      "unit": "mmol/L",
+      "accept": {
+        "mg/dL": 0.0555
+      },
+      "molar_mass": 180.16,
+      "range": [
+        1.5,
+        40
+      ],
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "crp_mg_dl",
+      "label_zh": "C反应蛋白",
+      "aliases": [
+        "crp",
+        "hs-crp",
+        "hscrp",
+        "c-反应蛋白",
+        "超敏c反应蛋白",
+        "超敏crp",
+        "c-reactive protein"
+      ],
+      "loinc": [
+        "30522-7",
+        "1988-5"
+      ],
+      "unit": "mg/dL",
+      "accept": {
+        "mg/L": 0.1
+      },
+      "range": [
+        0.001,
+        50
+      ],
+      "unit_required": true,
+      "required": true,
+      "from": "measurements",
+      "note_zh": "国内化验单上的 CRP 和超敏 CRP 多用 mg/L，数值除以 10 才是 mg/dL。"
+    },
+    {
+      "key": "lymph_pct",
+      "label_zh": "淋巴细胞百分比",
+      "aliases": [
+        "lymph%",
+        "lymphocyte %",
+        "LYM%",
+        "LY%",
+        "淋巴细胞%",
+        "淋巴细胞比率"
+      ],
+      "loinc": [
+        "736-9",
+        "26478-8"
+      ],
+      "unit": "%",
+      "range": [
+        5,
+        80
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要淋巴细胞百分比（%），不是淋巴细胞绝对计数（×10⁹/L）。"
+    },
+    {
+      "key": "mcv_fl",
+      "label_zh": "平均红细胞体积",
+      "aliases": [
+        "mcv",
+        "MCV(平均红细胞体积)",
+        "30428-7"
+      ],
+      "loinc": [
+        "787-2",
+        "30428-7"
+      ],
+      "unit": "fL",
+      "range": [
+        50,
+        150
+      ],
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "rdw_pct",
+      "label_zh": "红细胞分布宽度",
+      "aliases": [
+        "rdw",
+        "RDW-CV",
+        "红细胞分布宽度-CV",
+        "红细胞体积分布宽度",
+        "红细胞体积分布宽度-CV",
+        "红细胞分布宽度-变异系数",
+        "30385-9"
+      ],
+      "loinc": [
+        "788-0",
+        "30385-9"
+      ],
+      "unit": "%",
+      "range": [
+        8,
+        32
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "化验单上常同时有 RDW-CV（%）和 RDW-SD（fL），这里要 RDW-CV。"
+    },
+    {
+      "key": "alp_u_l",
+      "label_zh": "碱性磷酸酶",
+      "aliases": [
+        "alp",
+        "AKP",
+        "alkaline phosphatase"
+      ],
+      "loinc": [
+        "6768-6"
+      ],
+      "unit": "U/L",
+      "accept": {
+        "ukat/L": 60
+      },
+      "range": [
+        10,
+        2000
+      ],
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "wbc_10e3",
+      "label_zh": "白细胞",
+      "aliases": [
+        "wbc",
+        "白细胞计数",
+        "白细胞数",
+        "leukocytes"
+      ],
+      "loinc": [
+        "6690-2",
+        "26464-8"
+      ],
+      "unit": "10^3/uL",
+      "accept": {
+        "10^9/L": 1
+      },
+      "range": [
+        0.5,
+        100
+      ],
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    },
+    {
+      "key": "sex",
+      "label_zh": "性别",
+      "required": false,
+      "from": "profile",
+      "flag": "--sex",
+      "note_zh": "不进表型年龄公式，只用于饮酒切点。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "phenoage",
+      "label_zh": "表型年龄",
+      "unit": "a"
+    },
+    {
+      "key": "phenoage_advance",
+      "label_zh": "表型年龄减实足年龄",
+      "unit": "a"
+    },
+    {
+      "key": "mortality_10y_pct",
+      "label_zh": "10 年死亡风险（PhenoAge 模型估计）",
+      "unit": "%"
+    }
+  ]
+}

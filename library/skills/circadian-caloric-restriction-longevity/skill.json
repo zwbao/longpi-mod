@@ -1,0 +1,45 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "circadian-caloric-restriction-longevity",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "昼夜节律"
+  ],
+  "blurb_zh": "30% 削减、进食时相和 2 小时或 12 小时窗口对应的实验组别。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "雄性小鼠限食实验，脚本只把进食方案对到正文六个小鼠组别。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1126/science.abk0297",
+    "title": "Circadian alignment of early onset caloric restriction promotes longevity in male C57BL/6J mice",
+    "title_zh": "限食时刻与寿命",
+    "journal": "Science",
+    "year": 2022,
+    "authors": "Acosta-Rodríguez 等",
+    "article_url": "https://www.science.org/doi/10.1126/science.abk0297",
+    "card_notes": [
+      "寿命和病理在 Data S1。这次没有下载 Data S1，中位寿命用的是正文 Results 里写出的天数，且不放进个人报告。",
+      "论文没有给出代码仓库网址。RNA-seq 为 GSE190939。"
+    ],
+    "summary_zh": "这项研究在雄性 C57BL/6J 小鼠里比较自由进食和五种三成热量限制，差别在进食落在白天、夜晚，还是铺满昼夜。同样少吃，夜晚进食再加一段禁食，寿命延长更多。个人报告只标出对上哪一组。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

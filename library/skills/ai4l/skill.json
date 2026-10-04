@@ -1,0 +1,24 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ai4l",
+  "kind": "tool",
+  "tier": "tool",
+  "species": [
+    "human"
+  ],
+  "evidence": "review",
+  "domains": [
+    "工具与证据库"
+  ],
+  "blurb_zh": "AI4L 1.3.29（forever-healthy/AI4L c3ea3e9）。按 Forever Healthy 的协议写干预证据综述。已有 Evipedia 综述时先引用综述。",
+  "intents": [
+    "intervention_evidence"
+  ],
+  "tool": {
+    "upstream": "https://github.com/forever-healthy/AI4L",
+    "version": "1.3.29",
+    "commit": "c3ea3e9",
+    "license": "LICENSE"
+  },
+  "inputs_status": "none"
+}

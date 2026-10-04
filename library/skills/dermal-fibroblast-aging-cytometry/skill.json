@@ -1,0 +1,46 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "dermal-fibroblast-aging-cytometry",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "cell_line"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "皮肤"
+  ],
+  "blurb_zh": "第 5 代或第 15 代；置信度高于 0.50 时保留。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "人真皮成纤维细胞体外传代实验，输入是细胞代次和检测置信度，个人没有。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-025-61590-8",
+    "title": "Unveiling aging heterogeneities in human dermal fibroblasts via nanosensor chemical cytometry",
+    "title_zh": "真皮成纤维细胞的纳米传感器表型",
+    "journal": "Nature Communications",
+    "year": 2025,
+    "authors": "Song 等",
+    "article_url": "https://www.nature.com/articles/s41467-025-61590-8",
+    "code_url": "https://github.com/Youngho-Cholab/NCC_Code",
+    "card_notes": [
+      "置信度阈值写在正文，并指向 Supplementary Figs. 8 和 9。这次没有用那两张图里的训练曲线当系数。",
+      "[代码](https://github.com/Youngho-Cholab/NCC_Code)"
+    ],
+    "summary_zh": "这项研究用近红外纳米传感器读出流动的人真皮成纤维细胞的大小、形状、折射率和过氧化氢外流。第 5 代当作年轻对照，第 15 代当作衰老参照。个人报告只对照这两个代次和置信度阈值。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

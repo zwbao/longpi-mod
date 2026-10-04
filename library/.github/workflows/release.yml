@@ -1,0 +1,51 @@
+name: release
+
+# Weekly release: set VERSION to <year>.<ISO week>.<n>, rebuild catalog.json,
+# tag v<VERSION>, and publish catalog.json as a release asset. dsh-plugin-longpi
+# can pin this version with its skillsVersion setting.
+on:
+  schedule:
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Pick the version
+        id: version
+        run: |
+          week=$(date -u +%G.%V | sed 's/\.0/./')
+          n=0
+          while git rev-parse "v${week}.${n}" >/dev/null 2>&1; do n=$((n+1)); done
+          echo "value=${week}.${n}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and check
+        run: |
+          echo "${{ steps.version.outputs.value }}" > VERSION
+          python -m tools.lsk build
+          python -m tools.lsk check
+
+      - name: Commit, tag, release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "longevity-skills-bot"
+          git config user.email "longevity-skills-bot@users.noreply.github.com"
+          git add VERSION catalog.json README.md
+          git commit -m "Release ${{ steps.version.outputs.value }}" || true
+          git push
+          git tag "v${{ steps.version.outputs.value }}"
+          git push origin "v${{ steps.version.outputs.value }}"
+          gh release create "v${{ steps.version.outputs.value }}" catalog.json --title "longevity-skills ${{ steps.version.outputs.value }}" --notes "Weekly release. catalog.json lists every skill with its tier, intents, inputs and outputs."

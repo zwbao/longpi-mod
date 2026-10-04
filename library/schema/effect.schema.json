@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zwbao/longevity-skills/schema/effect.schema.json",
+  "title": "One row of data/effects.jsonl",
+  "description": "The average effect of one intervention on one marker in a meta-analysis or randomized trial, copied from the source with a short verbatim quote. Used only to say whether a person's observed change is in line with what trials saw on average. Never a personal prediction and never a dose instruction.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "intervention",
+    "intervention_zh",
+    "category",
+    "marker",
+    "marker_zh",
+    "effect",
+    "population",
+    "design",
+    "doi",
+    "quote",
+    "verified"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "intervention": {
+      "type": "string",
+      "minLength": 2
+    },
+    "intervention_zh": {
+      "type": "string",
+      "minLength": 1
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Words that name this intervention in a person's plan (地中海饮食, Mediterranean)."
+    },
+    "category": {
+      "enum": [
+        "diet",
+        "exercise",
+        "sleep",
+        "supplement",
+        "drug",
+        "behavior",
+        "weight"
+      ]
+    },
+    "marker": {
+      "type": "string",
+      "minLength": 2
+    },
+    "marker_zh": {
+      "type": "string",
+      "minLength": 1
+    },
+    "marker_key": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Key in data/biological_variation.json, when the marker has one."
+    },
+    "loinc": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\d{1,7}-\\d$"
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "mean_difference",
+            "percent_change",
+            "per_unit",
+            "standardized",
+            "rate"
+          ],
+          "description": "mean_difference and percent_change compare directly with a person's change in the same unit; per_unit is per one unit of exposure (per); standardized (Cohen's d) and rate (per year) are not directly comparable."
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "ci": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "number"
+          }
+        },
+        "per": {
+          "type": "string",
+          "description": "For per_unit: what one unit of the intervention is (1 kg weight lost)."
+        }
+      }
+    },
+    "duration_weeks": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "population": {
+      "type": "string",
+      "minLength": 2
+    },
+    "design": {
+      "enum": [
+        "meta-analysis",
+        "rct",
+        "pooled-analysis",
+        "science-advisory"
+      ]
+    },
+    "trials": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "participants": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "doi": {
+      "type": "string",
+      "pattern": "^10\\.\\d{4,9}/\\S+$"
+    },
+    "quote": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 400
+    },
+    "note_zh": {
+      "type": "string"
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "true once the numbers were checked against the source; see verified_by for how."
+    },
+    "verified_by": {
+      "enum": [
+        "person",
+        "quote_match"
+      ],
+      "description": "Who checked the numbers: a person against the paper, or a script that matched the verbatim quote against the source text and checked every number of the effect appears in it. Required when verified is true."
+    }
+  }
+}

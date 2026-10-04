@@ -1,0 +1,46 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "facial-skin-somatic-mutations",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "皮肤"
+  ],
+  "blurb_zh": "NOTCH1、NOTCH2、NOTCH3、TP53 和 FAT1。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "人面部皮肤测序研究，脚本只核对五个点名基因有无突变记录，不算风险。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41588-023-01468-x",
+    "title": "Somatic mutations in facial skin from countries of contrasting skin cancer risk",
+    "title_zh": "面部皮肤的体细胞突变",
+    "journal": "Nature Genetics",
+    "year": 2023,
+    "authors": "King 等",
+    "article_url": "https://www.nature.com/articles/s41588-023-01468-x",
+    "code_url": "https://github.com/irinaabnizova/cell_competition_2D",
+    "card_notes": [
+      "下游数据在补充表。这次没有把补充表里的克隆密度当成个人风险系数。",
+      "[代码](https://github.com/irinaabnizova/cell_competition_2D)"
+    ],
+    "summary_zh": "这项研究比较新加坡和英国年老眼睑表皮里的体细胞克隆。英国皮肤的紫外相关突变更多，新加坡皮肤里 NOTCH1 和 NOTCH2 的选择更强。个人报告只核对五个基因有没有记录。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

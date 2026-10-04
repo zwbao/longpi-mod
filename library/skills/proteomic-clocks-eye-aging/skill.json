@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "proteomic-clocks-eye-aging",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "已经算好的 ProAge 或 cProAge。",
+  "intents": [
+    "proteomic_organ_age"
+  ],
+  "triage": {
+    "reason_zh": "队列蛋白时钟系数未印出，脚本只照录已有的ProAge或cProAge，不做计算。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41746-026-02805-0",
+    "title": "Proteomic clocks combined with deep learning phenotypes track eye aging and diseases",
+    "title_zh": "眼衰老蛋白时钟",
+    "journal": "npj Digital Medicine",
+    "year": 2026,
+    "authors": "Yang 等",
+    "article_url": "https://doi.org/10.1038/s41746-026-02805-0",
+    "summary_zh": "这项研究在多国多族裔的大型队列里结合高通量蛋白组学和深度学习影像表型追踪眼睛衰老，发现有白内障、糖尿病视网膜病变、年龄相关黄斑变性或青光眼的人蛋白质组衰老提前，并做出一个精简的蛋白时钟。个人报告只照录你已有的完整版或精简版蛋白年龄，不计算需要回归系数的加速残差，也不把它换算成你的眼病风险。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

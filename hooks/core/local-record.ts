@@ -377,3 +377,58 @@ export function callLocalTool(record: LocalRecord, name: string, args: Record<st
   if (name === 'list_members' || name === 'get_member') return { ok: true, result: { members: [] } }
   return { ok: false, error: `the record on this computer has no tool ${name}` }
 }
+
+// --- for the deep analysis ---------------------------------------------------------------------------
+
+/** A series measured on most days (a wearable): at least 14 readings on at least half the days it spans. */
+function isDaily(rows: readonly Observation[]): boolean {
+  if (rows.length < 14) return false
+  const days = [...new Set(rows.map((row) => row.date))].sort()
+  const span = (Date.parse(`${days[days.length - 1]}T00:00:00Z`) - Date.parse(`${days[0]}T00:00:00Z`)) / 86_400_000 + 1
+  return rows.length * 2 >= span
+}
+
+function csvCell(value: string): string {
+  return /[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value
+}
+
+/**
+ * The record as the longevity-analyst intake reads it (what its own `la.py mirobody pull` writes): one lab CSV per
+ * checkup date and one CSV of daily wearable values. Returns what was written.
+ */
+export function exportForAnalyst(record: LocalRecord, outDir: string, days = 120): { lab_files: string[]; wearable_file: string | null; lab_rows: number } {
+  mkdirSync(outDir, { recursive: true, mode: 0o700 })
+  const groups = byIndicator(record)
+  const labs: Observation[] = []
+  const daily: Array<[string, Observation[]]> = []
+  for (const [name, rows] of groups) (isDaily(rows) ? daily.push([name, rows]) : labs.push(...rows))
+  const byDate = new Map<string, Observation[]>()
+  for (const row of labs) byDate.set(row.date, [...(byDate.get(row.date) ?? []), row])
+  const labFiles: string[] = []
+  for (const [date, rows] of [...byDate].sort(([a], [b]) => byCodePoint(a, b))) {
+    const lines = ['marker,value,unit,ref_range,date,loinc,source']
+    for (const row of rows) {
+      const range = row.ref_low || row.ref_high ? `${row.ref_low ?? ''}-${row.ref_high ?? ''}` : ''
+      lines.push([row.name || row.indicator, row.value, row.unit, range, row.date, row.system === 'loinc' ? row.code : '', 'longpi'].map(csvCell).join(','))
+    }
+    const path = `${outDir}/longpi_labs_${date}.csv`
+    writeFileSync(path, `${lines.join('\n')}\n`, { mode: 0o600 })
+    labFiles.push(path)
+  }
+  let wearable: string | null = null
+  if (daily.length > 0) {
+    const since = new Date(Date.now() - days * 86_400_000).toISOString().slice(0, 10)
+    const table = new Map<string, Record<string, string>>()
+    const cols = daily.map(([name, rows]) => [name, rows[0]?.unit ? `${name} (${rows[0].unit})` : name] as const)
+    for (const [name, rows] of daily) {
+      const col = cols.find(([n]) => n === name)?.[1] ?? name
+      for (const row of rows) if (row.date >= since) table.set(row.date, { ...(table.get(row.date) ?? {}), [col]: row.value })
+    }
+    const header = ['date', ...cols.map(([, col]) => col)]
+    const lines = [header.map(csvCell).join(',')]
+    for (const date of [...table.keys()].sort().reverse()) lines.push([date, ...cols.map(([, col]) => table.get(date)?.[col] ?? '')].map(csvCell).join(','))
+    wearable = `${outDir}/longpi_wearable_daily.csv`
+    writeFileSync(wearable, `${lines.join('\n')}\n`, { mode: 0o600 })
+  }
+  return { lab_files: labFiles, wearable_file: wearable, lab_rows: labs.length }
+}

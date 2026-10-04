@@ -1,0 +1,135 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "cpic-pharmacogenomics",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "database",
+  "domains": [
+    "用药与基因"
+  ],
+  "blurb_zh": "基因检测原始数据里的药物代谢基因，对照 CPIC 用药指南看哪些药要先问医生。",
+  "intents": [
+    "pharmacogenomics",
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "CPIC 公布等位基因功能、表型规则和按表型的用药推荐（CC0）；个人只能查表，不按剂量计算。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/gim.2016.87",
+    "title": "Standardizing terms for clinical pharmacogenetic test results: consensus terms from the Clinical Pharmacogenetics Implementation Consortium (CPIC)",
+    "title_zh": "CPIC 药物基因检测结果的标准用语",
+    "journal": "Genetics in Medicine",
+    "year": 2017,
+    "authors": "Caudle 等",
+    "article_url": "https://doi.org/10.1038/gim.2016.87",
+    "code_url": "https://github.com/cpicpgx/cpic-data",
+    "card_notes": [
+      "等位基因功能、二倍型到表型的规则和用药推荐取自 CPIC 数据库（api.cpicpgx.org，2026-09-29 读取，CC0）。各药的指南：氯吡格雷 doi:10.1002/cpt.2526；质子泵抑制剂 doi:10.1002/cpt.2015；伏立康唑 doi:10.1002/cpt.583；SSRI/SNRI doi:10.1002/cpt.2903；三环类 doi:10.1002/cpt.597；非甾体抗炎药 doi:10.1002/cpt.1830；苯妥英 doi:10.1002/cpt.2008；他汀 doi:10.1002/cpt.2557；硫嘌呤 doi:10.1002/cpt.70209；氟尿嘧啶类 doi:10.1002/cpt.911；他克莫司 doi:10.1002/cpt.113；阿片类 doi:10.1002/cpt.2149；他莫昔芬 doi:10.1002/cpt.1007；β 受体阻滞剂 doi:10.1002/cpt.3351；别嘌醇 doi:10.1002/cpt.161；卡马西平和奥卡西平 doi:10.1002/cpt.1004；华法林 doi:10.1002/cpt.668。",
+      "芯片数据不判断 CYP2D6（缺失、多拷贝、*36 杂合基因看不到）、HLA、UGT1A1*28 和 CYP2B6；这些基因只接受临床检测结果。"
+    ],
+    "summary_zh": "CPIC 用德尔菲法统一了药物基因检测报告的用语：等位基因功能分正常、下降、无功能等，推断表型分超快、快、正常、中间、慢代谢型等，此后所有 CPIC 指南都用这套词。个人报告用这套词和 CPIC 数据库，把一个人的基因型读成 CPIC 表型，再逐药对照 CPIC 推荐，只说是换药、调整、常规还是没有推荐，不给剂量。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "genotype",
+      "label_zh": "基因检测原始数据文件（23andMe 格式，WeGene 等导出的同格式文件）",
+      "aliases": [
+        "raw data",
+        "原始数据",
+        "23andMe",
+        "WeGene",
+        "微基因"
+      ],
+      "required": false,
+      "from": "argument",
+      "flag": "--genotype",
+      "note_zh": "每行 rsID、染色体、位置、基因型，制表符或逗号分隔；.txt、.zip、.gz 都可以。按 rsID 匹配，正链碱基。和 --diplotypes 至少交一样。"
+    },
+    {
+      "key": "diplotypes",
+      "label_zh": "临床药物基因检测结果（每行一个基因，例如 CYP2C19 *1/*2、CYP2D6 *1/*10、HLA-B*58:01 阴性）",
+      "aliases": [
+        "药物基因检测报告",
+        "用药基因检测",
+        "星号等位基因"
+      ],
+      "required": false,
+      "from": "argument",
+      "flag": "--diplotypes",
+      "note_zh": "有临床结果时按临床结果对照，芯片推断不同时会写出来。CYP2D6 和 HLA 只能这样交。"
+    },
+    {
+      "key": "drug",
+      "label_zh": "想先看的药名（中文通用名、英文名或常见商品名，可写多次）",
+      "required": false,
+      "from": "argument",
+      "flag": "--drug",
+      "note_zh": "看到药盒照片时，读出通用名再交进来。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "cyp2c19_phenotype",
+      "label_zh": "CYP2C19 表型（CPIC 用语）"
+    },
+    {
+      "key": "cyp2c9_phenotype",
+      "label_zh": "CYP2C9 表型和活性分"
+    },
+    {
+      "key": "cyp2d6_phenotype",
+      "label_zh": "CYP2D6 表型和活性分（只来自临床结果）"
+    },
+    {
+      "key": "slco1b1_phenotype",
+      "label_zh": "SLCO1B1 功能"
+    },
+    {
+      "key": "abcg2_phenotype",
+      "label_zh": "ABCG2 功能"
+    },
+    {
+      "key": "tpmt_phenotype",
+      "label_zh": "TPMT 表型"
+    },
+    {
+      "key": "nudt15_phenotype",
+      "label_zh": "NUDT15 表型"
+    },
+    {
+      "key": "dpyd_phenotype",
+      "label_zh": "DPYD 表型和活性分"
+    },
+    {
+      "key": "cyp3a5_phenotype",
+      "label_zh": "CYP3A5 表型"
+    },
+    {
+      "key": "drugs_to_discuss",
+      "label_zh": "CPIC 建议换药、避免、调整或加强监测的药（英文通用名，逗号分隔）",
+      "note_zh": "这些药用药前请把结果给开药的医生或药师看。"
+    }
+  ],
+  "data_files": [
+    {
+      "path": "data/cpic_tables.json",
+      "source_url": "https://api.cpicpgx.org/v1/",
+      "license": "CC0-1.0",
+      "sha256": "60372f3f9cbe8bddddfb02d7419ffe85a6239b12b1606569360411d7e23dedff",
+      "redistributable": "yes"
+    }
+  ]
+}

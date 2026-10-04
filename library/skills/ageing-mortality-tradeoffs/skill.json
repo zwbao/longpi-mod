@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ageing-mortality-tradeoffs",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "衰弱与死亡风险"
+  ],
+  "blurb_zh": "对上的位点的效应类型或 Soma 位点名。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "UM-HET3小鼠寿命定位研究，脚本只按表二标出所给位点的效应类型。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-026-10407-9",
+    "title": "Dynamics of genetic and somatic trade-offs in ageing and mortality",
+    "title_zh": "寿命位点类型",
+    "journal": "Nature",
+    "year": 2026,
+    "authors": "Arends 等",
+    "article_url": "https://www.nature.com/articles/s41586-026-10407-9",
+    "supplements": [
+      {
+        "label": "补充表",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-026-10407-9/MediaObjects/41586_2026_10407_MOESM4_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/DannyArends/UM-HET3",
+    "summary_zh": "这项研究在遗传背景很杂的小鼠里，按越来越老的存活群体寻找影响死亡的位点。一类位点影响寿命，另一类把体重和预期寿命连在一起，而且两性的组合并不相同。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

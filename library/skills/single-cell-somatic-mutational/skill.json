@@ -1,0 +1,38 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "single-cell-somatic-mutational",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "基质、软骨与纤维化"
+  ],
+  "blurb_zh": "每个软骨细胞的突变计数、覆盖和灵敏度。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "人软骨细胞单细胞测序，按论文公式用突变数、覆盖和灵敏度算每个细胞的突变负担。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-01011-z",
+    "title": "Single-cell analysis of the somatic mutational landscape in human chondrocytes during aging and in osteoarthritis",
+    "title_zh": "软骨细胞里的体细胞突变",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Ren 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-01011-z",
+    "summary_zh": "这项研究用单细胞全基因组测序分析骨关节炎患者和非骨关节炎供者髋部软骨的软骨细胞，发现单核苷酸变异和小插入缺失随年龄呈时钟样累积，骨关节炎软骨细胞的累积速度反而低于对照。个人报告只按论文公式，用每个细胞的突变数除以覆盖比例与灵敏度之积算合格细胞的突变负担，旁列论文分组斜率但不拿它预测你，也不据此开始或停止用药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

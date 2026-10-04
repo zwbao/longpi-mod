@@ -1,0 +1,44 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "senescent-glia-mitochondria-lipid",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "drosophila"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "线粒体"
+  ],
+  "blurb_zh": "衰老胶质的标志、爬管高度占瓶高的比例，以及脂质方向。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "果蝇实验，输入是爬管高度等果蝇读出和图1标志，不适用于个人。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-024-07516-8",
+    "title": "Senescent glia link mitochondrial dysfunction and lipid accumulation",
+    "title_zh": "衰老胶质与脂质堆积",
+    "journal": "Nature",
+    "year": 2024,
+    "authors": "Byrns 等",
+    "article_url": "https://www.nature.com/articles/s41586-024-07516-8",
+    "code_url": "https://github.com/chopralab/drosophila_brain_lipidomics_Byrns_et_all",
+    "card_notes": [
+      "论文没有单列分析代码仓库。"
+    ],
+    "summary_zh": "果蝇脑里一批 AP1 阳性胶质细胞带有衰老特征，并和神经元线粒体功能下降、其他胶质里的脂滴堆积连在一起。压低这些胶质的 AP1 活性会减轻一部分衰老和脂质迹象，同时脑里的氧化损伤增加。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

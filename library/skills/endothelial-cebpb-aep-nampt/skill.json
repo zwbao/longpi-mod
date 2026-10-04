@@ -1,0 +1,55 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "endothelial-cebpb-aep-nampt",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "营养感应"
+  ],
+  "blurb_zh": "内皮 C/EBPβ–AEP–NAMPT 通路里点名的分子和方向。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "以小鼠转基因和药理实验为主，脚本只列通路节点和小鼠发现，不算个人NAD+。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1126/sciadv.aed1961",
+    "title": "Endothelial C/EBPβ/AEP pathway drives vascular deterioration and systemic aging",
+    "title_zh": "内皮 C/EBPβ/AEP 通路与血管—系统性衰老",
+    "journal": "Science Advances",
+    "year": 2026,
+    "authors": "Li 等",
+    "article_url": "https://www.science.org/doi/10.1126/sciadv.aed1961",
+    "supplements": [
+      {
+        "label": "补充材料包",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13580549/supplementaryFiles"
+      }
+    ],
+    "card_notes": [
+      "打开过补充 PDF（Figs. S1–S12，Tables S1–S7）。里面是小鼠衰弱评分、药代相关表和试剂表，没有个人 NAD+ 权重列。",
+      "论文没有给出独立代码仓库。scRNA-seq 在 ArrayExpress E-MTAB-17006。"
+    ],
+    "summary_zh": "这项研究看血管内皮里的 C/EBPβ 怎样带动 AEP，AEP 又怎样在 N136 切割 NAMPT，从而拉低 NAD+ 并推动血管与全身衰老表型。个人报告按正文列出通路节点和小鼠里的遗传、药理发现，不预测你的 NAD+，也不写该开什么药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none",
+  "related_not_same": [
+    "sirt1-hepatocyte-nampt",
+    "trigonelline-nad-precursor-muscle"
+  ]
+}

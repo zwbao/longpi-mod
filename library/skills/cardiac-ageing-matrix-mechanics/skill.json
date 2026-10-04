@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "cardiac-ageing-matrix-mechanics",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "基质、软骨与纤维化"
+  ],
+  "blurb_zh": "与已发表均值的差，以及软硬和年龄组成的四种基质。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠心脏基质水凝胶体外实验，输入是样品模量和支架条件，个人没有这类测量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41563-025-02234-6",
+    "title": "Hybrid hydrogel–extracellular matrix scaffolds identify biochemical and mechanical signatures of cardiac ageing",
+    "title_zh": "心脏基质力学",
+    "journal": "Nature Materials",
+    "year": 2025,
+    "authors": "Sun 等",
+    "article_url": "https://www.nature.com/articles/s41563-025-02234-6",
+    "supplements": [
+      {
+        "label": "用到的补充表：图二源数据",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41563-025-02234-6/MediaObjects/41563_2025_2234_MOESM3_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/onghuiting/focal_adhesion_analysis",
+    "summary_zh": "这项研究把年轻或年老小鼠心脏的细胞外基质留在水凝胶里，并单独调节软硬。年轻基质上的配体可以盖过偏硬的信号，让心脏成纤维细胞更接近静止。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,1833 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "genome-wide-proteomics-frailty",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "衰弱与死亡风险"
+  ],
+  "blurb_zh": "已经算好的医院衰弱风险分。",
+  "intents": [
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "按补充表18的ICD-10权重加总个人诊断编码，得出医院衰弱风险分并分组。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00925-y",
+    "title": "Large-scale genome-wide analyses with proteomics integration reveal novel loci and biological insights into frailty",
+    "title_zh": "医院衰弱风险分组",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Mak 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-00925-y",
+    "summary_zh": "这项研究以住院疾病编码加权求和得到的医院衰弱风险分衡量衰弱，做了大规模全基因组关联分析并整合蛋白质组数据，报告了与衰弱相关的新基因位点和生物学线索。个人报告只把你交来的疾病编码按已发表权重相加，或采用你给的现成分数，再放进低、中间或高的分组，这是回顾性分组，不当作用药依据。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "hfrs",
+      "label_zh": "医院衰弱风险分",
+      "aliases": [
+        "hospital frailty risk score",
+        "医院衰弱风险评分"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        173.2
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "在别处按论文补充表 18 的 109 个 ICD-10 编码权重从住院诊断算好的分数，最高 173.2。表里对上了诊断编码时按编码加总，不用这个数。"
+    },
+    {
+      "key": "F00",
+      "label_zh": "阿尔茨海默病所致痴呆",
+      "aliases": [
+        "Dementia in Alzheimer’s disease"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "G81",
+      "label_zh": "偏瘫",
+      "aliases": [
+        "Hemiplegia"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "G30",
+      "label_zh": "阿尔茨海默病",
+      "aliases": [
+        "Alzheimer’s disease"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "I69",
+      "label_zh": "脑血管病后遗症",
+      "aliases": [
+        "Sequelae of cerebrovascular disease"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R29",
+      "label_zh": "神经和肌肉骨骼系统的其他症状和体征",
+      "aliases": [
+        "Other symptoms and signs involving the nervous and musculoskeletal systems"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "N39",
+      "label_zh": "泌尿系统其他疾患",
+      "aliases": [
+        "Other disorders of urinary system (includes urinary tract infection and urinary incontinence)"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "F05",
+      "label_zh": "谵妄",
+      "aliases": [
+        "Delirium, not induced by alcohol and other psychoactive substances"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "W19",
+      "label_zh": "未特指的跌倒",
+      "aliases": [
+        "Unspecified fall"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S00",
+      "label_zh": "头部浅表损伤",
+      "aliases": [
+        "Superficial injury of head"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R31",
+      "label_zh": "未特指的血尿",
+      "aliases": [
+        "Unspecified haematuria"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "B96",
+      "label_zh": "其他细菌病原体",
+      "aliases": [
+        "Other bacterial agents as the cause of diseases classified to other chapters"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R41",
+      "label_zh": "认知和意识的其他症状和体征",
+      "aliases": [
+        "Other symptoms and signs involving cognitive functions and awareness"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R26",
+      "label_zh": "步态和移动异常",
+      "aliases": [
+        "Abnormalities of gait and mobility"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "I67",
+      "label_zh": "其他脑血管病",
+      "aliases": [
+        "Other cerebrovascular diseases"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R56",
+      "label_zh": "惊厥",
+      "aliases": [
+        "Convulsions, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R40",
+      "label_zh": "嗜睡、木僵和昏迷",
+      "aliases": [
+        "Somnolence, stupor and coma"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "T83",
+      "label_zh": "泌尿生殖假体装置的并发症",
+      "aliases": [
+        "Complications of genitourinary prosthetic devices, implants and grafts"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S06",
+      "label_zh": "颅内损伤",
+      "aliases": [
+        "Intracranial injury"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S42",
+      "label_zh": "肩和上臂骨折",
+      "aliases": [
+        "Fracture of shoulder and upper arm"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "E87",
+      "label_zh": "水电解质和酸碱平衡的其他疾患",
+      "aliases": [
+        "Other disorders of fluid, electrolyte and acid-base balance"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "M25",
+      "label_zh": "其他关节疾患",
+      "aliases": [
+        "Other joint disorders, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "E86",
+      "label_zh": "血容量不足",
+      "aliases": [
+        "Volume depletion"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R54",
+      "label_zh": "衰老",
+      "aliases": [
+        "Senility"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z51",
+      "label_zh": "康复操作",
+      "aliases": [
+        "Care involving use of rehabilitation procedures"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "F03",
+      "label_zh": "未特指的痴呆",
+      "aliases": [
+        "Unspecified dementia"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "W18",
+      "label_zh": "同一平面的其他跌倒",
+      "aliases": [
+        "Other fall on same level"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z75",
+      "label_zh": "与医疗设施和其他卫生保健有关的问题",
+      "aliases": [
+        "Problems related to medical facilities and other health care"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "F01",
+      "label_zh": "血管性痴呆",
+      "aliases": [
+        "Vascular dementia"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S80",
+      "label_zh": "小腿浅表损伤",
+      "aliases": [
+        "Superficial injury of lower leg"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "L03",
+      "label_zh": "蜂窝织炎",
+      "aliases": [
+        "Cellulitis"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "H54",
+      "label_zh": "盲和视力低下",
+      "aliases": [
+        "Blindness and low vision"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "E53",
+      "label_zh": "其他B族维生素缺乏",
+      "aliases": [
+        "Deficiency of other B group vitamins"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z60",
+      "label_zh": "与社会环境有关的问题",
+      "aliases": [
+        "Problems related to social environment"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "G20",
+      "label_zh": "帕金森病",
+      "aliases": [
+        "Parkinson’s disease"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R55",
+      "label_zh": "晕厥和虚脱",
+      "aliases": [
+        "Syncope and collapse"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S22",
+      "label_zh": "肋骨、胸骨和胸椎骨折",
+      "aliases": [
+        "Fracture of rib(s), sternum and thoracic spine"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "K59",
+      "label_zh": "其他功能性肠疾患",
+      "aliases": [
+        "Other functional intestinal disorders"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "N17",
+      "label_zh": "急性肾衰竭",
+      "aliases": [
+        "Acute renal failure"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "L89",
+      "label_zh": "褥疮",
+      "aliases": [
+        "Decubitus ulcer"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z22",
+      "label_zh": "传染病病原携带者",
+      "aliases": [
+        "Carrier of infectious disease"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "B95",
+      "label_zh": "链球菌和葡萄球菌病原体",
+      "aliases": [
+        "Streptococcus and staphylococcus as the cause of diseases classified to other chapters"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "L97",
+      "label_zh": "下肢溃疡",
+      "aliases": [
+        "Ulcer of lower limb, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R44",
+      "label_zh": "一般感觉和知觉的其他症状和体征",
+      "aliases": [
+        "Other symptoms and signs involving general sensations and perceptions"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "K26",
+      "label_zh": "十二指肠溃疡",
+      "aliases": [
+        "Duodenal ulcer"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "I95",
+      "label_zh": "低血压",
+      "aliases": [
+        "Hypotension"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "N19",
+      "label_zh": "未特指的肾衰竭",
+      "aliases": [
+        "Unspecified renal failure"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "A41",
+      "label_zh": "其他败血症",
+      "aliases": [
+        "Other septicaemia"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z87",
+      "label_zh": "其他疾病和情况的个人史",
+      "aliases": [
+        "Personal history of other diseases and conditions"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "J96",
+      "label_zh": "呼吸衰竭",
+      "aliases": [
+        "Respiratory failure, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "X59",
+      "label_zh": "暴露于未特指因素",
+      "aliases": [
+        "Exposure to unspecified factor"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "M19",
+      "label_zh": "其他关节病",
+      "aliases": [
+        "Other arthrosis"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "G40",
+      "label_zh": "癫痫",
+      "aliases": [
+        "Epilepsy"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "M81",
+      "label_zh": "无病理性骨折的骨质疏松",
+      "aliases": [
+        "Osteoporosis without pathological fracture"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S72",
+      "label_zh": "股骨骨折",
+      "aliases": [
+        "Fracture of femur"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S32",
+      "label_zh": "腰椎和骨盆骨折",
+      "aliases": [
+        "Fracture of lumbar spine and pelvis"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "E16",
+      "label_zh": "胰腺内分泌的其他疾患",
+      "aliases": [
+        "Other disorders of pancreatic internal secretion"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R94",
+      "label_zh": "功能检查异常结果",
+      "aliases": [
+        "Abnormal results of function studies"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "N18",
+      "label_zh": "慢性肾衰竭",
+      "aliases": [
+        "Chronic renal failure"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R33",
+      "label_zh": "尿潴留",
+      "aliases": [
+        "Retention of urine"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R69",
+      "label_zh": "未知和未特指的发病原因",
+      "aliases": [
+        "Unknown and unspecified causes of morbidity"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "N28",
+      "label_zh": "肾和输尿管的其他疾患",
+      "aliases": [
+        "Other disorders of kidney and ureter, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R32",
+      "label_zh": "未特指的尿失禁",
+      "aliases": [
+        "Unspecified urinary incontinence"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "G31",
+      "label_zh": "神经系统其他变性病",
+      "aliases": [
+        "Other degenerative diseases of nervous system, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Y95",
+      "label_zh": "医源性情况",
+      "aliases": [
+        "Nosocomial condition"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S09",
+      "label_zh": "头部其他和未特指的损伤",
+      "aliases": [
+        "Other and unspecified injuries of head"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R45",
+      "label_zh": "涉及情绪状态的症状和体征",
+      "aliases": [
+        "Symptoms and signs involving emotional state"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "G45",
+      "label_zh": "短暂性脑缺血发作和相关综合征",
+      "aliases": [
+        "Transient cerebral ischaemic attacks and related syndromes"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z74",
+      "label_zh": "与护理者依赖有关的问题",
+      "aliases": [
+        "Problems related to care-provider dependency"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "M79",
+      "label_zh": "其他软组织疾患",
+      "aliases": [
+        "Other soft tissue disorders, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "W06",
+      "label_zh": "涉及床的跌倒",
+      "aliases": [
+        "Fall involving bed"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S01",
+      "label_zh": "头部开放性伤口",
+      "aliases": [
+        "Open wound of head"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "A04",
+      "label_zh": "其他细菌性肠道感染",
+      "aliases": [
+        "Other bacterial intestinal infections"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "A09",
+      "label_zh": "推定为感染性的腹泻和胃肠炎",
+      "aliases": [
+        "Diarrhoea and gastroenteritis of presumed infectious origin"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "J18",
+      "label_zh": "未特指病原体的肺炎",
+      "aliases": [
+        "Pneumonia, organism unspecified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "J69",
+      "label_zh": "固体和液体引起的肺炎",
+      "aliases": [
+        "Pneumonitis due to solids and liquids"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R47",
+      "label_zh": "言语障碍",
+      "aliases": [
+        "Speech disturbances, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "E55",
+      "label_zh": "维生素D缺乏",
+      "aliases": [
+        "Vitamin D deficiency"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z93",
+      "label_zh": "人工造口状态",
+      "aliases": [
+        "Artificial opening status"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R02",
+      "label_zh": "坏疽",
+      "aliases": [
+        "Gangrene, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R63",
+      "label_zh": "有关食物和液体摄入的症状和体征",
+      "aliases": [
+        "Symptoms and signs concerning food and fluid intake"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "H91",
+      "label_zh": "其他听力丧失",
+      "aliases": [
+        "Other hearing loss"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "W10",
+      "label_zh": "在楼梯和台阶上的跌倒",
+      "aliases": [
+        "Fall on and from stairs and steps"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "W01",
+      "label_zh": "在同一平面滑倒绊倒和跌倒",
+      "aliases": [
+        "Fall on same level from slipping, tripping and stumbling"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "E05",
+      "label_zh": "甲状腺毒症",
+      "aliases": [
+        "Thyrotoxicosis [hyperthyroidism]"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "M41",
+      "label_zh": "脊柱侧凸",
+      "aliases": [
+        "Scoliosis"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R13",
+      "label_zh": "吞咽困难",
+      "aliases": [
+        "Dysphagia"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z99",
+      "label_zh": "对辅助机器和装置的依赖",
+      "aliases": [
+        "Dependence on enabling machines and devices"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "U80",
+      "label_zh": "耐青霉素及相关抗生素的病原体",
+      "aliases": [
+        "Agent resistant to penicillin and related antibiotics"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "M80",
+      "label_zh": "伴病理性骨折的骨质疏松",
+      "aliases": [
+        "Osteoporosis with pathological fracture"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "K92",
+      "label_zh": "消化系统其他疾病",
+      "aliases": [
+        "Other diseases of digestive system"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "I63",
+      "label_zh": "脑梗死",
+      "aliases": [
+        "Cerebral Infarction"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "N20",
+      "label_zh": "肾和输尿管结石",
+      "aliases": [
+        "Calculus of kidney and ureter"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "F10",
+      "label_zh": "使用酒精引起的精神和行为障碍",
+      "aliases": [
+        "Mental and behavioural disorders due to use of alcohol"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Y84",
+      "label_zh": "其他医疗操作作为患者异常反应的原因",
+      "aliases": [
+        "Other medical procedures as the cause of abnormal reaction of the patient"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R00",
+      "label_zh": "心搏异常",
+      "aliases": [
+        "Abnormalities of heart beat"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "J22",
+      "label_zh": "未特指的急性下呼吸道感染",
+      "aliases": [
+        "Unspecified acute lower respiratory infection"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z73",
+      "label_zh": "与生活管理困难有关的问题",
+      "aliases": [
+        "Problems related to life-management difficulty"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R79",
+      "label_zh": "血液化学的其他异常所见",
+      "aliases": [
+        "Other abnormal findings of blood chemistry"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "Z91",
+      "label_zh": "危险因素的个人史",
+      "aliases": [
+        "Personal history of risk-factors, not elsewhere classified"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "S51",
+      "label_zh": "前臂开放性伤口",
+      "aliases": [
+        "Open wound of forearm"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "F32",
+      "label_zh": "抑郁发作",
+      "aliases": [
+        "Depressive episode"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "M48",
+      "label_zh": "椎管狭窄",
+      "aliases": [
+        "Spinal stenosis (secondary code only)"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "E83",
+      "label_zh": "矿物质代谢疾患",
+      "aliases": [
+        "Disorders of mineral metabolism"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "M15",
+      "label_zh": "多关节病",
+      "aliases": [
+        "Polyarthrosis"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "D64",
+      "label_zh": "其他贫血",
+      "aliases": [
+        "Other anaemias"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "L08",
+      "label_zh": "皮肤和皮下组织的其他局部感染",
+      "aliases": [
+        "Other local infections of skin and subcutaneous tissue"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R11",
+      "label_zh": "恶心和呕吐",
+      "aliases": [
+        "Nausea and vomiting"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "K52",
+      "label_zh": "其他非感染性胃肠炎和结肠炎",
+      "aliases": [
+        "Other noninfective gastroenteritis and colitis"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    },
+    {
+      "key": "R50",
+      "label_zh": "原因不明的发热",
+      "aliases": [
+        "Fever of unknown origin"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "hfrs",
+      "note_zh": "有这个诊断写 1，没有写 0；名称列也可以写更细的编码（如 F00.1）。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "hfrs_score",
+      "label_zh": "医院衰弱风险分",
+      "unit": "score",
+      "note_zh": "对上诊断编码时是补充表 18 权重的加总（同一编码只计一次）；一个编码都没对上时是你给出的现成分数。"
+    },
+    {
+      "key": "hfrs_group",
+      "label_zh": "医院衰弱风险分组",
+      "note_zh": "低（<5）、中间（5–15）或高（>15）。"
+    },
+    {
+      "key": "hfrs_score_without_dementia",
+      "label_zh": "去掉痴呆相关编码后的医院衰弱风险分",
+      "unit": "score",
+      "note_zh": "只在对上了 F00、F01、F03 或 G30 时有值，其余为空。"
+    },
+    {
+      "key": "hfrs_group_without_dementia",
+      "label_zh": "去掉痴呆相关编码后的分组",
+      "note_zh": "只在对上了痴呆相关编码时有值，其余为空。"
+    }
+  ]
+}

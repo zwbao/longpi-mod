@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "structural-signature-plasma-proteins",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "补体 C1q A 链、丛集蛋白或载脂蛋白 B 的结构可及性。",
+  "intents": [
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "人血浆病例对照，用个人整体赖氨酸可及性对照健康、MCI、AD组均值，取最近一组。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01078-2",
+    "title": "Structural signature of plasma proteins classifies the status of Alzheimer’s disease",
+    "title_zh": "血浆蛋白的结构可及性",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Son 等",
+    "article_url": "https://doi.org/10.1038/s43587-026-01078-2",
+    "summary_zh": "这项研究用质谱和机器学习比较阿尔茨海默病、轻度认知障碍和健康人的血浆蛋白结构，并用C1QA、丛集蛋白和载脂蛋白B的肽段建成区分这三组人的标志物组合。个人报告只照录你交来的三个肽段赖氨酸可及性而不分组，另交整体可及性时才与论文三组平均值比较，不套用未公开的分类器，也不据此开始或停止用药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

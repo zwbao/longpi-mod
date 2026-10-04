@@ -1,0 +1,45 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "aged-skin-il36-osteoarthritis",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "皮肤"
+  ],
+  "blurb_zh": "IL-36 家族，以及 spesolimab 这个名字。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "主要证据是小鼠实验，脚本只照录IL-36测量并列出蛋白和spesolimab名字。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-68399-z",
+    "title": "Aged skin exacerbates experimental osteoarthritis via enhanced IL-36R signaling",
+    "title_zh": "老化皮肤与关节炎症",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Chen 等",
+    "article_url": "https://www.nature.com/articles/s41467-026-68399-z",
+    "card_notes": [
+      "这次没有用到补充表里的系数。文章写补充信息在文内，那份文件没有打开。",
+      "论文没有给出代码仓库网址。"
+    ],
+    "summary_zh": "这项研究认为年老表皮里 IL-36Ra 减少，IL-36 激动剂更容易进入血清和关节。小鼠皮肤微针里用了 IL-36Ra 或 spesolimab。个人报告只照录这些名字和已给的测量。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

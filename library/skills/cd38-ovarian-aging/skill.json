@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "cd38-ovarian-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse",
+    "human"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "卵巢与生殖"
+  ],
+  "blurb_zh": "20–25 岁或大于 35 岁，以及卵巢相对其他器官的 CD38 和 NAD+ 方向。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "器官方向来自小鼠实验，脚本只把年龄放进人卵泡液供者的年龄窗。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-023-00532-9",
+    "title": "NADase CD38 is a key determinant of ovarian aging",
+    "title_zh": "卵巢烟酰胺酶",
+    "journal": "Nature Aging",
+    "year": 2023,
+    "authors": "Yang 等",
+    "article_url": "https://www.nature.com/articles/s43587-023-00532-9",
+    "supplements": [
+      {
+        "label": "补充表压缩包",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-023-00532-9/MediaObjects/43587_2023_532_MOESM3_ESM.zip"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出自己的代码仓库。测序数据在 SRA，登录号留在 claims，不写入个人结果。"
+    ],
+    "summary_zh": "这项研究比较多个器官后，发现卵巢更早出现 CD38 升高和 NAD+ 下降。在小鼠里抑制这种酶，卵巢的 NAD+ 和生育相关读数有变化。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

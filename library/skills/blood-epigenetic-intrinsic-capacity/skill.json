@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "blood-epigenetic-intrinsic-capacity",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "认知、行走、情绪、视力和听力的内在能力。",
+  "intents": [
+    "epigenetic_age",
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "91个CpG到齐时按补充表系数和截距算出个人甲基化内在能力分数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00883-5",
+    "title": "A blood-based epigenetic clock for intrinsic capacity predicts mortality and is associated with clinical, immunological and lifestyle factors",
+    "title_zh": "内在能力",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Fuentealba 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-00883-5",
+    "summary_zh": "这项研究以认知、行动、心理、感官和活力五方面的临床评估衡量内在能力，用血液DNA甲基化建成预测它的时钟，并在弗雷明汉心脏研究中发现它预测全因死亡强于前两代表观遗传时钟。个人报告只在甲基化位点交齐时按补充表的系数和截距算甲基化内在能力，只有临床分数时给出四项按满分缩放的平均并注明这不是论文的内在能力，也不做死亡预测。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

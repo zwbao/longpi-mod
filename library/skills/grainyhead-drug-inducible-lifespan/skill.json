@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "grainyhead-drug-inducible-lifespan",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "c_elegans"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "老年保护"
+  ],
+  "blurb_zh": "线虫寿命试验里点名的化合物。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "线虫寿命实验，脚本只列正文点名的三个延寿化合物。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-021-27732-4",
+    "title": "Grainyhead 1 acts as a drug-inducible conserved transcriptional regulator linked to insulin signaling and lifespan",
+    "title_zh": "线虫寿命试验里的化合物",
+    "journal": "Nature Communications",
+    "year": 2022,
+    "authors": "Grigolon 等",
+    "article_url": "https://doi.org/10.1038/s41467-021-27732-4",
+    "summary_zh": "这项研究发现转录因子 GRH-1 在秀丽线虫里能延长寿命并增强抗病能力，又从已获批药物里筛出能激活它的化合物，在小鼠和人的数据里也看到这个基因和胰岛素敏感性有关。个人报告只列出正文点名的化合物和它们在线虫实验里的结果，不把你的测量换算成寿命。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

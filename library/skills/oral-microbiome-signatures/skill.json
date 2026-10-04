@@ -1,0 +1,39 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "oral-microbiome-signatures",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "已经算好的口腔微生物年龄残差。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "人群队列口腔菌群时钟没有随机森林权重，脚本只查属名并写已给残差的正负。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-72096-2",
+    "title": "Oral microbiome signatures predict biological age and host health",
+    "title_zh": "口腔微生物年龄加速",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Zhao 等",
+    "article_url": "https://doi.org/10.1038/s41467-026-72096-2",
+    "summary_zh": "这项研究用两个全国营养调查队列的口腔微生物数据找出随年龄变化的菌属，训练模型预测实足年龄，再把预测与实足年龄的残差当作口腔微生物老化加速分数，看它和死亡、衰弱等结局的关联。个人报告只写你给出的残差相对零的方向并对齐菌属名字，不从丰度重算年龄，也不把队列里的关联写成你的风险。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

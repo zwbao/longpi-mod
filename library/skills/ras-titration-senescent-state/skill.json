@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ras-titration-senescent-state",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "cell_line",
+    "mouse"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "--system rpe1 或 --system liver 和一个剂量箱。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "RPE1细胞和小鼠肝脏实验，输入是RAS剂量箱，这是人没有的实验条件。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-024-07797-z",
+    "title": "Titration of RAS alters senescent state and influences tumour initiation",
+    "title_zh": "剂量分箱",
+    "journal": "Nature",
+    "year": 2024,
+    "authors": "Chan 等",
+    "article_url": "https://doi.org/10.1038/s41586-024-07797-z",
+    "summary_zh": "这项研究在人细胞系和小鼠肝脏里逐级提高一个癌基因的表达，看到下游表型随表达高低非线性变化：高表达对应衰老并被免疫清除，表达调低后细胞逃过免疫清除并长出肿瘤。个人报告只把你给出的分档名映到论文写明的衰老或起始表型，并核对现用药是否出现在这份名单上，这些是细胞和小鼠实验的读出。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

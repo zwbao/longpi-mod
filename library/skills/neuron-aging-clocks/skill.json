@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "neuron-aging-clocks",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "c_elegans"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "脑、认知与痴呆",
+    "比较生物学"
+  ],
+  "blurb_zh": "线虫神经元名字。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "秀丽线虫神经元BitAge表查询，输入是线虫神经元名，不是人类证据。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01067-5",
+    "title": "Aging clocks delineate neuron types vulnerable or resilient to neurodegeneration and identify neuroprotective interventions",
+    "title_zh": "神经元预测年龄",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Gallrein 等",
+    "article_url": "https://doi.org/10.1038/s43587-026-01067-5",
+    "summary_zh": "这项研究把衰老时钟用到秀丽线虫单类神经元的转录组上，发现不同神经元的生物年龄不同，纤毛感觉神经元老得更快，并用计算筛选挑出几种小分子在线虫里做了测试。个人报告只说你点名的神经元落在代码里年龄分位和分箱的哪一侧，并列出论文测过的化合物，这些都是线虫实验的结果。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,64 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+
+      - name: Install test dependencies
+        run: pip install -r requirements-ci.txt
+
+      # Generated files (catalog.json, the README list, the legacy registry,
+      # vendored skillkit/paper_card copies) are rebuilt here, so a pull request
+      # does not have to carry them; main gets them from the regenerate workflow.
+      - name: Rebuild generated files
+        run: python -m tools.lsk build
+
+      - name: Consistency checks
+        run: python -m tools.lsk check
+
+      - name: Tooling tests
+        run: python -m pytest -q tools/tests
+
+      - name: Skill tests (one process per skill)
+        run: python -m tools.lsk test --jobs 4
+
+      # The dispatch regression lives in dsh-plugin-longpi. It runs when the
+      # plugin repository is readable, so a new skill cannot take over the
+      # answer to an everyday question without the PR failing.
+      - name: Check out dsh-plugin-longpi
+        uses: actions/checkout@v4
+        continue-on-error: true
+        id: plugin
+        with:
+          repository: zwbao/dsh-plugin-longpi
+          path: .plugin
+
+      - uses: actions/setup-node@v4
+        if: steps.plugin.outcome == 'success'
+        with:
+          node-version: 22
+
+      - name: Dispatch regression
+        if: steps.plugin.outcome == 'success'
+        working-directory: .plugin
+        env:
+          LONGEVITY_SKILLS_HOME: ${{ github.workspace }}
+        run: |
+          npm ci
+          npm run build
+          node test/units.mjs
+          node test/dispatch.mjs

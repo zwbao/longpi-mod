@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "omniage-mitotic-clonal-hematopoiesis",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "探针甲基化对应的干细胞分裂次数。",
+  "intents": [
+    "epigenetic_age"
+  ],
+  "triage": {
+    "reason_zh": "用个人CpG甲基化值按仓库epiTOC2系数算总干细胞分裂数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-76038-w",
+    "title": "The OmniAge compendium of aging omic biomarkers links mitotic clocks to clonal hematopoiesis and causality",
+    "title_zh": "干细胞分裂次数",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Du 等",
+    "article_url": "https://doi.org/10.1038/s41467-026-76038-w",
+    "summary_zh": "这项研究把多类衰老组学标志物汇编成一个软件包，在大型血液数据里比较不同类别之间的相关，发现表观遗传有丝分裂时钟给出的有丝分裂年龄与甲基化推算的克隆性造血代理指标和因果时钟相关。个人报告只用你交来的探针甲基化值按软件包里的公式和系数算出干细胞累计分裂总数，给了年龄时再除以年龄，不给出克隆性造血的概率。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "nicotinamide-riboside-airway-inflammation",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "rct",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "痰液白细胞介素-8 从基线到第六周的变化。",
+  "intents": [
+    "before_after",
+    "intervention_evidence",
+    "immune_inflammation"
+  ],
+  "triage": {
+    "reason_zh": "人体随机试验，用个人痰液IL-8基线和第六周两次测量算百分比变化。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00758-1",
+    "title": "Effect of nicotinamide riboside on airway inflammation in COPD: a randomized, placebo-controlled trial",
+    "title_zh": "痰液白细胞介素的变化",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Norheim 等",
+    "article_url": "https://doi.org/10.1038/s43587-024-00758-1",
+    "summary_zh": "这项研究让稳定期慢阻肺患者在随机双盲安慰剂对照试验中补充烟酰胺核糖数周，主要结局是痰液IL-8从基线到第六周的变化，补充组的IL-8比安慰剂组更低，治疗结束后的随访中仍是如此。个人报告只用你交来的基线和第六周痰液IL-8算你的变化百分比，不把试验组间差写成你的效果，也不当作开始或停止烟酰胺核糖的理由。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

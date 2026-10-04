@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "plasma-proteomics-brain-immune",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "各器官已经算好的 z。",
+  "intents": [
+    "proteomic_organ_age",
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "用补充表三的LASSO系数和截距由个人蛋白z算器官年龄，并按±1.5标准差分档。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41591-025-03798-1",
+    "title": "Plasma proteomics links brain and immune system aging with healthspan and longevity",
+    "title_zh": "器官年龄差",
+    "journal": "Nature Medicine",
+    "year": 2025,
+    "authors": "Oh 等",
+    "article_url": "https://doi.org/10.1038/s41591-025-03798-1",
+    "summary_zh": "这项研究用英国生物样本库的血浆蛋白质组估算多个器官的生物年龄，发现器官年龄与多种疾病的未来发病相关，脑偏老与阿尔茨海默病风险升高相关，脑和免疫系统年轻则与长寿相关。个人报告只把你交来的标准化蛋白水平按补充表线性系数算成器官预测年龄，或按论文界值标出器官年龄差偏老或偏年轻，不把队列风险比说成你的风险。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

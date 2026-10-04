@@ -1,0 +1,336 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "epigenetic-clock-reliability",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "同一个时钟两次年龄的差。",
+  "intents": [
+    "epigenetic_age",
+    "before_after"
+  ],
+  "triage": {
+    "reason_zh": "用同一时钟两次甲基化年龄算绝对差，并与论文技术重复的中位差并列。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-022-00248-2",
+    "title": "A computational solution for bolstering reliability of epigenetic clocks: implications for clinical trials and longitudinal tracking",
+    "title_zh": "两次甲基化年龄的差",
+    "journal": "Nature Aging",
+    "year": 2022,
+    "authors": "Higgins-Chen 等",
+    "article_url": "https://doi.org/10.1038/s43587-022-00248-2",
+    "summary_zh": "这项研究发现同一份样本重复测量时，技术噪声可让几种常用表观遗传时钟的结果相差多达数年，于是先从CpG位点数据提取主成分再重新训练这些时钟，使多数重复之间的差距明显缩小。个人报告只算你交来的同一时钟两次技术重复年龄的绝对差，并与论文里的重复差并排，不计算主成分版本的年龄，也不据此开始或停止任何药物。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ]
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "Horvath1_a",
+      "label_zh": "霍瓦特时钟第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "Horvath1_b",
+      "label_zh": "霍瓦特时钟第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "Horvath2_a",
+      "label_zh": "霍瓦特皮肤时钟第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "Horvath2_b",
+      "label_zh": "霍瓦特皮肤时钟第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "Hannum_a",
+      "label_zh": "汉纳姆时钟第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "Hannum_b",
+      "label_zh": "汉纳姆时钟第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "PhenoAge_a",
+      "label_zh": "表型年龄第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "PhenoAge_b",
+      "label_zh": "表型年龄第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "GrimAge_a",
+      "label_zh": "格里姆年龄第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "GrimAge_b",
+      "label_zh": "格里姆年龄第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "DNAmTL_a",
+      "label_zh": "甲基化端粒长度第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "DNAmTL_b",
+      "label_zh": "甲基化端粒长度第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "PCHorvath1_a",
+      "label_zh": "主成分霍瓦特时钟第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "PCHorvath1_b",
+      "label_zh": "主成分霍瓦特时钟第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "PCHorvath2_a",
+      "label_zh": "主成分霍瓦特皮肤时钟第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "PCHorvath2_b",
+      "label_zh": "主成分霍瓦特皮肤时钟第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "PCHannum_a",
+      "label_zh": "主成分汉纳姆时钟第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "PCHannum_b",
+      "label_zh": "主成分汉纳姆时钟第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "PCPhenoAge_a",
+      "label_zh": "主成分表型年龄第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "PCPhenoAge_b",
+      "label_zh": "主成分表型年龄第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "PCGrimAge_a",
+      "label_zh": "主成分格里姆年龄第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "PCGrimAge_b",
+      "label_zh": "主成分格里姆年龄第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    },
+    {
+      "key": "PCDNAmTL_a",
+      "label_zh": "主成分甲基化端粒长度第一次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一次检测的一个重复。"
+    },
+    {
+      "key": "PCDNAmTL_b",
+      "label_zh": "主成分甲基化端粒长度第二次",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "同一个时钟的另一个重复。至少一对到齐才算绝对差。"
+    }
+  ]
+}

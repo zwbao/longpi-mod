@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "plasma-proteome-future-dementia",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "四个血浆蛋白的数值。梯度提升树的权重没有印出。",
+  "intents": [
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "英国生物样本库队列，梯度提升树权重未印出，脚本只记录四个点名蛋白的数值。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-023-00565-0",
+    "title": "Plasma proteomic profiles predict future dementia in healthy adults",
+    "title_zh": "痴呆相关的四个血浆蛋白",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Guo 等",
+    "article_url": "https://doi.org/10.1038/s43587-023-00565-0",
+    "summary_zh": "这项研究在英国生物样本库的健康成年人里追踪血浆蛋白和日后痴呆的关系，发现 GFAP、NEFL、GDF15 和 LTBP2 与痴呆发生关联最强。个人报告只照录你测到的这四个蛋白数值，不计算痴呆风险分，因为论文用的梯度提升树权重没有印出。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

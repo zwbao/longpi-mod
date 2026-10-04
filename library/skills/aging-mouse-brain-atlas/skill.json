@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "aging-mouse-brain-atlas",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "小鼠脑区名字。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠脑区图谱，脚本只核对脑区名和正文写明方向的基因，不算衰老分数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1016/j.cell.2023.07.027",
+    "title": "Atlas of the aging mouse brain reveals white matter as vulnerable foci",
+    "title_zh": "小鼠脑区",
+    "journal": "Cell",
+    "year": 2023,
+    "authors": "Hahn 等",
+    "article_url": "https://doi.org/10.1016/j.cell.2023.07.027",
+    "summary_zh": "这项研究对不同年龄小鼠的多个脑区做时空转录组测序，发现全脑胶质细胞有一组共同的衰老基因特征，且白质里的胶质衰老比皮层更快，还比较了注射年轻血浆和饮食限制对各脑区的不同影响。个人报告只把你给出的脑区名字按论文正文的叙述顺序列出并附上原文描述，不把这个顺序当成权重，也不计算共同衰老基因分数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

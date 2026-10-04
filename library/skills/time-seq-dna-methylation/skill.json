@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "time-seq-dna-methylation",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "血液甲基化百分比。",
+  "intents": [
+    "epigenetic_age"
+  ],
+  "triage": {
+    "reason_zh": "用仓库TIME-seq人类血液时钟系数，按个人甲基化百分比算出预测年龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-023-00555-2",
+    "title": "TIME-seq reduces time and cost of DNA methylation measurement for epigenetic clock construction",
+    "title_zh": "血液甲基化年龄",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Griffin 等",
+    "article_url": "https://doi.org/10.1038/s43587-023-00555-2",
+    "code_url": "https://github.com/patricktgriffin/TIME-Seq",
+    "summary_zh": "这项研究用 TIME-Seq 读血液甲基化。位点到齐、百分比在零到一百时，按公开仓库里的系数算年龄。缺位点不填补。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

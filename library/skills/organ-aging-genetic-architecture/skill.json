@@ -1,0 +1,47 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "organ-aging-genetic-architecture",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "点到的器官。这是遗传结构，不是上面的蛋白质年龄差。",
+  "intents": [
+    "proteomic_organ_age"
+  ],
+  "triage": {
+    "reason_zh": "人群器官衰老遗传研究，权重表无截距，脚本只列点到的器官和摘要方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-025-67223-4",
+    "title": "Revealing the genetic architectures underlying organ-specific aging based on proteomic data",
+    "title_zh": "器官衰老遗传结构",
+    "journal": "Nature Communications",
+    "year": 2025,
+    "authors": "Zhu 等",
+    "article_url": "https://www.nature.com/articles/s41467-025-67223-4",
+    "supplements": [
+      {
+        "label": "Supplementary Data 3",
+        "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-025-67223-4/MediaObjects/41467_2025_67223_MOESM2_ESM.xlsx"
+      }
+    ],
+    "summary_zh": "这项研究用血浆蛋白给器官做弹性网年龄模型，再看遗传位点。补充表有特征权重，没有截距，所以个人报告不算器官年龄。点到的器官会附上摘要里写明的方向。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

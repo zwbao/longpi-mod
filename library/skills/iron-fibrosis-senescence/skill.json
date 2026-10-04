@@ -1,0 +1,55 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "iron-fibrosis-senescence",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse",
+    "human"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "基质、软骨与纤维化"
+  ],
+  "blurb_zh": "与 128 个基因的交集，以及纤维化的 ABSENT-MILD 或 MODERATE-SEVERE。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "铁堆积基因表是小鼠基因，脚本只查基因交集并把IFTA分映射为分组词。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s42255-023-00928-2",
+    "title": "Iron accumulation drives fibrosis, senescence and the senescence-associated secretory phenotype",
+    "title_zh": "铁与纤维化衰老",
+    "journal": "Nature Metabolism",
+    "year": 2023,
+    "authors": "Maus 等",
+    "article_url": "https://www.nature.com/articles/s42255-023-00928-2",
+    "supplements": [
+      {
+        "label": "用到的补充表：铁堆积基因",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs42255-023-00928-2/MediaObjects/42255_2023_928_MOESM3_ESM.xlsx"
+      },
+      {
+        "label": "用到的补充表：磁共振与纤维化分组",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs42255-023-00928-2/MediaObjects/42255_2023_928_MOESM4_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究发现损伤之后铁会在细胞里堆积，并推动纤维化、细胞衰老和衰老相关分泌。他们整理出一套铁堆积基因，并用磁共振看移植肾皮质里的铁。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

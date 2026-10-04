@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "amino-acid-biological-age",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "氨基酸浓度的比例。",
+  "intents": [
+    "metabolomic_age"
+  ],
+  "triage": {
+    "reason_zh": "用个人八种氨基酸浓度按简化模型算各自占总和的比例；随机森林权重未公布，不出年龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-73371-y",
+    "title": "Amino acid-based biological age clock and its implications for human health and aging",
+    "title_zh": "氨基酸比例",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Ding 等",
+    "article_url": "https://doi.org/10.1038/s41467-026-73371-y",
+    "summary_zh": "这项研究汇总多项队列里从幼年到高龄人群的血液氨基酸浓度，用随机森林训练出一个氨基酸生物年龄预测器，并把它精简成少数几种氨基酸的简版。个人报告只在八种氨基酸齐全时把每一种的浓度除以这八种之和，给出比例，不输出年龄，也不给年龄差。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

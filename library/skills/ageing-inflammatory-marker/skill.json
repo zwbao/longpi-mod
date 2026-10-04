@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ageing-inflammatory-marker",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "全血图一里的炎症基因，以及 MCU 和 MICU1。",
+  "intents": [
+    "immune_inflammation"
+  ],
+  "triage": {
+    "reason_zh": "人全血转录组图一的炎症基因名单，脚本只查点名基因并附方向，不算分。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-023-00436-8",
+    "title": "Reduced mitochondrial calcium uptake in macrophages is a major driver of inflammaging",
+    "title_zh": "衰老相关的炎症标志",
+    "journal": "Nature Aging",
+    "year": 2023,
+    "authors": "Seegren 等",
+    "article_url": "https://www.nature.com/articles/s43587-023-00436-8",
+    "supplements": [
+      {
+        "label": "补充表 MOESM4",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-023-00436-8/MediaObjects/43587_2023_436_MOESM4_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究说明，巨噬细胞线粒体吸收钙的能力随年龄下降后，细胞里的炎症信号会更容易被点着。全血里两个负责吸收钙的基因随年龄变低，同时一批炎症基因在年长者一边更高。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

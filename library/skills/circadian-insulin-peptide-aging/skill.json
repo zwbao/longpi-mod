@@ -1,0 +1,46 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "circadian-insulin-peptide-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "drosophila"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "昼夜节律"
+  ],
+  "blurb_zh": "果蝇日龄是 3 天还是 40 天，以及胰岛素肽基因。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "果蝇研究，输入是果蝇日龄，脚本只照录点名的胰岛素样肽基因。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-024-47740-4",
+    "title": "LKRSDH-dependent histone modifications of insulin-like peptide sites contribute to age-related circadian rhythm changes",
+    "title_zh": "果蝇胰岛素样肽与节律",
+    "journal": "Nature Communications",
+    "year": 2024,
+    "authors": "Lv 等",
+    "article_url": "https://www.nature.com/articles/s41467-024-47740-4",
+    "code_url": "https://zenodo.org/records/10785489",
+    "card_notes": [
+      "差异基因在 Supplementary Data 1。这次没有下载那份表，所以没有使用倍数变化列。",
+      "[代码](https://zenodo.org/records/10785489)"
+    ],
+    "summary_zh": "这项研究在果蝇里看到 LKRSDH 突变让年老个体的昼夜节律变差。下游包括 art4 和胰岛素样肽 dilp2、dilp3、dilp5。个人报告只对照日龄并照录这些基因。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

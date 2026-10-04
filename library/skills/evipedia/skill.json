@@ -1,0 +1,26 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "evipedia",
+  "kind": "tool",
+  "tier": "tool",
+  "species": [
+    "human"
+  ],
+  "evidence": "review",
+  "domains": [
+    "工具与证据库"
+  ],
+  "blurb_zh": "Evipedia 0.1.30（forever-healthy/evipedia-mcp b94febd）。已发布的干预证据综述。",
+  "intents": [
+    "intervention_evidence"
+  ],
+  "tool": {
+    "upstream": "https://github.com/forever-healthy/evipedia-mcp",
+    "version": "0.1.30",
+    "commit": "b94febd",
+    "requires": [
+      "npx"
+    ]
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,55 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "gompertz-celegans-decrepitude",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "c_elegans"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "衰弱与死亡风险",
+    "比较生物学"
+  ],
+  "blurb_zh": "健康期天数和衰弱期天数的相对比例。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "线虫实验，脚本只把健康期和衰弱期天数换成比例，不适用于个人。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-71780-7",
+    "title": "Slowed Gompertzian ageing in long-lived C. elegans results from expansion of decrepitude, not decelerated ageing",
+    "title_zh": "衰弱期比例",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Zhang 等",
+    "article_url": "https://www.nature.com/articles/s41467-026-71780-7",
+    "supplements": [
+      {
+        "label": "源数据表",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-026-71780-7/MediaObjects/41467_2026_71780_MOESM4_ESM.xlsx"
+      },
+      {
+        "label": "补充说明",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-026-71780-7/MediaObjects/41467_2026_71780_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究在线虫里同时记录种群死亡和每条虫处于健康或衰弱的天数。寿命变长时，多出来的时间更多落在衰弱期，而不是把衰老速率简单地放慢。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

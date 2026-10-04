@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "bowhead-whale-dna-repair",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "bowhead_whale",
+    "cell_line"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "比较生物学"
+  ],
+  "blurb_zh": "GFP 阳性细胞数除以 DsRed 阳性细胞数，以及人和弓头鲸成纤维细胞的转化组合。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "弓头鲸与人成纤维细胞实验，输入是物种名和报告基因阳性细胞计数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-025-09694-5",
+    "title": "Evidence for improved DNA repair in the long-lived bowhead whale",
+    "title_zh": "弓头鲸的 DNA 修复",
+    "journal": "Nature",
+    "year": 2025,
+    "authors": "Firsanov 等",
+    "article_url": "https://www.nature.com/articles/s41586-025-09694-5",
+    "supplements": [
+      {
+        "label": "补充材料页",
+        "url": "https://www.nature.com/articles/s41586-025-09694-5#Sec35"
+      }
+    ],
+    "code_url": "https://doi.org/10.5281/zenodo.17112093",
+    "summary_zh": "这项研究比较弓头鲸细胞的双链断裂修复，并指出冷诱导蛋白能提高连接和重组。个人报告只计算报告基因里的连接频率，并照录这篇成纤维细胞实验的转化组合。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "longevitybench",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "multi_species"
+  ],
+  "evidence": "database",
+  "domains": [
+    "工具与证据库"
+  ],
+  "blurb_zh": "DrugAge 的回顾性排序，以及 Longevity Claw 的标志物向量场顺序。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "DrugAge是模式生物寿命实验库，脚本输出化合物排序和按年龄的模型顺序。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1016/j.cell.2026.08.026",
+    "title": "An open benchmark and language models for AI in aging biology",
+    "title_zh": "LongevityBench readout",
+    "journal": "Cell",
+    "year": 2026,
+    "authors": "Zhavoronkov 等",
+    "article_url": "https://doi.org/10.1016/j.cell.2026.08.026",
+    "summary_zh": "DrugAge 回顾性排序和 Longevity Claw 的标志物向量场顺序。名次和名单里没有的药都不是停用理由，体检不增删化合物。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

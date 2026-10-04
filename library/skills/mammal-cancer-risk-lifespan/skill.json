@@ -1,0 +1,47 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "mammal-cancer-risk-lifespan",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "multi_species"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "比较生物学"
+  ],
+  "blurb_zh": "物种的癌症死亡比例。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "动物园哺乳动物跨物种研究，输入是物种名或死亡计数，不是个人数据。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-021-04224-5",
+    "title": "Cancer risk across mammals",
+    "title_zh": "哺乳动物的癌症死亡",
+    "journal": "Nature",
+    "year": 2022,
+    "authors": "Vincze 等",
+    "article_url": "https://www.nature.com/articles/s41586-021-04224-5",
+    "supplements": [
+      {
+        "label": "代码",
+        "url": "https://github.com/OrsolyaVincze/VinczeEtal2021Nature"
+      }
+    ],
+    "code_url": "https://github.com/OrsolyaVincze/VinczeEtal2021Nature/blob/main/data.csv",
+    "summary_zh": "这项研究整理动物园哺乳动物的癌症相关死亡，并按物种比较死亡比例。个人报告查已公布的物种比例，或按肿瘤相关死亡数除以有病理记录的死亡数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

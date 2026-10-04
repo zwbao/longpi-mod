@@ -1,0 +1,26 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "synergy-age",
+  "kind": "tool",
+  "tier": "tool",
+  "species": [
+    "multi_species"
+  ],
+  "evidence": "database",
+  "domains": [
+    "工具与证据库"
+  ],
+  "blurb_zh": "SynergyAge 0.1.0（longevity-genie/synergy-age-mcp af1f1fc）。模式生物基因互作对寿命的影响。只读 SQL。",
+  "intents": [
+    "gene_variant"
+  ],
+  "tool": {
+    "upstream": "https://github.com/longevity-genie/synergy-age-mcp",
+    "version": "0.1.0",
+    "commit": "af1f1fc",
+    "requires": [
+      "uvx"
+    ]
+  },
+  "inputs_status": "none"
+}

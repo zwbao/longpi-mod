@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "serum-proteomics-apoe-signatures",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "APOE 基因型，可带四个血清蛋白。",
+  "intents": [
+    "cognition_dementia",
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "AGES队列未给蛋白权重，脚本只按APOE基因型照录四个血清蛋白的方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00693-1",
+    "title": "Serum proteomics reveal APOE-ε4-dependent and APOE-ε4-independent protein signatures in Alzheimer’s disease",
+    "title_zh": "载脂蛋白相关的血清蛋白",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Frick 等",
+    "article_url": "https://doi.org/10.1038/s43587-024-00693-1",
+    "summary_zh": "这项研究在一支冰岛老年人群队列里检测血清蛋白，随访多年后找出与新发晚发阿尔茨海默病相关的蛋白，并把它们分成依赖和不依赖载脂蛋白基因型的两类。个人报告只按你给的基因型复述正文点名的那四个蛋白在队列里的升降方向，不拟合模型，也不输出风险比。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

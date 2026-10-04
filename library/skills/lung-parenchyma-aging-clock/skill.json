@@ -1,0 +1,77 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "lung-parenchyma-aging-clock",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "影像"
+  ],
+  "blurb_zh": "肺实质预测年龄相对实足年龄。",
+  "intents": [
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用已算好的肺实质预测年龄，按仓库定义算实足年龄减预测年龄的残差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-75427-5",
+    "title": "Cellular hallmarks and aging clock of the human lung parenchyma",
+    "title_zh": "肺实质年龄残差",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Xu 等",
+    "article_url": "https://doi.org/10.1038/s41467-026-75427-5",
+    "summary_zh": "这项研究汇总人肺实质的单细胞和空间转录组样本，描述随年龄变化的细胞组成、基因模块和免疫细胞互作，并用机器学习预测肺的生物年龄。个人报告只把你给的实足年龄减去已经算好的肺预测年龄，写出这个残差，不从基因表达重算年龄，因为公开仓库里没有保存模型。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age"
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "predicted_lung_age",
+      "label_zh": "肺预测年龄",
+      "aliases": [
+        "predicted",
+        "肺预测年龄",
+        "lung age"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "残差是实足年龄减去预测年龄，和配套代码里 y 减预测一致。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ]
+}

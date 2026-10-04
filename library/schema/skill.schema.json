@@ -1,0 +1,521 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zwbao/longevity-skills/schema/skill.schema.json",
+  "title": "longevity-skills skill.json v1",
+  "description": "One machine-readable manifest per skill directory. The registry, catalog.json, README skill list, paper card, and input checks are generated from it. Conditional rules (kind and tier, paper or tool block, verified inputs) are enforced by tools/lsk/manifest.py.",
+  "type": "object",
+  "required": [
+    "schema",
+    "name",
+    "kind",
+    "tier",
+    "species",
+    "evidence",
+    "domains",
+    "blurb_zh",
+    "intents"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schema": {
+      "const": "longevity-skill/1"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "kind": {
+      "enum": [
+        "paper",
+        "tool",
+        "evidence"
+      ]
+    },
+    "tier": {
+      "description": "A: computes a personal readout from inputs a person can obtain. B: evidence or named lists a person can look up. C: indexed only, not dispatched for personal questions. tool: wraps a published program, database, or the evidence store.",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "tool"
+      ]
+    },
+    "species": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "human",
+          "mouse",
+          "rat",
+          "naked_mole_rat",
+          "c_elegans",
+          "drosophila",
+          "zebrafish",
+          "killifish",
+          "planarian",
+          "butterfly",
+          "bowhead_whale",
+          "primate",
+          "yeast",
+          "cell_line",
+          "multi_species",
+          "other"
+        ]
+      }
+    },
+    "evidence": {
+      "enum": [
+        "rct",
+        "cohort",
+        "case_control",
+        "cross_sectional",
+        "animal",
+        "in_vitro",
+        "review",
+        "method",
+        "database"
+      ]
+    },
+    "domains": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      }
+    },
+    "blurb_zh": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 200
+    },
+    "intents": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z_]*$"
+      }
+    },
+    "triage": {
+      "$ref": "#/$defs/triage"
+    },
+    "paper": {
+      "$ref": "#/$defs/paper"
+    },
+    "tool": {
+      "$ref": "#/$defs/tool"
+    },
+    "entry": {
+      "$ref": "#/$defs/entry"
+    },
+    "population": {
+      "$ref": "#/$defs/population"
+    },
+    "inputs_status": {
+      "enum": [
+        "none",
+        "draft",
+        "verified"
+      ]
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/input"
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/output"
+      }
+    },
+    "related_not_same": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9-]*$"
+      }
+    },
+    "data_files": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/data_file"
+      }
+    }
+  },
+  "$defs": {
+    "triage": {
+      "type": "object",
+      "required": [
+        "reason_zh",
+        "reviewed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "reason_zh": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 300
+        },
+        "reviewed": {
+          "type": "boolean"
+        },
+        "reviewer": {
+          "type": "string"
+        }
+      }
+    },
+    "paper": {
+      "type": "object",
+      "required": [
+        "title_zh",
+        "summary_zh",
+        "summary_status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "doi": {
+          "type": "string",
+          "pattern": "^10\\.[0-9]{4,9}/[^\\s。，；]+$"
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 3
+        },
+        "title": {
+          "type": "string",
+          "minLength": 4
+        },
+        "title_zh": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60
+        },
+        "journal": {
+          "type": "string",
+          "minLength": 2
+        },
+        "year": {
+          "type": "integer",
+          "minimum": 1900,
+          "maximum": 2100
+        },
+        "authors": {
+          "type": "string",
+          "minLength": 2
+        },
+        "article_url": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "supplements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "pattern": "^https?://"
+              }
+            }
+          }
+        },
+        "code_url": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "card_notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "summary_zh": {
+          "type": "string",
+          "minLength": 40,
+          "maxLength": 400
+        },
+        "summary_status": {
+          "enum": [
+            "draft",
+            "reviewed"
+          ]
+        }
+      }
+    },
+    "tool": {
+      "type": "object",
+      "required": [
+        "upstream"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "upstream": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "version": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "requires": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "doi": {
+          "type": "string",
+          "pattern": "^10\\.[0-9]{4,9}/\\S+$"
+        }
+      }
+    },
+    "population": {
+      "type": "object",
+      "description": "Who the equation was fit on. Callers warn when the person is outside age_years even if an input range still accepts the value.",
+      "required": ["age_years"],
+      "additionalProperties": false,
+      "properties": {
+        "age_years": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {"type": "number"},
+          "description": "Inclusive derivation ages in years, low then high."
+        },
+        "note_zh": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 300
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "script"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "script": {
+          "type": "string",
+          "pattern": "^scripts/[A-Za-z0-9._-]+\\.py$"
+        },
+        "runtime": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "measurements_flag": {
+          "type": "string",
+          "pattern": "^--[a-z0-9-]+$"
+        },
+        "measurements_header": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "items": {
+            "type": "string"
+          }
+        },
+        "age_flag": {
+          "type": "string",
+          "pattern": "^--[a-z0-9-]+$"
+        },
+        "sex_flag": {
+          "type": "string",
+          "pattern": "^--[a-z0-9-]+$"
+        },
+        "medications_flag": {
+          "type": "string",
+          "pattern": "^--[a-z0-9-]+$"
+        },
+        "labs_flag": {
+          "type": "string",
+          "pattern": "^--[a-z0-9-]+$"
+        },
+        "out_flag": {
+          "type": "string",
+          "pattern": "^--[a-z0-9-]+$"
+        },
+        "result_json": {
+          "type": "boolean"
+        },
+        "targets_flag": {
+          "type": "string",
+          "pattern": "^--[a-z0-9-]+$",
+          "description": "Flag for a CSV of target values (same columns as the measurements file). The script then writes out/levers.json: the model at the targets and the change from moving each input alone."
+        },
+        "levers_json": {
+          "type": "boolean",
+          "description": "The script writes out/levers.json (schema longevity-levers/1): per-input sensitivities at the current values and, with targets, per-input levers."
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "required": [
+        "key",
+        "label_zh",
+        "required",
+        "from"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "label_zh": {
+          "type": "string",
+          "minLength": 1
+        },
+        "aliases": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "loinc": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9]{1,7}-[0-9]$"
+          }
+        },
+        "unit": {
+          "type": "string"
+        },
+        "accept": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        },
+        "molar_mass": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "range": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "number"
+          }
+        },
+        "unit_required": {
+          "type": "boolean",
+          "description": "A row named by a label or alias must state its unit. Use when a common wrong unit still lands inside range (CRP mg/L vs mg/dL)."
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "from": {
+          "enum": [
+            "measurements",
+            "profile",
+            "argument",
+            "output"
+          ]
+        },
+        "flag": {
+          "type": "string",
+          "pattern": "^--[a-z0-9-]+$"
+        },
+        "output_of": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "group": {
+          "type": "string"
+        },
+        "note_zh": {
+          "type": "string"
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "required": [
+        "key",
+        "label_zh"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "label_zh": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unit": {
+          "type": "string"
+        },
+        "note_zh": {
+          "type": "string"
+        }
+      }
+    },
+    "data_file": {
+      "type": "object",
+      "required": [
+        "path",
+        "redistributable"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "source_url": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "license": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "redistributable": {
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        }
+      }
+    }
+  }
+}

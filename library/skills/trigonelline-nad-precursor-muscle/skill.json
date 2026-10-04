@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "trigonelline-nad-precursor-muscle",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human",
+    "cell_line"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "营养感应",
+    "骨骼肌"
+  ],
+  "blurb_zh": "血清葫芦巴碱。",
+  "intents": [
+    "intervention_evidence"
+  ],
+  "triage": {
+    "reason_zh": "人肌少症血清葫芦巴碱偏低，正文无分界值，脚本只记录数值并列点名的NAD前体。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s42255-024-00997-x",
+    "title": "Trigonelline is an NAD+ precursor that improves muscle function during ageing and is reduced in human sarcopenia",
+    "title_zh": "葫芦巴碱记录",
+    "journal": "Nature Metabolism",
+    "year": 2024,
+    "authors": "Membrez 等",
+    "article_url": "https://doi.org/10.1038/s42255-024-00997-x",
+    "summary_zh": "这项研究发现人血清里的葫芦巴碱在肌少症中偏低，并与肌肉力量和线粒体功能相关，又在线虫、小鼠和肌管实验里显示它能并入 NAD 池、改善肌肉表现。个人报告只原样记下你给的血清葫芦巴碱数值，正文没有血清界值所以不分档，也不把细胞和小鼠实验的用量换成个人用量。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

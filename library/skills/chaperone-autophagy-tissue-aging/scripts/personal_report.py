@@ -1,0 +1,174 @@
+#!/usr/bin/env python3
+"""Lysosome competence percentage. Transcriptional score stays uncomputed."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+from pathlib import Path
+
+from paper_card import lines as paper_card_lines
+from presets import BOUNDARY, DIRECTIONS, GENES, TITLE
+
+
+def read_rows(path: Path | None) -> list[dict[str, str]]:
+    if path is None or not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8-sig")
+    if not text.strip():
+        return []
+    dialect = csv.Sniffer().sniff(text[:4096], delimiters=",\t")
+    return list(csv.DictReader(text.splitlines(), dialect=dialect))
+
+
+def load_meds(path: Path | None) -> list[str]:
+    if path is None or not path.exists():
+        return []
+    return [line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip() and not line.startswith("#")]
+
+
+def norm(text: str) -> str:
+    value = text.strip().casefold().replace(" ", "").replace("-", "").replace("_", "")
+    for form in ("肠溶片", "缓释片", "咀嚼片", "分散片", "胶囊", "颗粒", "滴丸", "注射液", "片"):
+        value = value.replace(form, "")
+    return value
+
+
+def as_float(text: str | None) -> float | None:
+    if text is None:
+        return None
+    raw = str(text).strip().replace(",", "")
+    if raw == "":
+        return None
+    try:
+        return float(raw)
+    except ValueError:
+        return None
+
+
+def load_kv(path: Path | None) -> dict[str, str]:
+    found = {}
+    for row in read_rows(path):
+        keys = {(k or "").strip().lower(): (v or "").strip() for k, v in row.items() if k}
+        name = keys.get("name") or keys.get("item") or keys.get("项目") or keys.get("指标")
+        value = keys.get("value") or keys.get("结果") or keys.get("值")
+        if name and value is not None:
+            found[norm(name)] = value
+    return found
+
+
+def lab_lines(path: Path | None) -> list[str]:
+    rows = read_rows(path)
+    lines = ["## 体检", ""]
+    if not rows:
+        lines.append("没有提供体检。体检不增删方法算出的名单。")
+        return lines
+    lines.append("下面照录体检数值。体检不增删方法算出的名单。")
+    for row in rows:
+        lowered = {(k or "").strip(): (v or "").strip() for k, v in row.items()}
+        item = lowered.get("项目") or lowered.get("item") or lowered.get("name")
+        value = lowered.get("结果") or lowered.get("value") or lowered.get("result")
+        unit = lowered.get("单位") or lowered.get("unit") or ""
+        if item and value:
+            suffix = f" {unit}" if unit else ""
+            lines.append(f"- {item} {value}{suffix}")
+    return lines
+
+
+def medication_lines(meds: list[str]) -> list[str]:
+    lines = ["## 你正在使用的药", ""]
+    if not meds:
+        lines.append("没有提供现用药。不能据此停。")
+        return lines
+    known = {norm(gene): gene for gene, _direction, _weight in GENES}
+    for name in meds:
+        token = norm(name)
+        hit = known.get(token)
+        if hit is None:
+            lines.append(f"- {name}：名单里没有这个名字。不能据此停。")
+        else:
+            lines.append(f"- {name}：对应名单上的 {hit}。不能据此停。")
+    return lines
+
+
+def competence(kv: dict[str, str]) -> str:
+    both = as_float(kv.get("kdendralamp1puncta"))
+    lamp = as_float(kv.get("lamp1puncta"))
+    if both is None and lamp is None:
+        return "这次没有给出双阳性点数，也没有给出 LAMP1 阳性点数，所以没有计算有能力溶酶体的百分比。"
+    if both is None:
+        return "缺 KDendra 与 LAMP1 双阳性点数这一列，所以没有计算有能力溶酶体的百分比。"
+    if lamp is None:
+        return "缺 LAMP1 阳性点数这一列，所以没有计算有能力溶酶体的百分比。"
+    if lamp == 0:
+        return "LAMP1 阳性点数是 0，不能做除法，所以没有计算百分比。"
+    percent = both / lamp * 100.0
+    return f"有能力溶酶体的百分比是 {percent:.1f}%。这是你这两列的比值。"
+
+
+def method_lines(kv: dict[str, str]) -> list[str]:
+    genes = "、".join(gene for gene, _direction, _weight in GENES)
+    lines = [
+        "## 方法算出的名单",
+        "",
+        competence(kv),
+        "论文对小鼠的方向如下。",
+    ]
+    for item in DIRECTIONS:
+        lines.append(f"- {item}")
+    lines.append(f"- 转录分数用到的基因是 {genes}。")
+    return lines
+
+
+def cannot_lines() -> list[str]:
+    return [
+        "## 不能算的",
+        "",
+        "cmascore_genes.xlsx 有 Direction 列和 Weight 列，没有每个基因的均值列，也没有标准差列。转录分数要先用这两列做标准化，所以这次没有计算转录分数。",
+    ]
+
+
+def render(meds: list[str], labs: Path | None, measurements: Path | None) -> str:
+    lines = [TITLE, "", "这次计算有能力溶酶体的百分比。", ""]
+    lines.extend(method_lines(load_kv(measurements)))
+    lines.extend(["", *cannot_lines()])
+    lines.extend(["", *medication_lines(meds)])
+    lines.extend(["", *lab_lines(labs)])
+    lines.extend(["", f"边界: {BOUNDARY}"])
+    return "\n".join(lines) + "\n"
+
+
+def _with_paper_card(text: str) -> str:
+    if "## 论文卡片" in text:
+        return text
+    rows = text.splitlines()
+    rest = rows[1:]
+    while rest and rest[0] == "":
+        rest = rest[1:]
+    out = "\n".join([rows[0], "", *paper_card_lines(), "", *rest])
+    if text.endswith("\n"):
+        out += "\n"
+    return out
+
+
+def report(out: Path, meds: Path | None, labs: Path | None, measurements: Path | None, age: float | None = None) -> Path:
+    del age
+    out.mkdir(parents=True, exist_ok=True)
+    path = out / "report.md"
+    path.write_text(_with_paper_card(render(load_meds(meds), labs, measurements)), encoding="utf-8")
+    return path
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--measurements", type=Path)
+    parser.add_argument("--medications", type=Path)
+    parser.add_argument("--labs", type=Path)
+    parser.add_argument("--age", type=float)
+    parser.add_argument("--out", type=Path, required=True)
+    args = parser.parse_args()
+    print(report(args.out, args.medications, args.labs, args.measurements, args.age))
+
+
+if __name__ == "__main__":
+    main()

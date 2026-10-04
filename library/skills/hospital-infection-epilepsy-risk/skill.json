@@ -1,0 +1,126 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "hospital-infection-epilepsy-risk",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "感染距指数日的年数和部位。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "按个人感染距今年数落入论文时间窗，引用该窗的队列比值比。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-01005-x",
+    "title": "Hospital-treated infectious diseases and the risk of epilepsy in older age",
+    "title_zh": "感染与晚年癫痫",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Zhuang 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-01005-x",
+    "summary_zh": "这项研究在英国生物样本库和瑞典登记数据中做巢式病例对照分析，发现住院治疗过的感染与晚年新发癫痫风险长期升高相关，合并心血管危险因素时关联最强。个人报告只按你给出的感染距今年数或部位，引用论文对应时间窗或部位的队列比值比，几条比值比不相乘，也不算你的发病概率。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "name",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "years",
+      "label_zh": "感染距指数日的年数",
+      "aliases": [
+        "years since infection",
+        "感染距今年数",
+        "距感染年数"
+      ],
+      "unit": "a",
+      "accept": {
+        "mo": 0.08333333333333333
+      },
+      "range": [
+        0,
+        100
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "医院治疗的那次感染到指数日过了几年，按月记的在单位列写 mo。刚好 1 年放在 >1–3 年。"
+    },
+    {
+      "key": "site",
+      "label_zh": "感染部位",
+      "aliases": [
+        "infection site",
+        "部位"
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "是词不是数：cns（中枢神经系统感染）、pneumonia（肺炎）、bacterial（细菌感染）、viral（病毒感染）或 other（其他感染）。所选队列里没有这个部位的比值比时，报告写明，不列入名单。"
+    },
+    {
+      "key": "cohort",
+      "label_zh": "对照的队列",
+      "required": false,
+      "from": "measurements",
+      "note_zh": "是词不是数：ukb（英国生物银行，默认）或 sweden（瑞典登记）。这是选论文里的哪个队列来对照，不是你的测量。"
+    },
+    {
+      "key": "cvd_prs",
+      "label_zh": "心血管多基因风险",
+      "required": false,
+      "from": "measurements",
+      "note_zh": "写 high 或 高 表示高；别的写法不算高。只在英国生物银行里有联合比值比。"
+    },
+    {
+      "key": "cvd_score",
+      "label_zh": "心血管风险评分",
+      "required": false,
+      "from": "measurements",
+      "note_zh": "写 high 或 高 表示高；别的写法不算高。只在英国生物银行里有联合比值比。"
+    },
+    {
+      "key": "cvd_history",
+      "label_zh": "心血管病史",
+      "required": false,
+      "from": "measurements",
+      "note_zh": "写 yes、y、1 或 有 表示有；别的写法不算有。只在瑞典登记里有联合比值比。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "不进入对照。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "infection_window",
+      "label_zh": "感染距指数日落在 Fig. 1 的哪个时间窗",
+      "note_zh": "<1、>1-3、>3-5、>5-10 或 >10（年）。没有年数时为空。队列比值比只写在报告里，不是个人发病概率，不作为输出。"
+    }
+  ]
+}

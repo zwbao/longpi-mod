@@ -1,0 +1,52 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "paracrine-senescence-inflammation",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "human",
+    "cell_line",
+    "other"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "旁分泌衰老里点名的标志和方向。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "以细胞感染和仓鼠实验为主，脚本只照录点名的衰老炎症标志和方向。（图三的人肺细胞来自新冠后患者。）",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-022-00170-7",
+    "title": "SARS-CoV-2 infection triggers paracrine senescence and leads to a sustained senescence-associated inflammatory response",
+    "title_zh": "感染后的旁分泌衰老",
+    "journal": "Nature Aging",
+    "year": 2022,
+    "authors": "Tsuji 等",
+    "article_url": "https://www.nature.com/articles/s43587-022-00170-7",
+    "supplements": [
+      {
+        "label": "补充信息 PDF",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-022-00170-7/MediaObjects/43587_2022_170_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究说明，被新冠病毒感染的细胞会让旁边没被感染的细胞进入衰老样状态，并持续放出炎症因子。病毒已经测不到之后，这种炎症样状态仍可以留在肺细胞里。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

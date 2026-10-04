@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "human-ovarian-aging-multiomics",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "卵巢与生殖"
+  ],
+  "blurb_zh": "23–29 或 49–54 岁，细胞比例方向，以及补充表六的基因列。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "人卵巢单核多组学，补充表六只有基因名无权重，脚本只查点名细胞、通路和基因方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00762-5",
+    "title": "Molecular and genetic insights into human ovarian aging from single-nuclei multi-omics analyses",
+    "title_zh": "人卵巢单核多组学",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Jin 等",
+    "article_url": "https://www.nature.com/articles/s43587-024-00762-5",
+    "supplements": [
+      {
+        "label": "Supplementary Tables",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-024-00762-5/MediaObjects/43587_2024_762_MOESM3_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/ChenJin2020/Molecular-and-genetic-insights-into-human-ovarian-aging-from-single-nuclei-multi-omics-analyses",
+    "summary_zh": "这项研究比较年轻和生殖年龄较大的人卵巢，看细胞核里的转录组和染色质开放。老化卵巢里 mTOR 信号更突出，转录因子 CEBPD 的活性也更高。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,817 @@
+{
+  "schema": "longevity-intents/1",
+  "description": "User-facing intents. A person asks by intent (how old is my body, does NMN work); skills are organized by paper. dsh-plugin-longpi detects intents from triggers (or the model passes intent ids), ranks the intent's skills first, and prefers skills this person's record can already run. Triggers are matched case-insensitively as substrings; entries starting with re: are regular expressions. When two intents score the same, the higher priority (a more specific kind of data) ranks first.",
+  "intents": [
+    {
+      "id": "biological_age",
+      "label_zh": "我的生物年龄和衰老速度",
+      "description_zh": "用常规体检血液指标算表型年龄等临床生物年龄，并和实足年龄比较。",
+      "data": [
+        "routine_labs"
+      ],
+      "triggers": [
+        "生物年龄",
+        "生理年龄",
+        "身体年龄",
+        "机体年龄",
+        "衰老速度",
+        "老化速度",
+        "衰老程度",
+        "老化程度",
+        "老得快",
+        "老得慢",
+        "衰老得快",
+        "衰老得慢",
+        "衰老快不快",
+        "老得快不快",
+        "年轻几岁",
+        "老几岁",
+        "比实际年龄",
+        "比同龄人",
+        "表型年龄",
+        "血液年龄",
+        "体检年龄",
+        "临床年龄",
+        "phenoage",
+        "phenotypic age",
+        "biological age",
+        "bioage",
+        "kdm",
+        "aging rate",
+        "衰老了多少"
+      ],
+      "skills": [
+        "accelerated-biological-aging-risk",
+        "life-cycle-biological-clock",
+        "aging-biomarker-framework",
+        "principal-component-clinical-aging"
+      ],
+      "priority": 0
+    },
+    {
+      "id": "epigenetic_age",
+      "label_zh": "甲基化和表观年龄",
+      "description_zh": "用 DNA 甲基化数据跑已发表的表观遗传时钟。",
+      "data": [
+        "methylation"
+      ],
+      "triggers": [
+        "甲基化",
+        "表观年龄",
+        "表观遗传",
+        "表观时钟",
+        "表观遗传时钟",
+        "dna甲基化",
+        "epigenetic",
+        "methylation",
+        "horvath",
+        "hannum",
+        "grimage",
+        "dunedinpace",
+        "dunedin",
+        "altumage",
+        "cpg",
+        "idat",
+        "850k",
+        "epic芯片",
+        "甲基化芯片"
+      ],
+      "skills": [
+        "pyaging",
+        "epiage",
+        "epigenetic-frailty-risk-score",
+        "blood-epigenetic-intrinsic-capacity",
+        "calerie-methylation-clocks",
+        "epigenetic-clock-reliability",
+        "omniage-mitotic-clonal-hematopoiesis",
+        "time-seq-dna-methylation"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "proteomic_organ_age",
+      "label_zh": "蛋白组和器官年龄",
+      "description_zh": "用血浆蛋白组数据看器官年龄和蛋白质年龄。",
+      "data": [
+        "proteomics"
+      ],
+      "triggers": [
+        "蛋白组",
+        "蛋白质组",
+        "器官年龄",
+        "器官衰老",
+        "器官老化",
+        "蛋白年龄",
+        "蛋白质年龄",
+        "血浆蛋白",
+        "somascan",
+        "olink",
+        "proteomic",
+        "proteome",
+        "organ age",
+        "organage",
+        "protage"
+      ],
+      "skills": [
+        "organ-specific-proteomic-aging",
+        "organ-aging-plasma-proteome",
+        "plasma-proteomic-cellular-aging",
+        "proteomic-aging-clock",
+        "plasma-proteomics-brain-immune",
+        "proteomic-clocks-eye-aging"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "metabolomic_age",
+      "label_zh": "代谢组年龄",
+      "description_zh": "用核磁或质谱代谢组数据看代谢年龄。",
+      "data": [
+        "metabolomics"
+      ],
+      "triggers": [
+        "代谢组",
+        "代谢物",
+        "代谢年龄",
+        "核磁代谢",
+        "氨基酸",
+        "metabolome",
+        "metabolomic",
+        "nmr"
+      ],
+      "skills": [
+        "multi-organ-metabolome-age",
+        "amino-acid-biological-age",
+        "metabolomic-frailty-subtypes",
+        "blood-metabolome-brain-health"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "wearable_sleep",
+      "label_zh": "可穿戴、睡眠和作息节律",
+      "description_zh": "用手环、手表的活动和睡眠数据看节律年龄和睡眠分组。",
+      "data": [
+        "wearable",
+        "questionnaire"
+      ],
+      "triggers": [
+        "手环",
+        "手表",
+        "可穿戴",
+        "穿戴设备",
+        "睡眠",
+        "睡得",
+        "失眠",
+        "作息",
+        "节律",
+        "昼夜",
+        "活动量",
+        "步数",
+        "加速度",
+        "脉搏波",
+        "心率变异",
+        "apple watch",
+        "fitbit",
+        "oura",
+        "garmin",
+        "ppg",
+        "cosinor",
+        "wearable",
+        "sleep",
+        "circadian",
+        "睡觉",
+        "只睡",
+        "睡不着",
+        "晚睡",
+        "早醒",
+        "入睡",
+        "熬夜",
+        "睡几个小时",
+        "晨型",
+        "夜型",
+        "夜猫子",
+        "早起型",
+        "百灵鸟",
+        "时型",
+        "早睡早起",
+        "晚睡晚起",
+        "chronotype",
+        "morningness",
+        "eveningness",
+        "meq",
+        "rmeq"
+      ],
+      "skills": [
+        "wearable-circadian-aging-biomarker",
+        "circadian-frailty-older-adults",
+        "sleep-chart-biological-ageing",
+        "wearable-aging-clock",
+        "sleep-study-life-expectancy",
+        "rmeq-chronotype"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "telomere",
+      "label_zh": "端粒",
+      "description_zh": "把端粒长度放进已发表的分组。",
+      "data": [
+        "telomere"
+      ],
+      "triggers": [
+        "端粒",
+        "telomere",
+        "ltl"
+      ],
+      "skills": [
+        "leukocyte-telomere-length",
+        "digital-telomere-measurement-sequencing"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "intervention_evidence",
+      "label_zh": "某个干预有没有证据",
+      "description_zh": "查药物、补剂、饮食和生活方式干预在已收录论文和证据综述里的说法，不给剂量。",
+      "data": [],
+      "triggers": [
+        "有用吗",
+        "有没有用",
+        "有效吗",
+        "有没有效",
+        "管用吗",
+        "管不管用",
+        "靠谱吗",
+        "能抗衰",
+        "抗衰老吗",
+        "能延寿",
+        "延长寿命吗",
+        "延缓衰老吗",
+        "值得吃",
+        "值不值得",
+        "该不该吃",
+        "有什么证据",
+        "证据",
+        "研究怎么说",
+        "补剂",
+        "保健品",
+        "营养素",
+        "抗衰药",
+        "抗衰老药",
+        "does it work",
+        "evidence",
+        "supplement",
+        "相关研究",
+        "有什么研究",
+        "查一下研究",
+        "研究结论"
+      ],
+      "entities": [
+        "nmn",
+        "烟酰胺单核苷酸",
+        "nr",
+        "烟酰胺核糖",
+        "nicotinamide riboside",
+        "nad+",
+        "nad",
+        "二甲双胍",
+        "metformin",
+        "雷帕霉素",
+        "西罗莫司",
+        "rapamycin",
+        "sirolimus",
+        "白藜芦醇",
+        "resveratrol",
+        "亚精胺",
+        "spermidine",
+        "槲皮素",
+        "quercetin",
+        "达沙替尼",
+        "dasatinib",
+        "非瑟酮",
+        "fisetin",
+        "阿卡波糖",
+        "acarbose",
+        "司美格鲁肽",
+        "semaglutide",
+        "glp-1",
+        "尿石素",
+        "urolithin",
+        "牛磺酸",
+        "taurine",
+        "α-酮戊二酸",
+        "alpha-ketoglutarate",
+        "akg",
+        "辅酶q10",
+        "coq10",
+        "鱼油",
+        "omega-3",
+        "维生素d",
+        "vitamin d",
+        "阿司匹林",
+        "aspirin",
+        "他汀",
+        "statin",
+        "热量限制",
+        "限食",
+        "caloric restriction",
+        "间歇性断食",
+        "轻断食",
+        "断食模拟",
+        "intermittent fasting",
+        "生酮",
+        "运动",
+        "senolytic",
+        "衰老细胞清除",
+        "葫芦巴碱",
+        "trigonelline",
+        "锂",
+        "lithium",
+        "gdf11",
+        "卵磷脂"
+      ],
+      "skills": [
+        "longevity-evidence",
+        "evipedia",
+        "ai4l",
+        "biomcp"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "gene_variant",
+      "label_zh": "基因和变异",
+      "description_zh": "查某个基因或变异在收录论文和数据库里的说法。",
+      "data": [
+        "genotype"
+      ],
+      "triggers": [
+        "基因",
+        "基因型",
+        "变异",
+        "突变",
+        "位点",
+        "等位",
+        "遗传",
+        "snp",
+        "apoe",
+        "foxo3",
+        "长寿基因",
+        "gene",
+        "variant",
+        "genotype",
+        "re:(?<![A-Za-z0-9])rs[0-9]{3,}(?![0-9])",
+        "re:(?<![A-Za-z0-9])apoe(?:[ -]?[εe]?[234])?(?![A-Za-z0-9])",
+        "基因检测",
+        "携带"
+      ],
+      "skills": [
+        "longevity-evidence",
+        "opengenes",
+        "biomcp",
+        "synergy-age",
+        "centenarian-longevity-genes",
+        "multiomic-human-longevity",
+        "cpic-pharmacogenomics",
+        "nutrigenetic-variant-panel"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "lab_meaning",
+      "label_zh": "某项体检指标意味着什么",
+      "description_zh": "某项常规指标偏高或偏低时，先看它能进哪些已发表的方法，再查证据，不下诊断。",
+      "data": [
+        "routine_labs"
+      ],
+      "triggers": [
+        "偏高",
+        "偏低",
+        "有点高",
+        "有点低",
+        "超标",
+        "正常吗",
+        "意味着什么",
+        "什么意思",
+        "化验单",
+        "体检报告",
+        "检查结果",
+        "血糖",
+        "血脂",
+        "胆固醇",
+        "c反应蛋白",
+        "crp",
+        "白蛋白",
+        "肌酐",
+        "尿酸"
+      ],
+      "skills": [
+        "accelerated-biological-aging-risk",
+        "life-cycle-biological-clock",
+        "ckd-epi-2021-egfr",
+        "longevity-evidence",
+        "biomcp"
+      ],
+      "priority": 0
+    },
+    {
+      "id": "before_after",
+      "label_zh": "干预前后对比",
+      "description_zh": "同一种方法测了两次，看前后的变化和它的可靠程度。",
+      "data": [
+        "repeated_measures"
+      ],
+      "triggers": [
+        "前后",
+        "变化",
+        "变了多少",
+        "对比",
+        "干预后",
+        "复查",
+        "两次",
+        "上次",
+        "再测",
+        "断食模拟",
+        "断食后",
+        "限食后",
+        "fmd",
+        "fasting-mimicking",
+        "哪个准",
+        "准不准",
+        "差很多",
+        "不一样",
+        "稳不稳定"
+      ],
+      "skills": [
+        "fasting-mimicking-diet",
+        "ageing-clocks-digital-twins",
+        "epigenetic-clock-reliability",
+        "semaglutide-epigenetic-aging-trial"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "imaging",
+      "label_zh": "影像里的器官年龄",
+      "description_zh": "用磁共振、CT、眼底或晶状体影像得出的数值看器官年龄差。",
+      "data": [
+        "imaging"
+      ],
+      "triggers": [
+        "磁共振",
+        "核磁",
+        "mri",
+        "ct",
+        "影像",
+        "脑龄",
+        "脑年龄",
+        "眼底",
+        "视网膜",
+        "晶状体",
+        "白质",
+        "肺部ct",
+        "imaging",
+        "retina",
+        "brain age"
+      ],
+      "skills": [
+        "mri-multi-organ-clocks",
+        "biological-age-ct-cardiometabolic",
+        "imaging-organ-aging-clock",
+        "retinal-aging-biomarkers-longitudinal",
+        "lensage-index-biological-age",
+        "hemispheric-brain-age",
+        "lung-parenchyma-aging-clock",
+        "divergent-white-matter-metabolic"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "cognition_dementia",
+      "label_zh": "认知和痴呆",
+      "description_zh": "认知、痴呆相关的血液蛋白和基因型读出。",
+      "data": [
+        "proteomics",
+        "genotype"
+      ],
+      "triggers": [
+        "痴呆",
+        "认知",
+        "记忆力",
+        "健忘",
+        "阿尔茨海默",
+        "老年痴呆",
+        "脑健康",
+        "mci",
+        "dementia",
+        "alzheimer",
+        "cognitive"
+      ],
+      "skills": [
+        "plasma-proteome-future-dementia",
+        "plasma-proteome-dementia-biomarkers",
+        "neurodegeneration-proteomics-biomarker",
+        "serum-proteomics-apoe-signatures",
+        "proteomic-apoe-alzheimers-signatures",
+        "blood-metabolome-brain-health"
+      ],
+      "priority": 0
+    },
+    {
+      "id": "frailty_mortality",
+      "label_zh": "衰弱和寿命风险",
+      "description_zh": "衰弱评分、衰弱亚型和寿命相关的读出，不写成个人预期寿命。",
+      "data": [
+        "routine_labs",
+        "questionnaire"
+      ],
+      "triggers": [
+        "衰弱",
+        "虚弱",
+        "肌少",
+        "握力",
+        "跌倒",
+        "预期寿命",
+        "能活多久",
+        "活多久",
+        "死亡风险",
+        "frailty",
+        "life expectancy",
+        "mortality"
+      ],
+      "skills": [
+        "epigenetic-frailty-risk-score",
+        "metabolomic-frailty-subtypes",
+        "circadian-frailty-older-adults",
+        "genome-wide-proteomics-frailty",
+        "sleep-study-life-expectancy",
+        "one-year-mortality-aging-marker"
+      ],
+      "priority": 0
+    },
+    {
+      "id": "immune_inflammation",
+      "label_zh": "免疫和炎症衰老",
+      "description_zh": "免疫细胞组成、表达或 TCR 指标的免疫年龄，以及炎症标志。",
+      "data": [
+        "immune_profile"
+      ],
+      "triggers": [
+        "免疫",
+        "免疫衰老",
+        "免疫年龄",
+        "炎症",
+        "慢性炎症",
+        "t细胞",
+        "胸腺",
+        "immune",
+        "inflammaging",
+        "inflammation"
+      ],
+      "skills": [
+        "immune-aging-clock-runx1",
+        "cd38-recent-thymic-emigrants",
+        "ageing-inflammatory-marker"
+      ],
+      "priority": 0
+    },
+    {
+      "id": "kidney_function",
+      "label_zh": "肾功能和肾小球滤过率",
+      "description_zh": "用血肌酐（可加胱抑素 C）算 eGFR，按 KDIGO 分 G 档；有尿白蛋白/肌酐比时再分 A 档，并说明什么时候复查、看医生。",
+      "data": [
+        "routine_labs"
+      ],
+      "triggers": [
+        "肾功能",
+        "肾小球滤过率",
+        "滤过率",
+        "egfr",
+        "gfr",
+        "肌酐",
+        "胱抑素",
+        "cystatin",
+        "尿白蛋白",
+        "白蛋白尿",
+        "微量白蛋白",
+        "尿蛋白",
+        "uacr",
+        "肾脏",
+        "肾病",
+        "肾不好",
+        "伤肾",
+        "肾衰",
+        "慢性肾",
+        "ckd",
+        "kidney",
+        "creatinine"
+      ],
+      "skills": [
+        "ckd-epi-2021-egfr"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "body_fat_waist",
+      "label_zh": "体脂率、腰围和肚子",
+      "description_zh": "用身高、颈围、腰围、臀围估算体脂率，算腰围身高比和腰臀比，并按国家标准看是否中心型肥胖。",
+      "data": [
+        "home_measurement"
+      ],
+      "triggers": [
+        "体脂",
+        "脂肪率",
+        "腰围",
+        "臀围",
+        "颈围",
+        "腰臀比",
+        "腰高比",
+        "腰围身高比",
+        "中心型肥胖",
+        "中心性肥胖",
+        "腹型肥胖",
+        "向心性肥胖",
+        "肚子大",
+        "大肚子",
+        "啤酒肚",
+        "小肚子",
+        "肚腩",
+        "腹部脂肪",
+        "苹果型",
+        "body fat",
+        "waist",
+        "hip circumference",
+        "whtr",
+        "whr"
+      ],
+      "skills": [
+        "navy-circumference-body-fat"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "model_organism",
+      "label_zh": "模式生物和比较生物学",
+      "description_zh": "动物和细胞研究，只作科普和文献检索，不当成个人读出。",
+      "data": [],
+      "triggers": [
+        "小鼠",
+        "大鼠",
+        "老鼠",
+        "线虫",
+        "果蝇",
+        "裸鼹鼠",
+        "涡虫",
+        "蝴蝶",
+        "弓头鲸",
+        "鲸鱼",
+        "斑马鱼",
+        "青鳉",
+        "鳉鱼",
+        "酵母",
+        "动物实验",
+        "细胞实验",
+        "mouse",
+        "mice",
+        "elegans",
+        "drosophila",
+        "naked mole",
+        "naked-mole",
+        "planarian",
+        "zebrafish",
+        "killifish",
+        "yeast",
+        "bowhead",
+        "butterfly",
+        "heliconius"
+      ],
+      "skills": [],
+      "priority": 2
+    },
+    {
+      "id": "pharmacogenomics",
+      "label_zh": "用药和基因",
+      "description_zh": "用基因检测原始数据或医院药物基因检测结果，按 CPIC 指南看哪些药要先问医生；不给剂量。",
+      "data": [
+        "genotype"
+      ],
+      "triggers": [
+        "药物基因",
+        "用药基因",
+        "药物代谢基因",
+        "药物基因组",
+        "基因指导用药",
+        "慢代谢",
+        "快代谢",
+        "中间代谢",
+        "超快代谢",
+        "药物代谢",
+        "pharmacogen",
+        "pgx",
+        "cpic",
+        "metabolizer",
+        "re:(氯吡格雷|波立维|华法林|他汀|别嘌醇|卡马西平|硫唑嘌呤|他莫昔芬|可待因).{0,10}(基因|代谢型|慢代谢|检测)",
+        "re:(用药|吃药|药物|服药|药).{0,8}基因",
+        "re:基因.{0,8}(用药|吃药|药物|服药|药效|副作用)",
+        "re:(?<![a-z0-9])(cyp2c19|cyp2d6|cyp2c9|cyp3a5|slco1b1|abcg2|tpmt|nudt15|dpyd|vkorc1|hla-b|hla-a)(?![a-z0-9])"
+      ],
+      "skills": [
+        "cpic-pharmacogenomics"
+      ],
+      "priority": 2
+    },
+    {
+      "id": "nutrigenetics",
+      "label_zh": "饮食和基因",
+      "description_zh": "用基因检测原始数据看喝酒脸红、叶酸代谢和乳糖不耐这几个有依据的位点，给可以考虑的检查；不给补剂剂量。",
+      "data": [
+        "genotype"
+      ],
+      "triggers": [
+        "喝酒脸红",
+        "喝酒上脸",
+        "一喝酒就脸红",
+        "酒精脸红",
+        "乳糖不耐",
+        "喝奶拉肚子",
+        "喝牛奶拉肚子",
+        "喝奶腹泻",
+        "叶酸代谢",
+        "营养基因",
+        "饮食基因",
+        "nutrigen",
+        "aldh2",
+        "mthfr",
+        "rs671",
+        "rs1801133",
+        "rs4988235",
+        "re:(营养|饮食|吃什么|喝酒|酒量|叶酸|乳糖).{0,8}基因",
+        "re:基因.{0,8}(营养|饮食|吃什么|喝酒|酒量|叶酸|乳糖)"
+      ],
+      "skills": [
+        "nutrigenetic-variant-panel"
+      ],
+      "priority": 2
+    },
+    {
+      "id": "loneliness_social",
+      "label_zh": "孤独和社交",
+      "description_zh": "用孤独感量表给出自评孤独分，并给出可以做的社交小步骤。",
+      "data": [
+        "questionnaire"
+      ],
+      "triggers": [
+        "孤独",
+        "寂寞",
+        "孤单",
+        "没人说话",
+        "没人陪",
+        "一个人住",
+        "独居",
+        "空巢",
+        "社交",
+        "朋友少",
+        "没朋友",
+        "被冷落",
+        "隔绝",
+        "loneliness",
+        "lonely",
+        "social isolation",
+        "ucla",
+        "uls-8"
+      ],
+      "skills": [
+        "uls8-loneliness-scale"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "sexual_health",
+      "label_zh": "男性性功能",
+      "description_zh": "用勃起功能问卷 IIEF-5 给出分数和已发表的分档，并提示何时看医生、做心血管风险检查。",
+      "data": [
+        "questionnaire"
+      ],
+      "triggers": [
+        "勃起",
+        "阳痿",
+        "性功能",
+        "性生活",
+        "硬不起来",
+        "举不起来",
+        "不够硬",
+        "男科",
+        "iief",
+        "shim",
+        "erectile",
+        "impotence",
+        "re:(?<![A-Za-z])ED(?![A-Za-z])"
+      ],
+      "skills": [
+        "iief5-erectile-function"
+      ],
+      "priority": 1
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "selective-senolytic-platform",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "cell_line",
+    "mouse"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "老年保护"
+  ],
+  "blurb_zh": "两个浓度都给出时，LC50 除以 IC50。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "细胞和小鼠实验，输入是药物IC50和LC50，个人没有这类测量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00747-4",
+    "title": "Generation of a selective senolytic platform using a micelle-encapsulated Sudan Black B conjugated analog",
+    "title_zh": "脂褐素导向的清除平台",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Magkouta 等",
+    "article_url": "https://www.nature.com/articles/s43587-024-00747-4",
+    "supplements": [
+      {
+        "label": "Supplementary information",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-024-00747-4/MediaObjects/43587_2024_747_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究把苏丹黑 B 类似物和达沙替尼连在一起，再装进胶束，让衰老细胞里的脂褐素帮忙释放药物。选择性指数是半数杀伤非衰老细胞的浓度除以半数减少衰老细胞的浓度。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

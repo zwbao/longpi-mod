@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "blood-protein-assessment",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "血液蛋白与发病，可带糖化血红蛋白。",
+  "intents": [
+    "frailty_mortality",
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "用补充表弹性网系数乘个人缩放蛋白量，算各结局蛋白分数线性预测值。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00655-7",
+    "title": "Blood protein assessment of leading incident diseases and mortality in the UK Biobank",
+    "title_zh": "血液蛋白与发病",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Gadd 等",
+    "article_url": "https://doi.org/10.1038/s43587-024-00655-7",
+    "summary_zh": "这项研究在英国生物银行队列中检测大量血浆蛋白，分析它们与多种老年常见病发病及死亡的关系，并用惩罚回归把蛋白组合成预测发病的蛋白分数。个人报告只在某个结局的蛋白全部交齐时用论文补充表的系数把你交来的标准化蛋白量加总成线性预测值，并把你给的糖化血红蛋白对照论文写出的区间，不换算成发病概率。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

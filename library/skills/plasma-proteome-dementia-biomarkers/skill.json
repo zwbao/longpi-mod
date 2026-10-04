@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "plasma-proteome-dementia-biomarkers",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "痴呆相关血浆蛋白的符号和数值。",
+  "intents": [
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "人群病例对照，脚本只核对蛋白符号是否在正文写明方向的痴呆标志名单里。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01162-7",
+    "title": "Plasma proteome profiling identified biomarkers for the differential diagnosis and molecular staging of neurodegenerative dementias",
+    "title_zh": "痴呆血浆蛋白",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Bellomo 等",
+    "article_url": "https://doi.org/10.1038/s43587-026-01162-7",
+    "summary_zh": "这项研究在多个国际队列的血浆样本上做大规模蛋白组检测，找出在阿尔茨海默病、路易体痴呆和额颞叶痴呆之间方向不同的蛋白，并做成一个多重检测面板在独立队列里验证。个人报告只留下你测到、且正文写明方向的蛋白并复述那个方向，不把它们加总成分数，也不做鉴别。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

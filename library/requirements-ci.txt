@@ -1,0 +1,7 @@
+# Test dependencies for CI. Skill scripts use the standard library unless their
+# scripts/requirements.txt says otherwise; those packages are listed here too.
+pytest>=8
+numpy>=1.21
+pandas>=1.5
+scipy>=1.7
+openpyxl>=3.1

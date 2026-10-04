@@ -1,0 +1,38 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "cell-type-polygenic-regulome",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "长寿基因"
+  ],
+  "blurb_zh": "调控子的细胞类型特异性和遗传相关性。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "输入是调控子层面的CTS和GRS汇总分数，属于分析统计量而非个人测量值。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-01027-5",
+    "title": "Integrating polygenic signals and single-cell multiomics identifies cell-type-specific regulomes critical for immune- and aging-related diseases",
+    "title_zh": "细胞类型里的调控子",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Ma 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-01027-5",
+    "summary_zh": "这项研究开发了一种把单细胞转录组、染色质开放性与全基因组关联结果整合的方法，找出与免疫和衰老相关疾病有关的细胞类型特异调控子，并在人中脑找到与帕金森病相关的衰老调控子。个人报告只用你交来的每个调控子的细胞类型特异性分和遗传相关性分，按论文公式算出性状关联得分并排序，不计算经验显著性。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

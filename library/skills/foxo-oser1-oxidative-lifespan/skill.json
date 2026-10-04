@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "foxo-oser1-oxidative-lifespan",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human",
+    "multi_species"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "长寿基因"
+  ],
+  "blurb_zh": "OSER1，以及补充表里的位点和名义关联。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "延寿实验在蚕、线虫和果蝇，脚本只查人类OSER1长寿SNP表里的rs编号和方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-024-51542-z",
+    "title": "FOXO-regulated OSER1 reduces oxidative stress and extends lifespan in multiple species",
+    "title_zh": "FOXO 调节的 OSER1 与多种生物的寿命",
+    "journal": "Nature Communications",
+    "year": 2024,
+    "authors": "Song 等",
+    "article_url": "https://www.nature.com/articles/s41467-024-51542-z",
+    "supplements": [
+      {
+        "label": "补充信息，含表 5 和表 6",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-024-51542-z/MediaObjects/41467_2024_51542_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究在蚕、线虫和果蝇里看到 OSER1 受 FOXO 调节，过表达后寿命更长。人类部分是 OSER1 上的常见变异和长寿的关联，个人报告只核对你点到的基因或变异编号。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

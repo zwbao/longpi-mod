@@ -1,0 +1,364 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "epigenetic-frailty-risk-score",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "甲基化",
+    "衰弱与死亡风险"
+  ],
+  "blurb_zh": "甲基化数值，可带衰弱指数。",
+  "intents": [
+    "epigenetic_age",
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "用论文图4印出的20个CpG系数和个人甲基化β值算出表观衰弱风险分。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-022-32893-x",
+    "title": "Derivation and validation of an epigenetic frailty risk score in population-based cohorts of older adults",
+    "title_zh": "衰弱风险分",
+    "journal": "Nature Communications",
+    "year": 2022,
+    "authors": "Li 等",
+    "article_url": "https://doi.org/10.1038/s41467-022-32893-x",
+    "summary_zh": "这项研究在德国老年人群队列中筛查与衰弱指数相关的血液甲基化位点，用套索回归挑出部分位点组成表观遗传衰弱风险分，并在另一老年队列中验证其与衰弱的关联。个人报告只用你交来的二十个位点甲基化值按论文系数算出风险分，你另给衰弱指数时按正文切点标注分档，用药和体检不改变分数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "cg00921350",
+      "label_zh": "cg00921350",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg01234420",
+      "label_zh": "cg01234420",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg02867102",
+      "label_zh": "cg02867102",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg03725309",
+      "label_zh": "cg03725309",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg04955914",
+      "label_zh": "cg04955914",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg07312601",
+      "label_zh": "cg07312601",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg07349348",
+      "label_zh": "cg07349348",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg08463758",
+      "label_zh": "cg08463758",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg10408430",
+      "label_zh": "cg10408430",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg11700584",
+      "label_zh": "cg11700584",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg12510708",
+      "label_zh": "cg12510708",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg13570972",
+      "label_zh": "cg13570972",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg15058210",
+      "label_zh": "cg15058210",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg15380836",
+      "label_zh": "cg15380836",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg17860366",
+      "label_zh": "cg17860366",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg17971578",
+      "label_zh": "cg17971578",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg18791730",
+      "label_zh": "cg18791730",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg19267254",
+      "label_zh": "cg19267254",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg21656937",
+      "label_zh": "cg21656937",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "cg23458887",
+      "label_zh": "cg23458887",
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要甲基化 β 值，在 0 到 1 之间。百分比（0–100）或 M 值不能直接用。"
+    },
+    {
+      "key": "fi",
+      "label_zh": "衰弱指数",
+      "aliases": [
+        "frailty index"
+      ],
+      "unit": "1",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "衰弱指数是出现的缺陷占全部缺陷的比例，在 0 到 1 之间；20% 要写成 0.2。它不是 eFRS。"
+    },
+    {
+      "key": "esther_deficits",
+      "label_zh": "ESTHER 衰弱缺陷个数",
+      "aliases": [
+        "ESTHER 缺陷个数"
+      ],
+      "range": [
+        0,
+        31
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "ESTHER 的衰弱指数共 31 项，这里写出现了几项；报告用它除以 31 得到衰弱指数。"
+    },
+    {
+      "key": "kora_deficits",
+      "label_zh": "KORA 衰弱缺陷个数",
+      "aliases": [
+        "KORA 缺陷个数"
+      ],
+      "range": [
+        0,
+        33
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "KORA 的衰弱指数共 33 项，这里写出现了几项；报告用它除以 33 得到衰弱指数。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "年龄不进 eFRS 公式。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "efrs",
+      "label_zh": "表观衰弱风险分（eFRS）",
+      "unit": "score"
+    },
+    {
+      "key": "frailty_index",
+      "label_zh": "衰弱指数（用户给的，或缺陷个数除以 31 或 33）",
+      "unit": "1"
+    },
+    {
+      "key": "frailty_band",
+      "label_zh": "衰弱指数分档（非衰弱、衰弱前期、衰弱）",
+      "note_zh": "按正文的衰弱指数切点分档，不是 eFRS 的切点。"
+    }
+  ]
+}

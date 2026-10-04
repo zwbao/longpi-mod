@@ -1,0 +1,46 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "skin-il17-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "皮肤"
+  ],
+  "blurb_zh": "小鼠周龄落在成年、年老或中和开始的哪一个窗口，以及 Il17 基因。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠皮肤实验，输入是小鼠周龄，脚本只对照窗口并列出Il17相关基因。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-023-00431-z",
+    "title": "Targeting lymphoid-derived IL-17 signaling to delay skin aging",
+    "title_zh": "淋巴来源白介素与皮肤老化",
+    "journal": "Nature Aging",
+    "year": 2023,
+    "authors": "Solá 等",
+    "article_url": "https://www.nature.com/articles/s43587-023-00431-z",
+    "code_url": "https://github.com/mereulab/IL17-SkinAging",
+    "card_notes": [
+      "这次没有用到补充表里的系数。",
+      "[代码](https://github.com/mereulab/IL17-SkinAging)"
+    ],
+    "summary_zh": "这项研究在小鼠真皮里看到辅助性 T 细胞、γδ T 细胞和固有淋巴样细胞转向表达白介素 17。中和 IL-17A 和 IL-17F 之后，年老皮肤的一些性状被推迟。个人报告只对照周龄窗口并列出正文点名的基因。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

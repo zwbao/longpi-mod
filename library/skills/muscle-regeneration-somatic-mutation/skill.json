@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "muscle-regeneration-somatic-mutation",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "骨骼肌"
+  ],
+  "blurb_zh": "基因名是否落在补充表加粗的小鼠行。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠肌肉再生研究，脚本只查基因名是否在补充表加粗的小鼠行。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00941-y",
+    "title": "Induced somatic mutation accumulation during skeletal muscle regeneration reduces muscle strength",
+    "title_zh": "再生中的体细胞突变",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Vrtačnik 等",
+    "article_url": "https://www.nature.com/articles/s43587-025-00941-y",
+    "supplements": [
+      {
+        "label": "Supplementary Table 1",
+        "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs43587-025-00941-y/MediaObjects/43587_2025_941_MOESM4_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库 URL。"
+    ],
+    "summary_zh": "这项研究在小鼠卫星细胞里诱导体细胞突变，再看损伤后的肌肉再生和握力。外显子变异表可以对照基因名，握力的体重归一化没有写成可计算的式子。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,55 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ramanomics-senescence",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "method",
+  "domains": [
+    "细胞衰老"
+  ],
+  "blurb_zh": "拉曼组学衰老研究里 p21 阳性细胞差异基因的查表。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠组织的拉曼成像方法论文，脚本只查基因是否在p21+差异基因表里。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01219-7",
+    "title": "RamanOmics decodes the spatial vibrational–molecular architecture of senescence in aging and repair",
+    "title_zh": "RamanOmics 衰老差异基因查表",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Zhang 等",
+    "article_url": "https://www.nature.com/articles/s43587-026-01219-7",
+    "supplements": [
+      {
+        "label": "MOESM4",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-026-01219-7/MediaObjects/43587_2026_1219_MOESM4_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/jian-shu-lab/RamanOmics",
+    "card_notes": [
+      "打开过 MOESM1–MOESM5。个人查表用皮肤/肺 p21+（old）DEG 主块。",
+      "仓库是分析与作图代码，不是个人光谱打分器。"
+    ],
+    "summary_zh": "这项研究把无标记 Raman 成像与单核/空间转录组对齐，刻画衰老组织里衰老细胞的振动—分子结构。个人报告只在已冻结的 p21+ DEG 子集上查基因，不从你的光谱重算脂质峰，也不写成组织诊断。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none",
+  "related_not_same": [
+    "replicative-senescence-proteome"
+  ]
+}

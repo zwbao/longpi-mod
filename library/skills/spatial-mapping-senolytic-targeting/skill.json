@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "spatial-mapping-senolytic-targeting",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "白质里 GAL3 阳性和阴性细胞的表达。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "老年小鼠脑白质实验，输入是GAL3阳性与阴性细胞表达，个人没有。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01154-7",
+    "title": "Spatial mapping and senolytic targeting of senescent and disease-associated microglia in aged mouse brain white matter",
+    "title_zh": "白质里的衰老小胶质细胞",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Carver 等",
+    "article_url": "https://doi.org/10.1038/s43587-026-01154-7",
+    "summary_zh": "这项研究在自然衰老的小鼠脑中做空间基因表达分析，发现海马旁白质尤其是海马伞聚集着一群同时带有衰老标志和疾病相关特征的小胶质细胞，清除衰老细胞的干预能让小鼠白质里的这群细胞减少。个人报告只对论文点名的标志基因，用你交来的 GAL3 阳性和阴性细胞表达算两者的对数倍数，不把论文在小鼠身上用的药写成你的用药依据。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

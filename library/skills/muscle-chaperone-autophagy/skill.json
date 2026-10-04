@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "muscle-chaperone-autophagy",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse",
+    "human"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "骨骼肌"
+  ],
+  "blurb_zh": "伴侣介导自噬里点名的测量。权重列不在已打开的表里。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "以小鼠肌肉实验为主，CMA分数权重未公布，脚本只核对点名的网络基因。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s42255-025-01412-9",
+    "title": "Age-related decline of chaperone-mediated autophagy in skeletal muscle leads to progressive myopathy",
+    "title_zh": "骨骼肌分子伴侣自噬",
+    "journal": "Nature Metabolism",
+    "year": 2025,
+    "authors": "Santiago-Fernández 等",
+    "article_url": "https://www.nature.com/articles/s42255-025-01412-9",
+    "supplements": [
+      {
+        "label": "Supplementary Information",
+        "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs42255-025-01412-9/MediaObjects/42255_2025_1412_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库 URL。"
+    ],
+    "summary_zh": "这项研究看伴侣介导的自噬怎样随饥饿、运动、损伤和年龄在骨骼肌里变化。肌肉里缺这条通路会带来进行性肌病，老年小鼠里把活性补回去能减轻一部分表型。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

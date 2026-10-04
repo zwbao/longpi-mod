@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "immune-mendelian-dementia",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "痴呆研究里点名的用药类别。",
+  "intents": [
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "孟德尔随机化加队列重加权，脚本只核对现用药是否属于六类被研究药物。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-022-00293-x",
+    "title": "Immune system-wide Mendelian randomization and triangulation analyses support autoimmunity as a modifiable component in dementia-causing diseases",
+    "title_zh": "痴呆研究里的用药类别",
+    "journal": "Nature Aging",
+    "year": 2022,
+    "authors": "Lindbohm 等",
+    "article_url": "https://doi.org/10.1038/s43587-022-00293-x",
+    "summary_zh": "这项研究用孟德尔随机化筛查免疫和血脑屏障相关标志物与致痴呆疾病的关系，发现痴呆与自身免疫病共享遗传背景，在观察数据中模拟随机试验的加权分析还显示高风险人群用抗炎药甲氨蝶呤后阿尔茨海默病发病更少。个人报告只核对你正在用的药是否属于研究比较过的药物类别，不算个人风险比，也不据此让你开始或停止任何药物。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

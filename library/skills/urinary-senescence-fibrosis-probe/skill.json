@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "urinary-senescence-fibrosis-probe",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "基质、软骨与纤维化"
+  ],
+  "blurb_zh": "背景均值加三倍标准差的检出限，以及肽是可切开肽还是对照肽。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠纳米探针实验，输入是尿液比色吸光度和空白背景，属实验测定。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01116-z",
+    "title": "Urinary detection of therapy-induced senescence and fibrosis using an injectable albumin-based nanoprobe",
+    "title_zh": "尿液衰老探针",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Hartono 等",
+    "article_url": "https://www.nature.com/articles/s43587-026-01116-z",
+    "supplements": [
+      {
+        "label": "用到的补充表：图的源数据",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-026-01116-z/MediaObjects/43587_2026_1116_MOESM5_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究用白蛋白连接金纳米团簇，中间是可被基质金属蛋白酶切开的肽。切开后的团簇进入尿液，再用比色法读取。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

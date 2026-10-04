@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "genetic-architecture-biological-age",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "各器官预测年龄相对实足年龄。",
+  "intents": [
+    "biological_age",
+    "imaging"
+  ],
+  "triage": {
+    "reason_zh": "英国生物银行九器官研究，用已算好的器官预测年龄减实足年龄得出个人年龄差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00662-8",
+    "title": "The genetic architecture of biological age in nine human organ systems",
+    "title_zh": "器官年龄差",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Wen 等",
+    "article_url": "https://doi.org/10.1038/s43587-024-00662-8",
+    "summary_zh": "这项研究在英国生物银行的欧洲血统人群中，用影像、体格和生理指标训练的机器学习模型算出九个器官系统的生物年龄差，找出相关基因位点，并分析慢性病、生活方式与这些年龄差的潜在因果联系。个人报告只用你交来的器官预测年龄减去实足年龄得出年龄差，不拟合模型、不编造权重，也不把年龄差当成开始或停止用药的理由。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

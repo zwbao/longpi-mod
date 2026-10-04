@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "biological-age-ct-cardiometabolic",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "影像"
+  ],
+  "blurb_zh": "腹部影像测量、年龄和性别。",
+  "intents": [
+    "imaging",
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "人群队列，用个人腹部CT八项标志与表2同性别年龄段存活和死亡中位数比较，按IPA drop排序。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-025-56741-w",
+    "title": "Biological age model using explainable automated CT-based cardiometabolic biomarkers for phenotypic prediction of longevity",
+    "title_zh": "腹部影像生物标志",
+    "journal": "Nature Communications",
+    "year": 2025,
+    "authors": "Pickhardt 等",
+    "article_url": "https://doi.org/10.1038/s41467-025-56741-w",
+    "summary_zh": "这项研究用可解释的自动化人工智能，从大批成人的腹部CT量出肌肉、脂肪、主动脉钙化、骨密度和腹部实质器官，建成CT生物年龄模型，预测寿命优于只看人口学信息。个人报告只把你的八项CT标志与同性别、同年龄段存活者和死亡者的中位数比较，把更靠近死亡者中位数的项目按预测贡献排序，不估算生存概率，也不据此开始或停止用药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

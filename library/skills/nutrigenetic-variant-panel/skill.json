@@ -1,0 +1,94 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "nutrigenetic-variant-panel",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "review",
+  "domains": [
+    "饮食与基因"
+  ],
+  "blurb_zh": "基因检测原始数据里和喝酒、叶酸、喝奶有关的三个位点，按要求再看 APOE 与血脂。",
+  "intents": [
+    "nutrigenetics",
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "喝酒脸红（ALDH2）、叶酸（MTHFR C677T）、乳糖酶（LCT）各按一篇原始文献查表；APOE 只读血脂方向，不解读痴呆风险。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1371/journal.pmed.1000050",
+    "title": "The alcohol flushing response: an unrecognized risk factor for esophageal cancer from alcohol consumption",
+    "title_zh": "喝酒脸红与食管癌风险",
+    "journal": "PLoS Medicine",
+    "year": 2009,
+    "authors": "Brooks 等",
+    "article_url": "https://doi.org/10.1371/journal.pmed.1000050",
+    "card_notes": [
+      "另外三个位点各有一篇依据：MTHFR C677T 见 Frosst 等 1995（doi:10.1038/ng0595-111）；乳糖酶 -13910 见 Enattah 等 2002（doi:10.1038/ng826）；APOE 与血脂见 Bennet 等 2007（doi:10.1001/jama.298.11.1300）。MTHFR 检测的临床用处见 ACMG 2013（doi:10.1038/gim.2012.165）。",
+      "APOE 默认不看；要求看时只读血脂方向，不解读痴呆风险（理由见 references/claims.md）。"
+    ],
+    "summary_zh": "Brooks 等总结日本和台湾的研究：带一份 ALDH2*2（喝酒脸红型）的人喝酒时食管鳞癌风险高好几倍到十几倍，建议医生劝这类人少喝酒，高风险者考虑胃镜筛查。个人报告只按原始数据查这个位点和叶酸、乳糖酶两个位点，给出可以考虑的检查或和医生聊的事，不给补剂剂量。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "genotype",
+      "label_zh": "基因检测原始数据文件（23andMe 格式，WeGene 等导出的同格式文件）",
+      "aliases": [
+        "raw data",
+        "原始数据",
+        "23andMe",
+        "WeGene",
+        "微基因"
+      ],
+      "required": true,
+      "from": "argument",
+      "flag": "--genotype",
+      "note_zh": "每行 rsID、染色体、位置、基因型，制表符或逗号分隔；.txt、.zip、.gz 都可以。按 rsID 匹配，正链碱基。"
+    },
+    {
+      "key": "apoe",
+      "label_zh": "是否也看 APOE（只看血脂方向）",
+      "required": false,
+      "from": "argument",
+      "flag": "--apoe",
+      "note_zh": "只在用户明确要看 APOE 时加。报告不解读痴呆风险。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "aldh2_rs671_copies",
+      "label_zh": "ALDH2*2（rs671 A）的份数",
+      "unit": "copies"
+    },
+    {
+      "key": "mthfr_rs1801133_copies",
+      "label_zh": "MTHFR 677T（rs1801133 A）的份数",
+      "unit": "copies"
+    },
+    {
+      "key": "lct_rs4988235_copies",
+      "label_zh": "乳糖酶持续型 -13910T（rs4988235 A）的份数",
+      "unit": "copies"
+    },
+    {
+      "key": "apoe_genotype",
+      "label_zh": "APOE 型（只在要求时读）"
+    }
+  ],
+  "related_not_same": [
+    "serum-proteomics-apoe-signatures",
+    "proteomic-apoe-alzheimers-signatures",
+    "cpic-pharmacogenomics"
+  ]
+}

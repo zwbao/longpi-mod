@@ -1,0 +1,201 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "iief5-erectile-function",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "男性性功能"
+  ],
+  "blurb_zh": "勃起功能问卷 IIEF-5 的 5 道题相加（5–25 分），按发表的五档分出无、轻、轻到中、中、重。21 分及以下提示去看医生并查心血管风险。",
+  "intents": [
+    "sexual_health"
+  ],
+  "triage": {
+    "reason_zh": "用个人5道题得分相加，按论文印出的21分切点和五档严重程度分档。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/sj.ijir.3900472",
+    "title": "Development and evaluation of an abridged, 5-item version of the International Index of Erectile Function (IIEF-5) as a diagnostic tool for erectile dysfunction",
+    "title_zh": "勃起功能国际指数五项简版 IIEF-5",
+    "journal": "International Journal of Impotence Research",
+    "year": 1999,
+    "authors": "Rosen 等",
+    "article_url": "https://www.nature.com/articles/3900472",
+    "card_notes": [
+      "原文需要订阅，没有打开全文。摘要印出：总分 5–25，21 分及以下最能区分有无勃起功能障碍，五档从无（22–25）到重度（5–7）。中间三档（轻度 17–21、轻到中度 12–16、中度 8–11）照 [Rhoden 等 2002 摘要](https://doi.org/10.1038/sj.ijir.3900859) 印出的同一分档。",
+      "问卷问的是过去 6 个月，只适用于这段时间尝试过性交的男性。题目原文受版权保护（Pfizer 所有，Mapi Research Trust 发放），这里只按题号和主题描述。",
+      "21 分及以下时，报告按 [Princeton III 共识](https://doi.org/10.1016/j.mayocp.2012.06.015) 提示同时做心血管风险评估：勃起功能障碍常和没有症状的冠心病同时存在。"
+    ],
+    "summary_zh": "这项研究从 15 题的勃起功能国际指数里选出 5 道题做成简版 IIEF-5，在勃起功能障碍患者和对照里找出最能区分两者的切点，并定出五档严重程度。个人报告只把 5 题得分相加，按论文的切点和分档给出这一档，提示何时看医生，不做诊断。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "sex_flag": "--sex",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "iief5_item1",
+      "label_zh": "IIEF-5 第1题（对能勃起并维持勃起的信心）",
+      "aliases": [
+        "IIEF-5 第1题",
+        "IIEF5 q1",
+        "SHIM 第1题",
+        "勃起问卷第1题",
+        "第1题",
+        "item1",
+        "q1"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        5
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题的得分，1 到 5 的整数，分越高功能越好。问的是过去 6 个月。完整版 IIEF 里「没有性活动」「没有尝试性交」的 0 分不收。"
+    },
+    {
+      "key": "iief5_item2",
+      "label_zh": "IIEF-5 第2题（受到性刺激时，勃起硬度够不够插入）",
+      "aliases": [
+        "IIEF-5 第2题",
+        "IIEF5 q2",
+        "SHIM 第2题",
+        "勃起问卷第2题",
+        "第2题",
+        "item2",
+        "q2"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        5
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题的得分，1 到 5 的整数，分越高功能越好。问的是过去 6 个月。完整版 IIEF 里「没有性活动」「没有尝试性交」的 0 分不收。"
+    },
+    {
+      "key": "iief5_item3",
+      "label_zh": "IIEF-5 第3题（插入以后能不能维持勃起）",
+      "aliases": [
+        "IIEF-5 第3题",
+        "IIEF5 q3",
+        "SHIM 第3题",
+        "勃起问卷第3题",
+        "第3题",
+        "item3",
+        "q3"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        5
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题的得分，1 到 5 的整数，分越高功能越好。问的是过去 6 个月。完整版 IIEF 里「没有性活动」「没有尝试性交」的 0 分不收。"
+    },
+    {
+      "key": "iief5_item4",
+      "label_zh": "IIEF-5 第4题（维持勃起直到性交结束有多难）",
+      "aliases": [
+        "IIEF-5 第4题",
+        "IIEF5 q4",
+        "SHIM 第4题",
+        "勃起问卷第4题",
+        "第4题",
+        "item4",
+        "q4"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        5
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题的得分，1 到 5 的整数，分越高功能越好。问的是过去 6 个月。完整版 IIEF 里「没有性活动」「没有尝试性交」的 0 分不收。"
+    },
+    {
+      "key": "iief5_item5",
+      "label_zh": "IIEF-5 第5题（尝试性交时，自己满意的次数）",
+      "aliases": [
+        "IIEF-5 第5题",
+        "IIEF5 q5",
+        "SHIM 第5题",
+        "勃起问卷第5题",
+        "第5题",
+        "item5",
+        "q5"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        5
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题的得分，1 到 5 的整数，分越高功能越好。问的是过去 6 个月。完整版 IIEF 里「没有性活动」「没有尝试性交」的 0 分不收。"
+    },
+    {
+      "key": "sex",
+      "label_zh": "性别",
+      "required": true,
+      "from": "profile",
+      "flag": "--sex",
+      "note_zh": "男性问卷；女性不计算。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "年龄不进得分，只用来说明能不能接着用 China-PAR 估算心血管风险。"
+    },
+    {
+      "key": "attempted",
+      "label_zh": "过去 6 个月是否尝试过性交",
+      "required": false,
+      "from": "argument",
+      "flag": "--attempted",
+      "note_zh": "yes 或 no。no 时不计算：问卷只适用于尝试过性交的男性。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "iief5_score",
+      "label_zh": "IIEF-5 总分",
+      "unit": "score",
+      "note_zh": "5 题相加，5–25，分越高越好。"
+    },
+    {
+      "key": "iief5_band",
+      "label_zh": "IIEF-5 分档（Rosen 1999）",
+      "unit": "",
+      "note_zh": "无勃起功能障碍 22–25，轻度 17–21，轻到中度 12–16，中度 8–11，重度 5–7。"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "multi-organ-metabolome-age",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "代谢组器官预测年龄相对实足年龄。",
+  "intents": [
+    "metabolomic_age",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用已算好的器官代谢组预测年龄减实足年龄，得出校正前的个人年龄差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-025-59964-z",
+    "title": "Multi-organ metabolome biological age implicates cardiometabolic conditions and mortality risk",
+    "title_zh": "代谢组器官年龄差",
+    "journal": "Nature Communications",
+    "year": 2025,
+    "authors": "The MULTI consortium 等",
+    "article_url": "https://doi.org/10.1038/s41467-025-59964-z",
+    "summary_zh": "这项研究在英国生物银行的大规模血浆代谢组上，为几个器官系统各训练一个年龄预测模型，得到代谢组年龄差，并考察它与遗传、心血管代谢状况和死亡风险的关系。个人报告只把你给的某个系统预测年龄减去实足年龄，并说明这还不是论文最终使用的校正后年龄差。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

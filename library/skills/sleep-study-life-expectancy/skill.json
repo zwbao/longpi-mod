@@ -1,0 +1,96 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "sleep-study-life-expectancy",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "衰弱与死亡风险"
+  ],
+  "blurb_zh": "年龄估计减实足年龄。",
+  "intents": [
+    "wearable_sleep",
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "输入已算好的多导睡眠图年龄估计和实足年龄，按论文定义相减得年龄差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41746-022-00630-9",
+    "title": "Age estimation from sleep studies using deep learning predicts life expectancy",
+    "title_zh": "睡眠年龄差",
+    "journal": "npj Digital Medicine",
+    "year": 2022,
+    "authors": "Brink-Kjaer 等",
+    "article_url": "https://www.nature.com/articles/s41746-022-00630-9",
+    "supplements": [
+      {
+        "label": "补充表",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41746-022-00630-9/MediaObjects/41746_2022_630_MOESM1_ESM.docx"
+      }
+    ],
+    "code_url": "https://github.com/abrinkk/psg-age-estimation",
+    "summary_zh": "这项研究用整夜多导睡眠图训练深度网络来估计年龄。估计年龄和实足年龄的差，用来描述这次睡眠看起来更老还是更年轻。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "name",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "age_estimate",
+      "label_zh": "年龄估计",
+      "aliases": [
+        "多导睡眠图年龄估计",
+        "睡眠年龄估计",
+        "PSG age",
+        "PSG age estimate",
+        "sleep age estimate"
+      ],
+      "unit": "a",
+      "range": [
+        10,
+        150
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要多导睡眠图模型给出的年龄估计（岁），不是它减实足年龄的差。估计要用论文作者公开仓库的模型从整晚多导睡眠图算出，本技能不重算，只做减法。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "age_estimate_error",
+      "label_zh": "年龄差（年龄估计减实足年龄）",
+      "unit": "a",
+      "note_zh": "论文里的 age estimate error。它不是死亡概率。"
+    }
+  ]
+}

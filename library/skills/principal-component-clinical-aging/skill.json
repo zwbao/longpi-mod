@@ -1,0 +1,518 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "principal-component-clinical-aging",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "并存病、可替宁、自评健康和尿白蛋白肌酐比。",
+  "intents": [
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用论文方法段公式算可替宁分档、22项并存病指数和自评健康指数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00646-8",
+    "title": "Principal component-based clinical aging clocks identify signatures of healthy aging and targets for clinical intervention",
+    "title_zh": "临床指数",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Fong 等",
+    "article_url": "https://doi.org/10.1038/s43587-024-00646-8",
+    "summary_zh": "这项研究把主成分分析用到全国营养调查的临床指标上，找出区分健康与不健康老化轨迹的成分，建成临床衰老时钟，又把同样做法搬到一项限食研究里重新训练。个人报告只算正文写全的吸烟分档、并存病指数、自评健康指数和就医使用编码，不给出时钟的岁数，因为那些权重在补充表里。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "hypertension",
+      "label_zh": "高血压",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "diabetes_mellitus",
+      "label_zh": "糖尿病",
+      "aliases": [
+        "diabetes mellitus"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "renal_impairment",
+      "label_zh": "肾功能损害",
+      "aliases": [
+        "renal impairment"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "asthma",
+      "label_zh": "哮喘",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "anemia",
+      "label_zh": "贫血",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "arthritis",
+      "label_zh": "关节炎",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "coronary_heart_disease",
+      "label_zh": "冠心病",
+      "aliases": [
+        "coronary heart disease"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "angina",
+      "label_zh": "心绞痛",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "previous_myocardial_infarction",
+      "label_zh": "既往心肌梗死",
+      "aliases": [
+        "previous myocardial infarction"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "previous_stroke",
+      "label_zh": "既往卒中",
+      "aliases": [
+        "previous stroke"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "emphysema",
+      "label_zh": "肺气肿",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "thyroid_disease",
+      "label_zh": "甲状腺疾病",
+      "aliases": [
+        "thyroid disease"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "obesity",
+      "label_zh": "肥胖",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "chronic_bronchitis",
+      "label_zh": "慢性支气管炎",
+      "aliases": [
+        "chronic bronchitis"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "liver_disease",
+      "label_zh": "肝病",
+      "aliases": [
+        "liver disease"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "malignancy",
+      "label_zh": "恶性肿瘤",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "osteoporosis",
+      "label_zh": "骨质疏松",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "previous_hip_fracture",
+      "label_zh": "既往髋部骨折",
+      "aliases": [
+        "previous hip fracture"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "previous_wrist_fracture",
+      "label_zh": "既往腕部骨折",
+      "aliases": [
+        "previous wrist fracture"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "previous_spine_fracture",
+      "label_zh": "既往脊柱骨折",
+      "aliases": [
+        "previous spine fracture"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "cognitive_impairment",
+      "label_zh": "认知损害",
+      "aliases": [
+        "cognitive impairment"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "overnight_hospitalization",
+      "label_zh": "过夜住院",
+      "aliases": [
+        "overnight hospitalization"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "comorbidity",
+      "note_zh": "有这种并存病写 1，没有写 0。"
+    },
+    {
+      "key": "cotinine_ng_ml",
+      "label_zh": "血清可替宁",
+      "aliases": [
+        "cotinine",
+        "serum cotinine",
+        "可替宁"
+      ],
+      "unit": "ng/mL",
+      "accept": {
+        "ug/L": 1
+      },
+      "range": [
+        0,
+        3000
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "要血清可替宁，不是尿可替宁。"
+    },
+    {
+      "key": "acr_mg_g",
+      "label_zh": "尿白蛋白肌酐比",
+      "aliases": [
+        "ACR",
+        "UACR",
+        "urine albumin-to-creatinine ratio",
+        "尿微量白蛋白肌酐比",
+        "尿微量白蛋白/肌酐"
+      ],
+      "unit": "mg/g",
+      "accept": {
+        "mg/mmol": 8.84
+      },
+      "range": [
+        0,
+        30000
+      ],
+      "unit_required": true,
+      "required": false,
+      "from": "measurements",
+      "note_zh": "国内和欧洲的化验单常用 mg/mmol，乘 8.84 才是 mg/g；两种单位的数都常落在合理范围里，所以名字不是 acr_mg_g 时要写单位。"
+    },
+    {
+      "key": "fair_general_health",
+      "label_zh": "自评一般健康为「一般」（fair）",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "self_health",
+      "note_zh": "是写 1，不是写 0；四项都给了才算自评健康指数。"
+    },
+    {
+      "key": "poor_general_health",
+      "label_zh": "自评一般健康为「差」（poor）",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "self_health",
+      "note_zh": "是写 1，不是写 0；四项都给了才算自评健康指数。"
+    },
+    {
+      "key": "better_current_health",
+      "label_zh": "自评现在的健康比以前好（better）",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "self_health",
+      "note_zh": "是写 1，不是写 0；四项都给了才算自评健康指数。"
+    },
+    {
+      "key": "worse_current_health",
+      "label_zh": "自评现在的健康比以前差（worse）",
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "self_health",
+      "note_zh": "是写 1，不是写 0；四项都给了才算自评健康指数。"
+    },
+    {
+      "key": "huq050",
+      "label_zh": "就医使用指数（HUQ050 编码）",
+      "aliases": [
+        "healthcare_use",
+        "就医使用指数"
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "照录 NHANES HUQ050 的编码，不是就诊次数；本技能不再换算，单位列留空。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "不进入任何计算。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "comorbidity_index",
+      "label_zh": "并存病指数",
+      "unit": "1",
+      "note_zh": "点到的并存病数除以 22；一种都没点到时为空。"
+    },
+    {
+      "key": "smoking_score",
+      "label_zh": "可替宁吸烟分档",
+      "unit": "score",
+      "note_zh": "血清可替宁 <10 ng/mL 为 0，<100 为 1，<200 为 2，其余为 3。"
+    },
+    {
+      "key": "self_health_index",
+      "label_zh": "自评健康指数",
+      "unit": "score",
+      "note_zh": "((fair×2)+(poor×4))×(1−better×0.5+worse)，四项都给了才算。"
+    },
+    {
+      "key": "acr_at_least_30",
+      "label_zh": "尿白蛋白肌酐比是否达到 30 mg/g",
+      "note_zh": "达到或没有达到；没有尿白蛋白肌酐比时为空。"
+    }
+  ]
+}

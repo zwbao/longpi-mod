@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "sirt1-hepatocyte-nampt",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "营养感应"
+  ],
+  "blurb_zh": "效应属于依赖肝细胞 SIRT1，还是不依赖。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "肝细胞敲除小鼠实验，输入是肝细胞SIRT1有无这种实验条件。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-022-28717-7",
+    "title": "SIRT1 selectively exerts the metabolic protective effects of hepatocyte nicotinamide phosphoribosyltransferase",
+    "title_zh": "肝细胞烟酰胺磷酸核糖转移酶的两类效应",
+    "journal": "Nature Communications",
+    "year": 2022,
+    "authors": "Higgins 等",
+    "article_url": "https://www.nature.com/articles/s41467-022-28717-7",
+    "supplements": [
+      {
+        "label": "补充信息",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-022-28717-7/MediaObjects/41467_2022_28717_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "打开过这份补充信息。里面是补充图和引物，没有权重列。",
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究看肝细胞里的 NAMPT 怎样带动禁食相关的代谢变化，以及这些变化里哪些还要经过 SIRT1。个人报告按正文把效应分成两类，不预测你的血糖或 FGF21。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

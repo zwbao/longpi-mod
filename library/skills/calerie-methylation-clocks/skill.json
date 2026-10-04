@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "calerie-methylation-clocks",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "rct",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "限食试验里的时钟数值。",
+  "intents": [
+    "epigenetic_age",
+    "intervention_evidence"
+  ],
+  "triage": {
+    "reason_zh": "人体随机试验，脚本只把个人时钟值放在论文组间效应量旁，不做个人计算。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-022-00357-y",
+    "title": "Effect of long-term caloric restriction on DNA methylation measures of biological aging in healthy adults from the CALERIE trial",
+    "title_zh": "限食试验时钟",
+    "journal": "Nature Aging",
+    "year": 2023,
+    "authors": "Waziry 等",
+    "article_url": "https://doi.org/10.1038/s43587-022-00357-y",
+    "summary_zh": "这项研究对一项长期限食随机试验的血样做事后分析，用几种甲基化时钟比较限食组和对照组，发现衰老节奏指标放慢，而另外两种衰老时钟没有明显变化。个人报告只把你交来的时钟数值记下来，并放在试验已发表的组间效应量旁边，不替你把效应量换算成自己的年龄变化。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "immune-aging-clock-runx1",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "细胞比例、对数表达或 TCR 指标。pAge、tAge 和 TCRAge 用 Table S3 的系数。",
+  "intents": [
+    "immune_inflammation"
+  ],
+  "triage": {
+    "reason_zh": "用Table S3系数对个人细胞比例、对数表达或TCR指标做点积算出免疫年龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1016/j.immuni.2026.02.007",
+    "title": "Human immune aging clock identifies RUNX1 as a decelerator of T cell senescence",
+    "title_zh": "人类免疫衰老时钟指出 RUNX1 会减缓 T 细胞衰老",
+    "journal": "Immunity",
+    "year": 2026,
+    "authors": "Ping 等",
+    "article_url": "https://www.cell.com/immunity/abstract/S1074-7613(26)00077-4",
+    "supplements": [
+      {
+        "label": "Table S3 系数表",
+        "url": "https://www.cell.com/cms/10.1016/j.immuni.2026.02.007/attachment/76405a68-30d3-44c4-ba98-70680c4cd09c/mmc4.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/PINGjl/Immune-clock",
+    "summary_zh": "这项研究纳入 230 名 20 到 84 岁的健康人，对近 120 万个外周血单个核细胞做单细胞转录组和 T、B 细胞受体测序，并据此预测年龄。T 细胞的转录组贡献最大。转录因子 RUNX1 在 T 细胞里随年龄下降。年轻 T 细胞敲低 RUNX1 后出现衰老表型，老年 CD8+ T 细胞补回 RUNX1 后衰老减轻。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "sex_flag": "--sex",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

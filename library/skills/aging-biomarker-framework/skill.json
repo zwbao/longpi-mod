@@ -1,0 +1,228 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "aging-biomarker-framework",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "预测年龄相对实足年龄的偏差。",
+  "intents": [
+    "biological_age",
+    "epigenetic_age"
+  ],
+  "triage": {
+    "reason_zh": "用已算好的时钟预测年龄减实足年龄得出个人年龄偏差，并附论文队列结果。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00987-y",
+    "title": "A unified framework for systematic curation and evaluation of aging biomarkers",
+    "title_zh": "衰老标志物对照",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Ying 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-00987-y",
+    "summary_zh": "这项研究搭建开源框架，在多个队列中用统一流程评估多种衰老标志物，发现传统时钟预测实足年龄的准确度与预测死亡的能力并不相关。个人报告只用你交来的预测年龄减去实足年龄得出年龄偏差，并注明该时钟在论文队列里的表现，不把队列风险比算成你的风险。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--clocks",
+    "measurements_header": [
+      "name",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "HorvathSkinBlood",
+      "label_zh": "Horvath 皮肤和血液时钟预测年龄",
+      "aliases": [
+        "horvath skin and blood",
+        "horvathv2",
+        "Horvath skin & blood",
+        "Horvath2018",
+        "DNAmAgeSkinBloodClock",
+        "SkinBloodClock",
+        "Horvath 皮肤血液时钟"
+      ],
+      "unit": "a",
+      "range": [
+        10,
+        150
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "这里要时钟算出的预测年龄（岁），不是年龄加速值（预测年龄减实足年龄）。"
+    },
+    {
+      "key": "GrimAge2",
+      "label_zh": "GrimAge2 预测年龄",
+      "aliases": [
+        "grimagev2",
+        "DNAmGrimAge2",
+        "GrimAge 第二版"
+      ],
+      "unit": "a",
+      "range": [
+        10,
+        150
+      ],
+      "required": false,
+      "from": "measurements",
+      "output_of": [
+        "dnam_grimage2"
+      ],
+      "note_zh": "这里要时钟算出的预测年龄（岁），不是年龄加速值（预测年龄减实足年龄）。"
+    },
+    {
+      "key": "GrimAge",
+      "label_zh": "GrimAge 预测年龄（第一版）",
+      "aliases": [
+        "grimagev1",
+        "DNAmGrimAge",
+        "GrimAge1"
+      ],
+      "unit": "a",
+      "range": [
+        10,
+        150
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "这里要时钟算出的预测年龄（岁），不是年龄加速值（预测年龄减实足年龄）。"
+    },
+    {
+      "key": "PhenoAge",
+      "label_zh": "甲基化 PhenoAge 预测年龄",
+      "aliases": [
+        "DNAmPhenoAge",
+        "甲基化表型年龄",
+        "Levine DNAm PhenoAge"
+      ],
+      "unit": "a",
+      "range": [
+        10,
+        150
+      ],
+      "required": false,
+      "from": "measurements",
+      "output_of": [
+        "dnam_phenoage"
+      ],
+      "note_zh": "这是甲基化 PhenoAge（DNAm PhenoAge）。用九项血检算出的表型年龄是另一项，请写成「血检表型年龄」。这里要预测年龄（岁），不是年龄加速值。"
+    },
+    {
+      "key": "DunedinPoAm38",
+      "label_zh": "DunedinPoAm38 衰老速度",
+      "aliases": [
+        "DunedinPoAm"
+      ],
+      "unit": "1",
+      "range": [
+        0.3,
+        3
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "DunedinPoAm38 是衰老速度（每过一个日历年生物学上老多少年，一般在 1 左右），不是年龄，所以不算年龄偏差。"
+    },
+    {
+      "key": "DunedinPACE",
+      "label_zh": "DunedinPACE 衰老速度",
+      "unit": "1",
+      "range": [
+        0.3,
+        3
+      ],
+      "required": false,
+      "from": "measurements",
+      "output_of": [
+        "dnam_dunedinpace"
+      ],
+      "note_zh": "DunedinPACE 是衰老速度（每过一个日历年生物学上老多少年，一般在 1 左右），不是年龄，所以不算年龄偏差。"
+    },
+    {
+      "key": "blood_phenoage",
+      "label_zh": "血检表型年龄",
+      "aliases": [
+        "表型年龄",
+        "血液表型年龄",
+        "临床表型年龄",
+        "phenotypic age",
+        "Levine phenotypic age",
+        "clinical PhenoAge",
+        "blood PhenoAge",
+        "PhenoAge (blood)",
+        "PhenoAge（血检）"
+      ],
+      "unit": "a",
+      "range": [
+        10,
+        150
+      ],
+      "required": false,
+      "from": "measurements",
+      "output_of": [
+        "phenoage"
+      ],
+      "note_zh": "这是用九项血液指标算出的表型年龄，不是甲基化 PhenoAge。论文的基准表没有这一项，只算年龄偏差。这里要表型年龄（岁），不是表型年龄减实足年龄。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "aliases": [
+        "chronological age",
+        "年龄"
+      ],
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "论文的队列都是成年人。时钟表里每一行的 age 列也按这个范围检查。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "horvath_skin_blood_age_deviation",
+      "label_zh": "Horvath 皮肤和血液时钟年龄偏差（预测年龄减实足年龄）",
+      "unit": "a"
+    },
+    {
+      "key": "grimage2_age_deviation",
+      "label_zh": "GrimAge2 年龄偏差（预测年龄减实足年龄）",
+      "unit": "a"
+    },
+    {
+      "key": "grimage_age_deviation",
+      "label_zh": "GrimAge 年龄偏差（预测年龄减实足年龄）",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_phenoage_age_deviation",
+      "label_zh": "甲基化 PhenoAge 年龄偏差（预测年龄减实足年龄）",
+      "unit": "a"
+    },
+    {
+      "key": "blood_phenoage_age_deviation",
+      "label_zh": "血检表型年龄偏差（表型年龄减实足年龄）",
+      "unit": "a"
+    }
+  ]
+}

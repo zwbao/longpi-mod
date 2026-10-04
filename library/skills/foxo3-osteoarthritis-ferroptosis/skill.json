@@ -1,0 +1,47 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "foxo3-osteoarthritis-ferroptosis",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse",
+    "cell_line"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "基质、软骨与纤维化",
+    "长寿基因"
+  ],
+  "blurb_zh": "FOXO3 和正文点名的铁死亡相关基因，以及方向。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "肥胖骨关节炎小鼠和细胞实验，脚本只核对正文点名的基因名。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-025-59883-z",
+    "title": "Regulating obesity-induced osteoarthritis by targeting p53-FOXO3, osteoclast ferroptosis, and mesenchymal stem cell adipogenesis",
+    "title_zh": "用 p53 与 FOXO3 调节肥胖引起的骨关节炎",
+    "journal": "Nature Communications",
+    "year": 2025,
+    "authors": "Zhao 等",
+    "article_url": "https://www.nature.com/articles/s41467-025-59883-z",
+    "card_notes": [
+      "这次没有用到补充表。点名的基因在正文。Supplementary Table 1 是引物，不是系数。",
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究在小鼠和细胞里看肥胖相关的骨关节炎，主线是 p53 与 FOXO3，以及破骨细胞铁死亡。个人报告只核对你点到的基因名，没有把任何系数乘到你身上。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

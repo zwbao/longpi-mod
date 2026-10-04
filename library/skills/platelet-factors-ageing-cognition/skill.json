@@ -1,0 +1,45 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "platelet-factors-ageing-cognition",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "正文点名的血小板因子和炎症标志。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "老年小鼠血小板因子实验，脚本只照录正文点名标志的方向，不算分。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-023-06436-3",
+    "title": "Platelet factors attenuate inflammation and rescue cognition in ageing",
+    "title_zh": "血小板因子与老年认知",
+    "journal": "Nature",
+    "year": 2023,
+    "authors": "Schroer 等",
+    "article_url": "https://www.nature.com/articles/s41586-023-06436-3",
+    "card_notes": [
+      "没有用到补充表。",
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究说明，年轻血液制备物里的血小板因子可以减轻年老小鼠海马的炎症，并改善记忆测试。他们把血小板因子四当作其中一项可注射的因子，并指出受体 CXCR3 参与了这些变化。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

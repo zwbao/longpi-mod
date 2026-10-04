@@ -1,0 +1,83 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "sleep-chart-biological-ageing",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "睡眠小时数的分组。",
+  "intents": [
+    "wearable_sleep"
+  ],
+  "triage": {
+    "reason_zh": "用个人睡眠小时数按论文6和8小时切点分为短、正常、长三组。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-026-10524-5",
+    "title": "Sleep chart of biological ageing clocks in middle and late life",
+    "title_zh": "睡眠时长分组",
+    "journal": "Nature",
+    "year": 2026,
+    "authors": "The MULTI Consortium 等",
+    "article_url": "https://doi.org/10.1038/s41586-026-10524-5",
+    "summary_zh": "这项研究在英国生物样本库中把自报睡眠时长与来自影像、血浆蛋白质组和代谢组的多种生物年龄差对照，发现两者呈中间低两头高的关系，睡得过短或过长都与疾病和死亡风险升高相关。个人报告只把你交来的睡眠小时数放进论文的短、正常或长三组，不重算生物年龄差，也不把分组当作用药依据。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "sleep_hours",
+      "label_zh": "睡眠时长",
+      "aliases": [
+        "sleep",
+        "sleep duration",
+        "hours of sleep",
+        "total sleep time",
+        "睡眠小时数",
+        "睡眠时数",
+        "每晚睡眠时长",
+        "每日睡眠时长",
+        "平均睡眠时长",
+        "总睡眠时长",
+        "夜间睡眠时长"
+      ],
+      "unit": "h",
+      "accept": {
+        "min": 0.016666666666666666
+      },
+      "range": [
+        2,
+        16
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要平时每天睡几个小时。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "sleep_duration_bin",
+      "label_zh": "睡眠时长分组",
+      "note_zh": "短（<6 小时）、正常（6–8 小时）、长（>8 小时）。"
+    }
+  ]
+}

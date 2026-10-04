@@ -1,0 +1,46 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "human-skeletal-muscle-aging-atlas",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "骨骼肌"
+  ],
+  "blurb_zh": "点到的细胞或纤维，以及正文里的方向。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "人肋间肌单细胞图谱，脚本只查点名的细胞或纤维并附正文方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00613-3",
+    "title": "Human skeletal muscle aging atlas",
+    "title_zh": "人类骨骼肌衰老图谱",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Kedlian 等",
+    "article_url": "https://www.nature.com/articles/s43587-024-00613-3",
+    "supplements": [
+      {
+        "label": "Supplementary Table 3",
+        "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs43587-024-00613-3/MediaObjects/43587_2024_613_MOESM5_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/Teichlab/SKM_ageing_atlas",
+    "summary_zh": "这项研究把人的肋间肌做成单细胞和单核转录组图谱，并配了一套小鼠肌肉图谱。它写出肌干细胞、肌纤维类型和微环境免疫细胞随年龄的方向，补充表里的系数是队列对比，没有个人模型的截距。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

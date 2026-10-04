@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "plasma-protein-risk-score",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "衰弱与死亡风险"
+  ],
+  "blurb_zh": "髋部骨折相关蛋白，可带足跟超声 BUA 和 SOS。",
+  "intents": [
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "用补充表系数对个人标准化血浆蛋白算髋部骨折风险分，并按公式算超声骨密度。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00639-7",
+    "title": "A plasma protein-based risk score to predict hip fractures",
+    "title_zh": "髋部骨折蛋白读出",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Austin 等",
+    "article_url": "https://doi.org/10.1038/s43587-024-00639-7",
+    "summary_zh": "这项研究在“心血管健康研究”队列里用适配体蛋白组平台建立预测髋部骨折的血浆蛋白风险分，并在其他队列和抗体平台上验证，发现它在临床骨折风险工具之外只小幅提高了区分能力。个人报告只用你交来的按标准差计的蛋白值和论文补充表的系数算出蛋白风险分，给了足跟超声两项读数时再算超声骨密度，不把分数换算成你的骨折概率。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

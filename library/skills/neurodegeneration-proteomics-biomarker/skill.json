@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "neurodegeneration-proteomics-biomarker",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "神经退行相关血浆蛋白的符号和数值。",
+  "intents": [
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "人类多队列血浆蛋白研究，脚本只查测到且正文点名的蛋白并复述方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41591-025-03834-0",
+    "title": "The Global Neurodegeneration Proteomics Consortium: biomarker and drug target discovery for common neurodegenerative diseases and aging",
+    "title_zh": "神经退行蛋白",
+    "journal": "Nature Medicine",
+    "year": 2025,
+    "authors": "Imam 等",
+    "article_url": "https://doi.org/10.1038/s41591-025-03834-0",
+    "summary_zh": "这项研究由全球神经退行蛋白质组联盟汇集血浆、血清和脑脊液蛋白测量，覆盖阿尔茨海默病、帕金森病、额颞叶痴呆和肌萎缩侧索硬化，分析疾病特异的蛋白差异和APOE4携带相关的蛋白特征。个人报告只列出你测到且正文点过名的蛋白并复述正文写的升降方向，不估计效应量，也不把差异说成治疗依据。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

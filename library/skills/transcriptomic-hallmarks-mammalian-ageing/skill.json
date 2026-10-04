@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "transcriptomic-hallmarks-mammalian-ageing",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "multi_species"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "基因表达对照的转录组特征。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "跨物种转录组以啮齿类为主，脚本只查正文写明方向的基因，不算转录年龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-026-10542-3",
+    "title": "Universal transcriptomic hallmarks of mammalian ageing and mortality",
+    "title_zh": "转录组特征",
+    "journal": "Nature",
+    "year": 2026,
+    "authors": "Tyshkovskiy 等",
+    "article_url": "https://doi.org/10.1038/s41586-026-10542-3",
+    "summary_zh": "这项研究整合小鼠、大鼠、猕猴和人的多种组织转录组，建立预测年龄和预期死亡的转录组时钟，找出跨物种保守的衰老与死亡相关基因特征，并按功能模块分别构建时钟。个人报告只按正文顺序列出你测到、且正文点名的死亡时钟基因及其表达值和升高或降低方向，不给基因加权，也不计算转录组年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "hemispheric-brain-age",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "影像"
+  ],
+  "blurb_zh": "左右测量的侧化。",
+  "intents": [
+    "imaging"
+  ],
+  "triage": {
+    "reason_zh": "用个人左右脑影像测量按论文式(1)算侧化指数，不预测脑年龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-024-45282-3",
+    "title": "Brain asymmetries from mid- to late life and hemispheric brain age",
+    "title_zh": "半球侧化",
+    "journal": "Nature Communications",
+    "year": 2024,
+    "authors": "Korbmacher 等",
+    "article_url": "https://doi.org/10.1038/s41467-024-45282-3",
+    "summary_zh": "这项研究用英国生物银行参与者的结构和弥散磁共振指标考察大脑左右不对称随年龄的差异，发现多数灰质和白质指标存在不对称且在较晚年龄更明显，并分别用左右半球指标预测半球脑年龄。个人报告只按论文公式用你交来的左右两侧测量算出每个区域的侧化指数，即左减右再除以左加右，不预测脑年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

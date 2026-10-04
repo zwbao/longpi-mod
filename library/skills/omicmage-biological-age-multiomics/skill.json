@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "omicmage-biological-age-multiomics",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "多组学测定里保留下来的特征。",
+  "intents": [
+    "lab_meaning"
+  ],
+  "triage": {
+    "reason_zh": "人群多组学时钟，补充表3系数未公布，脚本只核对测量名是否在保留特征里。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01073-7",
+    "title": "OMICmAge quantifies biological age by integrating multi-omics with electronic medical records",
+    "title_zh": "多组学保留特征",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Chen 等",
+    "article_url": "https://doi.org/10.1038/s43587-026-01073-7",
+    "summary_zh": "这项研究先用医院生物样本库的常规化验建立反映死亡风险的病历年龄，再用甲基化和多组学数据复现它，得到的指标与慢性病和死亡密切相关，且只凭甲基化即可计算。个人报告只核对你交来的检测项目哪些落在论文保留的特征上，以及重建病历年龄的输入齐了几项，不计算你的个人生物年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ovarian-ageing-cancer-mutation",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "卵巢与生殖"
+  ],
+  "blurb_zh": "正文写出的绝经年龄差，以及 PALB2 和 PNPLA8 在补充表里的 Beta。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "按点名的基因和变异掩码查正文与补充表的绝经年龄效应，无截距不做个人计算。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-024-07931-x",
+    "title": "Genetic links between ovarian ageing, cancer risk and de novo mutation rates",
+    "title_zh": "卵巢衰老与癌症突变",
+    "journal": "Nature",
+    "year": 2024,
+    "authors": "Stankovic 等",
+    "article_url": "https://www.nature.com/articles/s41586-024-07931-x",
+    "supplements": [
+      {
+        "label": "Supplementary Tables",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-024-07931-x/MediaObjects/41586_2024_7931_MOESM3_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出自己的结果代码仓库。方法里用的软件是 REGENIE：https://github.com/rgcgithub/regenie"
+    ],
+    "summary_zh": "这项研究在蛋白编码区寻找和自然绝经年龄有关的罕见变异，并把其中一部分基因和癌症风险连在一起。它还检验了母亲的常见变异分数是否和后代的新生突变有关。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

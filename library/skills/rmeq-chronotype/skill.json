@@ -1,0 +1,192 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "rmeq-chronotype",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "昼夜节律"
+  ],
+  "blurb_zh": "晨型夜型问卷简版 rMEQ 的 5 道题相加（4–25 分），按发表的五档分出明确夜型、中度夜型、中间型、中度晨型、明确晨型。",
+  "intents": [
+    "wearable_sleep"
+  ],
+  "triage": {
+    "reason_zh": "用个人5道题的选项分相加，按论文的五档切点分出晨型夜型。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1016/0191-8869(91)90110-w",
+    "title": "Horne & Östberg morningness-eveningness questionnaire: A reduced scale",
+    "title_zh": "晨型夜型问卷简版 rMEQ",
+    "journal": "Personality and Individual Differences",
+    "year": 1991,
+    "authors": "Adan 和 Almirall",
+    "article_url": "https://www.sciencedirect.com/science/article/pii/019188699190110W",
+    "card_notes": [
+      "原文需要订阅，没有打开全文。rMEQ 用 19 题 MEQ 的第 1、7、10、18、19 题。总分 4–25 和五档（明确夜型 4–7、中度夜型 8–11、中间型 12–17、中度晨型 18–21、明确晨型 22–25）照两篇 CC BY 论文注明出自本文的引述（[Belfry 等 2020](https://doi.org/10.3389/fpsyt.2020.550597)、[Gooderick 等 2025](https://doi.org/10.1002/ejsc.12247)）。",
+      "每题选项的分值照 [Hwang 等 2024 表 1](https://doi.org/10.3346/jkms.2024.39.e257) 和 [Danielsson 等 2019](https://doi.org/10.1080/07420528.2018.1564322)：第 1、3、4 题 1–5，第 2 题 1–4，第 5 题 0、2、4、6。题目原文受版权保护（MEQ © 1976 Gordon and Breach），这里只按题号和主题描述。"
+    ],
+    "summary_zh": "这项研究从 19 题的 Horne-Östberg 晨型夜型问卷里选出 5 道题做成简版 rMEQ，并给出按总分划分晨型、中间型和夜型的五档切点。个人报告只把 5 题的选项分相加，按论文的五档说明你偏晨型还是夜型，不估算生物钟时间，也不开作息处方。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "rmeq_item1",
+      "label_zh": "rMEQ 第1题（完全自由安排时，几点起床）",
+      "aliases": [
+        "rMEQ 第1题",
+        "rMEQ q1",
+        "MEQ第1题",
+        "meq1",
+        "晨型问卷第1题",
+        "第1题",
+        "item1",
+        "q1"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        5
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题选项对应的分数。五个时段，越早分越高，记 5 到 1。"
+    },
+    {
+      "key": "rmeq_item2",
+      "label_zh": "rMEQ 第2题（早上醒来后半小时内有多累）",
+      "aliases": [
+        "rMEQ 第2题",
+        "rMEQ q2",
+        "MEQ第7题",
+        "meq7",
+        "晨型问卷第2题",
+        "第2题",
+        "item2",
+        "q2"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        4
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题选项对应的分数。四个选项，越清醒分越高，记 1 到 4。"
+    },
+    {
+      "key": "rmeq_item3",
+      "label_zh": "rMEQ 第3题（晚上几点开始觉得累、想睡）",
+      "aliases": [
+        "rMEQ 第3题",
+        "rMEQ q3",
+        "MEQ第10题",
+        "meq10",
+        "晨型问卷第3题",
+        "第3题",
+        "item3",
+        "q3"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        5
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题选项对应的分数。五个时段，越早分越高，记 5 到 1。"
+    },
+    {
+      "key": "rmeq_item4",
+      "label_zh": "rMEQ 第4题（一天里几点状态最好）",
+      "aliases": [
+        "rMEQ 第4题",
+        "rMEQ q4",
+        "MEQ第18题",
+        "meq18",
+        "晨型问卷第4题",
+        "第4题",
+        "item4",
+        "q4"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        5
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题选项对应的分数。五个时段，越早分越高，记 5 到 1。"
+    },
+    {
+      "key": "rmeq_item5",
+      "label_zh": "rMEQ 第5题（觉得自己是晨型还是夜型）",
+      "aliases": [
+        "rMEQ 第5题",
+        "rMEQ q5",
+        "MEQ第19题",
+        "meq19",
+        "晨型问卷第5题",
+        "第5题",
+        "item5",
+        "q5"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        6
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "填这一题选项对应的分数。四个选项只记 6、4、2、0：越偏晨型分越高。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "年龄不进得分。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "rmeq_score",
+      "label_zh": "rMEQ 总分",
+      "unit": "score",
+      "note_zh": "5 题相加，4–25，分越高越偏晨型。"
+    },
+    {
+      "key": "rmeq_chronotype",
+      "label_zh": "晨型夜型分档（Adan 和 Almirall 1991）",
+      "unit": "",
+      "note_zh": "明确夜型 4–7，中度夜型 8–11，中间型 12–17，中度晨型 18–21，明确晨型 22–25。"
+    }
+  ],
+  "related_not_same": [
+    "wearable-circadian-aging-biomarker",
+    "circadian-frailty-older-adults"
+  ]
+}

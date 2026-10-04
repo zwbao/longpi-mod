@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "senescent-macrophage-muscle-atrophy",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "骨骼肌"
+  ],
+  "blurb_zh": "总铁减亚铁得到的三价铁。小鼠实验化合物只出现名字。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "骨关节炎小鼠实验，输入是股四头肌铁测定值，化合物只列名不给剂量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00907-0",
+    "title": "Senescent macrophages induce ferroptosis in skeletal muscle and accelerate osteoarthritis-related muscle atrophy",
+    "title_zh": "衰老巨噬细胞与肌萎缩",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Xiang 等",
+    "article_url": "https://www.nature.com/articles/s43587-025-00907-0",
+    "supplements": [
+      {
+        "label": "Supplementary Information",
+        "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs43587-025-00907-0/MediaObjects/43587_2025_907_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库 URL。"
+    ],
+    "summary_zh": "这项研究说明骨关节炎小鼠的股四头肌里，衰老巨噬细胞会通过铁死亡加重肌萎缩。辅酶Q10 在小鼠实验里被用来减轻这种损伤，补充表没有个人剂量列。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

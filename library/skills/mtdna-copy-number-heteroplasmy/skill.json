@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "mtdna-copy-number-heteroplasmy",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "线粒体"
+  ],
+  "blurb_zh": "异质性质控分档、覆盖度、拷贝数、污染和 70 岁切点。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "用个人线粒体变异异质性、拷贝数和污染比例按论文质控切点分档。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-023-06426-5",
+    "title": "Nuclear genetic control of mtDNA copy number and heteroplasmy in humans",
+    "title_zh": "核基因与线粒体拷贝数",
+    "journal": "Nature",
+    "year": 2023,
+    "authors": "Gupta 等",
+    "article_url": "https://www.nature.com/articles/s41586-023-06426-5",
+    "code_url": "https://github.com/rahulg603/mtSwirl",
+    "summary_zh": "血液里的线粒体 DNA 拷贝数和异质性受核基因组影响。单核苷酸异质性多在年老后变多，插入缺失则常从母亲传来。拷贝数还随血细胞组成变化，所以未校正的拷贝数不能直接当成疾病风险。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

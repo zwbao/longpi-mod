@@ -1,0 +1,37 @@
+name: regenerate
+
+# After a merge to main, rebuild catalog.json, the README skill list, the
+# legacy registry and vendored copies, and commit them if they changed.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Rebuild
+        run: |
+          python -m tools.lsk registry --sync
+          python -m tools.lsk build
+          python -m tools.lsk check
+
+      - name: Commit generated files
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "longevity-skills-bot"
+            git config user.email "longevity-skills-bot@users.noreply.github.com"
+            git add -A catalog.json README.md skills/_registry registry skills
+            git commit -m "Regenerate catalog, README list and registry"
+            git push
+          fi

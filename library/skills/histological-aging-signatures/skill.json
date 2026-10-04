@@ -1,0 +1,181 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "histological-aging-signatures",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "影像"
+  ],
+  "blurb_zh": "组织切片的预测年龄相对实足年龄。",
+  "intents": [
+    "imaging",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "输入已算好的组织切片预测年龄和实足年龄，按论文定义算年龄差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41591-026-04566-5",
+    "title": "Histological aging signatures for monitoring tissue-specific aging and disease",
+    "title_zh": "组织切片年龄差",
+    "journal": "Nature Medicine",
+    "year": 2026,
+    "authors": "Abila 等",
+    "article_url": "https://doi.org/10.1038/s41591-026-04566-5",
+    "summary_zh": "这项研究用深度学习分析基因型组织表达项目里多种组织的大量全切片病理图像，量化随年龄出现的形态变化，建成组织时钟，并发现各器官的衰老加速与人口学、生活方式和医疗因素有关。个人报告只用你交来的组织预测年龄减去实足年龄，并在旁边附上论文全部组织的平均绝对误差，不从切片重新计算年龄，也不据此开始或停止任何药物。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age"
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "liver",
+      "label_zh": "肝预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "heart",
+      "label_zh": "心脏预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "lung",
+      "label_zh": "肺预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "kidney",
+      "label_zh": "肾预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "brain",
+      "label_zh": "脑预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "skin",
+      "label_zh": "皮肤预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "muscle",
+      "label_zh": "肌肉预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "adipose",
+      "label_zh": "脂肪预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "spleen",
+      "label_zh": "脾预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "pancreas",
+      "label_zh": "胰腺预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的组织预测年龄，不是从切片重算的。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "chromatin-rna-ageing-brain",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "每个核的短程互作计数。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "输入是死后额叶皮层单核MUSIC互作计数，活人无法获得，输出只是逐核分数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-024-07239-w",
+    "title": "Single-cell multiplex chromatin and RNA interactions in ageing human brain",
+    "title_zh": "染色质互作",
+    "journal": "Nature",
+    "year": 2024,
+    "authors": "Wen 等",
+    "article_url": "https://doi.org/10.1038/s41586-024-07239-w",
+    "summary_zh": "这项研究开发了在单个细胞核里同时读取多重染色质互作和基因表达的技术，用于老年捐献者的额叶皮层，发现短程互作较少的细胞核与更“老”的转录特征和阿尔茨海默病病理相关。个人报告只用你交来的各细胞核距离分箱计数算局部染色质结构侵蚀分数并对照论文分界，没有分箱时只把短程互作计数从少到多排列，不把哪个核称为年老或患病。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "blood-metabolome-brain-health",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "中年血液代谢物数值。",
+  "intents": [
+    "cognition_dementia",
+    "metabolomic_age"
+  ],
+  "triage": {
+    "reason_zh": "人群队列，脚本只照录14个认知相关代谢物数值和论文方向，均数差不乘，不算分。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01149-4",
+    "title": "The blood metabolome of brain health in midlife and influences of genes, microbiome and exposome",
+    "title_zh": "中年血液代谢与认知",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Ahmad 等",
+    "article_url": "https://doi.org/10.1038/s43587-026-01149-4",
+    "summary_zh": "这项研究在鹿特丹研究的无痴呆中年人中分析大量血液代谢物与认知和脑磁共振指标的关系，发现一组在其他队列可重复的认知相关代谢物，其中麦角硫因关联最强。个人报告只按论文的认知相关代谢物名单照录你交来的数值，标出论文里的关联方向并附正文的均数差，不把系数乘成个人分数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

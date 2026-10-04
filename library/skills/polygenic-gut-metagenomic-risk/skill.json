@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "polygenic-gut-metagenomic-risk",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "长寿基因"
+  ],
+  "blurb_zh": "病种，可带年龄、多基因分数和菌群分数。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "人群队列的Cox系数未公开，脚本只列病种常规因素并照录用户给的分数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00590-7",
+    "title": "Integration of polygenic and gut metagenomic risk prediction for common diseases",
+    "title_zh": "多基因与肠道菌群",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Liu 等",
+    "article_url": "https://doi.org/10.1038/s43587-024-00590-7",
+    "summary_zh": "这项研究在一个长期随访的人群队列里，比较多基因分数和肠道宏基因组分数在常规危险因素之外对冠心病、二型糖尿病、阿尔茨海默病和前列腺癌发病的预测增益，发现合用时预测最好。个人报告只列出论文脚本里该病种用到的常规因素，并照录你交来的年龄、多基因分数和菌群分数，不把它们换算成你的发病概率。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

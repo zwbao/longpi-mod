@@ -1,0 +1,77 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "retinal-aging-biomarkers-longitudinal",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "影像"
+  ],
+  "blurb_zh": "眼底照片（视网膜）的预测年龄或年龄箱概率。",
+  "intents": [
+    "imaging",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用视网膜预测年龄或77箱概率减实足年龄算年龄差，并对照2.79年误差带。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41746-025-01751-7",
+    "title": "A cross population study of retinal aging biomarkers with longitudinal pre-training and label distribution learning",
+    "title_zh": "视网膜年龄差",
+    "journal": "npj Digital Medicine",
+    "year": 2025,
+    "authors": "Yu 等",
+    "article_url": "https://doi.org/10.1038/s41746-025-01751-7",
+    "summary_zh": "这项研究用英国生物银行和中国健康人群的视网膜图像，结合纵向自监督预训练与标签分布学习，训练出估计视网膜年龄的模型，发现视网膜年龄差与全因死亡及多种年龄相关疾病风险升高有关。个人报告只用你交来的视网膜年龄或年龄箱概率的期望减去实足年龄，并对照健康队列的平均绝对误差，不把队列风险比套到你身上，也不据此开始或停止用药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ]
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "retinal_age",
+      "label_zh": "视网膜年龄",
+      "aliases": [
+        "视网膜年龄",
+        "retinal age"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "眼底模型已经给出的年龄，本技能不从图像重算。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ]
+}

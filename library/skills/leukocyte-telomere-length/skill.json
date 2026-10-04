@@ -1,0 +1,91 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "leukocyte-telomere-length",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "端粒"
+  ],
+  "blurb_zh": "已经 z 标准化的对数端粒。未标准化的比值留在原值。",
+  "intents": [
+    "telomere"
+  ],
+  "triage": {
+    "reason_zh": "用个人z标准化对数端粒按表2切点分四档，并按表3年龄斜率换算年数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-021-00166-9",
+    "title": "Measurement and initial characterization of leukocyte telomere length in 474,074 participants in UK Biobank",
+    "title_zh": "白细胞端粒",
+    "journal": "Nature Aging",
+    "year": 2022,
+    "authors": "Codd 等",
+    "article_url": "https://doi.org/10.1038/s43587-021-00166-9",
+    "summary_zh": "这项研究在英国生物银行的大批参与者中测量白细胞端粒长度，确认年龄较大和男性与端粒较短有关，非洲和华人血统者端粒比欧洲白人更长，并用相隔数年的成对样本估计个人前后测量的波动。个人报告只把你交来的标准化对数端粒值放进论文的四个分位档，并按年龄斜率换算成相当的年数，未标准化的比值只记录不分档，也不据此开始或停止任何药物。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "z",
+      "label_zh": "z 标准化对数端粒",
+      "aliases": [
+        "ltl_z",
+        "LTL z-score",
+        "z-standardised log LTL",
+        "z-standardized log LTL",
+        "端粒 z 值",
+        "z 标准化后的对数端粒"
+      ],
+      "unit": "1",
+      "range": [
+        -4,
+        4
+      ],
+      "required": true,
+      "from": "argument",
+      "flag": "--z",
+      "note_zh": "这里要论文那样先取对数、再做 z 标准化的值。未标准化的 T/S 比值（常在 0.5–2 之间）也落在这个范围里，不能当 z 用，只能用 --ltl 记下；以 kb 计的端粒长度也不是 z。"
+    },
+    {
+      "key": "ltl",
+      "label_zh": "未标准化端粒 T/S 比值",
+      "aliases": [
+        "T/S ratio",
+        "telomere T/S ratio",
+        "raw LTL",
+        "端粒 T/S 比值",
+        "T/S 比值",
+        "未标准化端粒比值"
+      ],
+      "unit": "1",
+      "range": [
+        0.1,
+        4
+      ],
+      "required": false,
+      "from": "argument",
+      "flag": "--ltl",
+      "note_zh": "这里要未标准化的 qPCR T/S 比值，只记下，不分档。以 kb 计的端粒长度和 z 值都不是这个比值。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "ltl_quartile",
+      "label_zh": "端粒分档",
+      "note_zh": "论文表 2 的四档：最短（z < -0.65）、次短（-0.65 ≤ z < -0.002）、次长（-0.002 ≤ z < 0.65）、最长（z ≥ 0.65）。只给了未标准化比值时不分档，值为空。"
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zwbao/longevity-skills/schema/claim.schema.json",
+  "title": "One row of evidence/claims.jsonl",
+  "description": "A named entity and what one paper states about it. Rows are copied from a paper's text, tables, or a skill's frozen presets; they are not inferred. The query skill longevity-evidence reads these rows.",
+  "type": "object",
+  "required": [
+    "id",
+    "entity",
+    "entity_type",
+    "claim_zh",
+    "species",
+    "evidence",
+    "source"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*:[A-Za-z0-9._+-]+$"
+    },
+    "entity": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "entity_zh": {
+      "type": "string"
+    },
+    "entity_type": {
+      "enum": [
+        "gene",
+        "protein",
+        "compound",
+        "drug",
+        "supplement",
+        "intervention",
+        "metabolite",
+        "variant",
+        "cell_type",
+        "pathway",
+        "biomarker",
+        "microbe",
+        "other"
+      ]
+    },
+    "aliases": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "claim_zh": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 300
+    },
+    "direction": {
+      "enum": [
+        "up",
+        "down",
+        "increase",
+        "decrease",
+        "extends_lifespan",
+        "shortens_lifespan",
+        "protective",
+        "harmful",
+        "associated",
+        "marker",
+        "no_effect",
+        "named"
+      ]
+    },
+    "context_zh": {
+      "type": "string"
+    },
+    "species": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "human",
+          "mouse",
+          "rat",
+          "naked_mole_rat",
+          "c_elegans",
+          "drosophila",
+          "zebrafish",
+          "killifish",
+          "planarian",
+          "butterfly",
+          "bowhead_whale",
+          "primate",
+          "yeast",
+          "cell_line",
+          "multi_species",
+          "other"
+        ]
+      }
+    },
+    "evidence": {
+      "enum": [
+        "rct",
+        "cohort",
+        "case_control",
+        "cross_sectional",
+        "animal",
+        "in_vitro",
+        "review",
+        "method",
+        "database"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "skill"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "doi": {
+          "type": "string",
+          "pattern": "^10\\.[0-9]{4,9}/\\S+$"
+        },
+        "skill": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "locator": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string",
+          "description": "Paper title, for rows the weekly pipeline adds under longevity-evidence (no skill directory of their own)."
+        },
+        "journal": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer",
+          "minimum": 1900,
+          "maximum": 2100
+        }
+      }
+    }
+  }
+}

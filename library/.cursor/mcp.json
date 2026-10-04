@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "biomcp": {
+      "command": "biomcp",
+      "args": [
+        "serve"
+      ]
+    },
+    "opengenes": {
+      "command": "uvx",
+      "args": [
+        "opengenes-mcp"
+      ],
+      "env": {
+        "MCP_PORT": "3001",
+        "MCP_HOST": "127.0.0.1",
+        "MCP_TRANSPORT": "stdio"
+      }
+    },
+    "synergy-age": {
+      "command": "uvx",
+      "args": [
+        "synergy-age-mcp"
+      ],
+      "env": {
+        "MCP_PORT": "3002",
+        "MCP_HOST": "127.0.0.1",
+        "MCP_TRANSPORT": "stdio"
+      }
+    },
+    "evipedia": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "evipedia-mcp"
+      ]
+    }
+  }
+}

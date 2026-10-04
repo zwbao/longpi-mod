@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "one-year-mortality-aging-marker",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "衰弱与死亡风险"
+  ],
+  "blurb_zh": "年龄和性别。一年死亡概率的回归系数没有印出。",
+  "intents": [
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "芬兰登记队列未公布系数和网络权重，只照录年龄和性别，不算死亡概率。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00657-5",
+    "title": "Deep learning-based prediction of one-year mortality in Finland is an accurate but unfair aging marker",
+    "title_zh": "一年死亡标记",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Vabalas 等",
+    "article_url": "https://www.nature.com/articles/s43587-024-00657-5",
+    "supplements": [
+      {
+        "label": "补充表",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-024-00657-5/MediaObjects/43587_2024_657_MOESM5_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/dsgelab/RNN",
+    "summary_zh": "这项研究用全国登记里多年的医疗和社会经济记录，预测短时间里的死亡。它还检查这种预测在不同人群里是否一样准，并把它看成一种衰老标记。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

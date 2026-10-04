@@ -1,0 +1,244 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "china-par-ascvd-risk",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "心血管"
+  ],
+  "blurb_zh": "收缩压、血脂、腰围、年龄和几个是否项到齐时，按 China-PAR 算中国成人的 10 年心血管病风险，男女都算。",
+  "intents": [
+    "frailty_mortality",
+    "lab_meaning"
+  ],
+  "triage": {
+    "reason_zh": "用补充表1的男女系数、均值和基线生存率算个人10年动脉粥样硬化性心血管病风险。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1161/circulationaha.116.022367",
+    "title": "Predicting the 10-Year Risks of Atherosclerotic Cardiovascular Disease in Chinese Population: The China-PAR Project (Prediction for ASCVD Risk in China)",
+    "title_zh": "中国人群 10 年动脉粥样硬化性心血管病风险预测（China-PAR）",
+    "journal": "Circulation",
+    "year": 2016,
+    "authors": "Yang 等",
+    "article_url": "https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.116.022367",
+    "supplements": [
+      {
+        "label": "论文与补充表（官方站点 PDF）",
+        "url": "https://www.cvdrisk.com.cn/uploadedFile/20171227114818843.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文只把系数印到两位小数，女性基线生存率只印到 0.99，都复现不了论文自己的结果。这里男性六个连续项系数由补充表 1 的“系数×值”列反推，女性基线生存率由女性计算示例反推；两者都复现论文表 2（四个年龄）误差在 1% 以内。",
+      "男性腰围系数在补充表 1 印作 −0.71（示例的系数×值 −3.12），不是符号写反。腰围变小会让男性模型风险变高，这不作为增减腰围的建议。女性腰围系数印作 1.48。"
+    ],
+    "summary_zh": "China-PAR 用中国四个队列的 2 万多名成人建立男女分开的 Cox 方程，按年龄、收缩压及是否降压治疗、总胆固醇、高密度脂蛋白胆固醇、腰围、吸烟、糖尿病、南北方，以及男性的城乡和家族史，估计 10 年动脉粥样硬化性心血管病风险，被 2019 年中国心血管病风险评估指南采用。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "sex_flag": "--sex",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true,
+    "targets_flag": "--targets",
+    "levers_json": true
+  },
+  "population": {
+    "age_years": [
+      35,
+      74
+    ],
+    "note_zh": "方程由 35–74 岁人群推导。年龄在此范围外时仍可计算，调用方应提示结果更不确定。"
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "sbp_mmhg",
+      "label_zh": "收缩压",
+      "aliases": [
+        "sbp",
+        "systolic",
+        "systolicPressures",
+        "收缩压(高压)",
+        "高压",
+        "SBP"
+      ],
+      "loinc": [
+        "8480-6"
+      ],
+      "unit": "mmHg",
+      "range": [
+        60,
+        260
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "论文用诊室坐位三次测量的平均值。"
+    },
+    {
+      "key": "tc_mg_dl",
+      "label_zh": "总胆固醇",
+      "aliases": [
+        "tc",
+        "total cholesterol",
+        "TC",
+        "CHOL",
+        "总胆固醇(TC)",
+        "血清总胆固醇"
+      ],
+      "loinc": [
+        "2093-3",
+        "14647-2"
+      ],
+      "unit": "mg/dL",
+      "accept": {
+        "mmol/L": 38.61
+      },
+      "molar_mass": 386.65,
+      "range": [
+        50,
+        600
+      ],
+      "unit_required": true,
+      "required": true,
+      "from": "measurements",
+      "note_zh": "论文按 mg/dL × 0.0259 = mmol/L 换算。"
+    },
+    {
+      "key": "hdl_mg_dl",
+      "label_zh": "高密度脂蛋白胆固醇",
+      "aliases": [
+        "hdl",
+        "hdl-c",
+        "HDL-C",
+        "高密度脂蛋白",
+        "高密度脂蛋白胆固醇(HDL-C)"
+      ],
+      "loinc": [
+        "2085-9",
+        "14646-4"
+      ],
+      "unit": "mg/dL",
+      "accept": {
+        "mmol/L": 38.61
+      },
+      "molar_mass": 386.65,
+      "range": [
+        10,
+        200
+      ],
+      "unit_required": true,
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "waist_cm",
+      "label_zh": "腰围",
+      "aliases": [
+        "waist",
+        "waist circumference",
+        "腰围(cm)",
+        "腹围"
+      ],
+      "unit": "cm",
+      "range": [
+        40,
+        200
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "论文在肚脐上 1 cm 处测量。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        20,
+        85
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "方程由 35–74 岁人群推导。"
+    },
+    {
+      "key": "sex",
+      "label_zh": "性别",
+      "required": true,
+      "from": "profile",
+      "flag": "--sex"
+    },
+    {
+      "key": "treated",
+      "label_zh": "两周内是否用过降压药",
+      "required": true,
+      "from": "argument",
+      "flag": "--treated"
+    },
+    {
+      "key": "smoker",
+      "label_zh": "现在是否吸烟",
+      "required": true,
+      "from": "argument",
+      "flag": "--smoker"
+    },
+    {
+      "key": "diabetes",
+      "label_zh": "是否有糖尿病",
+      "required": true,
+      "from": "argument",
+      "flag": "--diabetes",
+      "note_zh": "论文定义：空腹血糖 ≥126 mg/dL（7.0 mmol/L）或正在用降糖药。"
+    },
+    {
+      "key": "north",
+      "label_zh": "是否住在北方（长江以北）",
+      "required": true,
+      "from": "argument",
+      "flag": "--north"
+    },
+    {
+      "key": "urban",
+      "label_zh": "是否住在城市",
+      "required": false,
+      "from": "argument",
+      "flag": "--urban",
+      "note_zh": "男性方程必填；女性方程不用这一项。"
+    },
+    {
+      "key": "family_history",
+      "label_zh": "父母或兄弟姐妹是否有心梗或脑卒中",
+      "required": false,
+      "from": "argument",
+      "flag": "--family-history",
+      "note_zh": "男性方程必填；女性方程不用这一项。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "risk_10y_pct",
+      "label_zh": "10 年动脉粥样硬化性心血管病风险（China-PAR 模型估计）",
+      "unit": "%"
+    },
+    {
+      "key": "risk_category",
+      "label_zh": "风险分层（2019 中国指南）",
+      "unit": ""
+    }
+  ]
+}

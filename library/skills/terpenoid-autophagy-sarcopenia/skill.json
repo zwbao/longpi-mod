@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "terpenoid-autophagy-sarcopenia",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "zebrafish",
+    "mouse",
+    "cell_line"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "自噬"
+  ],
+  "blurb_zh": "正文点名的自噬激活物。香芹酚和百里香酚保留斑马鱼实验里的名次。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "斑马鱼筛选和SAMP8小鼠实验，脚本只列正文点名的自噬激活物。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00957-4",
+    "title": "Herbal terpenoids activate autophagy and mitophagy through modulation of bioenergetics and protect from metabolic stress, sarcopenia and epigenetic aging",
+    "title_zh": "草本萜类与自噬",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Civiletto 等",
+    "article_url": "https://www.nature.com/articles/s43587-025-00957-4",
+    "supplements": [
+      {
+        "label": "Supplementary Tables 1–2（MOESM3）",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-025-00957-4/MediaObjects/43587_2025_957_MOESM3_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/giulializzo/zebrafish_high_content_imaging",
+    "summary_zh": "这项研究在斑马鱼肌肉里筛食物来源的分子，点名百里香酚和香芹酚能促进自噬和线粒体自噬。小鼠实验还看到肌肉表现和表观遗传年龄的变化。时钟的位点权重没有印在论文里，实验浓度也不是个人用法。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "organ-specific-proteomic-aging",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "器官蛋白质的 z，可带出生到体检的天数。",
+  "intents": [
+    "proteomic_organ_age"
+  ],
+  "triage": {
+    "reason_zh": "对已算好的器官蛋白质年龄差z按论文±1.5标准差分档，并按天数换算年龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-01016-8",
+    "title": "Organ-specific proteomic aging clocks predict disease and longevity across diverse populations",
+    "title_zh": "器官蛋白质年龄差",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Wang 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-01016-8",
+    "summary_zh": "这项研究用血浆蛋白质组和机器学习在英国生物样本库建立全身和多个器官的衰老时钟，并在中国和美国队列验证，发现器官衰老加速能预测疾病发生和死亡，脑衰老与死亡关联最强。个人报告只按论文的标准差界值标注你交来的器官年龄差，并把你给的蛋白对照器官时钟名单，不用蛋白量推算年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

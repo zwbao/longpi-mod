@@ -1,0 +1,76 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "proteomic-aging-clock",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "蛋白质年龄相对实足年龄。",
+  "intents": [
+    "proteomic_organ_age"
+  ],
+  "triage": {
+    "reason_zh": "用已算好的蛋白质年龄减实足年龄得年龄差，并对照论文首尾5%均差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41591-024-03164-7",
+    "title": "Proteomic aging clock predicts mortality and risk of common age-related diseases in diverse populations",
+    "title_zh": "蛋白质年龄差",
+    "journal": "Nature Medicine",
+    "year": 2024,
+    "authors": "Argentieri 等",
+    "article_url": "https://doi.org/10.1038/s41591-024-03164-7",
+    "summary_zh": "这项研究在英国生物银行用血浆蛋白组建立蛋白质衰老时钟，筛出一组能准确预测年龄的蛋白，发现蛋白质衰老与多种慢性病、多病共存和全因死亡风险相关，并在中国和芬兰的样本库中预测年龄同样准确。个人报告只用你交来的蛋白质年龄减去实足年龄，并把你的蛋白按基因符号对到论文名单，不从蛋白量重算蛋白质年龄，也不据此开始或停止用药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ]
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "protage",
+      "label_zh": "蛋白质年龄",
+      "aliases": [
+        "蛋白质年龄",
+        "ProtAge"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "年龄差是蛋白质年龄减去实足年龄。没有 LightGBM 系数时不能从蛋白量重算。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ]
+}

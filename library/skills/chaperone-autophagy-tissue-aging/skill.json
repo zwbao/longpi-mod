@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "chaperone-autophagy-tissue-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "自噬"
+  ],
+  "blurb_zh": "双阳性点数和 LAMP1 点数都有时，有能力溶酶体的百分比。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "KFERQ-Dendra报告小鼠研究，输入是溶酶体荧光点计数，人没有这种测量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00799-6",
+    "title": "Sex-specific and cell-type-specific changes in chaperone-mediated autophagy across tissues during aging",
+    "title_zh": "组织里的伴侣介导自噬",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Khawaja 等",
+    "article_url": "https://www.nature.com/articles/s43587-024-00799-6",
+    "supplements": [
+      {
+        "label": "代码仓库",
+        "url": "https://github.com/amsegura/Khawaja_et_al_2024"
+      }
+    ],
+    "code_url": "https://github.com/amsegura/Khawaja_et_al_2024/blob/main/cmascore_genes.xlsx",
+    "summary_zh": "这项研究用荧光报告小鼠，按组织和细胞类型、并按性别，看衰老时的伴侣介导自噬。转录分数使用代码仓库里的基因方向和权重，再按参照细胞的均值和标准差做标准化。个人报告只在两种点计数都有时计算有能力溶酶体的百分比。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

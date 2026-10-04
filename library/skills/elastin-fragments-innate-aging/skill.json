@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "elastin-fragments-innate-aging",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human",
+    "mouse"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "基质、软骨与纤维化"
+  ],
+  "blurb_zh": "弹性蛋白片段相对 1500 pg/ml 和 250–680 pg/ml 的分组。",
+  "intents": [
+    "immune_inflammation"
+  ],
+  "triage": {
+    "reason_zh": "用个人血清弹性蛋白片段浓度，按人群队列的1500和250–680 pg/ml界值分组。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00961-8",
+    "title": "Elastin-derived extracellular matrix fragments drive aging through innate immune activation",
+    "title_zh": "弹性蛋白片段",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Yi 等",
+    "article_url": "https://www.nature.com/articles/s43587-025-00961-8",
+    "supplements": [
+      {
+        "label": "用到的补充表：图六源数据",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-025-00961-8/MediaObjects/43587_2025_961_MOESM9_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究测量血清里弹性蛋白、透明质酸和纤连蛋白碎片，发现它们随年龄升高。弹性蛋白里的一段短肽会经神经氨酸酶激活单核细胞和巨噬细胞。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

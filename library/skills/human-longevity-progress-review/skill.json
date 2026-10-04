@@ -1,0 +1,43 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "human-longevity-progress-review",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "human"
+  ],
+  "evidence": "review",
+  "domains": [
+    "长寿基因"
+  ],
+  "blurb_zh": "这篇综述没有给出可核对的基因或变异名单。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "西欧地区寿命趋势综述，正文没有点名任何基因或变异，没有可核对的内容。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-68828-z",
+    "title": "Potential and challenges for sustainable progress in human longevity",
+    "title_zh": "人类寿命可持续进展的潜力与挑战",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Bonnet 等",
+    "article_url": "https://www.nature.com/articles/s41467-026-68828-z",
+    "code_url": "https://osf.io/3dhmz/",
+    "card_notes": [
+      "这次没有用到补充表。综述没有基因表或变异表。"
+    ],
+    "summary_zh": "这篇综述讨论西欧地区预期寿命的增长为什么后来变慢，以及领先地区是否仍在延长寿命。它没有点名某一个基因或变异，所以个人报告只能告诉你写下的名字对不上。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

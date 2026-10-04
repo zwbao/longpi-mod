@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "sirtuin2-opc-remyelination",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "营养感应"
+  ],
+  "blurb_zh": "核内量除以总量。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠少突胶质前体细胞研究，输入是SIRT2核内量和总量的细胞读数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-022-28844-1",
+    "title": "Restoring nuclear entry of Sirtuin 2 in oligodendrocyte progenitor cells promotes remyelination during ageing",
+    "title_zh": "少突胶质前体细胞里的核内去乙酰化酶",
+    "journal": "Nature Communications",
+    "year": 2022,
+    "authors": "Ma 等",
+    "article_url": "https://www.nature.com/articles/s41467-022-28844-1",
+    "supplements": [
+      {
+        "label": "补充数据说明",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-022-28844-1/MediaObjects/41467_2022_28844_MOESM4_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "打开过补充数据说明。四份表是髓鞘分级、代谢组、蛋白质组和引物，这次计算没有用它们。",
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究看衰老时少突胶质前体细胞里 SIRT2 进入细胞核变少，以及补充一种 NAD 前体能否把进核和髓鞘修复带回来。你同时给出核内量和总量时，个人报告计算二者的比。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

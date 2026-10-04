@@ -1,0 +1,39 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "vulnerable-brain-regions",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "自己报告了的脆弱脑网络因素。",
+  "intents": [
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "只标出用户报告了Table 3十二项可改变因素中的哪些，相关系数不乘到个人。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-024-46344-2",
+    "title": "The effects of genetic and modifiable risk factors on brain regions vulnerable to ageing and disease",
+    "title_zh": "脆弱脑网络因素",
+    "journal": "Nature Communications",
+    "year": 2024,
+    "authors": "Manuello 等",
+    "article_url": "https://doi.org/10.1038/s41467-024-46344-2",
+    "summary_zh": "这项研究在英国生物样本库参与者中分析一组易受衰老和疾病影响的高阶脑区网络，找到与之相关的遗传位点，并发现糖尿病、交通相关的二氧化氮污染和饮酒频率是对它最不利的可改变因素。个人报告只按论文表格顺序标出你报告过的可改变因素并附论文的队列相关，不把相关当成你的个人风险分。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

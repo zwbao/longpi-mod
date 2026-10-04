@@ -1,0 +1,52 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "senolytic-human-brain-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "cell_line",
+    "mouse"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "老年保护"
+  ],
+  "blurb_zh": "用负的 P 值乘 logfc 的符号给基因排序。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "人脑类器官和小鼠实验，输入是基因差异表达P值和logFC，不是个人测量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-023-00519-6",
+    "title": "Senolytic therapy alleviates physiological human brain aging and COVID-19 neuropathology",
+    "title_zh": "衰老细胞清除与脑类器官",
+    "journal": "Nature Aging",
+    "year": 2023,
+    "authors": "Aguado 等",
+    "article_url": "https://www.nature.com/articles/s43587-023-00519-6",
+    "supplements": [
+      {
+        "label": "Supplementary Table 1",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-023-00519-6/MediaObjects/43587_2023_519_MOESM3_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-023-00519-6/MediaObjects/43587_2023_519_MOESM2_ESM.cppipe",
+    "card_notes": [
+      "论文没有给出独立的代码仓库。Supplementary Code 1 是 CellProfiler 流程。"
+    ],
+    "summary_zh": "这项研究在培养后的人脑类器官里看衰老细胞清除会怎样改变衰老标志。达沙替尼加槲皮素、纳维托克和 ABT-737 是类器官和小鼠实验里的处理，不是这个人的处方。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

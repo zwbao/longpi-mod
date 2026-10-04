@@ -1,0 +1,41 @@
+{
+  "hepassocin-ampk-liver-aging": {
+    "method": "HPS→ANXA2-ERK-p90RSK-LKB1→AMPK pathway claim list (no personal coefficients)",
+    "doi": "10.1038/s41392-026-02773-7",
+    "related_not_same": [
+      "ampk-aldolase-aldometanib",
+      "ampk-gamma1-refeeding-longevity",
+      "sirt1-hepatocyte-nampt"
+    ]
+  },
+  "endothelial-cebpb-aep-nampt": {
+    "method": "Endothelial C/EBPβ/AEP→NAMPT N136 cleavage pathway claim list",
+    "doi": "10.1126/sciadv.aed1961",
+    "related_not_same": [
+      "sirt1-hepatocyte-nampt",
+      "trigonelline-nad-precursor-muscle"
+    ]
+  },
+  "replicative-senescence-proteome": {
+    "method": "IMR90 equal-cell significant proteome gene/UniProt lookup",
+    "doi": "10.1038/s41467-026-77686-8",
+    "related_not_same": [
+      "ramanomics-senescence"
+    ]
+  },
+  "apoe2-pericyte-lipid": {
+    "method": "iPSC pericyte DIA APOE2 vs APOE3 significant protein lookup",
+    "doi": "10.1093/brain/awag311",
+    "related_not_same": [
+      "proteomic-apoe-alzheimers-signatures",
+      "serum-proteomics-apoe-signatures"
+    ]
+  },
+  "ramanomics-senescence": {
+    "method": "RamanOmics MOESM4 p21+ senescence DEG gene lookup (not spectral scoring)",
+    "doi": "10.1038/s43587-026-01219-7",
+    "related_not_same": [
+      "replicative-senescence-proteome"
+    ]
+  }
+}

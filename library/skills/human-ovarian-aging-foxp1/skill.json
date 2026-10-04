@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "human-ovarian-aging-foxp1",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "卵巢与生殖"
+  ],
+  "blurb_zh": "18–28、36–39 或 47–49 岁，以及细胞标志和 FOXP1。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "人卵巢转录组图谱，脚本只把年龄放进研究三组，并查点名的细胞类型和FOXP1。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00607-1",
+    "title": "Spatiotemporal transcriptomic changes of human ovarian aging and the regulatory role of FOXP1",
+    "title_zh": "人卵巢时空转录组",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Wu 等",
+    "article_url": "https://www.nature.com/articles/s43587-024-00607-1",
+    "supplements": [
+      {
+        "label": "Supplementary Table 2",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-024-00607-1/MediaObjects/43587_2024_607_MOESM3_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://zenodo.org/doi/10.5281/zenodo.10867453",
+    "summary_zh": "这项研究用单细胞和空间转录组描述人卵巢从年轻到年长的细胞变化。FOXP1 随年龄下降，并通过压低 CDKN1A 来抑制颗粒细胞衰老。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

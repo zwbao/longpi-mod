@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "senolytic-car-t-metabolic",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "老年保护"
+  ],
+  "blurb_zh": "两个对照 P 值是否都低于 0.05。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠CAR-T实验，输入只是两组对照比较的P值，属统计量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-023-00560-5",
+    "title": "Prophylactic and long-lasting efficacy of senolytic CAR T cells against age-related metabolic dysfunction",
+    "title_zh": "尿激酶受体的嵌合抗原受体",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Amor 等",
+    "article_url": "https://www.nature.com/articles/s43587-023-00560-5",
+    "supplements": [
+      {
+        "label": "Source Data Fig. 6",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-023-00560-5/MediaObjects/43587_2023_560_MOESM6_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/naikai/Amor_et_al_2023/",
+    "summary_zh": "这项研究用针对尿激酶型纤溶酶原激活物受体的嵌合抗原受体 T 细胞，在小鼠里看衰老相关的代谢变化。一次输注和糖耐量试验都是小鼠实验，不是这个人的处方。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

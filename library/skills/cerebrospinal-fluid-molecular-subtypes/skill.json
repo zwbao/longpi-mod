@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "cerebrospinal-fluid-molecular-subtypes",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "脑脊液蛋白。分型载荷不在已读材料里时，报告停在蛋白读出。",
+  "intents": [
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "人脑脊液蛋白组研究，分型载荷未公布，脚本只列五个亚型名字，不给个人分型。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-023-00550-7",
+    "title": "Cerebrospinal fluid proteomics in patients with Alzheimer’s disease reveals five molecular subtypes with distinct genetic risk profiles",
+    "title_zh": "脑脊液里的阿尔茨海默病亚型",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Tijms 等",
+    "article_url": "https://doi.org/10.1038/s43587-023-00550-7",
+    "summary_zh": "这项研究分析阿尔茨海默病患者脑脊液里的蛋白组，把患者分成几种分子亚型，并比较各亚型的遗传风险。个人报告只列出这些亚型的名字，不会用你交来的蛋白数值把你分进哪个亚型，因为分型载荷不在已读材料里。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

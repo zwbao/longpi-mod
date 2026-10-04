@@ -1,0 +1,45 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "circadian-nad-meibomian-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "昼夜节律"
+  ],
+  "blurb_zh": "NAD 浓度相对 HSD3B1 和 HSD3B2 的米氏常数。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "主要是小鼠睑板腺实验，脚本只把NAD浓度与体外酶米氏常数比较高低。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-021-00167-8",
+    "title": "Intracrine activity involving NAD-dependent circadian steroidogenic activity governs age-associated meibomian gland dysfunction",
+    "title_zh": "睑板腺的局部甾体合成",
+    "journal": "Nature Aging",
+    "year": 2022,
+    "authors": "Sasaki 等",
+    "article_url": "https://www.nature.com/articles/s43587-021-00167-8",
+    "card_notes": [
+      "这次没有用到补充表里的系数。RNA-seq 为 GSE166784，不写进个人报告。",
+      "论文没有给出代码仓库网址。"
+    ],
+    "summary_zh": "这项研究说明睑板腺里依赖 NAD 的 3β-HSD 随年龄下降，局部甾体合成变弱。人的同工酶是 HSD3B1，小鼠对应的是 Hsd3b6。个人报告只把 NAD 浓度和正文写出的米氏常数比较。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

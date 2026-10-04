@@ -1,0 +1,46 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "cilia-autophagy-cognitive-resilience",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "脑、认知与痴呆",
+    "自噬"
+  ],
+  "blurb_zh": "纤毛–自噬轴上的蛋白，以及纤毛长度。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠和培养神经元实验，脚本只列正文点名的纤毛自噬蛋白，纤毛长度不换算。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00791-0",
+    "title": "A primary cilia–autophagy axis in hippocampal neurons is essential to maintain cognitive resilience",
+    "title_zh": "海马神经元的纤毛与自噬",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Rivagorda 等",
+    "article_url": "https://www.nature.com/articles/s43587-024-00791-0",
+    "code_url": "https://doi.org/10.5061/dryad.dfn2z35bh",
+    "card_notes": [
+      "本次没有用补充表里的系数。"
+    ],
+    "summary_zh": "这项研究说明海马神经元的初级纤毛和自噬连在一起，血源性骨钙素要经过受体 GPR158 和纤毛核心蛋白才能带动自噬。恢复年老海马里的这根轴可以改善小鼠的认知读出。论文没有给出把纤毛长度或骨钙素换成认知分数的系数列。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

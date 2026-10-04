@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "divergent-white-matter-metabolic",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "影像"
+  ],
+  "blurb_zh": "预期白质和非典型白质的 SUVR 之差。",
+  "intents": [
+    "imaging",
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "用个人FDG-PET预期白质与非典型白质SUVR按论文定义相减得出差值。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-70707-6",
+    "title": "Divergent white matter metabolic signature patterns indicate impending cognitive decline in aging and dementia",
+    "title_zh": "白质葡萄糖代谢的差值",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Zhang 等",
+    "article_url": "https://doi.org/10.1038/s41467-026-70707-6",
+    "summary_zh": "这项研究用磁共振和正电子发射断层成像分析大量参与者的脑白质葡萄糖代谢，发现胼胝体和扣带等预期白质代谢高与认知较好相关，放射冠等非典型白质代谢高则与认知较差相关。个人报告只用你交来的两个白质区域的标准化摄取值比相减，得出预期白质减非典型白质的差值，这不是对你认知的预测。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

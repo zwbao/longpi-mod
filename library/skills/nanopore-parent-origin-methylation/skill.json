@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "nanopore-parent-origin-methylation",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "甲基化年龄，或一个位点的父本与母本甲基化。",
+  "intents": [
+    "epigenetic_age"
+  ],
+  "triage": {
+    "reason_zh": "用补充数据3的套索系数和个人标准化甲基化算甲基化年龄，也可算父本减母本差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-76240-w",
+    "title": "Nanopore sequencing identifies parent-of-origin specific age-associated methylation changes at imprinted loci in the human genome",
+    "title_zh": "印记位点甲基化读出",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Sigurpalsdottir 等",
+    "article_url": "https://doi.org/10.1038/s41467-026-76240-w",
+    "summary_zh": "这项研究用纳米孔长读长测序分析大量全血样本的DNA甲基化，建成甲基化衰老时钟，并把甲基化分到父源和母源单倍型上，发现带有亲本来源特异年龄效应的位点多在印记区域。个人报告只用已发表的套索系数和你交来的标准化甲基化值算甲基化年龄，给了对应数值时再写绝对误差或父本减母本的差，不对原始比例重新缩放，也不据此开始或停止用药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

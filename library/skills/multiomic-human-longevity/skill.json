@@ -1,0 +1,55 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "multiomic-human-longevity",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "长寿基因"
+  ],
+  "blurb_zh": "正文表 1 和表 2 里的基因，以及表上的正负号。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "人类遗传多组学研究，脚本只核对基因名是否在表1、表2并照录正负号。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-023-37729-w",
+    "title": "Multi-omic underpinnings of epigenetic aging and human longevity",
+    "title_zh": "表观遗传年龄与人类长寿的多组学基础",
+    "journal": "Nature Communications",
+    "year": 2023,
+    "authors": "Mavromatis 等",
+    "article_url": "https://www.nature.com/articles/s41467-023-37729-w",
+    "supplements": [
+      {
+        "label": "补充数据 1–47",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-023-37729-w/MediaObjects/41467_2023_37729_MOESM4_ESM.xlsx"
+      },
+      {
+        "label": "FUSION",
+        "url": "http://gusevlab.org/projects/fusion/"
+      }
+    ],
+    "card_notes": [
+      "补充数据已打开。个人名单仍只用正文表 1 和表 2 的基因和正负号。TWAS Z、Joint Beta 和药物靶点 Beta 是队列统计，没有拿来相乘。",
+      "论文没有单独的分析脚本仓库。点名的转录组插补流程是 [FUSION](http://gusevlab.org/projects/fusion/)。"
+    ],
+    "summary_zh": "这项研究把几种表观遗传年龄加速，以及综合了健康寿命、寿命和极端长寿的性状，对到基因的表达和可药靶点上。个人报告只核对你点到的基因是否写在正文的两张表里，不把表里的统计量乘成你的分数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

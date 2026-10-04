@@ -1,0 +1,37 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "stochastic-epigenetic-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "一个时钟的两个决定系数和一个效应大小。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "输入是时钟的两个决定系数和一个效应大小，属于队列统计量而非个人测量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00600-8",
+    "title": "Quantifying the stochastic component of epigenetic aging",
+    "title_zh": "表观遗传随机成分",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Tong 等",
+    "article_url": "https://doi.org/10.1038/s43587-024-00600-8",
+    "summary_zh": "这项研究先用免疫细胞的甲基化数据搭出随机变化的模拟模型，再在多个队列的血样上估计几种甲基化时钟的准确度里有多大一部分可以由随机过程解释。个人报告只按论文定义做两个决定系数的比值，并用已发表的伽马算位点切换概率，不把随机比例当成你的年龄加速。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

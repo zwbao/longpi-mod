@@ -1,0 +1,159 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "circadian-frailty-older-adults",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "衰弱与死亡风险",
+    "昼夜节律"
+  ],
+  "blurb_zh": "由 M10 和 L5 计算的相对振幅，以及两道题相加的疲劳分。",
+  "intents": [
+    "wearable_sleep",
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "用个人M10和L5按论文公式算相对振幅，并按两道CES-D题算疲劳分。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-023-42727-z",
+    "title": "Circadian disturbances and frailty risk in older adults",
+    "title_zh": "昼夜活动与衰弱",
+    "journal": "Nature Communications",
+    "year": 2023,
+    "authors": "Cai 等",
+    "article_url": "https://www.nature.com/articles/s41467-023-42727-z",
+    "supplements": [
+      {
+        "label": "MOESM4 源数据",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-023-42727-z/MediaObjects/41467_2023_42727_MOESM4_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/pliphd/Actigraphy",
+    "card_notes": [
+      "[MOESM4 源数据](https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-023-42727-z/MediaObjects/41467_2023_42727_MOESM4_ESM.xlsx) 已打开，里面没有五分位切点。MOESM1 是报告清单，MOESM3 是审稿意见，也都没有切点。",
+      "[代码](https://github.com/pliphd/Actigraphy)"
+    ],
+    "summary_zh": "这项研究在老年队列里把休息–活动节律和后来的衰弱联系起来。衰弱沿用五项身体表型，至少三项才算衰弱。个人报告只计算相对振幅和两道疲劳题。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "m10",
+      "label_zh": "M10（最活跃十小时平均活动）",
+      "aliases": [
+        "M10",
+        "M10VALUE",
+        "最活跃十小时",
+        "最活跃10小时",
+        "most active 10 hours"
+      ],
+      "range": [
+        0,
+        500000
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "M10 和 L5 用同一种活动量填（论文用活动计数，mg 加速度也行），单位列留空；相对振幅只看两者的比。不要填 M10 开始的钟点。"
+    },
+    {
+      "key": "l5",
+      "label_zh": "L5（最不活跃五小时平均活动）",
+      "aliases": [
+        "L5",
+        "L5VALUE",
+        "最不活跃五小时",
+        "最不活跃5小时",
+        "least active 5 hours"
+      ],
+      "range": [
+        0,
+        500000
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "L5 和 M10 用同一种活动量填，单位列留空。L5 不会比 M10 大。不要填 L5 开始的钟点。"
+    },
+    {
+      "key": "fatigue_effort",
+      "label_zh": "做事费力",
+      "aliases": [
+        "费力",
+        "everything I did was an effort",
+        "做每件事都费力"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "CES-D 疲劳题「我觉得做每件事都很费力」。答「是」记 1，「否」记 0；这里不收 0–3 的频度分。"
+    },
+    {
+      "key": "fatigue_going",
+      "label_zh": "提不起劲",
+      "aliases": [
+        "could not get going",
+        "I could not get going",
+        "提不起劲来做事"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "CES-D 疲劳题「我提不起劲来做事」。答「是」记 1，「否」记 0；这里不收 0–3 的频度分。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "年龄不进相对振幅和疲劳分的计算。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "relative_amplitude",
+      "label_zh": "相对振幅",
+      "unit": "1",
+      "note_zh": "(M10−L5)/(M10+L5)。"
+    },
+    {
+      "key": "fatigue_score",
+      "label_zh": "疲劳分",
+      "unit": "score",
+      "note_zh": "两道疲劳题相加，0 到 2。"
+    }
+  ]
+}

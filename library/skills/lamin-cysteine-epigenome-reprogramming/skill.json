@@ -1,0 +1,52 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "lamin-cysteine-epigenome-reprogramming",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse",
+    "cell_line"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "再生"
+  ],
+  "blurb_zh": "CTH、CBS、半胱氨酸相关代谢物和组蛋白标记的方向。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠胚胎干细胞实验，脚本只复述点名酶、代谢物和组蛋白标记的方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s42255-025-01443-2",
+    "title": "Lamin A/C-regulated cysteine catabolic flux modulates stem cell fate through epigenome reprogramming",
+    "title_zh": "核纤层半胱氨酸与干细胞命运",
+    "journal": "Nature Metabolism",
+    "year": 2026,
+    "authors": "Wang 等",
+    "article_url": "https://www.nature.com/articles/s42255-025-01443-2",
+    "supplements": [
+      {
+        "label": "补充材料页面",
+        "url": "https://www.nature.com/articles/s42255-025-01443-2#supplementary-information"
+      }
+    ],
+    "code_url": "https://github.com/thereddylab/LADetector",
+    "card_notes": [
+      "这个链接是正文引用的 DamID 分割流程，不是半胱氨酸通量模型。"
+    ],
+    "summary_zh": "这项研究说明核纤层蛋白通过半胱氨酸代谢改变干细胞的组蛋白乙酰化；正文附带的代码链接只覆盖 DamID 分割。个人报告只核对正文点名的酶、代谢物和组蛋白标记，不算通量系数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

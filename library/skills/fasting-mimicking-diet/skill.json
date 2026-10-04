@@ -1,0 +1,173 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "fasting-mimicking-diet",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "rct",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "两次已经算好的临床生物年龄之差。",
+  "intents": [
+    "before_after",
+    "intervention_evidence",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用两次已算好的临床生物年龄相减，并套用补充说明里的变化方程。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-024-45260-9",
+    "title": "Fasting-mimicking diet causes hepatic and blood markers changes indicating reduced biological age and disease risk",
+    "title_zh": "临床生物年龄的前后差",
+    "journal": "Nature Communications",
+    "year": 2024,
+    "authors": "Brandhorst 等",
+    "article_url": "https://doi.org/10.1038/s41467-024-45260-9",
+    "summary_zh": "这项研究对两项模拟断食饮食随机试验的血样做二次分析，观察胰岛素抵抗、肝脏脂肪、免疫细胞比例以及一种临床生物年龄指标在试验前后的变化。个人报告只把你交来的两次生物年龄相减，并把这个差放在试验完成者的中位数下降旁边，不从化验重算生物年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "biological_age_baseline",
+      "label_zh": "前一次（基线）临床生物年龄",
+      "aliases": [
+        "baseline_biological_age",
+        "bioage_baseline",
+        "baseline_bioage",
+        "biological_age_pre",
+        "基线生物年龄",
+        "前一次生物年龄",
+        "干预前生物年龄"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        130
+      ],
+      "required": true,
+      "from": "measurements",
+      "group": "biological_age",
+      "note_zh": "这里要生物年龄本身（岁），不是生物年龄减实足年龄的差；前后两次要用同一种方法算。论文里的生物年龄是七项指标的 KDM 年龄；换成表型年龄或别的时钟，前后差和论文的变化方程就不是同一个量。"
+    },
+    {
+      "key": "biological_age_followup",
+      "label_zh": "后一次（随访）临床生物年龄",
+      "aliases": [
+        "followup_biological_age",
+        "bioage_followup",
+        "followup_bioage",
+        "biological_age_post",
+        "随访生物年龄",
+        "后一次生物年龄",
+        "干预后生物年龄"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        130
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "biological_age",
+      "note_zh": "这里要生物年龄本身（岁），不是生物年龄减实足年龄的差；前后两次要用同一种方法算。论文里的生物年龄是七项指标的 KDM 年龄；换成表型年龄或别的时钟，前后差和论文的变化方程就不是同一个量。"
+    },
+    {
+      "key": "glucose_mg_dl",
+      "label_zh": "空腹血糖",
+      "aliases": [
+        "glucose",
+        "fasting glucose",
+        "FPG",
+        "FBG",
+        "GLU",
+        "血糖",
+        "葡萄糖",
+        "空腹葡萄糖"
+      ],
+      "loinc": [
+        "14771-0",
+        "1558-6",
+        "2345-7",
+        "14749-6"
+      ],
+      "unit": "mg/dL",
+      "accept": {
+        "mmol/L": 18.016
+      },
+      "molar_mass": 180.16,
+      "range": [
+        27,
+        720
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "只照录在报告里，不进生物年龄的计算。"
+    },
+    {
+      "key": "bmi",
+      "label_zh": "体重指数",
+      "aliases": [
+        "body mass index",
+        "体质指数",
+        "身体质量指数"
+      ],
+      "loinc": [
+        "39156-5"
+      ],
+      "unit": "kg/m^2",
+      "range": [
+        10,
+        100
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "只照录在报告里，不进生物年龄的计算。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "按出生日期算的年龄，不是生物年龄；只用于补充说明里的变化公式。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "bioage_change",
+      "label_zh": "后一次减前一次的生物年龄差",
+      "unit": "a"
+    },
+    {
+      "key": "bioage_change_predicted",
+      "label_zh": "变化公式预计的生物年龄变化",
+      "unit": "a",
+      "note_zh": "0.1017 − 0.1906×前一次生物年龄 + 0.1227×实足年龄（Zenodo 10472085 说明里的方程 5）。"
+    }
+  ]
+}

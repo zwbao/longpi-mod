@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "naked-mole-ovarian-reserve",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "naked_mole_rat"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "卵巢与生殖",
+    "比较生物学"
+  ],
+  "blurb_zh": "切片计数按正文的校正因子换成卵巢储备。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "裸鼹鼠卵巢切片计数按正文校正因子换算储备，输入是动物日龄和切片数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-023-36284-8",
+    "title": "Postnatal oogenesis leads to an exceptionally large ovarian reserve in naked mole-rats",
+    "title_zh": "裸鼹鼠的卵巢储备",
+    "journal": "Nature Communications",
+    "year": 2023,
+    "authors": "Brieño-Enríquez 等",
+    "article_url": "https://www.nature.com/articles/s41467-023-36284-8",
+    "supplements": [
+      {
+        "label": "Supplementary Data 19",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-023-36284-8/MediaObjects/41467_2023_36284_MOESM7_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究描述裸鼹鼠出生后仍在进行的卵子发生，并用切片计数估算卵巢储备。个人报告只用正文写出的校正因子。补充数据里各只动物的计数不充当个人结果。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

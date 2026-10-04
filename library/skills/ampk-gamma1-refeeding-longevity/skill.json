@@ -1,0 +1,227 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ampk-gamma1-refeeding-longevity",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human",
+    "killifish"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "营养感应"
+  ],
+  "blurb_zh": "八个分项到齐时的平均分和分档。",
+  "intents": [
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "论文以鳉鱼实验为主，但脚本只用人队列方法段，把八项预后指数点数求均值并分三档。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-023-00521-y",
+    "title": "Refeeding-associated AMPKγ1 complex activity is a hallmark of health and longevity",
+    "title_zh": "再喂食时的调节亚基与预后指数",
+    "journal": "Nature Aging",
+    "year": 2023,
+    "authors": "Ripa 等",
+    "article_url": "https://www.nature.com/articles/s43587-023-00521-y",
+    "supplements": [
+      {
+        "label": "补充信息",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-023-00521-y/MediaObjects/43587_2023_521_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "打开过这份补充信息。里面是各年龄段人数和引物，这次计算没有用那些人数。",
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究在青鳉鱼里看再喂食时 AMPK 的 γ1 亚基，并在人的血细胞里把 PRKAG1 和多维预后指数放在一起。个人报告把你给出的八个分项点数相加后除以八，再按方法段的三档命名。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "name",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "adl",
+      "label_zh": "日常生活活动",
+      "aliases": [
+        "activities of daily living"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "group": "mpi",
+      "note_zh": "这里要多维预后指数里这一项的点数（0 到 1），不是原始量表分；原始分写成 adl_raw，只记下，不换算。"
+    },
+    {
+      "key": "iadl",
+      "label_zh": "工具性日常生活活动",
+      "aliases": [
+        "instrumental activities of daily living"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "group": "mpi",
+      "note_zh": "这里要多维预后指数里这一项的点数（0 到 1），不是原始量表分。"
+    },
+    {
+      "key": "spmsq",
+      "label_zh": "简易智力状态",
+      "aliases": [
+        "Short Portable Mental Status Questionnaire"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "group": "mpi",
+      "note_zh": "这里要多维预后指数里这一项的点数（0 到 1），不是原始量表分。"
+    },
+    {
+      "key": "cirs_ci",
+      "label_zh": "累积疾病指数",
+      "aliases": [
+        "cirs",
+        "Cumulative Illness Rating Scale"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "group": "mpi",
+      "note_zh": "这里要多维预后指数里这一项的点数（0 到 1），不是原始量表分。"
+    },
+    {
+      "key": "mna_sf",
+      "label_zh": "简易营养评定",
+      "aliases": [
+        "mna",
+        "Mini Nutritional Assessment"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "group": "mpi",
+      "note_zh": "这里要多维预后指数里这一项的点数（0 到 1），不是原始量表分。"
+    },
+    {
+      "key": "ess",
+      "label_zh": "Exton Smith 量表",
+      "aliases": [
+        "extonsmith",
+        "Exton-Smith Scale"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "group": "mpi",
+      "note_zh": "这里要多维预后指数里这一项的点数（0 到 1），不是原始量表分。"
+    },
+    {
+      "key": "nm",
+      "label_zh": "用药种数",
+      "aliases": [
+        "number of medications"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "group": "mpi",
+      "note_zh": "这里要多维预后指数里这一项的点数（0 到 1），不是用药的种数。"
+    },
+    {
+      "key": "social",
+      "label_zh": "社会支持",
+      "aliases": [
+        "social support"
+      ],
+      "unit": "score",
+      "range": [
+        0,
+        1
+      ],
+      "required": true,
+      "from": "measurements",
+      "group": "mpi",
+      "note_zh": "这里要多维预后指数里这一项的点数（0 到 1），不是原始量表分。"
+    },
+    {
+      "key": "prkag1",
+      "label_zh": "PRKAG1 表达",
+      "aliases": [
+        "PRKAG1 表达量"
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "只照录，单位列留空。论文没有印出斜率和截距，不换成预后指数。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "不进入指数；给了只在报告里记一句。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "mpi",
+      "label_zh": "多维预后指数",
+      "unit": "score",
+      "note_zh": "八个分项点数相加再除以八。"
+    },
+    {
+      "key": "mpi_group",
+      "label_zh": "多维预后指数分档",
+      "note_zh": "MPI-1（0–0.33）、MPI-2（0.34–0.66）或 MPI-3（0.67–1）。落在 0.33 与 0.34 之间的空档，或 0.66 与 0.67 之间（方法段和图对第三档起点的写法不一致）时不分档，为空。"
+    }
+  ]
+}

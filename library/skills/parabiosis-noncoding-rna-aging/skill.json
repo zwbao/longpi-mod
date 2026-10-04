@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "parabiosis-noncoding-rna-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "再生"
+  ],
+  "blurb_zh": "八个全局衰老 miRNA，以及 Eln、Col1a1 和 Col3a1 的方向。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠各器官非编码RNA图谱，脚本只核对正文点名的八个miRNA和方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41587-023-01751-6",
+    "title": "Characterizing expression changes in noncoding RNAs during aging and heterochronic parabiosis across mouse tissues",
+    "title_zh": "非编码核糖核酸衰老轨迹",
+    "journal": "Nature Biotechnology",
+    "year": 2024,
+    "authors": "Wagner 等",
+    "article_url": "https://www.nature.com/articles/s41587-023-01751-6",
+    "supplements": [
+      {
+        "label": "补充材料页面",
+        "url": "https://www.nature.com/articles/s41587-023-01751-6#supplementary-information"
+      }
+    ],
+    "card_notes": [
+      "论文写明分析代码向通讯作者索取，没有给出代码仓库 URL。"
+    ],
+    "summary_zh": "这项研究画出小鼠各器官非编码核糖核酸随年龄和异时联体的变化，并点名一组跨组织的微小核糖核酸。个人报告只核对这些正文点名的名字和方向，不算相关系数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

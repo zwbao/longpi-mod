@@ -14,6 +14,7 @@ import { resolveDataDir, resolveRootDir, skillsHomeCandidates } from '../core/pa
 import { setRecordDir } from '../core/mcp.ts'
 import { setRevision } from '../core/catalog.ts'
 import { registerRecordTools } from './record-tool.ts'
+import { newer } from './setup.ts'
 
 export type Runtime = {
   ctx: HostContext
@@ -59,22 +60,38 @@ async function firstFile(io: Io, paths: readonly string[]): Promise<string> {
   return ''
 }
 
+/** The Python the method scripts run with: LongPi's own environment first, else one of the system's (3.9+). */
 export async function findPython(io: Io, home: string, configured: string): Promise<string> {
-  const venvs = [configured, join(home, '.longpi', '.venv', 'bin', 'python'), join(home, 'longpi', '.venv', 'bin', 'python')]
+  const venvs = [configured, join(home, '.longpi', '.venv', 'bin', 'python')]
   const found = await firstFile(io, venvs)
   if (found) return found
-  for (const name of ['python3.13', 'python3.12', 'python3']) {
-    const probe = await io.run([name, '-c', 'import sys;print(sys.version_info[:2] >= (3, 10))'], { timeoutMs: 10_000 }).catch(() => null)
+  for (const name of ['python3.13', 'python3.12', 'python3.11', 'python3.10', 'python3']) {
+    const probe = await io.run([name, '-c', 'import sys;print(sys.version_info[:2] >= (3, 9))'], { timeoutMs: 10_000 }).catch(() => null)
     if (probe && probe.exitCode === 0 && probe.stdout.trim() === 'True') return name
   }
   return ''
 }
 
-export async function findSkillsHome(io: Io, configured: string): Promise<string> {
-  for (const dir of skillsHomeCandidates(configured)) {
-    const stat = await io.stat(join(dir, 'catalog.json')).catch(() => null)
-    if (stat && stat.kind === 'file') return dir
-  }
+async function versionAt(io: Io, dir: string): Promise<string | null> {
+  const stat = await io.stat(join(dir, 'catalog.json')).catch(() => null)
+  if (!stat || stat.kind !== 'file') return null
+  return (await io.read(join(dir, 'VERSION')).catch(() => '0')).trim() || '0'
+}
+
+/**
+ * The method library: one the person named (config, LONGEVITY_SKILLS_HOME) as they named it; otherwise the copy that
+ * ships in the mod, or the weekly update in ~/.longpi when that one is newer.
+ */
+export async function findSkillsHome(io: Io, configured: string, pluginRoot = '', home = ''): Promise<string> {
+  const explicit = [configured, host().env.LONGEVITY_SKILLS_HOME ?? ''].map((dir) => dir.trim()).filter(Boolean)
+  for (const dir of explicit) if (await versionAt(io, dir)) return dir
+  const bundled = pluginRoot ? join(pluginRoot, 'library') : ''
+  const updated = home ? join(home, '.longpi', 'longevity-skills') : ''
+  const vb = bundled ? await versionAt(io, bundled) : null
+  const vu = updated ? await versionAt(io, updated) : null
+  if (vu && (!vb || newer(vu, vb))) return updated
+  if (vb) return bundled
+  for (const dir of skillsHomeCandidates(configured)) if (await versionAt(io, dir)) return dir
   return ''
 }
 
@@ -128,7 +145,7 @@ export async function boot(options: BootOptions): Promise<Runtime> {
   const config = configFrom(options.config)
   const rootDir = resolveRootDir(config.dataDir)
   setRecordDir(() => resolveDataDir(config.dataDir))
-  const skillsHome = await findSkillsHome(options.io, config.skillsHome)
+  const skillsHome = await findSkillsHome(options.io, config.skillsHome, options.pluginRoot, options.home)
   const python = await findPython(options.io, options.home, config.skillPython)
   if (python && !config.skillPython) config.skillPython = python
   if (skillsHome && !config.skillsHome) config.skillsHome = skillsHome
@@ -164,7 +181,7 @@ export async function reloadLibrary(): Promise<Runtime | null> {
   const rt = current
   if (!rt) return null
   const io = host().io
-  const skillsHome = await findSkillsHome(io, '')
+  const skillsHome = await findSkillsHome(io, '', host().pluginRoot, host().home)
   const python = await findPython(io, host().home, '')
   if (skillsHome) {
     await loadLibrary(io, skillsHome, python)

@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "rapamycin-enterocyte-sex",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "drosophila",
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "老年保护"
+  ],
+  "blurb_zh": "处理后面积除以对照面积，并按雌雄写自噬方向。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "果蝇和小鼠实验，输入是肠细胞面积和p62条带这类实验读数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-022-00308-7",
+    "title": "Sexual identity of enterocytes regulates autophagy to determine intestinal health, lifespan and responses to rapamycin",
+    "title_zh": "肠细胞性别与雷帕霉素",
+    "journal": "Nature Aging",
+    "year": 2022,
+    "authors": "Regan 等",
+    "article_url": "https://www.nature.com/articles/s43587-022-00308-7",
+    "supplements": [
+      {
+        "label": "Supplementary Tables",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-022-00308-7/MediaObjects/43587_2022_308_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究比较雌雄肠细胞对雷帕霉素的自噬反应。雌性肠细胞的性别身份会改细胞大小，并经组蛋白和 Bchs 改变自噬；雄性肠细胞的基础自噬已经较高。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

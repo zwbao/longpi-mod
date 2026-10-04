@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "scepiage-single-cell-ageing",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "单细胞甲基化周龄。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠血液单细胞甲基化时钟，位点是小鼠基因组坐标，只算小鼠周龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-024-51833-5",
+    "title": "scEpiAge: an age predictor highlighting single-cell ageing heterogeneity in mouse blood",
+    "title_zh": "单细胞甲基化周龄",
+    "journal": "Nature Communications",
+    "year": 2024,
+    "authors": "Bonder 等",
+    "article_url": "https://doi.org/10.1038/s41467-024-51833-5",
+    "code_url": "https://github.com/EpigenomeClock/scEpiAge",
+    "summary_zh": "这项研究用单细胞甲基化位点的期望矩阵预测小鼠血液周龄。主位点缺失时，按备份表补一个已经给出的备份位点。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,94 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "face-aging-rate-cancer",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "两次面容年龄和间隔天数算出的面容老化速率。",
+  "intents": [
+    "before_after",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用两次面容年龄之差除以间隔年数算个人面容老化速率，并对照分档界值。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-025-66758-w",
+    "title": "Face aging rate quantifies change in biological age to predict cancer outcomes",
+    "title_zh": "面容老化速率",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Haugg 等",
+    "article_url": "https://doi.org/10.1038/s41467-025-66758-w",
+    "summary_zh": "这项研究用人工智能从肿瘤放疗患者先后拍的面部照片估计生物年龄，把两次面容年龄之差除以间隔时间定义为面容老化速率，发现速率较高与总生存较差相关。个人报告只用你交来的两次面容年龄和相隔天数算出面容老化速率并对照所在间隔档的界值，不从照片估算面容年龄，也不把队列风险比当成你的个人风险。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ]
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "face_age_1",
+      "label_zh": "第一次面容年龄",
+      "aliases": [
+        "faceage1",
+        "第一次面容年龄"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "face_age_2",
+      "label_zh": "第二次面容年龄",
+      "aliases": [
+        "faceage2",
+        "第二次面容年龄"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "interval_days",
+      "label_zh": "两次间隔天数",
+      "aliases": [
+        "间隔天数",
+        "days"
+      ],
+      "unit": "d",
+      "range": [
+        1,
+        2000
+      ],
+      "required": true,
+      "from": "measurements"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+NOTICE — third-party attribution
+=================================
+
+The clock coefficient files and the methylation reference distributed under
+epigenetic-clocks/data/ are derived from the open-source biolearn library and
+the original clock publications. They are redistributed here for research and
+educational use.
+
+biolearn
+--------
+- Project: https://bio-learn.github.io/  (https://github.com/bio-learn/biolearn)
+- License: MIT
+- Files derived from biolearn's bundled data:
+    GrimAgeV1.csv, GrimAgeV2.csv, Horvath1.csv, Hannum.csv, PhenoAge.csv,
+    sesame_450k_median.csv (subset to the CpGs used by the bundled clocks)
+
+Original clock publications
+---------------------------
+- GrimAge (V1): Lu AT, et al. "DNA methylation GrimAge strongly predicts
+  lifespan and healthspan." Aging (Albany NY), 2019. PMC6366976.
+- GrimAge V2: Lu AT, et al. Aging (Albany NY), 2022. PMC9792204.
+- Horvath multi-tissue clock: Horvath S. Genome Biology, 2013. (DOI
+  10.1186/gb-2013-14-10-r115)
+- Hannum clock: Hannum G, et al. Molecular Cell, 2013.
+- PhenoAge (Levine): Levine ME, et al. Aging (Albany NY), 2018. Article 101414.
+- DNAmTL: Lu AT, et al. "DNA methylation-based estimator of telomere length."
+  Aging (Albany NY), 2019. DOI: 10.18632/aging.102173. The positive intercept
+  +7.924780053 and all 140 CpG weights were checked against Supplementary Data 1,
+  worksheet DNAmLTL_addgene_addmQTL. The original-source CSV in tests/fixtures/
+  is a transcription of those numeric coefficients; see references/model-audit.md
+  within the skill for source URLs and the workbook SHA-256.
+- Bocklandt: Bocklandt S, et al. PLoS ONE, 2011. DOI: 10.1371/journal.pone.0014821.
+  The bundled one-CpG identity score does not implement the published age regression.
+- Garagnani: Garagnani P, et al. Aging Cell, 2012. DOI: 10.1111/acel.12005.
+  The bundled one-CpG score returns ELOVL2 beta, not a calibrated age.
+- Stochastic clocks: Tong H, et al. Nature Aging, 2024.
+  DOI: 10.1038/s43587-024-00600-8. StocZ predicts age, not mortality risk.
+- McCartney DL, et al. Genome Biology, 2018. DOI: 10.1186/s13059-018-1514-1.
+  Original Additional file 1 supplies the 4,307 trait-score weights transcribed
+  in tests/fixtures/McCartney2018_original.tsv. These are raw linear scores;
+  unsupported sigmoid transforms inherited from biolearn have been removed.
+
+GrimAge usage restriction
+-------------------------
+GrimAge is subject to commercial-use restrictions held by UCLA TDG and licensed
+via the Clock Foundation (https://clockfoundation.org/). For cosmetics or
+life-insurance applications, or any other commercial usage, contact the Clock
+Foundation regarding licensing. This repository provides a free
+research/educational reimplementation only.
+
+SeSAMe preprocessing and bundled array references
+------------------------------------------------
+- SeSAMe: Wanding Zhou and contributors; https://github.com/zwdzwd/sesame
+  Package license: MIT (2024, Wanding Zhou). The IDAT workflow calls the installed
+  SeSAMe package; it does not vendor its implementation.
+- sesameData 1.24.0: Wanding Zhou and contributors;
+  https://bioconductor.org/packages/sesameData/ ; package license: Artistic-2.0.
+  A copy is included at epigenetic-clocks/data/SESAME_DATA_LICENSE.txt.
+- epigenetic-clocks/data/sesame-reference-cache.tar.gz contains a selected,
+  unmodified set of public sesameData/ExperimentHub annotation objects and the
+  public Hub metadata needed for offline lookup. Only the cache registry is
+  trimmed and its file paths made relative for relocation. It is a subset of
+  sesameData resources, not a distribution of the full sesameData package.
+- Resource titles, ExperimentHub accessions, sizes, package versions and SHA-256
+  hashes are recorded in epigenetic-clocks/data/sesame-resources.json. Original
+  resource files remain byte-for-byte as cached from ExperimentHub.
+- SeSAMe paper: Zhou W, Triche TJ Jr, Laird PW, Shen H. "SeSAMe: reducing
+  artifactual detection of DNA methylation by Infinium BeadChips in genomic
+  deletions." Nucleic Acids Research, 2018. DOI: 10.1093/nar/gky691.
+
+Disclaimer
+----------
+This software is provided for research and educational purposes only. It is not
+a medical device and does not provide medical advice, diagnosis, or treatment.

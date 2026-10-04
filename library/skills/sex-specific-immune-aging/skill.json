@@ -1,0 +1,38 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "sex-specific-immune-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "单细胞免疫衰老轨迹。补充材料没有保存多层感知机。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "人类研究但多层感知机权重未公开，脚本不算年龄也不列任何名单，无可核对内容。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-76737-4",
+    "title": "Sex-specific trajectories of nonlinear immune aging at single-cell level",
+    "title_zh": "单细胞免疫衰老轨迹",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Park 等",
+    "article_url": "https://www.nature.com/articles/s41467-026-76737-4",
+    "summary_zh": "这项研究按性别看外周血免疫细胞随年龄的变化，并用多层感知机预测年龄。补充材料是说明文件，公开代码没有保存训练好的网络，所以个人报告不算预测年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,7 @@
+```bash
+python3 "$SKILL/scripts/personal_report.py" \
+  --measurements MEASUREMENTS.csv \
+  --medications MEDS.txt \
+  --labs CHECKUP.csv \
+  --out out/
+```

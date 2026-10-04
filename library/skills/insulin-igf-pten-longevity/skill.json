@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "insulin-igf-pten-longevity",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "c_elegans"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "营养感应"
+  ],
+  "blurb_zh": "是不是论文点名的 PTEN 替换。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "线虫遗传实验，脚本只核对给出的替换是否为正文点名的DAF-18或PTEN替换。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-021-25920-w",
+    "title": "A PTEN variant uncouples longevity from impaired fitness in Caenorhabditis elegans with reduced insulin/IGF-1 signaling",
+    "title_zh": "胰岛素通路里的磷酸酶变体",
+    "journal": "Nature Communications",
+    "year": 2021,
+    "authors": "Park 等",
+    "article_url": "https://www.nature.com/articles/s41467-021-25920-w",
+    "supplements": [
+      {
+        "label": "补充信息",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-021-25920-w/MediaObjects/41467_2021_25920_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "打开过这份补充信息里的等位基因表。这次计算没有用生存数据集里的数字。",
+      "论文没有给出代码仓库。转录组在 GEO：GSE154338。"
+    ],
+    "summary_zh": "这项研究在胰岛素信号减弱的线虫里找到 DAF-18 的一个氨基酸替换，长寿还在，运动缺陷减轻。同位置的人源蛋白替换也在正文里做了酶活测定。个人报告只核对你给出的替换名字。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "epigenetic-aging-naked-mole",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "naked_mole_rat"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "甲基化",
+    "比较生物学"
+  ],
+  "blurb_zh": "26 个位点到齐时的裸鼹鼠血液甲基化年龄。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "裸鼹鼠血液甲基化时钟，非人类证据，人只能得到按最大寿命换算的相对年龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-022-27959-9",
+    "title": "Epigenetic aging of the demographically non-aging naked mole-rat",
+    "title_zh": "裸鼹鼠血液时钟",
+    "journal": "Nature Communications",
+    "year": 2022,
+    "authors": "Kerepesi 等",
+    "article_url": "https://www.nature.com/articles/s41467-022-27959-9",
+    "supplements": [
+      {
+        "label": "Supplementary Data 4",
+        "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-022-27959-9/MediaObjects/41467_2022_27959_MOESM6_ESM.xlsx"
+      }
+    ],
+    "summary_zh": "这项研究在裸鼹鼠血液里做了一套甲基化时钟。位点到齐时，个人报告用补充表里的权重计算甲基化年龄。缺位点不填补。实足年龄另外除以最大寿命，得到相对年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "longitudinal-serum-proteome-mapping",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "血清蛋白的记录。",
+  "intents": [
+    "proteomic_organ_age"
+  ],
+  "triage": {
+    "reason_zh": "人群队列未公布PHAS模型，脚本只记录对上点名蛋白和年龄模型标识的数值。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s42255-024-01185-7",
+    "title": "Longitudinal serum proteome mapping reveals biomarkers for healthy ageing and related cardiometabolic diseases",
+    "title_zh": "血清蛋白记录",
+    "journal": "Nature Metabolism",
+    "year": 2025,
+    "authors": "Tang 等",
+    "article_url": "https://doi.org/10.1038/s42255-024-01185-7",
+    "summary_zh": "这项研究在中老年人群中多次采集血清追踪蛋白质组，找出与衰老相关并与多种临床指标和慢性病发病有关的蛋白，再用机器学习挑出部分蛋白组成能预测心血管代谢病的健康衰老分数。个人报告只把你交来的血清蛋白数值与论文点名的蛋白和年龄模型里的蛋白标识对上并照录，不重算健康衰老分数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

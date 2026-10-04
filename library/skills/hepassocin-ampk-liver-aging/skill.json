@@ -1,0 +1,57 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "hepassocin-ampk-liver-aging",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse",
+    "human"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "营养感应"
+  ],
+  "blurb_zh": "肝细胞因子 HPS 经 ANXA2–ERK–LKB1 激活 AMPK 的通路清单。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "以小鼠实验为主，脚本只列肝促泌素通路节点和小鼠发现，不算个人分数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41392-026-02773-7",
+    "title": "Hepassocin prevents age-related liver senescence and facilitates liver regeneration by activating AMPK",
+    "title_zh": "肝促泌素经 AMPK 对抗肝衰老",
+    "journal": "Signal Transduction and Targeted Therapy",
+    "year": 2026,
+    "authors": "Yang 等",
+    "article_url": "https://www.nature.com/articles/s41392-026-02773-7",
+    "supplements": [
+      {
+        "label": "补充 docx",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41392-026-02773-7/MediaObjects/41392_2026_2773_MOESM42_ESM.docx"
+      }
+    ],
+    "card_notes": [
+      "打开过 MOESM42（Tables S1–S3）与 EuropePMC 补充包。没有个人权重列。",
+      "论文没有给出独立代码仓库。"
+    ],
+    "summary_zh": "这项研究看肝促泌素 HPS 怎样在老龄肝脏里经 AMPK 通路减轻衰老表型并支持再生。个人报告按正文列通路节点和小鼠发现，不预测你的肝龄，也不写该开什么药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none",
+  "related_not_same": [
+    "ampk-aldolase-aldometanib",
+    "ampk-gamma1-refeeding-longevity",
+    "sirt1-hepatocyte-nampt"
+  ]
+}

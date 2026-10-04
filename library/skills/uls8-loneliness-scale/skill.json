@@ -1,0 +1,234 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "uls8-loneliness-scale",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "社交与孤独"
+  ],
+  "blurb_zh": "孤独感简式量表 ULS-8 的 8 道题，按原量表规则（第 3、6 题反向）加成 8–32 分的孤独分。没有公认切点，只给分数。",
+  "intents": [
+    "loneliness_social"
+  ],
+  "triage": {
+    "reason_zh": "用个人8道题的答案按原量表规则（第3、6题反向）相加，得到8–32分的孤独分。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1207/s15327752jpa5101_6",
+    "title": "A Short-Form Measure of Loneliness",
+    "title_zh": "孤独感简式量表 ULS-8",
+    "journal": "Journal of Personality Assessment",
+    "year": 1987,
+    "authors": "Hays 和 DiMatteo",
+    "article_url": "https://www.tandfonline.com/doi/abs/10.1207/s15327752jpa5101_6",
+    "card_notes": [
+      "原文需要订阅，没有打开全文。计分照 Xu 等 2018 的公开说明（[Medicine，CC BY](https://doi.org/10.1097/MD.0000000000012373)）：8 题每题 1–4 分，第 3、6 题反向计分，总分 8–32，分越高越孤独。",
+      "没有找到公认的分档切点：Hays 和 DiMatteo 1987、Wu 和 Yao 2008（台湾大学生）、Zhou 等 2012（农村老人）的摘要和 Xu 等 2018 的全文里都没有，所以报告只给分数，不贴「轻、中、重」的标签。",
+      "在中国老人和青少年里做的研究发现，第 3、6 两道反着问的题不太贴合（Zhou 等 2012，Xu 等 2018，Zhong 等 2024）。这里仍按原量表 8 题计分。",
+      "题目原文来自修订版 UCLA 孤独量表，受版权保护，这里只按题号和主题描述。"
+    ],
+    "summary_zh": "这项研究从 20 题的修订版 UCLA 孤独量表里挑出最能代表孤独感的 8 道题，做成简式量表 ULS-8，并检验了它的信度和效度。个人报告只把这 8 题的答案按原量表规则相加（第 3、6 题反向），给出 8–32 分的总分，不贴分档标签。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "uls8_item1",
+      "label_zh": "ULS-8 第1题（缺少陪伴）",
+      "aliases": [
+        "ULS-8 第1题",
+        "ULS8 q1",
+        "孤独量表第1题",
+        "第1题",
+        "item1",
+        "q1"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        4
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "照答卷原样填 1–4：从不 1、很少 2、有时 3、经常或总是 4。也可以直接写这几个词。"
+    },
+    {
+      "key": "uls8_item2",
+      "label_zh": "ULS-8 第2题（有没有可以求助的人）",
+      "aliases": [
+        "ULS-8 第2题",
+        "ULS8 q2",
+        "孤独量表第2题",
+        "第2题",
+        "item2",
+        "q2"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        4
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "照答卷原样填 1–4：从不 1、很少 2、有时 3、经常或总是 4。也可以直接写这几个词。"
+    },
+    {
+      "key": "uls8_item3",
+      "label_zh": "ULS-8 第3题（自己是不是外向的人）",
+      "aliases": [
+        "ULS-8 第3题",
+        "ULS8 q3",
+        "孤独量表第3题",
+        "第3题",
+        "item3",
+        "q3"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        4
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "照答卷原样填 1–4：从不 1、很少 2、有时 3、经常或总是 4。也可以直接写这几个词。这一题是反着问的，但也照原样填，脚本自己反向计分（原答 1 记 4 分），不要先自己反过来。"
+    },
+    {
+      "key": "uls8_item4",
+      "label_zh": "ULS-8 第4题（觉得被冷落、被排除在外）",
+      "aliases": [
+        "ULS-8 第4题",
+        "ULS8 q4",
+        "孤独量表第4题",
+        "第4题",
+        "item4",
+        "q4"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        4
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "照答卷原样填 1–4：从不 1、很少 2、有时 3、经常或总是 4。也可以直接写这几个词。"
+    },
+    {
+      "key": "uls8_item5",
+      "label_zh": "ULS-8 第5题（觉得和别人隔绝）",
+      "aliases": [
+        "ULS-8 第5题",
+        "ULS8 q5",
+        "孤独量表第5题",
+        "第5题",
+        "item5",
+        "q5"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        4
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "照答卷原样填 1–4：从不 1、很少 2、有时 3、经常或总是 4。也可以直接写这几个词。"
+    },
+    {
+      "key": "uls8_item6",
+      "label_zh": "ULS-8 第6题（想要陪伴时能不能找到）",
+      "aliases": [
+        "ULS-8 第6题",
+        "ULS8 q6",
+        "孤独量表第6题",
+        "第6题",
+        "item6",
+        "q6"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        4
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "照答卷原样填 1–4：从不 1、很少 2、有时 3、经常或总是 4。也可以直接写这几个词。这一题是反着问的，但也照原样填，脚本自己反向计分（原答 1 记 4 分），不要先自己反过来。"
+    },
+    {
+      "key": "uls8_item7",
+      "label_zh": "ULS-8 第7题（因为自己退缩、孤僻而不开心）",
+      "aliases": [
+        "ULS-8 第7题",
+        "ULS8 q7",
+        "孤独量表第7题",
+        "第7题",
+        "item7",
+        "q7"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        4
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "照答卷原样填 1–4：从不 1、很少 2、有时 3、经常或总是 4。也可以直接写这几个词。"
+    },
+    {
+      "key": "uls8_item8",
+      "label_zh": "ULS-8 第8题（身边有人，却觉得他们并不和自己在一起）",
+      "aliases": [
+        "ULS-8 第8题",
+        "ULS8 q8",
+        "孤独量表第8题",
+        "第8题",
+        "item8",
+        "q8"
+      ],
+      "unit": "score",
+      "range": [
+        1,
+        4
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "照答卷原样填 1–4：从不 1、很少 2、有时 3、经常或总是 4。也可以直接写这几个词。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "年龄不进得分。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "uls8_score",
+      "label_zh": "ULS-8 孤独分",
+      "unit": "score",
+      "note_zh": "8 题相加，第 3、6 题反向计分，范围 8–32，分越高越孤独。没有分档。"
+    }
+  ]
+}

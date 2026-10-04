@@ -1,0 +1,185 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "semaglutide-epigenetic-aging-trial",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "rct",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "同一时钟在基线和第 32 周的变化。",
+  "intents": [
+    "before_after",
+    "epigenetic_age",
+    "intervention_evidence"
+  ],
+  "triage": {
+    "reason_zh": "司美格鲁肽随机试验，用个人同一时钟第32周减基线算出变化。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-72861-3",
+    "title": "Semaglutide slows epigenetic aging in a randomized trial of HIV-associated lipohypertrophy",
+    "title_zh": "表观遗传时钟变化",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Corley 等",
+    "article_url": "https://doi.org/10.1038/s41467-026-72861-3",
+    "summary_zh": "这项研究对一项司美格鲁肽随机双盲安慰剂对照试验做事后探索分析，在伴人类免疫缺陷病毒相关脂肪增生的成人中比较试验前后的血液甲基化时钟，发现司美格鲁肽组多种新一代时钟的衰老比安慰剂组慢。个人报告只用你交来的同一时钟基线和随访两次数值相减，并在旁边附论文该时钟的组间差，不把它当作个人权重或用药理由。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ]
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "phenoage_baseline",
+      "label_zh": "表型年龄基线",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "measurements"
+    },
+    {
+      "key": "phenoage_week32",
+      "label_zh": "表型年龄第32周",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "第32周减去基线。论文的组间数字不是这个人的变化。"
+    },
+    {
+      "key": "pcgrimage_baseline",
+      "label_zh": "主成分格里姆年龄基线",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements"
+    },
+    {
+      "key": "pcgrimage_week32",
+      "label_zh": "主成分格里姆年龄第32周",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "第32周减去基线。论文的组间数字不是这个人的变化。"
+    },
+    {
+      "key": "grimagev2_baseline",
+      "label_zh": "格里姆年龄第二版基线",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements"
+    },
+    {
+      "key": "grimagev2_week32",
+      "label_zh": "格里姆年龄第二版第32周",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "第32周减去基线。论文的组间数字不是这个人的变化。"
+    },
+    {
+      "key": "omicmage_baseline",
+      "label_zh": "多组学生物年龄基线",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements"
+    },
+    {
+      "key": "omicmage_week32",
+      "label_zh": "多组学生物年龄第32周",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "第32周减去基线。论文的组间数字不是这个人的变化。"
+    },
+    {
+      "key": "retroage_baseline",
+      "label_zh": "RetroAge基线",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements"
+    },
+    {
+      "key": "retroage_week32",
+      "label_zh": "RetroAge第32周",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "第32周减去基线。论文的组间数字不是这个人的变化。"
+    },
+    {
+      "key": "dunedinpace_baseline",
+      "label_zh": "达尼丁节奏基线",
+      "range": [
+        0.2,
+        2.5
+      ],
+      "required": false,
+      "from": "measurements"
+    },
+    {
+      "key": "dunedinpace_week32",
+      "label_zh": "达尼丁节奏第32周",
+      "range": [
+        0.2,
+        2.5
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "第32周减去基线。论文的组间数字不是这个人的变化。"
+    }
+  ]
+}

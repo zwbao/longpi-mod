@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "digital-telomere-measurement-sequencing",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "端粒"
+  ],
+  "blurb_zh": "端粒长度的分布。",
+  "intents": [
+    "telomere"
+  ],
+  "triage": {
+    "reason_zh": "用个人多条端粒长度算最小值、四分位、中位数、均值和最大值。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-024-49007-4",
+    "title": "Digital telomere measurement by long-read sequencing distinguishes healthy aging from disease",
+    "title_zh": "端粒长度分布",
+    "journal": "Nature Communications",
+    "year": 2024,
+    "authors": "Sanchez 等",
+    "article_url": "https://doi.org/10.1038/s41467-024-49007-4",
+    "summary_zh": "这项研究用纳米孔测序逐条读出人血细胞的端粒长度，看到随年龄增长长端粒减少、短端粒堆积，并训练模型区分健康人和端粒维持缺陷的人。个人报告只在你给出至少两条长度时概括这批端粒的分布，写出最小值、四分位、中位数、均值和最大值，不套用未公开的分类权重。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

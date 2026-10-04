@@ -1,0 +1,241 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "navy-circumference-body-fat",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "体脂与腰围"
+  ],
+  "blurb_zh": "用身高、颈围、腰围（女性加臀围）按美国海军围度方程估算体脂率，再算腰围身高比、腰臀比，并按国家标准看是否中心型肥胖。",
+  "intents": [
+    "body_fat_waist"
+  ],
+  "triage": {
+    "reason_zh": "用海军研究报告印出的体密度方程和Siri公式、WHO腰臀比与国家标准腰围切点，算个人体脂率和腹型肥胖分档。",
+    "reviewed": false
+  },
+  "paper": {
+    "source_id": "dtic:ADA143890",
+    "title": "Prediction of percent body fat for U.S. Navy men from body circumferences and height",
+    "title_zh": "用围度和身高预测美国海军人员体脂率（Hodgdon 和 Beckett 1984）",
+    "journal": "Naval Health Research Center Report No. 84-11",
+    "year": 1984,
+    "authors": "Hodgdon 和 Beckett",
+    "article_url": "https://apps.dtic.mil/sti/citations/ADA143890",
+    "supplements": [
+      {
+        "label": "女性报告 No. 84-29（DTIC ADA146456）",
+        "url": "https://apps.dtic.mil/sti/citations/ADA146456"
+      },
+      {
+        "label": "腰围身高比 0.5 界值的系统综述（Browning 等 2010）",
+        "url": "https://doi.org/10.1017/S0954422410000144"
+      },
+      {
+        "label": "WHO 腰围和腰臀比专家咨询报告（2008）",
+        "url": "https://iris.who.int/handle/10665/44583"
+      },
+      {
+        "label": "WS/T 428-2013 成人体重判定",
+        "url": "https://www.nhc.gov.cn/wjw/yingyang/201308/a233d450fdbc47c5ad4f08b7e394d1e8.shtml"
+      }
+    ],
+    "card_notes": [
+      "两份报告的方程都用厘米：男性 体密度 = −0.19077×log10(腰围−颈围) + 0.15456×log10(身高) + 1.0324；女性 体密度 = −0.35004×log10(腰围+臀围−颈围) + 0.22100×log10(身高) + 1.29579；体脂率 = 100×(4.95/体密度 − 4.50)（Siri 1961）。只有附录的现场查表是英寸。网上流传的英寸版公式（86.010、163.205 等）不在这两份报告里，这里不用。",
+      "方程由美国海军现役人员建立：男性 602 人（18–56 岁），女性 214 人（18–44 岁），以水下称重为标准，估计误差（标准误）男性 3.52、女性 3.72 个体脂百分点。用在中国成人身上误差可能更大。",
+      "腰围身高比 0.5：Ashwell 和 Hsieh 2005（doi:10.1080/09637480500195066）提出，Browning 等 2010 系统综述（doi:10.1017/S0954422410000144）得出男女平均界值都是 0.50。腰臀比：WHO 2008 专家咨询报告附录表 A1，男 ≥0.90、女 ≥0.85 代谢并发症风险显著增加。中国中心型肥胖：WS/T 428-2013 表 2，男 85–<90 cm、女 80–<85 cm 为前期，男 ≥90 cm、女 ≥85 cm 为中心型肥胖。",
+      "三种方法量腰围的位置不同：海军男性在肚脐水平，海军女性在腰最细处，WHO 和 WS/T 428 在腋中线肋弓下缘和髂嵴连线中点。这里只用一个腰围数。"
+    ],
+    "summary_zh": "这两份美国海军研究报告用现役男女的水下称重体密度，建立了只用颈围、腰围、臀围和身高估算体脂率的公式。个人报告只按印出的公式算这一个人的体脂率，并用 WHO、国家标准和系统综述的切点给出腰围身高比、腰臀比和中心型肥胖分档，不做诊断，也不管体重记录。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "sex_flag": "--sex",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "population": {
+    "age_years": [
+      18,
+      56
+    ],
+    "note_zh": "海军体脂方程由男性 18–56 岁、女性 18–44 岁的美国海军现役人员推导，年龄在外时误差更难估计。腰围切点适用于 18 岁及以上成人（WS/T 428-2013）。"
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "waist_cm",
+      "label_zh": "腰围",
+      "aliases": [
+        "waist",
+        "waist circumference",
+        "WC",
+        "腰围(cm)",
+        "腹围"
+      ],
+      "loinc": [
+        "8280-0",
+        "56115-9",
+        "56114-2",
+        "56117-5"
+      ],
+      "unit": "cm",
+      "accept": {
+        "in": 2.54,
+        "mm": 0.1,
+        "m": 100
+      },
+      "range": [
+        50,
+        200
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "WS/T 428-2013 和 WHO：站立、平静呼气末，在腋中线肋弓下缘和髂嵴连线中点水平量。海军男性方程在肚脐水平量，女性在腰最细处量。"
+    },
+    {
+      "key": "hip_cm",
+      "label_zh": "臀围",
+      "aliases": [
+        "hip",
+        "hip circumference",
+        "HC",
+        "臀围(cm)"
+      ],
+      "loinc": [
+        "56063-1"
+      ],
+      "unit": "cm",
+      "accept": {
+        "in": 2.54,
+        "mm": 0.1,
+        "m": 100
+      },
+      "range": [
+        60,
+        200
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "臀部最突出处水平量（WHO 2008；海军男性报告）。女性体脂率和腰臀比需要它。LOINC 56063-1 在 LOINC 里是试用（TRIAL）状态。"
+    },
+    {
+      "key": "neck_cm",
+      "label_zh": "颈围",
+      "aliases": [
+        "neck",
+        "neck circumference",
+        "NC",
+        "颈围(cm)"
+      ],
+      "loinc": [
+        "56074-8"
+      ],
+      "unit": "cm",
+      "accept": {
+        "in": 2.54,
+        "mm": 0.1
+      },
+      "range": [
+        20,
+        70
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "喉结正下方，软尺前端略向下倾斜（海军报告）。体脂率需要它。LOINC 56074-8 在 LOINC 里是试用（TRIAL）状态。"
+    },
+    {
+      "key": "height_cm",
+      "label_zh": "身高",
+      "aliases": [
+        "height",
+        "body height",
+        "stature",
+        "身高(cm)"
+      ],
+      "loinc": [
+        "8302-2",
+        "8308-9",
+        "3137-7"
+      ],
+      "unit": "cm",
+      "accept": {
+        "m": 100,
+        "in": 2.54,
+        "mm": 0.1
+      },
+      "range": [
+        100,
+        250
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "站立位，足底到头顶的垂直距离（WS/T 428-2013）。体脂率和腰围身高比需要它。"
+    },
+    {
+      "key": "sex",
+      "label_zh": "性别",
+      "required": true,
+      "from": "profile",
+      "flag": "--sex"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        120
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "这些方法只用于 18 岁及以上成人。给了年龄时，报告会说明是否在海军方程的推导年龄内。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "body_fat_pct",
+      "label_zh": "体脂率（美国海军围度方程估计）",
+      "unit": "%",
+      "note_zh": "估计误差（标准误）男性 3.52、女性 3.72 个百分点，来自美国海军人群。"
+    },
+    {
+      "key": "waist_height_ratio",
+      "label_zh": "腰围身高比",
+      "unit": "1"
+    },
+    {
+      "key": "waist_height_category",
+      "label_zh": "腰围身高比分档（0.5 界值）",
+      "unit": ""
+    },
+    {
+      "key": "waist_hip_ratio",
+      "label_zh": "腰臀比",
+      "unit": "1"
+    },
+    {
+      "key": "waist_hip_category",
+      "label_zh": "腰臀比分档（WHO 2008 表 A1）",
+      "unit": ""
+    },
+    {
+      "key": "central_obesity_cn",
+      "label_zh": "中心型肥胖分类（WS/T 428-2013 表 2）",
+      "unit": ""
+    }
+  ]
+}

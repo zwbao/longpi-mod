@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "metabolomic-frailty-subtypes",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "衰弱与死亡风险"
+  ],
+  "blurb_zh": "十一个核磁共振代谢物对应的衰弱亚型。",
+  "intents": [
+    "metabolomic_age",
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "用十一个核磁代谢物按表二均值和标准差算距离，判定个人最近的衰弱亚型。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41746-025-02075-2",
+    "title": "Metabolomic characterization of frailty identifies subtype-specific management strategies",
+    "title_zh": "代谢衰弱亚型",
+    "journal": "npj Digital Medicine",
+    "year": 2025,
+    "authors": "Xiao 等",
+    "article_url": "https://doi.org/10.1038/s41746-025-02075-2",
+    "summary_zh": "这项研究用英国生物样本库参与者的血液代谢数据，经机器学习选出关键代谢物并划分衰弱亚型，发现糖蛋白乙酰基高、亚油酸比例低的亚型慢性病和死亡风险更高。个人报告只算你交来的十一项核磁代谢物离哪个已发表亚型均值最近，并附论文的亚型间队列风险比，不把它说成你的风险或饮食用药依据。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

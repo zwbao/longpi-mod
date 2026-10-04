@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "centenarian-longevity-genes",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "长寿基因"
+  ],
+  "blurb_zh": "补充表里百岁组过阈值的基因，以及正文点名的基因。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "百岁老人病例对照，脚本只核对用户给的基因名是否在补充表和正文名单里。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-024-52967-2",
+    "title": "Depletion of loss-of-function germline mutations in centenarians reveals longevity genes",
+    "title_zh": "百岁老人功能丧失突变里的长寿基因",
+    "journal": "Nature Communications",
+    "year": 2024,
+    "authors": "Ying 等",
+    "article_url": "https://www.nature.com/articles/s41467-024-52967-2",
+    "supplements": [
+      {
+        "label": "Supplementary Data 1",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-024-52967-2/MediaObjects/41467_2024_52967_MOESM4_ESM.csv"
+      }
+    ],
+    "code_url": "https://doi.org/10.5281/zenodo.13756349",
+    "summary_zh": "这项研究比较百岁老人和对照的罕见功能丧失变异，并在正文里点出若干和长寿性状方向一致的基因。个人报告只核对你点到的基因名，不把队列里的回归系数当成你的负担分数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

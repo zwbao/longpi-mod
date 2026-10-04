@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "senescent-cells-gene-set",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human",
+    "mouse"
+  ],
+  "evidence": "method",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "一份基因表达表对照的衰老相关基因。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "SenMayo基因集查表，平均表达差不是论文方法也没有权重，不算个人计算。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-022-32552-1",
+    "title": "A new gene set identifies senescent cells and predicts senescence-associated pathways across tissues",
+    "title_zh": "衰老相关基因",
+    "journal": "Nature Communications",
+    "year": 2022,
+    "authors": "Saul 等",
+    "article_url": "https://doi.org/10.1038/s41467-022-32552-1",
+    "summary_zh": "这项研究整理出一套衰老细胞基因集，在老年人骨活检中验证了它的富集，并发现在小鼠骨中用基因手段、在人体脂肪组织中用药物清除衰老细胞后，这组基因的表达都会下降。个人报告只把你交来的基因表达对到这套基因上，写出中文名和补充表里的分类，并算一份不加权的平均表达差，不另造基因权重。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

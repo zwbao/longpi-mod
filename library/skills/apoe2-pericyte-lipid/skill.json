@@ -1,0 +1,49 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "apoe2-pericyte-lipid",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "cell_line"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "iPSC 周细胞里 APOE2 对 APOE3 的显著蛋白查表。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "人源iPSC周细胞体外实验，脚本只查符号是否在APOE2对APOE3显著蛋白表中。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1093/brain/awag311",
+    "title": "The longevity gene APOE2 enhances pericyte function and reduces lipid droplets",
+    "title_zh": "APOE2 周细胞蛋白质组查表",
+    "journal": "Brain",
+    "year": 2026,
+    "authors": "Reskiawan A Kadir 等",
+    "article_url": "https://doi.org/10.1093/brain/awag311",
+    "card_notes": [
+      "打开过补充 zip 中 File011 的 Signif_APOE2_vs_APOE3（218 个显著蛋白）。",
+      "论文补充材料未给出独立代码仓库。"
+    ],
+    "summary_zh": "这项研究看 APOE2 怎样改变人源 iPSC 周细胞的屏障相关表型、蛋白质组与脂滴。个人报告只在已冻结的 APOE2 对 APOE3 显著蛋白子集上查你交来的符号，不写成你的痴呆风险。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none",
+  "related_not_same": [
+    "proteomic-apoe-alzheimers-signatures",
+    "serum-proteomics-apoe-signatures"
+  ]
+}

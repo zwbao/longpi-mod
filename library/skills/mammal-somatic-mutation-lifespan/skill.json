@@ -1,0 +1,52 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "mammal-somatic-mutation-lifespan",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "multi_species"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "比较生物学"
+  ],
+  "blurb_zh": "隐窝替换数除以年龄，以及补充表里的物种年均替换率。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "十六种哺乳动物比较研究，输入是物种名和肠隐窝替换数，个人没有这类数据。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-022-04618-z",
+    "title": "Somatic mutation rates scale with lifespan across mammals",
+    "title_zh": "哺乳动物的体细胞突变率",
+    "journal": "Nature",
+    "year": 2022,
+    "authors": "Cagan 等",
+    "article_url": "https://www.nature.com/articles/s41586-022-04618-z",
+    "supplements": [
+      {
+        "label": "Supplementary Table 3",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-022-04618-z/MediaObjects/41586_2022_4618_MOESM6_ESM.xlsx"
+      },
+      {
+        "label": "Supplementary Table 6",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-022-04618-z/MediaObjects/41586_2022_4618_MOESM9_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/baezortega/CrossSpecies2021",
+    "summary_zh": "这项研究比较多种哺乳动物肠道隐窝里的体细胞突变，年均替换率大致与寿命成反比。个人报告按隐窝替换数除以年龄，或用正文的斜率除以补充表里的物种寿命。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

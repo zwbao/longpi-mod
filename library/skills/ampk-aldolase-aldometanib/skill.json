@@ -1,0 +1,52 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ampk-aldolase-aldometanib",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse",
+    "c_elegans"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "营养感应"
+  ],
+  "blurb_zh": "两次空腹血糖的差。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠和线虫实验，脚本只算两次空腹血糖之差，证据不是人类。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s42255-022-00640-7",
+    "title": "The aldolase inhibitor aldometanib mimics glucose starvation to activate lysosomal AMPK",
+    "title_zh": "醛缩酶抑制剂与空腹血糖",
+    "journal": "Nature Metabolism",
+    "year": 2022,
+    "authors": "Zhang 等",
+    "article_url": "https://www.nature.com/articles/s42255-022-00640-7",
+    "supplements": [
+      {
+        "label": "补充信息",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs42255-022-00640-7/MediaObjects/42255_2022_640_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "打开过这份补充信息。这次计算没有用里面的寿命列。",
+      "论文写明没有使用自定义代码，没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究找到一个小分子，它占住醛缩酶上果糖二磷酸的位置，让细胞像缺少葡萄糖一样打开溶酶体上的 AMPK。个人报告只用你给出的两次空腹血糖做差，不把动物实验的寿命写进来。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

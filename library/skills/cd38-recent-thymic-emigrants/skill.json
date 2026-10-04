@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "cd38-recent-thymic-emigrants",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "年龄和转换后的初始细胞标志。",
+  "intents": [
+    "immune_inflammation"
+  ],
+  "triage": {
+    "reason_zh": "用方法仓库阈值给个人初始T细胞的CXCR3、CD38、CD25表达分门，并归入年龄组。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1016/j.immuni.2024.08.019",
+    "title": "Multidimensional profiling of human T cells reveals high CD38 expression, marking recent thymic emigrants and age-related naive T cell remodeling",
+    "title_zh": "初始细胞分档",
+    "journal": "Immunity",
+    "year": 2024,
+    "authors": "Bohacova 等",
+    "article_url": "https://doi.org/10.1016/j.immuni.2024.08.019",
+    "summary_zh": "这项研究用单细胞测序和光谱流式细胞术分析人体初始T细胞，发现CD38高表达能标记CD4和CD8近期胸腺迁出细胞，随年龄增长这类细胞减少，CXCR3高表达细胞增多。个人报告只按方法仓库的阈值给你交来的初始T细胞CXCR3、CD38和CD25表达分档，并把年龄放进论文的年龄组，不写各组人数，也不据此开始或停止任何药物。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

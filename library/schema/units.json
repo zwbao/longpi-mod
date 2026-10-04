@@ -1,0 +1,74 @@
+{
+  "schema": "longevity-units/1",
+  "description": "Unit table used by CI to check the conversion factors each skill.json declares under inputs[].accept. Runtime conversion uses only those declared factors, in the skill scripts (skillkit.py) and in dsh-plugin-longpi, so both sides convert the same way. Keys are normalized unit strings; see schema/unit_cases.json for the normalization rules both implementations must pass.",
+  "units": {
+    "g/l": { "dim": "mass_conc", "factor": 1 },
+    "g/dl": { "dim": "mass_conc", "factor": 10 },
+    "mg/ml": { "dim": "mass_conc", "factor": 1 },
+    "mg/dl": { "dim": "mass_conc", "factor": 0.01 },
+    "mg/l": { "dim": "mass_conc", "factor": 0.001 },
+    "ug/ml": { "dim": "mass_conc", "factor": 0.001 },
+    "ug/dl": { "dim": "mass_conc", "factor": 0.00001 },
+    "ug/l": { "dim": "mass_conc", "factor": 0.000001 },
+    "ng/ml": { "dim": "mass_conc", "factor": 0.000001 },
+    "ng/dl": { "dim": "mass_conc", "factor": 0.00000001 },
+    "ng/l": { "dim": "mass_conc", "factor": 0.000000001 },
+    "pg/ml": { "dim": "mass_conc", "factor": 0.000000001 },
+
+    "mol/l": { "dim": "molar_conc", "factor": 1 },
+    "mmol/l": { "dim": "molar_conc", "factor": 0.001 },
+    "umol/l": { "dim": "molar_conc", "factor": 0.000001 },
+    "nmol/l": { "dim": "molar_conc", "factor": 0.000000001 },
+    "pmol/l": { "dim": "molar_conc", "factor": 0.000000000001 },
+
+    "/l": { "dim": "count_conc", "factor": 1 },
+    "/ul": { "dim": "count_conc", "factor": 1000000 },
+    "10^9/l": { "dim": "count_conc", "factor": 1000000000 },
+    "10^12/l": { "dim": "count_conc", "factor": 1000000000000 },
+    "10^3/ul": { "dim": "count_conc", "factor": 1000000000 },
+    "10^6/ul": { "dim": "count_conc", "factor": 1000000000000 },
+
+    "1": { "dim": "ratio", "factor": 1 },
+    "%": { "dim": "ratio", "factor": 0.01 },
+
+    "u/l": { "dim": "enzyme_conc", "factor": 1 },
+    "ukat/l": { "dim": "enzyme_conc", "factor": 60 },
+
+    "fl": { "dim": "volume", "factor": 0.000000000000001 },
+    "ul": { "dim": "volume", "factor": 0.000001 },
+    "ml": { "dim": "volume", "factor": 0.001 },
+    "l": { "dim": "volume", "factor": 1 },
+
+    "pg": { "dim": "mass", "factor": 0.000000000000001 },
+    "g": { "dim": "mass", "factor": 0.001 },
+    "kg": { "dim": "mass", "factor": 1 },
+    "lb": { "dim": "mass", "factor": 0.45359237 },
+
+    "mm": { "dim": "length", "factor": 0.001 },
+    "cm": { "dim": "length", "factor": 0.01 },
+    "m": { "dim": "length", "factor": 1 },
+    "in": { "dim": "length", "factor": 0.0254 },
+
+    "s": { "dim": "time", "factor": 1 },
+    "min": { "dim": "time", "factor": 60 },
+    "h": { "dim": "time", "factor": 3600 },
+    "d": { "dim": "time", "factor": 86400 },
+    "wk": { "dim": "time", "factor": 604800 },
+    "mo": { "dim": "time", "factor": 2629746 },
+    "a": { "dim": "time", "factor": 31556952 },
+
+    "mmhg": { "dim": "pressure", "factor": 1 },
+    "kpa": { "dim": "pressure", "factor": 7.500617 },
+
+    "kg/m^2": { "dim": "bmi", "factor": 1 },
+
+    "mg/g": { "dim": "acr", "factor": 1 },
+    "mg/mmol": { "dim": "acr", "factor": 8.84 },
+
+    "/min": { "dim": "rate", "factor": 1 },
+    "ms": { "dim": "time", "factor": 0.001 },
+    "g/d": { "dim": "mass_rate", "factor": 1 },
+    "score": { "dim": "score", "factor": 1 }
+  },
+  "molar_pairs": ["mass_conc", "molar_conc"]
+}

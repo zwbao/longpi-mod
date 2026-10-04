@@ -1,0 +1,43 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ulk1-autophagy-alzheimers",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human",
+    "cell_line"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "脑、认知与痴呆",
+    "自噬"
+  ],
+  "blurb_zh": "血清或脑脊液 ULK1 的基线和随访。",
+  "intents": [
+    "cognition_dementia",
+    "before_after"
+  ],
+  "triage": {
+    "reason_zh": "用个人ULK1基线与随访算变化百分比，并对照论文四年下降幅度。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01108-z",
+    "title": "Reduced ULK1 links impaired autophagy and mitophagy to Alzheimer’s disease pathology",
+    "title_zh": "血清和脑脊液里的自噬激酶",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Pan 等",
+    "article_url": "https://doi.org/10.1038/s43587-026-01108-z",
+    "summary_zh": "这项研究发现人的血清和脑脊液ULK1随衰老和阿尔茨海默病减少，在该病模型小鼠中上调ULK1可增强自噬、减轻病理并延缓认知衰退，体外和线虫实验中ULK1激活剂能抑制tau病变。个人报告只算你交来的ULK1基线到随访的变化百分比，与论文的队列下降并排，并列出细胞实验里的化合物，它们不是用药方案，不能据此开始或停止用药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

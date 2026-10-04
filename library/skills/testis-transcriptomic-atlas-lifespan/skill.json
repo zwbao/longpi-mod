@@ -1,0 +1,92 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "testis-transcriptomic-atlas-lifespan",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "卵巢与生殖"
+  ],
+  "blurb_zh": "年龄，可带体质指数，对照睾丸衰老阶段。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "人睾丸图谱，按年龄归入十年组，并按论文年龄大于45且BMI至少30的切点标注。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00824-2",
+    "title": "Single-cell transcriptomic atlas of the human testis across the reproductive lifespan",
+    "title_zh": "睾丸衰老阶段",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Cui 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-00824-2",
+    "summary_zh": "这项研究对不同年龄成年男性的睾丸细胞做单细胞转录组测序，发现体细胞的衰老反应强于生殖细胞，管周细胞先出现变化，之后莱迪希细胞和巨噬细胞出现功能改变。个人报告只把你交来的年龄放进图谱的年龄段并引用该阶段的细胞变化，另给体质指数时对照论文的生育力说法，不用模型推算年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "bmi",
+      "label_zh": "体质指数",
+      "aliases": [
+        "body mass index",
+        "体重指数",
+        "身体质量指数"
+      ],
+      "loinc": [
+        "39156-5"
+      ],
+      "unit": "kg/m^2",
+      "range": [
+        10,
+        100
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "只用于核对论文「大于 45 岁并且体质指数至少 30」那句写法。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "图谱供体是 21 到 69 岁；不在这个范围时不对照衰老阶段。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "age_group",
+      "label_zh": "图谱里的十年组",
+      "note_zh": "20多岁、30多岁、40多岁、50多岁或60多岁；年龄不在 21–29、30–39、40–49、50–59、60–69 这几段里时为空。"
+    },
+    {
+      "key": "age_over_45_and_bmi_30",
+      "label_zh": "年龄大于 45 岁并且体质指数至少 30",
+      "note_zh": "是或否，照论文图 6c 那句写法核对，不是诊断。没有体质指数或年龄不在图谱十年组里时为空。"
+    }
+  ]
+}

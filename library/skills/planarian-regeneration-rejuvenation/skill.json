@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "planarian-regeneration-rejuvenation",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "planarian"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "再生"
+  ],
+  "blurb_zh": "正文点名的方向。头部面积和全身面积都在时计算相对头大小。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "涡虫研究，脚本只查点名基因和表型方向，比值要用涡虫头部与全身面积。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00847-9",
+    "title": "Regeneration leads to global tissue rejuvenation in aging sexual planarians",
+    "title_zh": "涡虫再生与组织回春",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Dai 等",
+    "article_url": "https://www.nature.com/articles/s43587-025-00847-9",
+    "supplements": [
+      {
+        "label": "补充材料页面",
+        "url": "https://www.nature.com/articles/s43587-025-00847-9#supplementary-information"
+      }
+    ],
+    "code_url": "https://github.com/PletcherLab/Arena_R_Code/tree/main/Code/",
+    "card_notes": [
+      "测序分析论文写明没有自定义代码。这个链接是应激运动实验用的追踪代码。"
+    ],
+    "summary_zh": "这项研究在性成熟涡虫里看到衰老后的眼、生育、运动和氧化压力变化，并发现截肢再生能在新旧组织里把其中一部分扳回来。个人报告只核对正文点名的方向，并在你给出分子和分母时计算正文定义的比值。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

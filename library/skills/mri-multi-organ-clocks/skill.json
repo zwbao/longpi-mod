@@ -1,0 +1,145 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "mri-multi-organ-clocks",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "影像"
+  ],
+  "blurb_zh": "磁共振器官预测年龄相对实足年龄。",
+  "intents": [
+    "imaging",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用已算好的器官磁共振预测年龄减实足年龄，得出个人校正前的器官年龄差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41591-025-03999-8",
+    "title": "MRI-based multi-organ clocks for healthy aging and disease assessment",
+    "title_zh": "磁共振器官年龄差",
+    "journal": "Nature Medicine",
+    "year": 2026,
+    "authors": "The MULTI Consortium 等",
+    "article_url": "https://doi.org/10.1038/s41591-025-03999-8",
+    "summary_zh": "这项研究用磁共振影像为脑、心、肝、脂肪组织、脾、肾和胰腺分别建立生物年龄差，并把它们与血浆蛋白、代谢物、常见遗传变异以及未来疾病和全因死亡风险联系起来。个人报告只用你交来的某个器官磁共振预测年龄减去实足年龄，并说明这还不是论文校正后的年龄差，也不从影像测量重新预测年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ]
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "brain",
+      "label_zh": "脑预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "消费者磁共振报告上已经印出的预测年龄。"
+    },
+    {
+      "key": "heart",
+      "label_zh": "心脏预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "消费者磁共振报告上已经印出的预测年龄。"
+    },
+    {
+      "key": "liver",
+      "label_zh": "肝预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "消费者磁共振报告上已经印出的预测年龄。"
+    },
+    {
+      "key": "adipose",
+      "label_zh": "脂肪预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "消费者磁共振报告上已经印出的预测年龄。"
+    },
+    {
+      "key": "spleen",
+      "label_zh": "脾预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "消费者磁共振报告上已经印出的预测年龄。"
+    },
+    {
+      "key": "kidney",
+      "label_zh": "肾预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "消费者磁共振报告上已经印出的预测年龄。"
+    },
+    {
+      "key": "pancreas",
+      "label_zh": "胰腺预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "消费者磁共振报告上已经印出的预测年龄。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ageing-clocks-digital-twins",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "已经算好的生物年龄的稳定度。",
+  "intents": [
+    "before_after",
+    "epigenetic_age"
+  ],
+  "triage": {
+    "reason_zh": "用个人同一时钟多次生物年龄算两两绝对差均值的倒数稳定度，并对照2.56年技术重复限。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41746-025-01911-9",
+    "title": "From ageing clocks to human digital twins in personalising healthcare through biological age analysis",
+    "title_zh": "时钟稳定度",
+    "journal": "npj Digital Medicine",
+    "year": 2025,
+    "authors": "Pusparum 等",
+    "article_url": "https://doi.org/10.1038/s41746-025-01911-9",
+    "summary_zh": "这项研究在一群多次随访、检测项目齐全的人身上，用表观遗传、临床生化、蛋白组和代谢组等多类时钟估算生物年龄，发现衰老因人而异，在同一个人身上却相对稳定。个人报告只用你交来的同一时钟多个时间点的生物年龄，算两两绝对差均值的倒数作为未缩放的稳定度，不重新拟合时钟，也不把队列里的相关当成开始或停止治疗的理由。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "biological_age",
+      "label_zh": "时钟长表里一个时间点的生物年龄（clock,biological_age 表，每个时间点一行）",
+      "unit": "a",
+      "range": [
+        0,
+        130
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "长表每行一个时间点，写那一次的生物年龄（岁），不是年龄差，也不是 DunedinPACE 这类速度。表里的 phenoage 指论文用的甲基化 PhenoAge。"
+    },
+    {
+      "key": "time_years",
+      "label_zh": "时钟长表里这个时间点的时间（年，time_years 列）",
+      "unit": "a",
+      "required": false,
+      "from": "measurements",
+      "note_zh": "可选，只用于 Skin & Blood：相邻两次的绝对差和 2.56 年加经过的年数比较。"
+    },
+    {
+      "key": "phenoage_visit1",
+      "label_zh": "第1次血检表型年龄（按时间先后排）",
+      "unit": "a",
+      "range": [
+        0,
+        130
+      ],
+      "required": false,
+      "from": "measurements",
+      "output_of": [
+        "phenoage"
+      ],
+      "group": "phenoage",
+      "note_zh": "这里要九项血检算出的表型年龄本身（岁），不是它减实足年龄的差，也不是论文表里的甲基化 PhenoAge。至少两次才有稳定度。"
+    },
+    {
+      "key": "phenoage_visit2",
+      "label_zh": "第2次血检表型年龄（按时间先后排）",
+      "unit": "a",
+      "range": [
+        0,
+        130
+      ],
+      "required": false,
+      "from": "measurements",
+      "output_of": [
+        "phenoage"
+      ],
+      "group": "phenoage",
+      "note_zh": "这里要九项血检算出的表型年龄本身（岁），不是它减实足年龄的差，也不是论文表里的甲基化 PhenoAge。至少两次才有稳定度。"
+    },
+    {
+      "key": "phenoage_visit3",
+      "label_zh": "第3次血检表型年龄（按时间先后排）",
+      "unit": "a",
+      "range": [
+        0,
+        130
+      ],
+      "required": false,
+      "from": "measurements",
+      "output_of": [
+        "phenoage"
+      ],
+      "group": "phenoage",
+      "note_zh": "这里要九项血检算出的表型年龄本身（岁），不是它减实足年龄的差，也不是论文表里的甲基化 PhenoAge。至少两次才有稳定度。"
+    },
+    {
+      "key": "phenoage_visit4",
+      "label_zh": "第4次血检表型年龄（按时间先后排）",
+      "unit": "a",
+      "range": [
+        0,
+        130
+      ],
+      "required": false,
+      "from": "measurements",
+      "output_of": [
+        "phenoage"
+      ],
+      "group": "phenoage",
+      "note_zh": "这里要九项血检算出的表型年龄本身（岁），不是它减实足年龄的差，也不是论文表里的甲基化 PhenoAge。至少两次才有稳定度。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "stability_index_multi_tissue",
+      "label_zh": "Multi-tissue 时钟的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_skin_blood",
+      "label_zh": "Skin & Blood 时钟的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_dnam_phenoage",
+      "label_zh": "甲基化 PhenoAge 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_grimage2",
+      "label_zh": "GrimAge2 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_grimage",
+      "label_zh": "GrimAge 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_methyldetectr",
+      "label_zh": "MethylDetectR 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_causage",
+      "label_zh": "CausAge 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_hannum",
+      "label_zh": "Hannum 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_mlr_levine",
+      "label_zh": "MLR-Levine 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_pca_levine",
+      "label_zh": "PCA-Levine 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_kdm_levine",
+      "label_zh": "KDM-Levine 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_kdm",
+      "label_zh": "KDM 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_protage_tanaka",
+      "label_zh": "ProtAge-Tanaka 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_protage_md",
+      "label_zh": "ProtAge-MD 的个体稳定度（未缩放）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    },
+    {
+      "key": "stability_index_blood_phenoage",
+      "label_zh": "血检表型年龄的个体稳定度（未缩放，不在论文的时钟表里）",
+      "unit": "1",
+      "note_zh": "各时间点生物年龄两两绝对差均值（年）的倒数，没有缩放到 0–1；少于两个时间点或各次相同时为空。"
+    }
+  ]
+}

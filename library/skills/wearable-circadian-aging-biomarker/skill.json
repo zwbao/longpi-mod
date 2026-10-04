@@ -1,0 +1,162 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "wearable-circadian-aging-biomarker",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "昼夜节律"
+  ],
+  "blurb_zh": "MESOR、振幅、峰值相位和年龄到齐时的 CosinorAge。缺一项就不算。",
+  "intents": [
+    "wearable_sleep",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用补充表1全体模型系数和个人MESOR、振幅、相位、年龄算CosinorAge。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41746-024-01111-x",
+    "title": "Circadian rhythm analysis using wearable-based accelerometry as a digital biomarker of aging and healthspan",
+    "title_zh": "可穿戴加速度的昼夜年龄",
+    "journal": "npj Digital Medicine",
+    "year": 2024,
+    "authors": "Shim 等",
+    "article_url": "https://www.nature.com/articles/s41746-024-01111-x",
+    "supplements": [
+      {
+        "label": "Supplementary Table 1",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41746-024-01111-x/MediaObjects/41746_2024_1111_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文写明代码向通讯作者索取，没有给出仓库网址。"
+    ],
+    "summary_zh": "这项研究用七天腕部加速度的昼夜参数估计一个叫 CosinorAge 的年龄。它沿用表型年龄那套 Gompertz 风险，再解出年龄。个人报告只用补充表里写全的全体公式。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "mesor",
+      "label_zh": "MESOR（节律中值）",
+      "aliases": [
+        "MESOR",
+        "节律中值",
+        "节律调整均值",
+        "rhythm-adjusted mean"
+      ],
+      "range": [
+        2,
+        150
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "MESOR 和振幅都是腕部加速度 ENMO 的活动强度，按 mg（千分之一 g）读，单位列留空；0.03 g 要写成 30。"
+    },
+    {
+      "key": "amplitude",
+      "label_zh": "振幅",
+      "aliases": [
+        "amp",
+        "amp1",
+        "cosinor amplitude",
+        "余弦振幅",
+        "节律振幅",
+        "昼夜振幅"
+      ],
+      "range": [
+        1,
+        150
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要余弦拟合的振幅，按 mg（千分之一 g）读，单位列留空；不是 0 到 1 之间的相对振幅 RA。"
+    },
+    {
+      "key": "acrophase_rad",
+      "label_zh": "峰相位（弧度）",
+      "aliases": [
+        "acrophase",
+        "相位",
+        "峰相位",
+        "峰值相位",
+        "phi1"
+      ],
+      "unit": "1",
+      "range": [
+        0,
+        6.2832
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "acrophase",
+      "note_zh": "弧度从午夜起按钟点算，等于钟点小时 × 2π/24，在 0 到 2π 之间（14:00 是 3.67）。负的相位和角度制都不收；手上只有这些时，把峰值钟点写在 acrophase_hour。"
+    },
+    {
+      "key": "acrophase_hour",
+      "label_zh": "峰值时刻（钟点小时）",
+      "aliases": [
+        "峰时",
+        "峰值时刻",
+        "acrophase_time",
+        "Acrophase (clock hour)"
+      ],
+      "unit": "h",
+      "accept": {
+        "min": 0.016666667
+      },
+      "range": [
+        0,
+        24
+      ],
+      "required": false,
+      "from": "measurements",
+      "group": "acrophase",
+      "note_zh": "钟点写成小数小时，例如 13:57 写 13.95；弧度和钟点给一个就够。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "cosinorage",
+      "label_zh": "CosinorAge（昼夜节律年龄）",
+      "unit": "a"
+    },
+    {
+      "key": "cosinorage_advance",
+      "label_zh": "CosinorAge 减实足年龄",
+      "unit": "a",
+      "note_zh": "大于 0 时正文记为衰老较快。"
+    }
+  ]
+}

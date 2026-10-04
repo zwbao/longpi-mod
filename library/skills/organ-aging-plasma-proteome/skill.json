@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "organ-aging-plasma-proteome",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "SomaScan 序列号是否齐套。",
+  "intents": [
+    "proteomic_organ_age"
+  ],
+  "triage": {
+    "reason_zh": "LASSO权重未收录，脚本只查SomaScan序列号是否按器官齐套，不算器官年龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-023-06802-1",
+    "title": "Organ aging signatures in the plasma proteome track health and disease",
+    "title_zh": "器官蛋白齐套",
+    "journal": "Nature",
+    "year": 2023,
+    "authors": "Oh 等",
+    "article_url": "https://doi.org/10.1038/s41586-023-06802-1",
+    "summary_zh": "这项研究利用来自特定器官的血浆蛋白，用机器学习在多个独立队列中估计每个人各主要器官的年龄，发现不少人有单个器官明显加速老化，器官加速老化与更高的死亡风险和相应器官疾病有关。个人报告只核对你交来的SomaScan序列号是否覆盖某器官模型所需的全部蛋白，并列出已齐套的器官，不计算器官年龄，也不据此开始或停止任何药物。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

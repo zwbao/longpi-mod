@@ -1,0 +1,51 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "rapamycin-early-adult-autophagy",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "drosophila",
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "老年保护"
+  ],
+  "blurb_zh": "绿色荧光面积占肠段总面积的比例；计数到齐时还有弥漫溶菌酶比例。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "果蝇和小鼠实验，输入是肠段荧光面积，个人没有这类测量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-022-00278-w",
+    "title": "Long-lasting geroprotection from brief rapamycin treatment in early adulthood by persistently increased intestinal autophagy",
+    "title_zh": "短暂雷帕霉素与肠自噬",
+    "journal": "Nature Aging",
+    "year": 2022,
+    "authors": "Juricic 等",
+    "article_url": "https://www.nature.com/articles/s43587-022-00278-w",
+    "supplements": [
+      {
+        "label": "Supplementary Tables 1–9",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-022-00278-w/MediaObjects/43587_2022_278_MOESM1_ESM.pdf"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究在雌性果蝇和小鼠里看，成年早期短时间接触雷帕霉素之后，肠道保护能不能留下来。留下来的读数是肠细胞自噬、溶菌酶分布、Man2B1 和肠屏障，不是这个人的分数。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "mci-cognitive-signatures",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "认知域读出。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "人类队列研究，但权重仓库为空，脚本名单恒为空，没有可核对的读出。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41746-026-02597-3",
+    "title": "Decoupling MCI-specific signatures from shared neurobiological substrates of cognitive aging via deep learning",
+    "title_zh": "认知域读出",
+    "journal": "npj Digital Medicine",
+    "year": 2026,
+    "authors": "Peng 等",
+    "article_url": "https://doi.org/10.1038/s41746-026-02597-3",
+    "summary_zh": "这项研究用条件变分自编码器分析两个队列的脑结构磁共振，把轻度认知障碍特有的脑改变与正常老化分开，发现这些改变与情景记忆、注意和执行功能受损相关，预测向阿尔茨海默病转化优于全脑萎缩和脑脊液标志物。个人报告只说明模型权重仓库是空的，所以不算个人认知域分数或转化风险，并照录现用药和体检，也不据此开始或停止任何药物。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

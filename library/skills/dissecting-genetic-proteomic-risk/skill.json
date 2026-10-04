@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "dissecting-genetic-proteomic-risk",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "谵妄相关蛋白，以及两个 APOE 位点的基因型。",
+  "intents": [
+    "cognition_dementia",
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "人群谵妄研究未公布LASSO权重，脚本只查109个蛋白名单并按定义数APOE ε4。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-01018-6",
+    "title": "Dissecting the genetic and proteomic risk factors for delirium",
+    "title_zh": "谵妄相关蛋白",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Raptis 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-01018-6",
+    "summary_zh": "这项研究汇总多族裔大型队列做谵妄的遗传荟萃分析，发现APOE基因是独立于痴呆的强风险因素，并在英国生物银行找出与日后谵妄相关的血浆蛋白，涉及脑易损性、炎症和免疫。个人报告只把你的蛋白值列在论文中通过邦费罗尼校正的蛋白旁，基因型能推定时写出你携带几个APOE4，不把队列比值比当成你的发病概率，也不据此开始或停止用药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--proteins",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

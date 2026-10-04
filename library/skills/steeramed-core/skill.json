@@ -1,0 +1,39 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "steeramed-core",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "工具与证据库"
+  ],
+  "blurb_zh": "个人甲基化报告。技能自行下载 GEO、STRING 和 STITCH，给出对齐假设。",
+  "intents": [
+    "epigenetic_age"
+  ],
+  "triage": {
+    "reason_zh": "用个人全血甲基化对照GEO参照算模块差值和SA分，输出化合物对齐假设排序。",
+    "reviewed": false
+  },
+  "paper": {
+    "source_id": "alphaxiv:2609.steeramed-biomedical-world-model-intervention",
+    "title_zh": "SteeraMed Core",
+    "code_url": "https://github.com/DeepoMe/SteeraMed",
+    "summary_zh": "个人甲基化报告。技能自行下载 GEO、STRING 和 STITCH，按 SteeraMed 方法给出对齐假设，不给出开药或停药建议。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "runtime": "scientific",
+    "measurements_flag": "--beta",
+    "age_flag": "--age",
+    "sex_flag": "--sex",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

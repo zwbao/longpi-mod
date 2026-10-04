@@ -1,0 +1,846 @@
+{
+ "schema": "longevity-biovar/1",
+ "z": 1.96,
+ "default_cva_rule_zh": "化验机构没有给出分析变异（CVA）时，按 EFLM 期望分析性能取 CVA = 0.5 × CVI（Sandberg 等，CCLM 2024;62:1483-9）。血压和体重的变异已包含测量误差，CVA 取 0。",
+ "sources_note_zh": [
+  "化验项目的个体内变异（CVI）都来自期刊论文，每一行的 cvi_source.quote 是原文里印着这个数的句子或表格行：EuBIVAS 汇总报告（Carobene 等，CCLM 2022）和它的原始论文（肌酐、酶类），EFLM 生物变异工作组发表的血液学 meta 分析（Coskun 等，CCLM 2020）和 HbA1c meta 分析（Ricós 等，Adv Lab Med 2020，CC BY 4.0），以及 25(OH)D 研究（Cavalier 等，Nutrients 2021，CC BY 4.0）。lsk check 会检查每个数都出现在引文里。",
+  "本表不收录 EFLM 生物变异数据库（biologicalvariation.eu）里的数值：该数据库的条款限制未经许可的再发布。",
+  "淋巴细胞百分比和 RDW-CV 没有找到可核对的个体内变异估计（已发表的是淋巴细胞绝对计数和 RDW-SD；淋巴细胞绝对计数单列为 lymph_abs），所以不在表里；表型年龄的噪声带因此不含这两项，是下限。",
+  "血压和体重来自同行评审研究，测量误差已经包含在内，见各行来源。"
+ ],
+ "markers": [
+  {
+   "key": "albumin",
+   "label_zh": "白蛋白",
+   "loinc": [
+    "1751-7"
+   ],
+   "aliases": [
+    "ALB",
+    "albumin",
+    "血清白蛋白"
+   ],
+   "unit": "g/L",
+   "cvi_pct": 2.5,
+   "cvi_ci_pct": [
+    2.4,
+    2.7
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "cvi_source": {
+    "title": "Carobene A et al. The European Biological Variation Study (EuBIVAS): a summary report. Clin Chem Lab Med 2022;60(4):505-17",
+    "url": "https://doi.org/10.1515/cclm-2021-0370",
+    "doi": "10.1515/cclm-2021-0370",
+    "note": "EuBIVAS: 91 healthy adults (21-69 y) at 6 European centres, fasting samples weekly for 10 weeks, each person's samples run in duplicate in one run; CVI by CV-ANOVA with 95% CI. The quote is the Table 2 row (measurand, n (M/F), results, mean, CVA, CVI, CVG). Albumin: 90 people, mean 42.1 g/L.",
+    "quote": "33 | Alb, g/L | 90 (38/52) | 1,675 | 42.1 (41.9–42.2) | 1.50 (1.4–1.6) | 2.5 (2.4–2.7) | 5.1 (4.4–5.9)",
+    "quote_location": "Table 2 row 33",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "creatinine",
+   "label_zh": "肌酐",
+   "loinc": [
+    "2160-0",
+    "14682-9"
+   ],
+   "aliases": [
+    "Cr",
+    "CREA",
+    "creatinine",
+    "肌酐(Cr)"
+   ],
+   "unit": "umol/L",
+   "cvi_pct": 4.4,
+   "cvi_ci_pct": [
+    4.2,
+    4.7
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "convert": {
+    "mg/dL": 88.4
+   },
+   "cvi_source": {
+    "title": "Carobene A et al. The EuBIVAS Project: within- and between-subject biological variation data for serum creatinine using enzymatic and alkaline picrate methods. Clin Chem 2017;63(9):1527-36",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/28720681/",
+    "doi": "10.1373/clinchem.2017.275115",
+    "note": "91 healthy adults, weekly for 10 weeks. Enzymatic method used here; alkaline picrate (Jaffe) gave 4.7% (4.4-4.9).",
+    "quote": "The within-subject BV estimates [CVI (95% CI)] were similar for enzymatic [4.4% (4.2-4.7)] and alkaline picrate [4.7% (4.4-4.9)] methods and lower than the estimate presently available online (CVI = 5.9%).",
+    "quote_location": "abstract",
+    "license": "abstract free on PubMed"
+   },
+   "verified": true
+  },
+  {
+   "key": "glucose",
+   "label_zh": "空腹血糖",
+   "loinc": [
+    "14771-0",
+    "2345-7",
+    "1558-6",
+    "14749-6"
+   ],
+   "aliases": [
+    "FBG",
+    "GLU",
+    "FPG",
+    "glucose",
+    "葡萄糖",
+    "空腹葡萄糖",
+    "血糖"
+   ],
+   "unit": "mmol/L",
+   "cvi_pct": 4.7,
+   "cvi_ci_pct": [
+    4.4,
+    4.9
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "lower",
+   "min_retest_days": null,
+   "retest_note_zh": "ADA 没有给出干预后的复测间隔；异常结果应尽快复查确认。",
+   "retest_source": {
+    "title": "ADA Standards of Care in Diabetes 2026, Section 2",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690183/",
+    "doi": "10.2337/dc26-S002"
+   },
+   "convert": {
+    "mg/dL": 0.0555
+   },
+   "cvi_source": {
+    "title": "Carobene A et al. The European Biological Variation Study (EuBIVAS): a summary report. Clin Chem Lab Med 2022;60(4):505-17",
+    "url": "https://doi.org/10.1515/cclm-2021-0370",
+    "doi": "10.1515/cclm-2021-0370",
+    "note": "EuBIVAS: 91 healthy adults (21-69 y) at 6 European centres, fasting samples weekly for 10 weeks, each person's samples run in duplicate in one run; CVI by CV-ANOVA with 95% CI. The quote is the Table 2 row (measurand, n (M/F), results, mean, CVA, CVI, CVG). Serum glucose: 89 people, mean 4.58 mmol/L.",
+    "quote": "21 | Glu, mmol/L | 89 (38/51) | 1,658 | 4.58 (4.55–4.60) | 0.58 (0.56–0.61) | 4.7 (4.4–4.9) | 8.1 (7.1–9.7)",
+    "quote_location": "Table 2 row 21",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "crp",
+   "label_zh": "超敏C反应蛋白",
+   "loinc": [
+    "30522-7",
+    "1988-5"
+   ],
+   "aliases": [
+    "hs-CRP",
+    "hsCRP",
+    "CRP",
+    "C反应蛋白",
+    "超敏CRP",
+    "C-反应蛋白"
+   ],
+   "unit": "mg/L",
+   "cvi_pct": 29.4,
+   "cvi_ci_pct": [
+    27.6,
+    31.1
+   ],
+   "cva_pct": null,
+   "log_normal": true,
+   "better": "lower",
+   "min_retest_days": 14,
+   "retest_note_zh": "AHA/CDC：两次测量取平均、最好相隔两周；超过 10 mg/L 要两周后复测并排查感染或炎症。这是基线评估的做法，不是干预后的复测间隔。",
+   "retest_source": {
+    "title": "AHA/CDC scientific statement on markers of inflammation (Pearson et al., Circulation 2003;107:499-511)",
+    "url": "https://doi.org/10.1161/01.CIR.0000052939.59093.45",
+    "doi": "10.1161/01.CIR.0000052939.59093.45"
+   },
+   "convert": {
+    "mg/dL": 10
+   },
+   "cvi_source": {
+    "title": "Carobene A et al. The European Biological Variation Study (EuBIVAS): a summary report. Clin Chem Lab Med 2022;60(4):505-17",
+    "url": "https://doi.org/10.1515/cclm-2021-0370",
+    "doi": "10.1515/cclm-2021-0370",
+    "note": "EuBIVAS: 91 healthy adults (21-69 y) at 6 European centres, fasting samples weekly for 10 weeks, each person's samples run in duplicate in one run; CVI by CV-ANOVA with 95% CI. The quote is the Table 2 row (measurand, n (M/F), results, mean, CVA, CVI, CVG). CRP: 87 people, mean 0.72 mg/L (the high-sensitivity range), after excluding results from mild inflammatory episodes.",
+    "quote": "45 | CRP, mg/L | 87 (37/50) | 1,423 | 0.72 (0.68–0.76) | 11.10 (10.5–11.7) | 29.4 (27.6–31.1) | 87.0 (72.6–109.6)",
+    "quote_location": "Table 2 row 45",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true,
+   "caveat_zh": "这个变异是在剔除轻微炎症期之后算的；研究期间约四分之一的人有过至少一次。感冒、受伤后测的 CRP 会大得多，所以超过 10 mg/L 的结果要两周后复测，不参与判断。"
+  },
+  {
+   "key": "mcv",
+   "label_zh": "平均红细胞体积",
+   "loinc": [
+    "787-2"
+   ],
+   "aliases": [
+    "MCV"
+   ],
+   "unit": "fL",
+   "cvi_pct": 0.75,
+   "cvi_ci_pct": [
+    0.64,
+    1.17
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "cvi_source": {
+    "title": "Coskun A et al. Systematic review and meta-analysis of within-subject and between-subject biological variation estimates of 20 haematological parameters. Clin Chem Lab Med 2020;58(1):25-32",
+    "url": "https://doi.org/10.1515/cclm-2019-0658",
+    "doi": "10.1515/cclm-2019-0658",
+    "note": "Meta-analysis of BIVAC-graded studies in healthy adults (7 papers, 12 subgroups). The quote is the Table 2 row (papers, subgroups, mean, CVI (CI), ...).",
+    "quote": "MCV, fL | 7 | 12 | 88.4 ± 2.37 | 0.75 (0.64–1.17) | 6 | 11 | 88.0 ± 2.10 | 3.78 (3.40–4.68) | 1.40 | 4.85",
+    "quote_location": "Table 2 row",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true,
+   "caveat_zh": "MCV 的个体内变异非常小，仪器误差可能和它一样大；按默认规则估的检测误差偏小，噪声带可能偏窄。"
+  },
+  {
+   "key": "rbc",
+   "label_zh": "红细胞计数",
+   "loinc": [
+    "789-8"
+   ],
+   "aliases": [
+    "RBC",
+    "红细胞数"
+   ],
+   "unit": "10^12/L",
+   "cvi_pct": 2.8,
+   "cvi_ci_pct": [
+    1.96,
+    3.07
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "cvi_source": {
+    "title": "Coskun A et al. Systematic review and meta-analysis of within-subject and between-subject biological variation estimates of 20 haematological parameters. Clin Chem Lab Med 2020;58(1):25-32",
+    "url": "https://doi.org/10.1515/cclm-2019-0658",
+    "doi": "10.1515/cclm-2019-0658",
+    "note": "Meta-analysis of BIVAC-graded studies in healthy adults (7 papers, 12 subgroups), men and women pooled. The quote is the Table 2 row (papers, subgroups, mean, CVI (CI), ...).",
+    "quote": "Erythrocyte, ×10¹²/L | 7 | 12 | 4.82 ± 0.33 | 2.80 (1.96–3.07) | 5 | 10 | 4.85 ± 0.36 | 6.29 (6.16–7.40) | 3.20 | 6.30",
+    "quote_location": "Table 2 row",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "hb",
+   "label_zh": "血红蛋白",
+   "loinc": [
+    "718-7"
+   ],
+   "aliases": [
+    "HGB",
+    "Hb",
+    "血红蛋白浓度"
+   ],
+   "unit": "g/L",
+   "cvi_pct": 2.71,
+   "cvi_ci_pct": [
+    1.72,
+    2.8
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "convert": {
+    "g/dL": 10
+   },
+   "cvi_source": {
+    "title": "Coskun A et al. Systematic review and meta-analysis of within-subject and between-subject biological variation estimates of 20 haematological parameters. Clin Chem Lab Med 2020;58(1):25-32",
+    "url": "https://doi.org/10.1515/cclm-2019-0658",
+    "doi": "10.1515/cclm-2019-0658",
+    "note": "Meta-analysis of BIVAC-graded studies in healthy adults (11 papers, 21 subgroups), men and women pooled. The quote is the Table 2 row (papers, subgroups, mean, CVI (CI), ...). Table 2 prints haemoglobin in mmol/L; a CV is unitless, so the CVI holds for g/L.",
+    "quote": "Haemoglobin, mmol/L | 11 | 21 | 8.77 ± 0.61 | 2.71 (1.72–2.80) | 6 | 13 | 8.72 ± 0.63 | 6.07 (3.20–6.28) | 2.85 | 6.80",
+    "quote_location": "Table 2 row",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "hct",
+   "label_zh": "红细胞压积",
+   "loinc": [
+    "4544-3"
+   ],
+   "aliases": [
+    "HCT",
+    "血细胞比容",
+    "红细胞比容"
+   ],
+   "unit": "L/L",
+   "cvi_pct": 2.71,
+   "cvi_ci_pct": [
+    2.24,
+    3.4
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "convert": {
+    "%": 0.01
+   },
+   "cvi_source": {
+    "title": "Coskun A et al. Systematic review and meta-analysis of within-subject and between-subject biological variation estimates of 20 haematological parameters. Clin Chem Lab Med 2020;58(1):25-32",
+    "url": "https://doi.org/10.1515/cclm-2019-0658",
+    "doi": "10.1515/cclm-2019-0658",
+    "note": "Meta-analysis of BIVAC-graded studies in healthy adults (6 papers, 13 subgroups), men and women pooled. The quote is the Table 2 row (papers, subgroups, mean, CVI (CI), ...).",
+    "quote": "Haematocrit, L/L | 6 | 13 | 0.43 ± 0.03 | 2.71 (2.24–3.40) | 6 | 13 | 0.43 ± 0.03 | 5.45 (3.40–5.51) | 2.70 | 6.41",
+    "quote_location": "Table 2 row",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "mch",
+   "label_zh": "平均红细胞血红蛋白含量",
+   "loinc": [
+    "785-6"
+   ],
+   "aliases": [
+    "MCH",
+    "平均红细胞血红蛋白量"
+   ],
+   "unit": "pg",
+   "cvi_pct": 0.85,
+   "cvi_ci_pct": [
+    0.24,
+    1.6
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "cvi_source": {
+    "title": "Coskun A et al. Systematic review and meta-analysis of within-subject and between-subject biological variation estimates of 20 haematological parameters. Clin Chem Lab Med 2020;58(1):25-32",
+    "url": "https://doi.org/10.1515/cclm-2019-0658",
+    "doi": "10.1515/cclm-2019-0658",
+    "note": "Meta-analysis of BIVAC-graded studies in healthy adults (6 papers, 9 subgroups), men and women pooled. The quote is the Table 2 row (papers, subgroups, mean, CVI (CI), ...). Table 2 prints MCH in fmol; a CV is unitless, so the CVI holds for pg.",
+    "quote": "MCH, fmol | 6 | 9 | 1.85 ± 0.05 | 0.85 (0.24–1.60) | 5 | 8 | 1.84 ± 0.05 | 4.30 (4.06–5.31) | 1.40 | 5.20",
+    "quote_location": "Table 2 row",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true,
+   "caveat_zh": "MCH 的个体内变异非常小，仪器误差可能和它一样大；按默认规则估的检测误差偏小，噪声带可能偏窄。"
+  },
+  {
+   "key": "mchc",
+   "label_zh": "平均红细胞血红蛋白浓度",
+   "loinc": [
+    "786-4"
+   ],
+   "aliases": [
+    "MCHC"
+   ],
+   "unit": "g/L",
+   "cvi_pct": 0.95,
+   "cvi_ci_pct": [
+    0.6,
+    1.1
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "convert": {
+    "g/dL": 10
+   },
+   "cvi_source": {
+    "title": "Coskun A et al. Systematic review and meta-analysis of within-subject and between-subject biological variation estimates of 20 haematological parameters. Clin Chem Lab Med 2020;58(1):25-32",
+    "url": "https://doi.org/10.1515/cclm-2019-0658",
+    "doi": "10.1515/cclm-2019-0658",
+    "note": "Meta-analysis of BIVAC-graded studies in healthy adults (6 papers, 11 subgroups), men and women pooled. The quote is the Table 2 row (papers, subgroups, mean, CVI (CI), ...). Table 2 prints MCHC in mmol/L; a CV is unitless, so the CVI holds for g/L.",
+    "quote": "MCHC, mmol/L | 6 | 11 | 20.8 ± 0.38 | 0.95 (0.60–1.10) | 5 | 10 | 20.9 ± 0.38 | 1.49 (1.25–2.30) | 1.06 | 1.20",
+    "quote_location": "Table 2 row",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true,
+   "caveat_zh": "MCHC 的个体内变异非常小，仪器误差可能和它一样大；按默认规则估的检测误差偏小，噪声带可能偏窄。"
+  },
+  {
+   "key": "alp",
+   "label_zh": "碱性磷酸酶",
+   "loinc": [
+    "6768-6"
+   ],
+   "aliases": [
+    "ALP",
+    "AKP",
+    "alkaline phosphatase"
+   ],
+   "unit": "U/L",
+   "cvi_pct": 5.3,
+   "cvi_ci_pct": [
+    5.0,
+    5.7
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "cvi_source": {
+    "title": "Carobene A et al. The European Biological Variation Study (EuBIVAS): a summary report. Clin Chem Lab Med 2022;60(4):505-17",
+    "url": "https://doi.org/10.1515/cclm-2021-0370",
+    "doi": "10.1515/cclm-2021-0370",
+    "note": "EuBIVAS: 91 healthy adults (21-69 y) at 6 European centres, fasting samples weekly for 10 weeks, each person's samples run in duplicate in one run; CVI by CV-ANOVA with 95% CI. The quote is the Table 2 row (measurand, n (M/F), results, mean, CVA, CVI, CVG). The primary paper prints the same point estimate: Carobene A et al., Clin Chem 2017;63(6):1141-50 (doi 10.1373/clinchem.2016.269811), abstract: \"alkaline phosphatase : 5.3%, 24.9%\".",
+    "quote": "4 | ALP, U/L | 85 (33/53) | 1,532 | 61.2 (60.3–62.0) | 2.8 (2.6–2.9) | 5.3 (5.0–5.7) | 24.9 (21.4–29.3)",
+    "quote_location": "Table 2 row 4",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "wbc",
+   "label_zh": "白细胞计数",
+   "loinc": [
+    "6690-2",
+    "26464-8"
+   ],
+   "aliases": [
+    "WBC",
+    "白细胞",
+    "白细胞数"
+   ],
+   "unit": "10^9/L",
+   "cvi_pct": 10.01,
+   "cvi_ci_pct": [
+    8.9,
+    11.35
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "cvi_source": {
+    "title": "Coskun A et al. Systematic review and meta-analysis of within-subject and between-subject biological variation estimates of 20 haematological parameters. Clin Chem Lab Med 2020;58(1):25-32",
+    "url": "https://doi.org/10.1515/cclm-2019-0658",
+    "doi": "10.1515/cclm-2019-0658",
+    "note": "Meta-analysis of BIVAC-graded studies in healthy adults (7 papers, 12 subgroups), men and women pooled. The quote is the Table 2 row.",
+    "quote": "Leukocyte, ×10⁹ | 7 | 12 | 6.62 ± 0.39 | 10.01 (8.90–11.35) | 4 | 7 | 6.75 ± 0.47 | 16.48 (15.78–23.70) | 11.40 | 21.30",
+    "quote_location": "Table 2 row",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "lymph_abs",
+   "label_zh": "淋巴细胞绝对值",
+   "loinc": [
+    "731-0"
+   ],
+   "aliases": [
+    "LYM#",
+    "LYMPH#",
+    "淋巴细胞计数",
+    "淋巴细胞数"
+   ],
+   "unit": "10^9/L",
+   "cvi_pct": 10.13,
+   "cvi_ci_pct": [
+    9.45,
+    13.59
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": null,
+   "cvi_source": {
+    "title": "Coskun A et al. Systematic review and meta-analysis of within-subject and between-subject biological variation estimates of 20 haematological parameters. Clin Chem Lab Med 2020;58(1):25-32",
+    "url": "https://doi.org/10.1515/cclm-2019-0658",
+    "doi": "10.1515/cclm-2019-0658",
+    "note": "Meta-analysis of BIVAC-graded studies in healthy adults (5 papers, 7 subgroups), men and women pooled. The quote is the Table 2 row (papers, subgroups, mean, CVI (CI), ...).",
+    "quote": "Lymphocyte, ×10⁹ | 5 | 7 | 2.12 ± 0.08 | 10.13 (9.45–13.59) | 4 | 6 | 2.12 ± 0.09 | 23.87 (21.30–25.10) | 10.20 | 35.30",
+    "quote_location": "Table 2 row",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "hba1c",
+   "label_zh": "糖化血红蛋白",
+   "loinc": [
+    "4548-4"
+   ],
+   "aliases": [
+    "HbA1c",
+    "A1c",
+    "糖化血红蛋白(HbA1c)"
+   ],
+   "unit": "%",
+   "cvi_pct": 1.2,
+   "cvi_ci_pct": [
+    0.3,
+    2.5
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "lower",
+   "min_retest_days": 90,
+   "retest_note_zh": "HbA1c 反映约 2–3 个月的平均血糖；治疗调整后约 3 个月复测。",
+   "retest_source": {
+    "title": "ADA Standards of Care in Diabetes 2026, Section 6, recommendation 6.2",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690178/",
+    "doi": "10.2337/dc26-S006"
+   },
+   "cvi_source": {
+    "title": "Ricos C et al. Critical appraisal and meta-analysis of biological variation studies on glycosylated albumin, glucose and HbA1c. Adv Lab Med 2020;1(3):20200029",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10197502/",
+    "doi": "10.1515/almed-2020-0029",
+    "note": "Meta-analysis of BIVAC A-C studies in healthy adults, whole-blood HbA1c.",
+    "quote": "BV estimates for glycosylated albumin were: CVI=1.4% (1.2–2.1) and CVG=5.7% (4.7–10.6), whereas estimates for HbA1c, CVI=1.2% (0.3–2.5), CVG=5.4% (3.3–7.3), and glucose, CVI=5.0% (4.1–12.0), CVG=8.1% (2.7–10.8) did not differ from previously published global estimates.",
+    "quote_location": "abstract (same values in Table 3)",
+    "license": "CC BY 4.0"
+   },
+   "verified": true,
+   "caveat_zh": "文献没有说明这个 CV 是 NGSP（%）还是 IFCC（mmol/mol）尺度；这里按 % 使用。"
+  },
+  {
+   "key": "tc",
+   "label_zh": "总胆固醇",
+   "loinc": [
+    "2093-3",
+    "14647-2"
+   ],
+   "aliases": [
+    "TC",
+    "CHOL",
+    "总胆固醇(TC)",
+    "血清总胆固醇"
+   ],
+   "unit": "mmol/L",
+   "cvi_pct": 5.18,
+   "cvi_ci_pct": [
+    4.92,
+    5.46
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "lower",
+   "min_retest_days": 28,
+   "retest_note_zh": "开始调整后 4–12 周复测血脂。",
+   "retest_source": {
+    "title": "2018 AHA/ACC Guideline on the Management of Blood Cholesterol (Grundy et al., Circulation 2019;139:e1082)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7403606/",
+    "doi": "10.1161/CIR.0000000000000625"
+   },
+   "convert": {
+    "mg/dL": 0.02586
+   },
+   "cvi_source": {
+    "title": "Carobene A et al. The European Biological Variation Study (EuBIVAS): a summary report. Clin Chem Lab Med 2022;60(4):505-17",
+    "url": "https://doi.org/10.1515/cclm-2021-0370",
+    "doi": "10.1515/cclm-2021-0370",
+    "note": "EuBIVAS: 91 healthy adults (21-69 y) at 6 European centres, fasting samples weekly for 10 weeks, each person's samples run in duplicate in one run; CVI by CV-ANOVA with 95% CI. The quote is the Table 2 row (measurand, n (M/F), results, mean, CVA, CVI, CVG). Total cholesterol: 90 people, mean 4.97 mmol/L.",
+    "quote": "16 | TC, mmol/L | 90 (38/52) | 1,640 | 4.97 (4.91–5.02) | 0.98 (0.93–1.03) | 5.18 (4.92–5.46) | 17.4 (15.1–20.4)",
+    "quote_location": "Table 2 row 16",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "ldl",
+   "label_zh": "低密度脂蛋白胆固醇",
+   "loinc": [
+    "13457-7",
+    "18262-6",
+    "39469-2"
+   ],
+   "aliases": [
+    "LDL-C",
+    "LDL",
+    "低密度脂蛋白",
+    "低密度脂蛋白胆固醇(LDL-C)"
+   ],
+   "unit": "mmol/L",
+   "cvi_pct": 8.46,
+   "cvi_ci_pct": [
+    8.05,
+    8.94
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "lower",
+   "min_retest_days": 28,
+   "retest_note_zh": "开始调整后 4–12 周复测血脂。",
+   "retest_source": {
+    "title": "2018 AHA/ACC Guideline on the Management of Blood Cholesterol (Grundy et al., Circulation 2019;139:e1082)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7403606/",
+    "doi": "10.1161/CIR.0000000000000625"
+   },
+   "convert": {
+    "mg/dL": 0.02586
+   },
+   "cvi_source": {
+    "title": "Carobene A et al. The European Biological Variation Study (EuBIVAS): a summary report. Clin Chem Lab Med 2022;60(4):505-17",
+    "url": "https://doi.org/10.1515/cclm-2021-0370",
+    "doi": "10.1515/cclm-2021-0370",
+    "note": "EuBIVAS: 91 healthy adults (21-69 y) at 6 European centres, fasting samples weekly for 10 weeks, each person's samples run in duplicate in one run; CVI by CV-ANOVA with 95% CI. The quote is the Table 2 row (measurand, n (M/F), results, mean, CVA, CVI, CVG). LDL cholesterol: 88 people, mean 2.77 mmol/L.",
+    "quote": "18 | LDL Chol, mmol/L | 88 (36/52) | 1,618 | 2.77 (2.72–2.81) | 1.77 (1.68–1.86) | 8.46 (8.05–8.94) | 28.2 (24.4–33.0",
+    "quote_location": "Table 2 row 18",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "hdl",
+   "label_zh": "高密度脂蛋白胆固醇",
+   "loinc": [
+    "2085-9",
+    "14646-4"
+   ],
+   "aliases": [
+    "HDL-C",
+    "HDL",
+    "高密度脂蛋白",
+    "高密度脂蛋白胆固醇(HDL-C)"
+   ],
+   "unit": "mmol/L",
+   "cvi_pct": 5.67,
+   "cvi_ci_pct": [
+    5.41,
+    5.99
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "higher",
+   "min_retest_days": 28,
+   "retest_note_zh": "开始调整后 4–12 周复测血脂。",
+   "retest_source": {
+    "title": "2018 AHA/ACC Guideline on the Management of Blood Cholesterol (Grundy et al., Circulation 2019;139:e1082)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7403606/",
+    "doi": "10.1161/CIR.0000000000000625"
+   },
+   "convert": {
+    "mg/dL": 0.02586
+   },
+   "cvi_source": {
+    "title": "Carobene A et al. The European Biological Variation Study (EuBIVAS): a summary report. Clin Chem Lab Med 2022;60(4):505-17",
+    "url": "https://doi.org/10.1515/cclm-2021-0370",
+    "doi": "10.1515/cclm-2021-0370",
+    "note": "EuBIVAS: 91 healthy adults (21-69 y) at 6 European centres, fasting samples weekly for 10 weeks, each person's samples run in duplicate in one run; CVI by CV-ANOVA with 95% CI. The quote is the Table 2 row (measurand, n (M/F), results, mean, CVA, CVI, CVG). HDL cholesterol: 90 people, mean 1.66 mmol/L.",
+    "quote": "17 | HDL Chol, mmol/L | 90 (38/52) | 1,642 | 1.66 (1.64–1.68) | 0.56 (0.54–0.59) | 5.67 (5.41–5.99) | 25.1 (21.5–29.3)",
+    "quote_location": "Table 2 row 17",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true
+  },
+  {
+   "key": "tg",
+   "label_zh": "甘油三酯",
+   "loinc": [
+    "2571-8",
+    "14927-8"
+   ],
+   "aliases": [
+    "TG",
+    "triglycerides",
+    "甘油三酯(TG)"
+   ],
+   "unit": "mmol/L",
+   "cvi_pct": 19.8,
+   "cvi_ci_pct": [
+    18.9,
+    20.9
+   ],
+   "cva_pct": null,
+   "log_normal": true,
+   "better": "lower",
+   "min_retest_days": 28,
+   "retest_note_zh": "开始调整后 4–12 周复测血脂。",
+   "retest_source": {
+    "title": "2018 AHA/ACC Guideline on the Management of Blood Cholesterol (Grundy et al., Circulation 2019;139:e1082)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7403606/",
+    "doi": "10.1161/CIR.0000000000000625"
+   },
+   "convert": {
+    "mg/dL": 0.01129
+   },
+   "cvi_source": {
+    "title": "Carobene A et al. The European Biological Variation Study (EuBIVAS): a summary report. Clin Chem Lab Med 2022;60(4):505-17",
+    "url": "https://doi.org/10.1515/cclm-2021-0370",
+    "doi": "10.1515/cclm-2021-0370",
+    "note": "EuBIVAS: 91 healthy adults (21-69 y) at 6 European centres, fasting samples weekly for 10 weeks, each person's samples run in duplicate in one run; CVI by CV-ANOVA with 95% CI. The quote is the Table 2 row (measurand, n (M/F), results, mean, CVA, CVI, CVG). Triglycerides: pooled men and women (the paper reports a sex difference), mean 0.99 mmol/L.",
+    "quote": "20 | Trig, mmol/L | 88 (37/52) | 1,667 | 0.99 (0.96–1.01) | 1.80 (1.72–1.89 | 19.8 (18.9–20.9 | 40.3 (34.6–48.1)",
+    "quote_location": "Table 2 row 20",
+    "license": "free to read at the publisher, no Creative Commons licence"
+   },
+   "verified": true,
+   "caveat_zh": "原文报告男女的个体内变异不同；这里用的是男女合并的估计。"
+  },
+  {
+   "key": "vitd",
+   "label_zh": "25-羟基维生素D",
+   "loinc": [],
+   "aliases": [
+    "25-OH-D",
+    "25(OH)D",
+    "25-羟维生素D",
+    "维生素D",
+    "25-OH vitamin D"
+   ],
+   "unit": "ng/mL",
+   "cvi_pct": 6.3,
+   "cvi_ci_pct": [
+    5.9,
+    6.8
+   ],
+   "cva_pct": null,
+   "log_normal": false,
+   "better": "range",
+   "min_retest_days": 90,
+   "retest_note_zh": "补充至少 3 个月后再测，6 个月可能更稳妥；一般不需要常规复查。",
+   "retest_source": {
+    "title": "Royal Osteoporosis Society, Vitamin D and Bone Health: a practical clinical guideline (2018, v2)",
+    "url": "https://www.hiowformulary.nhs.uk/docs/files/ros-vitamin-d-and-bone-health-in-adults-february-2020.pdf"
+   },
+   "convert": {
+    "nmol/L": 0.4006
+   },
+   "cvi_source": {
+    "title": "Cavalier E et al. Analytical performance specifications for 25-hydroxyvitamin D examinations. Nutrients 2021;13(2):431",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7911223/",
+    "doi": "10.3390/nu13020431",
+    "note": "EuBIVAS participants, weekly for up to 10 weeks in spring 2015. The estimate needed more than half of the results removed to reach homogeneity; on all data the CVI was 17.8%.",
+    "quote": "The homogeneity of the data was achieved only by eliminating more than 50% of the data, thus reducing the CVI from 17.8% (whole population, original data) to 6.3% (95% CI: 5.9–6.8%; 41 subjects; Table 1).",
+    "quote_location": "results text (section 3; same value in Table 1, row 'All results from 10 collections / All data')",
+    "license": "CC BY 4.0"
+   },
+   "verified": true,
+   "caveat_zh": "25(OH)D 会随季节持续变化（原文：春季每周升约 2.8%），不是稳定状态；这个数只适合同一季节、间隔几周的比较。跨季节的变化不一定来自干预。"
+  },
+  {
+   "key": "sbp",
+   "label_zh": "收缩压",
+   "loinc": [
+    "8480-6"
+   ],
+   "device_codes": [
+    "systolicPressures"
+   ],
+   "aliases": [
+    "SBP",
+    "收缩压",
+    "高压",
+    "systolic"
+   ],
+   "unit": "mmHg",
+   "cvi_pct": 4.2,
+   "cvi_ci_pct": [
+    3.6,
+    4.7
+   ],
+   "cva_pct": 0,
+   "log_normal": false,
+   "better": "lower",
+   "min_retest_days": 28,
+   "average_days": 7,
+   "retest_note_zh": "家庭血压连续测 7 天（至少 3 天），去掉第一天后取平均，再和另一周的平均比较。",
+   "retest_source": {
+    "title": "2023 ESH Guidelines for the management of arterial hypertension (Mancia et al., J Hypertens 2023;41:1874-2071)",
+    "url": "https://doi.org/10.1097/HJH.0000000000003480",
+    "doi": "10.1097/HJH.0000000000003480"
+   },
+   "cvi_source": {
+    "title": "Warren RE et al. Br J Gen Pract 2010;60:675-80 (office, ambulatory and home BP variability over 6 weeks)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2930221/",
+    "doi": "10.3399/bjgp10X515403",
+    "note": "163 adults aged 25-79 at raised cardiovascular risk, 45% with a history of hypertension; home value is the CV of 7-day means (days 2-7).",
+    "quote": "Systolic ... Self-monitored 135.1 133.0 4.2 (3.6 to 4.7) 109",
+    "quote_location": "Table 1 row (week 1 mean, week 6 mean, CV % (95% CI), n), PMC full text",
+    "license": "free full text in PMC"
+   },
+   "population": "家庭血压 7 天平均值；测量误差已含在内，不再加分析变异。",
+   "verified": true
+  },
+  {
+   "key": "dbp",
+   "label_zh": "舒张压",
+   "loinc": [
+    "8462-4"
+   ],
+   "device_codes": [
+    "diastolicPressures"
+   ],
+   "aliases": [
+    "DBP",
+    "舒张压",
+    "低压",
+    "diastolic"
+   ],
+   "unit": "mmHg",
+   "cvi_pct": 3.9,
+   "cvi_ci_pct": [
+    3.7,
+    4.1
+   ],
+   "cva_pct": 0,
+   "log_normal": false,
+   "better": "lower",
+   "min_retest_days": 28,
+   "average_days": 7,
+   "retest_note_zh": "家庭血压连续测 7 天（至少 3 天），去掉第一天后取平均，再和另一周的平均比较。",
+   "retest_source": {
+    "title": "2023 ESH Guidelines for the management of arterial hypertension (Mancia et al., J Hypertens 2023;41:1874-2071)",
+    "url": "https://doi.org/10.1097/HJH.0000000000003480",
+    "doi": "10.1097/HJH.0000000000003480"
+   },
+   "cvi_source": {
+    "title": "Warren RE et al. Br J Gen Pract 2010;60:675-80 (office, ambulatory and home BP variability over 6 weeks)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2930221/",
+    "doi": "10.3399/bjgp10X515403",
+    "note": "163 adults aged 25-79 at raised cardiovascular risk, 45% with a history of hypertension; home value is the CV of 7-day means (days 2-7).",
+    "quote": "Diastolic ... Self-monitored 83.2 82.8 3.9 (3.7 to 4.1) 109",
+    "quote_location": "Table 1 row (week 1 mean, week 6 mean, CV % (95% CI), n), PMC full text",
+    "license": "free full text in PMC"
+   },
+   "population": "家庭血压 7 天平均值；测量误差已含在内，不再加分析变异。",
+   "verified": true
+  },
+  {
+   "key": "weight",
+   "label_zh": "体重",
+   "loinc": [
+    "29463-7"
+   ],
+   "device_codes": [
+    "bodyMasss",
+    "bodyMass"
+   ],
+   "aliases": [
+    "体重",
+    "weight",
+    "body weight"
+   ],
+   "unit": "kg",
+   "cvi_pct": 0.66,
+   "cva_pct": 0,
+   "log_normal": false,
+   "better": "none",
+   "min_retest_days": null,
+   "cvi_source": {
+    "title": "Cheuvront SN et al. Int J Sport Nutr Exerc Metab 2004;14:532-40 (daily first-morning body mass)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/15673099/",
+    "doi": "10.1123/ijsnem.14.5.532",
+    "note": "65 active men, 4-15 consecutive days; CV 0.66 +/- 0.24% (mean +/- SD across people, no CI).",
+    "quote": "Group coefficient of variation was 0.66+/-0.24%, normally distributed, and not related to either absolute BM (r = 0.04) or number of measurements (r = 0.34).",
+    "quote_location": "abstract",
+    "license": "abstract free on PubMed"
+   },
+   "population": "清晨空腹体重；测量误差已含在内。",
+   "verified": true
+  }
+ ]
+}

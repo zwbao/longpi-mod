@@ -1,0 +1,221 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "life-cycle-biological-clock",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "年龄和常规检验对照临床时钟。",
+  "intents": [
+    "biological_age",
+    "lab_meaning"
+  ],
+  "triage": {
+    "reason_zh": "可把已算好的标准化年龄差按论文±1和>3个标准差分档；常规检验只对照点名指标。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41591-025-04006-w",
+    "title": "A full life cycle biological clock based on routine clinical data and its impact in health and diseases",
+    "title_zh": "临床时钟对照",
+    "journal": "Nature Medicine",
+    "year": 2025,
+    "authors": "Wang 等",
+    "article_url": "https://doi.org/10.1038/s41591-025-04006-w",
+    "summary_zh": "这项研究用海量常规电子病历和化验数据训练时间序列模型，建立从婴儿到老年的全生命周期生物时钟，发现儿童时钟与生长发育相关，成人时钟与衰老及糖尿病、卒中等疾病风险相关。个人报告只列出论文为你所在年龄段点名且你这次测到的化验指标，成人另给标准化年龄差时放进论文分档，不从化验值算生物年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "indicator",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "standardized_age_difference",
+      "label_zh": "标准化年龄差",
+      "aliases": [
+        "age_difference",
+        "年龄差",
+        "LifeClock 年龄差"
+      ],
+      "unit": "1",
+      "range": [
+        -10,
+        10
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "这里要 LifeClock 算出的标准化年龄差：预测年龄相对同龄健康人期望的偏离，再除以标准差，单位是标准差，不是岁。LifeClock 的模型和权重没有公开，本技能不重算；年龄超过 18 岁时才按正负 1 和高于 3 个标准差分档。"
+    },
+    {
+      "key": "ast_u_l",
+      "label_zh": "谷草转氨酶",
+      "aliases": [
+        "ast",
+        "天冬氨酸氨基转移酶",
+        "aspartate aminotransferase",
+        "GOT",
+        "SGOT"
+      ],
+      "unit": "U/L",
+      "accept": {
+        "ukat/L": 60
+      },
+      "range": [
+        2,
+        20000
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "儿童时钟点名的检验。只照录，不判断偏高或偏低。"
+    },
+    {
+      "key": "creat_umol",
+      "label_zh": "肌酐",
+      "aliases": [
+        "crea",
+        "creatinine",
+        "Cr",
+        "Scr",
+        "血肌酐"
+      ],
+      "loinc": [
+        "14682-9",
+        "2160-0"
+      ],
+      "unit": "umol/L",
+      "accept": {
+        "mg/dL": 88.4
+      },
+      "molar_mass": 113.12,
+      "range": [
+        5,
+        2000
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "儿童时钟点名的检验。只照录，不判断偏高或偏低。"
+    },
+    {
+      "key": "total_protein_gL",
+      "label_zh": "总蛋白",
+      "aliases": [
+        "tp",
+        "total protein",
+        "血清总蛋白"
+      ],
+      "unit": "g/L",
+      "accept": {
+        "g/dL": 10
+      },
+      "range": [
+        20,
+        150
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "儿童时钟点名的检验。只照录，不判断偏高或偏低。"
+    },
+    {
+      "key": "urea_mmol",
+      "label_zh": "尿素",
+      "aliases": [
+        "urea",
+        "血尿素"
+      ],
+      "unit": "mmol/L",
+      "range": [
+        0.5,
+        100
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "成人时钟点名的检验，要尿素（mmol/L）。尿素氮（BUN，mg/dL）是另一种写法，数值不同，不要直接填。只照录，不判断偏高或偏低。"
+    },
+    {
+      "key": "albumin_gL",
+      "label_zh": "白蛋白",
+      "aliases": [
+        "alb",
+        "albumin",
+        "血清白蛋白"
+      ],
+      "loinc": [
+        "1751-7"
+      ],
+      "unit": "g/L",
+      "accept": {
+        "g/dL": 10
+      },
+      "range": [
+        15,
+        65
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "成人时钟点名的检验。只照录，不判断偏高或偏低。"
+    },
+    {
+      "key": "rdw_pct",
+      "label_zh": "红细胞分布宽度",
+      "aliases": [
+        "rdw",
+        "red cell distribution width",
+        "RDW-CV",
+        "红细胞分布宽度-CV",
+        "红细胞体积分布宽度"
+      ],
+      "loinc": [
+        "788-0"
+      ],
+      "unit": "%",
+      "range": [
+        8,
+        32
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "成人时钟点名的检验。化验单上常同时有 RDW-CV（%）和 RDW-SD（fL），这里要 RDW-CV。只照录，不判断偏高或偏低。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "aliases": [
+        "年龄",
+        "chronological age"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        110
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "按年龄选时钟：不到 18 岁用儿童时钟，超过 18 岁用成人时钟，正好 18 岁不选。也可以在测量表里写一行 age；两处都有时用 --age。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "adult_band",
+      "label_zh": "成人时钟标准化年龄差的分档",
+      "note_zh": "平均偏离：绝对值不超过 1 个标准差；过度偏离：高于 3 个标准差；两档之外：其余。年龄不超过 18 岁或没有标准化年龄差时为空。"
+    }
+  ]
+}

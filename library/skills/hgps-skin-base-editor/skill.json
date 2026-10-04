@@ -1,0 +1,45 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "hgps-skin-base-editor",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "皮肤"
+  ],
+  "blurb_zh": "等位基因是不是 LMNA c.1824C>T。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠皮肤碱基编辑实验，脚本只核对LMNA c.1824C>T等位是否对上。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-022-30800-y",
+    "title": "Transient expression of an adenine base editor corrects the Hutchinson-Gilford progeria syndrome mutation and improves the skin phenotype in mice",
+    "title_zh": "早衰皮肤的碱基编辑",
+    "journal": "Nature Communications",
+    "year": 2022,
+    "authors": "Whisenant 等",
+    "article_url": "https://www.nature.com/articles/s41467-022-30800-y",
+    "card_notes": [
+      "这次没有用到补充表里的系数。",
+      "论文没有给出代码仓库网址。测序在 SRA，登录号留在 claims，不写进个人报告。"
+    ],
+    "summary_zh": "这项研究用短暂表达的腺嘌呤碱基编辑器，在早衰小鼠皮肤里校正 LMNA 的一个点突变。校正之后，皮肤里出现不含 progerin 的角质形成细胞簇。个人报告只核对等位是否对上这个突变。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

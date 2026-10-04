@@ -1,0 +1,575 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "epiage",
+  "kind": "tool",
+  "tier": "tool",
+  "species": [
+    "human"
+  ],
+  "evidence": "method",
+  "domains": [
+    "工具与证据库"
+  ],
+  "blurb_zh": "epiage-skill（gangchen/epiage-skill fcf4e3b）。离线读一份血液甲基化 β 值文件，算 25 个衰老时钟和 10 个暴露组与健康分值（另有 2 个上游暂停）。",
+  "intents": [
+    "epigenetic_age"
+  ],
+  "tool": {
+    "upstream": "https://github.com/gangchen/epiage-skill",
+    "commit": "fcf4e3b",
+    "license": "MIT",
+    "requires": [
+      "pandas",
+      "numpy"
+    ]
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "runtime": "scientific",
+    "age_flag": "--age",
+    "sex_flag": "--sex",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "betas",
+      "label_zh": "血液甲基化 β 值文件（CSV 或 TSV，可以 .gz）",
+      "required": true,
+      "from": "argument",
+      "flag": "--betas",
+      "note_zh": "长表（CpG 编号, β 值）或矩阵（第一列 CpG 编号，其余每列一个样本）。β 值在 0 到 1 之间，缺失写 NA。IDAT 要先按上游 SeSAMe 流程转成 β 值。"
+    },
+    {
+      "key": "clocks",
+      "label_zh": "要跑的模型或组名（逗号分隔，默认 core）",
+      "required": false,
+      "from": "argument",
+      "flag": "--clocks",
+      "note_zh": "组名：all、aging、grimage、core、firstgen、secondgen、thirdgen、exposome、health、phenotypes。core 含 GrimAge。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "GrimAge 要用到。"
+    },
+    {
+      "key": "sex",
+      "label_zh": "性别",
+      "required": false,
+      "from": "profile",
+      "flag": "--sex",
+      "note_zh": "GrimAge 必须有，其他模型不用。"
+    },
+    {
+      "key": "sensitivity",
+      "label_zh": "GrimAgeV2 敏感性分析的其他年龄（逗号分隔）",
+      "required": false,
+      "from": "argument",
+      "flag": "--sensitivity",
+      "note_zh": "只知道年龄范围时用；只影响 GrimAgeV2，只算第一个样本。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "dnam_grimagev1",
+      "label_zh": "GrimAge V1 甲基化年龄",
+      "unit": "a",
+      "note_zh": "按死亡风险训练的第二代时钟；公式直接用实足年龄和性别，是以年为单位的风险分。"
+    },
+    {
+      "key": "dnam_grimagev2",
+      "label_zh": "GrimAge V2 甲基化年龄",
+      "unit": "a",
+      "note_zh": "按死亡风险训练的第二代时钟；公式直接用实足年龄和性别，是以年为单位的风险分。"
+    },
+    {
+      "key": "dnam_horvath",
+      "label_zh": "Horvath 多组织甲基化年龄（2013）",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_horvath2",
+      "label_zh": "Horvath 皮肤和血液甲基化年龄（2018）",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_hannum",
+      "label_zh": "Hannum 甲基化年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_lin",
+      "label_zh": "Lin 甲基化年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_vidalbralo",
+      "label_zh": "Vidal-Bralo 甲基化年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_weidner",
+      "label_zh": "Weidner 甲基化年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_garagnani",
+      "label_zh": "ELOVL2 单个 CpG 的 β 值（Garagnani）",
+      "unit": "1",
+      "note_zh": "cg16867657 的 β 值，0 到 1，不是年龄。"
+    },
+    {
+      "key": "dnam_bocklandt",
+      "label_zh": "EDARADD 单个 CpG 的 β 值（Bocklandt）",
+      "unit": "1",
+      "note_zh": "cg09809672 的 β 值，0 到 1，不是年龄。"
+    },
+    {
+      "key": "dnam_pedbe",
+      "label_zh": "PedBE 甲基化年龄（儿童口腔拭子模型）",
+      "unit": "a",
+      "note_zh": "为儿童口腔拭子训练，这里用在血液上。"
+    },
+    {
+      "key": "dnam_cortical",
+      "label_zh": "DNAmClockCortical 甲基化年龄（脑皮层模型）",
+      "unit": "a",
+      "note_zh": "为脑皮层组织训练，这里用在血液上。"
+    },
+    {
+      "key": "dnam_stoch",
+      "label_zh": "StocH 随机甲基化年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_stocp",
+      "label_zh": "StocP 随机甲基化年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_stocz",
+      "label_zh": "StocZ 随机甲基化年龄",
+      "unit": "a",
+      "note_zh": "由 Zhang 年龄时钟的 CpG 训练，是年龄，不是 Zhang 死亡风险分。"
+    },
+    {
+      "key": "dnam_phenoage",
+      "label_zh": "甲基化表型年龄（DNAm PhenoAge，不是血检表型年龄）",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_hrsinchphenoage",
+      "label_zh": "HRSInCHPhenoAge 甲基化表型年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_yingcausage",
+      "label_zh": "Ying CausAge 甲基化年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_yingdamage",
+      "label_zh": "Ying DamAge 甲基化年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_yingadaptage",
+      "label_zh": "Ying AdaptAge 甲基化年龄",
+      "unit": "a"
+    },
+    {
+      "key": "dnam_zhang",
+      "label_zh": "Zhang 10 个 CpG 死亡风险分",
+      "unit": "score",
+      "note_zh": "加权和，无单位，可以是负数；不是年龄，也不是概率。"
+    },
+    {
+      "key": "dnam_dunedinpace",
+      "label_zh": "DunedinPACE 衰老速度",
+      "unit": "1",
+      "note_zh": "每过一年的生物学衰老年数（年/年），不是年龄。"
+    },
+    {
+      "key": "dnam_dunedinpoam",
+      "label_zh": "DunedinPoAm 衰老速度",
+      "unit": "1",
+      "note_zh": "每过一年的生物学衰老年数（年/年），不是年龄。"
+    },
+    {
+      "key": "dnam_dnamtl",
+      "label_zh": "DNAmTL 端粒长度甲基化替代值",
+      "unit": "kb",
+      "note_zh": "按甲基化估计的替代值，单位千碱基（kb），不是实测端粒长度。"
+    },
+    {
+      "key": "dnam_epitoc1",
+      "label_zh": "EpiTOC1 有丝分裂分值",
+      "unit": "score",
+      "note_zh": "385 个 CpG 的平均 β 值；不是细胞分裂次数，也不是年龄。"
+    },
+    {
+      "key": "dnam_smoking",
+      "label_zh": "吸烟相关甲基化分值（McCartney）",
+      "unit": "score",
+      "note_zh": "原始加权 DNAm 分数，不是吸烟包年。"
+    },
+    {
+      "key": "dnam_alcohol",
+      "label_zh": "饮酒相关甲基化分值（McCartney）",
+      "unit": "score",
+      "note_zh": "原始加权 DNAm 分数，不是饮酒量。"
+    },
+    {
+      "key": "dnam_bmi",
+      "label_zh": "BMI 相关甲基化分值（McCartney）",
+      "unit": "score",
+      "note_zh": "原始加权 DNAm 分数，不是 kg/m²。"
+    },
+    {
+      "key": "dnam_bmi_reed",
+      "label_zh": "BMI 相关甲基化分值（Reed）",
+      "unit": "score",
+      "note_zh": "DNAm 分数，不是 kg/m²。"
+    },
+    {
+      "key": "dnam_bodyfat",
+      "label_zh": "体脂相关甲基化分值（McCartney）",
+      "unit": "score",
+      "note_zh": "原始加权 DNAm 分数，不是体脂百分比。"
+    },
+    {
+      "key": "dnam_hdl",
+      "label_zh": "HDL 胆固醇相关甲基化分值（McCartney）",
+      "unit": "score",
+      "note_zh": "原始加权 DNAm 分数，不是血脂浓度。"
+    },
+    {
+      "key": "dnam_ldl",
+      "label_zh": "LDL 胆固醇相关甲基化分值（McCartney）",
+      "unit": "score",
+      "note_zh": "原始加权 DNAm 分数，不是血脂浓度。"
+    },
+    {
+      "key": "dnam_totalchol",
+      "label_zh": "总胆固醇相关甲基化分值（McCartney）",
+      "unit": "score",
+      "note_zh": "原始加权 DNAm 分数，不是血脂浓度。"
+    },
+    {
+      "key": "dnam_education",
+      "label_zh": "受教育程度相关甲基化分值（McCartney）",
+      "unit": "score",
+      "note_zh": "原始加权 DNAm 分数，不是受教育年限。"
+    },
+    {
+      "key": "dnam_cvd",
+      "label_zh": "冠心病相关甲基化分值（Westerman）",
+      "unit": "score",
+      "note_zh": "上游暂停计算：随附系数缺项、缺队列标准化，恒为空。"
+    },
+    {
+      "key": "dnam_alzheimers",
+      "label_zh": "阿尔茨海默病相关甲基化分值（Bahado-Singh）",
+      "unit": "score",
+      "note_zh": "模型分值，不是患病概率。"
+    },
+    {
+      "key": "dnam_depression",
+      "label_zh": "抑郁相关甲基化分值（Barbu）",
+      "unit": "score",
+      "note_zh": "上游暂停计算：原文用 M 值输入，截距没有核实，恒为空。"
+    }
+  ],
+  "data_files": [
+    {
+      "path": "data/AD_Bahado-Singh.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/AD_Bahado-Singh.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "176af0459bf066f27dd05ce59eb417e855176f546fba2240f0729b57937d526c",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Alcohol.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Alcohol.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; weights checked against McCartney 2018 Additional file 1",
+      "sha256": "7b79c9961266f970a79f9ba52255ea928b671bcdff7fb2a9e20f78f5bdb86dac",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/blood_panel.npz",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/blood_panel.npz",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); methyLImp panel built by epiage from public GEO GSE40279 whole-blood 450K data",
+      "sha256": "04dbded0475c3f639169a0ae6a304fb275483c8bb5c69e71fbdedbc1d5510571",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/BMI_McCartney.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/BMI_McCartney.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; weights checked against McCartney 2018 Additional file 1",
+      "sha256": "1f6f5f48cb16669f5b49c2f336ede51a2476839e1545b4e31b456aff6b38604f",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/BMI_Reed.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/BMI_Reed.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "96286e9c73379b8ed101736c5089408548b0b6715f49d79b07a3fa723f0004d2",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Bocklandt.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Bocklandt.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "ee8fed4c7d54d6a4c12774e37ea715951f5509cb1585f4ef2c064793429d08e9",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/BodyFatMcCartney.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/BodyFatMcCartney.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; weights checked against McCartney 2018 Additional file 1",
+      "sha256": "02b416d7e5f4e4a6a68539b201cf43fe8294da9ebbe1fbf120dee803c9c5d365",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/CVD_Westermann.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/CVD_Westermann.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "0f3e18f6721ff0b949993a58da7671c96f70a585e0beafc7833bfafd18f5ed0d",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/DepressionBarbu.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/DepressionBarbu.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "e1bf8a5ebe0b3b31ff30db8e7089ca2e43e8d4b380963ce910c1f9b6a64e9d98",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/DNAmClockCortical.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/DNAmClockCortical.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "db6828b2132943efe935b5fdff82d55dd9a83204bc40efab233f0e15ec80f930",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/DNAmTL.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/DNAmTL.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; intercept checked against Lu 2019 Supplementary Data 1",
+      "sha256": "59b005bfc615e319ed8ac09ecc0293c0ba85ba0f2fe1a34f1c34d816f55f3c7a",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/DunedinPACE.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/DunedinPACE.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; DunedinPACE model: the danbelsky/DunedinPACE R package is GPL-3 and states research use only (commercial licensee TruDiagnostic)",
+      "sha256": "b0323f60f1eabef45b1c8159d5372250cadc9594d9ec9db9441b5566a86cec56",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/DunedinPACE_Gold_Means.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/DunedinPACE_Gold_Means.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); gold-standard reference means derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; DunedinPACE model: the danbelsky/DunedinPACE R package is GPL-3 and states research use only (commercial licensee TruDiagnostic)",
+      "sha256": "eeda25adf042e6f9c3ba4a90d9d76635fa9b0a2bcdbd5d61d2c014bf645390fc",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/DunedinPoAm38.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/DunedinPoAm38.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "1d756cd1990e4d5967db6e0319afa32121015f05e63dcadb8cc90e685d1e9f74",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/EducationMcCartney.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/EducationMcCartney.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; weights checked against McCartney 2018 Additional file 1",
+      "sha256": "2827de9d6924ae91fc8ad8fa2b00c894a89610a519c3af256a39b3a292b43d4e",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/EpiTOC1.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/EpiTOC1.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "2301c13cc6c8afa9876ad8b30e04b560773691c25d6762a7953642c4601dbf5e",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Garagnani.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Garagnani.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "77f1f67072a1f6c2056db78587fafae5cd642312254365ada38832dc3aa87622",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/GrimAgeV1.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/GrimAgeV1.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; GrimAge commercial use restricted (UCLA TDG / Clock Foundation), see NOTICE-epiage",
+      "sha256": "c787e6ec602121d688e35a36b52b4d1b2b6af2e91e1ff7057cc900e9df308dad",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/GrimAgeV2.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/GrimAgeV2.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; GrimAge commercial use restricted (UCLA TDG / Clock Foundation), see NOTICE-epiage",
+      "sha256": "437290aae18c45e808b2668535e917cf381d121ab050fb2097617567fdc7f0fd",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Hannum.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Hannum.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "f37744fa9ea9a18ad419b7dcf02085f1a3ba7e97b6ea3caaf0c4337c7bd37a88",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/HDLCholesterolMcCartney.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/HDLCholesterolMcCartney.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; weights checked against McCartney 2018 Additional file 1",
+      "sha256": "e92469d510d656e7a9e5306d982fb51209e7745872de4b66c2f373148178f340",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Horvath1.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Horvath1.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "c35043ada7c3daec3ed604cbd18aa5098e9ab4e63a6f585608c4fcc70bbad861",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Horvath2.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Horvath2.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "e3cbc2cf7600ceeb8b00bc12d52833bcfad70565c8421a5173150c6f861fea31",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/HRSInCHPhenoAge.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/HRSInCHPhenoAge.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "76554c335d56ee2c568acd3448ca08092cf0de431b72f465f4cf4dad038ccebf",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/LDLCholesterolMcCartney.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/LDLCholesterolMcCartney.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; weights checked against McCartney 2018 Additional file 1",
+      "sha256": "69e24c27b588672c9017e0683552d34c3aee4a0c05bbe64e6900ff92db0ffadb",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Lin.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Lin.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "db6c9a929ce41fd3adc6d3d1cb6f2e159c8dd1086514e7fd73a62877c10f623e",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/PEDBE.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/PEDBE.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "6b795cd42f88a55c0e3daef0a25d99d62dee957ec97d6f0cbdad1d1857c1b831",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/PhenoAge.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/PhenoAge.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "a5a6b4e4f0f2e078c071e0234bc1db85734e1a6a0520ec97203b17229e96dcd9",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/sesame_450k_median.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/sesame_450k_median.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); CpG medians derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers)",
+      "sha256": "f8937431287c18bf74380043de22f9c0351f45e69f84b7636c6f14eca54a8549",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Smoking.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Smoking.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; weights checked against McCartney 2018 Additional file 1",
+      "sha256": "25b4fce4f47fc6678cb2bb3bed126ac03bcc9cbf537aacd364d24fe4a27d6914",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/StocH.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/StocH.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "12e6cf2168e1a2c00345d3f4e9038c7e99eb9c3660960cf3d7c0de18c6a46abf",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/StocP.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/StocP.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "1e8f4aa674a3fa557330a4ad0a8a86917bbc224a9603abafa3d6ac3480b31f3d",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/StocZ.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/StocZ.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "80e2bce973283c7fddb90f340c8a90f9385a13f53262c4ea6380494643f4fa0d",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/TotalCholesterolMcCartney.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/TotalCholesterolMcCartney.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication; weights checked against McCartney 2018 Additional file 1",
+      "sha256": "085e05e2e91cbc5447e9401c72634ae39a34d7b6abefc175f52672a634031358",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/VidalBralo.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/VidalBralo.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "59ab121dc6b0836f560b4ac278e1edcaefddbd54cfaa7a19180552768eed2432",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Weidner.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Weidner.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "c12203574fa8f080101b26c44b2e572d0149c9d353549fd178d5c40fa4c01c51",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/YingAdaptAge.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/YingAdaptAge.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "4dd0d4839df1d4c3abd2624779ee565a1c0b2f9e2c0c672ef51d8d7e7e08a8f7",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/YingCausAge.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/YingCausAge.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "5066b21d39539965414e043ae53bc0ffb8931fb07e922850b1a5e5c7235ed2ae",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/YingDamAge.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/YingDamAge.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "e1f103f236d3db76350cb9a0cc08bbba03352a976e5b8f6349468a90aa704677",
+      "redistributable": "yes"
+    },
+    {
+      "path": "data/Zhang_10.csv",
+      "source_url": "https://raw.githubusercontent.com/gangchen/epiage-skill/fcf4e3be1a5977e8f19641931a2f1219b058ed80/epigenetic-clocks/data/Zhang_10.csv",
+      "license": "MIT (gangchen/epiage-skill, © 2026 gangchen); coefficients derived from biolearn (BSD-3-Clause, © 2023 The biolearn developers) and the original clock publication",
+      "sha256": "4a780e1cfae0ff6c49961a0c5f75ca3826f492ed6fd6fbd82c19aafa2e25ce0e",
+      "redistributable": "yes"
+    }
+  ]
+}

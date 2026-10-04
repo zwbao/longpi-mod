@@ -1,0 +1,92 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "wearable-aging-clock",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "腕部脉搏波年龄相对实足年龄。",
+  "intents": [
+    "wearable_sleep",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用已算好的腕部脉搏波年龄减实足年龄，得出个人PpgAge年龄差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-025-64275-4",
+    "title": "A wearable-based aging clock associates with disease and behavior",
+    "title_zh": "腕部脉搏波年龄差",
+    "journal": "Nature Communications",
+    "year": 2025,
+    "authors": "Miller 等",
+    "article_url": "https://doi.org/10.1038/s41467-025-64275-4",
+    "summary_zh": "这项研究用消费级可穿戴设备在手腕采集的光电容积脉搏波建立衰老时钟，发现脉搏波年龄高于实足年龄的人心脏病、心力衰竭和糖尿病更常见，脉搏波年龄还与吸烟、运动和睡眠有关。个人报告只在你已给出脉搏波年龄和实足年龄时算两者之差，并在旁边引用一次健康队列的平均绝对误差，不从脉搏波重新计算年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "ppgage",
+      "label_zh": "脉搏波年龄（PpgAge）",
+      "aliases": [
+        "PpgAge",
+        "PPG 年龄",
+        "脉搏波年龄",
+        "腕部脉搏波年龄"
+      ],
+      "unit": "a",
+      "range": [
+        10,
+        150
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "这里要论文 AHMS 模型从手表腕部光电容积脉搏波算出的预测年龄（岁），不是它减实足年龄的差。公开材料没有这个模型和岭回归系数，本技能不重算，只用你已有的数。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "aliases": [
+        "年龄",
+        "chronological age"
+      ],
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "也可以在测量表里写一行 age；两处都有时用 --age。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "ppgage_gap",
+      "label_zh": "脉搏波年龄减实足年龄（PpgAge gap）",
+      "unit": "a"
+    }
+  ]
+}

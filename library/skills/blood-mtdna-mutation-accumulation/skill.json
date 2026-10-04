@@ -1,0 +1,48 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "blood-mtdna-mutation-accumulation",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "线粒体"
+  ],
+  "blurb_zh": "60 岁以后的重链替换类型，以及正文点名的克隆性造血基因。",
+  "intents": [
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "人群全基因组研究，脚本只把替换类型和点名基因对照正文类别，另附质控和60岁切点。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-026-10569-6",
+    "title": "Mechanism of age-related accumulation of mtDNA mutations in human blood",
+    "title_zh": "血液线粒体突变累积",
+    "journal": "Nature",
+    "year": 2026,
+    "authors": "Gupta 等",
+    "article_url": "https://www.nature.com/articles/s41586-026-10569-6",
+    "supplements": [
+      {
+        "label": "关联分析代码",
+        "url": "https://github.com/rahulg603/mtdna_750k_gwas"
+      }
+    ],
+    "code_url": "https://github.com/rahulg603/mtSwirl",
+    "summary_zh": "血液里随年龄变多的线粒体单核苷酸异质性更像复制错误，而不是氧化损伤造成的颠换。这些低水平变异要等造血克隆扩大之后，才在混合血液测序里变得可见。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

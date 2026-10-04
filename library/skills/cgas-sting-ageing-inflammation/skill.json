@@ -1,0 +1,50 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "cgas-sting-ageing-inflammation",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "同时带有倍数和校正 P 值、并过扩展数据图十门槛的基因。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "以小鼠实验为主，输入是差异表达表的倍数和校正P值，不是个人测量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-023-06373-1",
+    "title": "cGAS–STING drives ageing-related inflammation and neurodegeneration",
+    "title_zh": "胞质核酸感受与老年炎症",
+    "journal": "Nature",
+    "year": 2023,
+    "authors": "Gulen 等",
+    "article_url": "https://www.nature.com/articles/s41586-023-06373-1",
+    "supplements": [
+      {
+        "label": "补充表 MOESM5",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06373-1/MediaObjects/41586_2023_6373_MOESM5_ESM.xlsx"
+      }
+    ],
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "这项研究说明，细胞感受到自身 DNA 之后，会推动年老时的慢性炎症，并影响小鼠的脑。挡住这条通路后，老年小鼠多个器官的炎症减轻，体力和记忆测试也有改善。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

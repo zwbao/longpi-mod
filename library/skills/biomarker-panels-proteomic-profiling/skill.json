@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "biomarker-panels-proteomic-profiling",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "脑小血管病相关蛋白的符号和数值。",
+  "intents": [
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "人脑小血管病蛋白组研究，无回归系数，脚本只查正文点名蛋白及方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01081-7",
+    "title": "Identification of distinct and shared biomarker panels in different manifestations of cerebral small-vessel disease through proteomic profiling",
+    "title_zh": "脑小血管病蛋白",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Hristovska 等",
+    "article_url": "https://doi.org/10.1038/s43587-026-01081-7",
+    "summary_zh": "这项研究用高通量蛋白组学比较脑小血管病的白质病变、微出血和梗死等表现，发现它们都伴随细胞外基质失调和血管重塑相关蛋白升高，其中部分血浆蛋白还能预测未来的脑血管事件。个人报告只核对你交来的蛋白名是否在论文正文点名的面板里，并照录正文写的升高或降低方向，不加权重，也不计算个人风险。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

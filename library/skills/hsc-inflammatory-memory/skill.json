@@ -1,0 +1,49 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "hsc-inflammatory-memory",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "免疫与炎症"
+  ],
+  "blurb_zh": "补充表九里按 MarkerScore 排在炎症记忆一侧的基因。",
+  "intents": [
+    "immune_inflammation",
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "人造血干细胞研究，脚本只查基因是否在补充表九的炎症记忆名单，不算分数。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-026-10522-7",
+    "title": "Human haematopoietic stem cells remember inflammatory stress",
+    "title_zh": "造血干细胞的炎症记忆",
+    "journal": "Nature",
+    "year": 2026,
+    "authors": "Zeng 等",
+    "article_url": "https://www.nature.com/articles/s41586-026-10522-7",
+    "supplements": [
+      {
+        "label": "补充表 MOESM3",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-026-10522-7/MediaObjects/41586_2026_10522_MOESM3_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://zenodo.org/records/18850871",
+    "summary_zh": "这项研究说明，人的造血干细胞在炎症过去之后，还会留下一种比较安静、又带着炎症印记的状态。这种印记可以出现在后代免疫细胞里，并和一份由血常规算出的死亡风险分组放在一起看。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

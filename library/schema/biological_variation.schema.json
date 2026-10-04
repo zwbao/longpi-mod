@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zwbao/longevity-skills/schema/biological_variation.schema.json",
+  "title": "data/biological_variation.json",
+  "description": "Within-person biological variation (CVI) per marker, used to decide whether a change between two results in one person exceeds noise: RCV = sqrt(2) * z * sqrt(CVA^2 + CVI^2). Every number comes from a journal article with a DOI, and cvi_source.quote holds the sentence or table row that prints it; `lsk check` confirms the numbers appear in the quote. Values from the EFLM Biological Variation Database are not accepted, because its terms restrict redistribution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "z",
+    "default_cva_rule_zh",
+    "markers"
+  ],
+  "properties": {
+    "schema": {
+      "const": "longevity-biovar/1"
+    },
+    "z": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Two-sided z for the reference change value (1.96 = 95%)."
+    },
+    "default_cva_rule_zh": {
+      "type": "string",
+      "minLength": 4
+    },
+    "markers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/marker"
+      }
+    },
+    "sources_note_zh": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 4
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "doi": {
+          "type": "string",
+          "pattern": "^10\\.\\d{4,9}/\\S+$"
+        },
+        "note": {
+          "type": "string"
+        },
+        "quote": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Verbatim sentence or table row from the source that prints cvi_pct and its interval."
+        },
+        "quote_location": {
+          "type": "string",
+          "description": "Where the quote is: abstract, results text, or a table row."
+        },
+        "license": {
+          "type": "string",
+          "description": "How the source can be read (open-access licence, free abstract, and so on)."
+        }
+      }
+    },
+    "marker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "label_zh",
+        "loinc",
+        "unit",
+        "cvi_pct",
+        "better",
+        "log_normal",
+        "cvi_source",
+        "verified"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "label_zh": {
+          "type": "string",
+          "minLength": 1
+        },
+        "loinc": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\d{1,7}-\\d$"
+          }
+        },
+        "device_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Mirobody device-namespace indicator codes (dailySteps, systolicPressures)."
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unit": {
+          "type": "string"
+        },
+        "cvi_pct": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 200
+        },
+        "cvi_ci_pct": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "cva_pct": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "Desirable analytical imprecision when the source states one; null uses default_cva_rule."
+        },
+        "log_normal": {
+          "type": "boolean",
+          "description": "Right-skewed within-person distribution: use the asymmetric log-normal RCV."
+        },
+        "better": {
+          "enum": [
+            "lower",
+            "higher",
+            "range",
+            "none"
+          ]
+        },
+        "min_retest_days": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "retest_note_zh": {
+          "type": "string"
+        },
+        "cvi_source": {
+          "$ref": "#/$defs/source"
+        },
+        "retest_source": {
+          "$ref": "#/$defs/source"
+        },
+        "population": {
+          "type": "string"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "convert": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "description": "Exact factors converting another unit into this row's unit, e.g. {\"mg/dL\": 0.01129} for triglycerides in mmol/L."
+        },
+        "average_days": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Compare means over this many days (home blood pressure), because the CVI was measured on such means."
+        },
+        "caveat_zh": {
+          "type": "string",
+          "minLength": 4,
+          "description": "What a reader should know before relying on this row."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "environmental-genetic-aging-mortality",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "衰弱与死亡风险"
+  ],
+  "blurb_zh": "暴露回答。",
+  "intents": [
+    "frailty_mortality"
+  ],
+  "triage": {
+    "reason_zh": "英国生物银行队列，脚本只把个人八项暴露有无对上论文风险比方向。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41591-024-03483-9",
+    "title": "Integrating the environmental and genetic architectures of aging and mortality",
+    "title_zh": "暴露对照",
+    "journal": "Nature Medicine",
+    "year": 2025,
+    "authors": "Argentieri 等",
+    "article_url": "https://doi.org/10.1038/s41591-024-03483-9",
+    "summary_zh": "这项研究在英国生物银行里系统筛查与全因死亡和蛋白质组衰老相关的环境暴露，并比较环境与多基因风险的解释力，发现环境暴露额外解释的死亡差异远多于多基因风险。个人报告只标出你回答是或否的八项暴露落在论文写出的保护还是有害界值里，不把药物算作暴露，体检也不增删这份名单。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

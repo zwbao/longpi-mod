@@ -1,0 +1,52 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "muscle-regeneration-lifespan",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "骨骼肌"
+  ],
+  "blurb_zh": "单向 FBR 衰老分对照论文里的界值。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "小鼠肌肉再生单细胞图谱，脚本只把单细胞衰老分对照界值。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00756-3",
+    "title": "Transcriptomic analysis of skeletal muscle regeneration across mouse lifespan identifies altered stem cell states",
+    "title_zh": "肌肉再生的干细胞状态",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Walter 等",
+    "article_url": "https://www.nature.com/articles/s43587-024-00756-3",
+    "supplements": [
+      {
+        "label": "Supplementary Table 2",
+        "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs43587-024-00756-3/MediaObjects/43587_2024_756_MOESM4_ESM.xlsx"
+      },
+      {
+        "label": "空间转录组代码",
+        "url": "https://github.com/ntekasi/ST_MuSCs"
+      }
+    ],
+    "code_url": "https://github.com/ldwalter/",
+    "summary_zh": "这项研究跟踪小鼠胫骨前肌在毒素损伤后的单细胞转录组，从年轻到高龄。它用单样本富集给肌干细胞打衰老样分数，界值不在基因表的倍数列里。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

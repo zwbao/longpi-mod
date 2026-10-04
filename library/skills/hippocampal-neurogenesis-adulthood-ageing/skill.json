@@ -1,0 +1,70 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "hippocampal-neurogenesis-adulthood-ageing",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "年龄，以及情景记忆是持平或更好、更差，还是未知。",
+  "intents": [
+    "cognition_dementia"
+  ],
+  "triage": {
+    "reason_zh": "人脑死后研究，用个人年龄和情景记忆比较，按论文SuperAger定义判断是否符合。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-026-10169-4",
+    "title": "Human hippocampal neurogenesis in adulthood, ageing and Alzheimer’s disease",
+    "title_zh": "情景记忆对照",
+    "journal": "Nature",
+    "year": 2026,
+    "authors": "Disouky 等",
+    "article_url": "https://doi.org/10.1038/s41586-026-10169-4",
+    "summary_zh": "这项研究用单细胞多组学测了不同人群死后海马的细胞核，包括年轻人、认知正常的老年人、记忆超常的高龄者和阿尔茨海默病的脑样本，比较神经发生相关细胞的变化。个人报告只核对你给出的年龄和情景记忆比较是否符合论文写明的记忆超常者定义，不做细胞计数，也不评估你的大脑。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "memory",
+      "label_zh": "情景记忆比较（相对 50–59 岁）",
+      "required": true,
+      "from": "argument",
+      "flag": "--memory",
+      "note_zh": "取 equal_or_better（不低于 50–59 岁的常模）、below（低于）或 unknown（不知道，不判断）。要从情景记忆测验按年龄常模比出来，本技能不做测验。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "superager",
+      "label_zh": "是否符合 SuperAger 的入组写法",
+      "note_zh": "符合：年龄不少于 80 岁且情景记忆不低于 50–59 岁；不满足：其余。情景记忆写 unknown 时不判断，为空。"
+    }
+  ]
+}

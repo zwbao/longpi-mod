@@ -1,0 +1,47 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "mtdna-cell-level-selection",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "cell_line"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "线粒体"
+  ],
+  "blurb_zh": "错义异质性相对约 56% 和约 60% 的位置，以及 UMI 是否达到 64。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "293T细胞碱基编辑实验，输入是细胞异质性、UMI和培养条件，个人没有。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-024-07332-0",
+    "title": "Single-cell analysis reveals context-dependent, cell-level selection of mtDNA",
+    "title_zh": "细胞水平的线粒体选择",
+    "journal": "Nature",
+    "year": 2024,
+    "authors": "Kotrys 等",
+    "article_url": "https://www.nature.com/articles/s41586-024-07332-0",
+    "supplements": [
+      {
+        "label": "分析代码",
+        "url": "https://github.com/MoothaLab/scilite-analysis"
+      }
+    ],
+    "code_url": "https://github.com/MoothaLab/scilite-pipeline",
+    "summary_zh": "在分裂的细胞里，非同义线粒体 DNA 异质性会按细胞适合度被选择，同义变异则更常被保留。这个适合度的方向取决于环境，例如糖源和氧气，不是一个固定的好坏。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

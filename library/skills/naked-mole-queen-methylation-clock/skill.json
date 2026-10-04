@@ -1,0 +1,49 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "naked-mole-queen-methylation-clock",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "naked_mole_rat"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "甲基化",
+    "比较生物学"
+  ],
+  "blurb_zh": "Supplementary Table 20 的甲基化年龄。位点不齐时只保留相对年龄的输入，不补 0。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "裸鼹鼠甲基化时钟，需要哺乳动物芯片位点，主要证据不是人类。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-021-00152-1",
+    "title": "DNA methylation clocks tick in naked mole rats but queens age more slowly than nonbreeders",
+    "title_zh": "裸鼹鼠甲基化时钟",
+    "journal": "Nature Aging",
+    "year": 2021,
+    "authors": "Horvath 等",
+    "article_url": "https://www.nature.com/articles/s43587-021-00152-1",
+    "supplements": [
+      {
+        "label": "Supplementary Table 20",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-021-00152-1/MediaObjects/43587_2021_152_MOESM3_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-021-00152-1/MediaObjects/43587_2021_152_MOESM1_ESM.pdf",
+    "summary_zh": "这项研究为裸鼹鼠多个组织建立甲基化年龄模型，并比较繁殖雌性与非繁殖个体。位点到齐时，个人报告用补充表的系数重算。女王身份没有单独的加减项。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

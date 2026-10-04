@@ -1,0 +1,55 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "replicative-senescence-proteome",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "cell_line"
+  ],
+  "evidence": "in_vitro",
+  "domains": [
+    "细胞衰老"
+  ],
+  "blurb_zh": "IMR90 复制性衰老显著蛋白的基因和 UniProt 查表。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "IMR90细胞复制性衰老体外蛋白组，脚本只查符号是否在显著子集中。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-77686-8",
+    "title": "Quantitative proteomics reveals coordinated changes in the proteome during replicative senescence",
+    "title_zh": "复制性衰老蛋白质组查表",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Da Silva Fernandes 等",
+    "article_url": "https://www.nature.com/articles/s41467-026-77686-8",
+    "supplements": [
+      {
+        "label": "Supplementary Data 1",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-026-77686-8/MediaObjects/41467_2026_77686_MOESM3_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/ndasilva13/Proteomics-data-analysis---Replicative-Senescence",
+    "card_notes": [
+      "打开过 MOESM2 说明与 MOESM3。个人查表用的是 `Proteome_equal_cell_number` 里 Cluster 非空的 1240 个蛋白。",
+      "仓库是作者的分析脚本，不是个人打分模型。"
+    ],
+    "summary_zh": "这项研究用质谱系统看 IMR90 复制性衰老过程中蛋白质组怎样协调变化，并公开多份补充数据作为资源。个人报告只在已冻结的 equal-cell 显著性子集上查你交来的符号，不把它写成你的衰老诊断。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none",
+  "related_not_same": [
+    "ramanomics-senescence"
+  ]
+}

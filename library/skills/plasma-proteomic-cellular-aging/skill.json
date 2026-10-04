@@ -1,0 +1,40 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "plasma-proteomic-cellular-aging",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "SomaScan 蛋白和性别对应的细胞类型蛋白年龄。",
+  "intents": [
+    "proteomic_organ_age"
+  ],
+  "triage": {
+    "reason_zh": "用个人SomaScan蛋白z分数和性别按公开系数表算细胞类型预测年龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41591-026-04446-y",
+    "title": "Plasma proteomic signatures of cellular aging predict human disease",
+    "title_zh": "细胞类型蛋白年龄",
+    "journal": "Nature Medicine",
+    "year": 2026,
+    "authors": "Ding 等",
+    "article_url": "https://doi.org/10.1038/s41591-026-04446-y",
+    "summary_zh": "这项研究用大规模人群的血浆蛋白组数据建模，估计神经元、免疫、胶质和内分泌等多种细胞类型的生物年龄，发现细胞衰老特征与疾病状态有关，并能预测日后发病和死亡。个人报告只按论文仓库的系数表和你的SomaScan标准化蛋白值及性别，为对上足够实测蛋白的细胞类型算预测年龄，并说明单人数据算不出年龄差，不据此开始或停止用药。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

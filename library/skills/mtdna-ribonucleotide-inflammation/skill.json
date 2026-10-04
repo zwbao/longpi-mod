@@ -1,0 +1,44 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "mtdna-ribonucleotide-inflammation",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse",
+    "cell_line"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "线粒体"
+  ],
+  "blurb_zh": "热图上印出的干扰素刺激基因。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "Mgme1敲除小鼠和衰老细胞研究，脚本只查热图上的干扰素刺激基因名。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41586-025-09541-7",
+    "title": "Ribonucleotide incorporation into mitochondrial DNA drives inflammation",
+    "title_zh": "线粒体核糖核苷酸与炎症",
+    "journal": "Nature",
+    "year": 2025,
+    "authors": "Bahat 等",
+    "article_url": "https://www.nature.com/articles/s41586-025-09541-7",
+    "card_notes": [
+      "论文没有给出代码仓库。"
+    ],
+    "summary_zh": "核苷酸不平衡时，核糖核苷酸更容易嵌进线粒体 DNA，线粒体 DNA 碎片进入胞质后会带动 cGAS–STING 炎症。在衰老细胞里，外加脱氧核糖核苷可以压低这种依赖线粒体 DNA 的炎症表型。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

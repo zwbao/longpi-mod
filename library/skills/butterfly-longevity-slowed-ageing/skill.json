@@ -1,0 +1,49 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "butterfly-longevity-slowed-ageing",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "butterfly"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "衰弱与死亡风险",
+    "比较生物学"
+  ],
+  "blurb_zh": "对上的物种的最长寿命，以及成虫日龄。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "袖蝶物种最长寿命查表，证据来自蝴蝶，输入是物种名和成虫日龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-026-73635-7",
+    "title": "Evolution of increased longevity and slowed ageing in a genus of tropical butterfly",
+    "title_zh": "蝶类寿命记录",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "authors": "Foley 等",
+    "article_url": "https://www.nature.com/articles/s41467-026-73635-7",
+    "supplements": [
+      {
+        "label": "补充表",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-026-73635-7/MediaObjects/41467_2026_73635_MOESM3_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://doi.org/10.6084/m9.figshare.31081597",
+    "summary_zh": "这项研究把袖蝶属和近缘蝶的成虫寿命放在一起，看更长的寿命是否伴随更慢的精算衰老。花粉取食和寿命延长出现在同一支系上，补充花粉并不能单独解释全部差异。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "epigenetic-age-single-cells",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "甲基化"
+  ],
+  "blurb_zh": "位点取值为 0 或 1 时的单细胞月龄。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "scAge用小鼠肝脏参照，输入是小鼠CpG位点的单细胞0/1甲基化，只出小鼠月龄。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-021-00134-3",
+    "title": "Profiling epigenetic age in single cells",
+    "title_zh": "单细胞甲基化月龄",
+    "journal": "Nature Aging",
+    "year": 2021,
+    "authors": "Trapp 等",
+    "article_url": "https://doi.org/10.1038/s43587-021-00134-3",
+    "summary_zh": "这项研究提出一种统计框架，把单个细胞稀疏的二元甲基化数据和批量参照结合起来，在小鼠组织里估计每个细胞的表观遗传年龄并看出细胞间的差异。个人报告只在小鼠肝脏参照里相关最强的那几行位点上算最大似然月龄，这是小鼠月龄，不是人的时钟，也不抄队列误差。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

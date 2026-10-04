@@ -1,0 +1,25 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "longevity-evidence",
+  "kind": "evidence",
+  "tier": "tool",
+  "species": ["human", "multi_species"],
+  "evidence": "database",
+  "domains": ["工具与证据库"],
+  "blurb_zh": "收录论文里点名的药物、补剂、基因和干预的说法，按人群、动物、细胞分组查询，每条带出处。",
+  "intents": ["intervention_evidence", "gene_variant", "lab_meaning"],
+  "entry": {
+    "script": "scripts/query.py",
+    "medications_flag": "--medications",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {"key": "entity", "label_zh": "要查的对象（药物、补剂、饮食、基因、蛋白）", "required": true, "from": "argument", "flag": "--entity"}
+  ],
+  "outputs": [
+    {"key": "match_count", "label_zh": "命中的说法条数", "unit": "1"},
+    {"key": "human_count", "label_zh": "其中人群研究的条数", "unit": "1"}
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "lensage-index-biological-age",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "影像"
+  ],
+  "blurb_zh": "晶状体年龄相对实足年龄。",
+  "intents": [
+    "imaging",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用已得晶状体年龄减实足年龄得出指数，并对照正文5、10、20年快老化切点。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41467-023-42934-8",
+    "title": "LensAge index as a deep learning-based biological age for self-monitoring the risks of age-related diseases and mortality",
+    "title_zh": "晶状体年龄指数",
+    "journal": "Nature Communications",
+    "year": 2023,
+    "authors": "Li 等",
+    "article_url": "https://doi.org/10.1038/s41467-023-42934-8",
+    "summary_zh": "这项研究用大批成年人的晶状体照片训练深度模型估计晶状体年龄，再用它减去实足年龄来表示相对同龄人的老化快慢，并考察这个差与眼病、全身疾病和死亡风险的关系。个人报告只做这个减法，并对照正文写出的三档快老化切点，不运行照片模型，也不抄误差和曲线下面积。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ]
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "lens_age",
+      "label_zh": "晶状体年龄",
+      "aliases": [
+        "晶状体年龄",
+        "lens age"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "measurements",
+      "note_zh": "照片模型已经给出的晶状体年龄，本技能不从照片重算。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ]
+}

@@ -6,6 +6,9 @@ import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from '..
 import { activePerson, personDir, readRegistry, rootDir, SELF, type Person } from '../people/store.ts'
 import { holderAuth, mintMemberLink, saveMemberLink } from '../people/mirobody.ts'
 import { homedir } from '../../sys/os.ts'
+import { libFile } from '../../sys/url.ts'
+import { isLocalMcp } from '../mcp.ts'
+import { exportForAnalyst, readLocalRecord, RECORD_FILE } from '../local-record.ts'
 import { dirname, isAbsolute, join, resolve } from '../../sys/path.ts'
 import type { CoreDeps } from '../contracts/index.ts'
 import { currentPlan, normalizePlan, savePlan } from '../interventions.ts'
@@ -34,8 +37,9 @@ export const SKILL_NAME = 'longevity-analyst'
 /** The first skill version that writes la-export/1 and reads Mirobody. */
 export const MIN_SKILL_VERSION = [0, 7, 0] as const
 
+/** In the mod the analyst ships with it (skills/longevity-analyst), so Claude Code lists it as a skill too. */
 export function analystSkillPath(): string {
-  return process.env.LONGPI_ANALYST_SKILL || join(process.env.DSH_HOME || join(homedir(), '.dsh'), 'skills', SKILL_NAME, 'SKILL.md')
+  return process.env.LONGPI_ANALYST_SKILL || join(dirname(dirname(libFile())), 'skills', SKILL_NAME, 'SKILL.md')
 }
 
 /** The installed skill's version, and whether its harness has the commands this bridge uses. */
@@ -233,7 +237,10 @@ export async function startRun(deps: CoreDeps, opts: { dataFolder?: string | nul
   const who = activePerson(root)
   // The run reads Mirobody through a link, not the page's token: give it a fresh one (ten days) for this person.
   const link = await freshLinkFor(root, who.person).catch(() => '')
-  const run = createRun(dataDir, { mcpUrl: link || deps.config().mcpUrl, memberFolder: folder.path, trigger: opts.trigger, reasonZh: opts.reasonZh })
+  const local = isLocalMcp(deps.config().mcpUrl)
+  const run = createRun(dataDir, { mcpUrl: local ? '' : link || deps.config().mcpUrl, memberFolder: folder.path, trigger: opts.trigger, reasonZh: opts.reasonZh })
+  // The record on this computer goes into the data folder as the analyst's own pull would write it.
+  const exported = local ? exportForAnalyst(readLocalRecord(join(dataDir, RECORD_FILE)), run.data_dir) : null
   const sex = profile.sex === 'male' ? '男' : '女'
   const them = who.person ? `我的${who.label_zh}` : '我'
   const lines = [
@@ -245,8 +252,11 @@ export async function startRun(deps: CoreDeps, opts: { dataFolder?: string | nul
     `方法库在：${config.skillsHome || '~/longpi/longevity-skills'}`,
     run.mirobody
       ? `体检和手表数据在 Mirobody 里：开始前先运行 la.py mirobody pull ${run.data_dir} --mcp-url-file ${run.mcp_url_file}（链接是密钥，不要把它写进命令或回复）。`
-      : '',
-    '做完后告诉我，我会在健康页「深度分析」里导入结果。',
+      : exported && (exported.lab_files.length > 0 || exported.wearable_file)
+        ? `LongPi 记录里的体检和手表数据已经导出到数据文件夹：${exported.lab_files.length} 个体检日期的化验表（每个日期一个 CSV）${exported.wearable_file ? '和一份每天的手表数据' : ''}。按 intake 的步骤处理它们，和其他文件一样。`
+        : '',
+    `方法库的 Python 用：${config.skillPython || config.pythonBin || 'python3'}。`,
+    '做完后用 import_analysis 导入，结果会出现在 LongPi 页面的「深度分析」里。',
   ].filter(Boolean)
   return { ok: true, run_id: run.id, workspace: run.workspace, data_folder: run.data_dir, prompt_zh: lines.join('\n'), mirobody: run.mirobody }
 }

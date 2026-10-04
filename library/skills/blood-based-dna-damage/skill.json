@@ -1,0 +1,38 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "blood-based-dna-damage",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "human"
+  ],
+  "evidence": "case_control",
+  "domains": [
+    "蛋白、代谢与器官年龄"
+  ],
+  "blurb_zh": "血液转录本的倍数变化、校正显著性和长度偏倚。",
+  "intents": [],
+  "triage": {
+    "reason_zh": "人帕金森队列，但输入是差异表达的倍数和校正P值，属统计量而非个人测量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-025-00926-x",
+    "title": "A blood-based DNA damage signature in patients with Parkinson’s disease is associated with disease progression",
+    "title_zh": "血液转录本的长度偏倚",
+    "journal": "Nature Aging",
+    "year": 2025,
+    "authors": "Sproviero 等",
+    "article_url": "https://doi.org/10.1038/s43587-025-00926-x",
+    "summary_zh": "这项研究随访了帕金森病队列的血液样本，看到修复通路失调和较长转录本被偏向性抑制的表达特征，并在独立队列和尸检脑组织里做了验证。个人报告只按论文的倍数变化和校正显著性门槛筛出你表里的基因，比较上调与下调两侧的中位长度方向，不加总成分数，也不判断病情。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

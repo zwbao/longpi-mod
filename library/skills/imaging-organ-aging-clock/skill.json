@@ -1,0 +1,170 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "imaging-organ-aging-clock",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "影像"
+  ],
+  "blurb_zh": "影像器官预测年龄相对实足年龄。",
+  "intents": [
+    "imaging",
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "英国生物银行影像时钟，用已算好的器官预测年龄减实足年龄得出年龄差。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41746-026-02488-7",
+    "title": "Imaging-based organ-specific aging clock predicts human diseases and mortality",
+    "title_zh": "影像器官年龄差",
+    "journal": "npj Digital Medicine",
+    "year": 2026,
+    "authors": "Ren 等",
+    "article_url": "https://doi.org/10.1038/s41746-026-02488-7",
+    "code_url": "https://github.com/hitrp/MultiOrganImagingAging/",
+    "summary_zh": "这项研究用影像表型做器官年龄。论文给出的仓库当时克隆不到，偏差校正的截距也没有印出。已经给出预测年龄时，报告用预测年龄减去实足年龄。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "measurements_header": [
+      "marker",
+      "value",
+      "unit"
+    ]
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "brain",
+      "label_zh": "脑预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的器官预测年龄。七个器官齐了才报平均差；灰质和白质不进平均。"
+    },
+    {
+      "key": "heart",
+      "label_zh": "心脏预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的器官预测年龄。七个器官齐了才报平均差；灰质和白质不进平均。"
+    },
+    {
+      "key": "body",
+      "label_zh": "体成分预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的器官预测年龄。七个器官齐了才报平均差；灰质和白质不进平均。"
+    },
+    {
+      "key": "kidney",
+      "label_zh": "肾预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的器官预测年龄。七个器官齐了才报平均差；灰质和白质不进平均。"
+    },
+    {
+      "key": "liver",
+      "label_zh": "肝预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的器官预测年龄。七个器官齐了才报平均差；灰质和白质不进平均。"
+    },
+    {
+      "key": "pancreas",
+      "label_zh": "胰腺预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的器官预测年龄。七个器官齐了才报平均差；灰质和白质不进平均。"
+    },
+    {
+      "key": "eye",
+      "label_zh": "眼预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的器官预测年龄。七个器官齐了才报平均差；灰质和白质不进平均。"
+    },
+    {
+      "key": "brain_gm",
+      "label_zh": "脑灰质预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的器官预测年龄。七个器官齐了才报平均差；灰质和白质不进平均。"
+    },
+    {
+      "key": "brain_wm",
+      "label_zh": "脑白质预测年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的器官预测年龄。七个器官齐了才报平均差；灰质和白质不进平均。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "unit": "a",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age"
+    }
+  ]
+}

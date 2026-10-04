@@ -1,0 +1,42 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "proteomic-apoe-alzheimers-signatures",
+  "kind": "paper",
+  "tier": "B",
+  "species": [
+    "human"
+  ],
+  "evidence": "cross_sectional",
+  "domains": [
+    "脑、认知与痴呆"
+  ],
+  "blurb_zh": "e2 或 e4，以及蛋白符号。",
+  "intents": [
+    "cognition_dementia",
+    "gene_variant"
+  ],
+  "triage": {
+    "reason_zh": "人群蛋白组研究，脚本只按论文标准化系数给点名蛋白排序，不算个人数值。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-026-01123-0",
+    "title": "Proteomic signatures of the APOE ε4 and APOE ε2 genetic variants and Alzheimer’s disease",
+    "title_zh": "载脂蛋白蛋白名单",
+    "journal": "Nature Aging",
+    "year": 2026,
+    "authors": "Lu 等",
+    "article_url": "https://doi.org/10.1038/s43587-026-01123-0",
+    "summary_zh": "这项研究在多个队列的血浆和脑脊液中分析APOE4与APOE2携带者的蛋白变化，发现这些变化在淀粉样病理出现前即可检测，两种等位基因通过不同的分子机制影响阿尔茨海默病风险。个人报告只把你点名且在论文显著名单里的蛋白按对应基因型的标准化系数绝对值排序，不把系数当成你的个人效应。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}

@@ -1,0 +1,166 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "biological-aging-generational-shifts",
+  "kind": "paper",
+  "tier": "A",
+  "species": [
+    "human"
+  ],
+  "evidence": "cohort",
+  "domains": [
+    "临床年龄与可穿戴"
+  ],
+  "blurb_zh": "年龄、出生年和已经算好的衰老测量。",
+  "intents": [
+    "biological_age"
+  ],
+  "triage": {
+    "reason_zh": "用已算好的PhenoAge减实足年龄得未标准化差值，并按论文两段出生年分组。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s41591-026-04448-w",
+    "title": "Biological aging and generational shifts in early-onset cancer risk",
+    "title_zh": "衰老测量对照",
+    "journal": "Nature Medicine",
+    "year": 2026,
+    "authors": "Tian 等",
+    "article_url": "https://doi.org/10.1038/s41591-026-04448-w",
+    "summary_zh": "这项研究在英国生物样本库的年轻成人中比较不同出生世代的衰老测量，发现较晚出生者全身衰老程度更高，且衰老加速与早发实体癌风险升高相关。个人报告只在你同时给出表型年龄和实足年龄时算两者的未标准化差值，并登记你已有的其他年龄差，不把队列风险比说成你的患癌概率。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "measurements_header": [
+      "item",
+      "value",
+      "unit"
+    ],
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out",
+    "result_json": true
+  },
+  "inputs_status": "verified",
+  "inputs": [
+    {
+      "key": "phenoage",
+      "label_zh": "表型年龄",
+      "aliases": [
+        "PhenoAge",
+        "phenotypic age",
+        "血检表型年龄",
+        "Levine phenotypic age"
+      ],
+      "unit": "a",
+      "range": [
+        0,
+        130
+      ],
+      "required": true,
+      "from": "measurements",
+      "output_of": [
+        "phenoage"
+      ],
+      "note_zh": "这里要九项常规血检按 Levine 公式算出的表型年龄本身（岁），不是它减实足年龄的差，也不是甲基化 PhenoAge。本技能不重算表型年龄，只用它减实足年龄。"
+    },
+    {
+      "key": "birth_year",
+      "label_zh": "出生年",
+      "aliases": [
+        "出生年份",
+        "birth year",
+        "year of birth"
+      ],
+      "range": [
+        1900,
+        2026
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "四位数的公历出生年份，单位列留空。论文对照 1965–1974 年和 1950–1954 年出生的两段。"
+    },
+    {
+      "key": "kdm_age_gap",
+      "label_zh": "KDM年龄差",
+      "aliases": [
+        "KDM age gap",
+        "KDM-BA age gap",
+        "KDM 生物年龄差"
+      ],
+      "unit": "a",
+      "range": [
+        -50,
+        50
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的 KDM 生物年龄减实足年龄（岁）。只照录，本技能不重算。"
+    },
+    {
+      "key": "metabolomic_age_gap",
+      "label_zh": "代谢组年龄差",
+      "aliases": [
+        "metabolomic age gap",
+        "代谢年龄差"
+      ],
+      "unit": "a",
+      "range": [
+        -50,
+        50
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经算好的代谢组年龄减实足年龄（岁）。只照录，本技能不重算。"
+    },
+    {
+      "key": "immune_aging",
+      "label_zh": "免疫衰老",
+      "aliases": [
+        "immune aging",
+        "免疫器官衰老"
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经用血浆蛋白组器官时钟算好的免疫衰老测量，单位列留空。只照录原数，本技能不重算，也不乘以肺癌风险比。"
+    },
+    {
+      "key": "adipose_aging",
+      "label_zh": "脂肪组织衰老",
+      "aliases": [
+        "adipose aging",
+        "脂肪衰老"
+      ],
+      "required": false,
+      "from": "measurements",
+      "note_zh": "已经用血浆蛋白组器官时钟算好的脂肪组织衰老测量，单位列留空。只照录原数，本技能不重算，也不乘以结直肠癌风险比。"
+    },
+    {
+      "key": "age",
+      "label_zh": "实足年龄",
+      "aliases": [
+        "年龄",
+        "chronological age"
+      ],
+      "unit": "a",
+      "range": [
+        18,
+        110
+      ],
+      "required": true,
+      "from": "profile",
+      "flag": "--age",
+      "note_zh": "也可以写在测量表里（age 列或 age 一行）；两处都有时用 --age。"
+    }
+  ],
+  "outputs": [
+    {
+      "key": "phenoage_gap",
+      "label_zh": "表型年龄减实足年龄（未标准化）",
+      "unit": "a",
+      "note_zh": "论文报告的是标准化年龄差，这里不标准化。"
+    }
+  ]
+}

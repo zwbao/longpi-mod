@@ -1,0 +1,49 @@
+{
+  "schema": "longevity-skill/1",
+  "name": "ddx5-cartilage-fibrosis",
+  "kind": "paper",
+  "tier": "C",
+  "species": [
+    "mouse",
+    "cell_line"
+  ],
+  "evidence": "animal",
+  "domains": [
+    "基质、软骨与纤维化"
+  ],
+  "blurb_zh": "delta PSI 和错误发现率是否过正文门槛。",
+  "intents": [
+    "model_organism"
+  ],
+  "triage": {
+    "reason_zh": "以小鼠和ATDC5细胞实验为主，输入是剪接分析的delta PSI和FDR等组间统计量。",
+    "reviewed": false
+  },
+  "paper": {
+    "doi": "10.1038/s43587-024-00624-0",
+    "title": "DDX5 inhibits hyaline cartilage fibrosis and degradation in osteoarthritis via alternative splicing and G-quadruplex unwinding",
+    "title_zh": "软骨纤维化解旋酶",
+    "journal": "Nature Aging",
+    "year": 2024,
+    "authors": "Liu 等",
+    "article_url": "https://www.nature.com/articles/s43587-024-00624-0",
+    "supplements": [
+      {
+        "label": "用到的补充表：蛋白质定量",
+        "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs43587-024-00624-0/MediaObjects/43587_2024_624_MOESM13_ESM.xlsx"
+      }
+    ],
+    "code_url": "https://github.com/Portulaca666/AS.code",
+    "summary_zh": "这项研究发现骨关节炎软骨里 RNA 解旋酶 DDX5 下降。DDX5 不足时纤维化相关胶原上升、透明软骨胶原下降，并改变纤连蛋白和赖氨酸羟化酶转录本的剪接。",
+    "summary_status": "draft"
+  },
+  "entry": {
+    "script": "scripts/personal_report.py",
+    "measurements_flag": "--measurements",
+    "age_flag": "--age",
+    "medications_flag": "--medications",
+    "labs_flag": "--labs",
+    "out_flag": "--out"
+  },
+  "inputs_status": "none"
+}
