@@ -295,7 +295,7 @@ export function BriefView(ctx: Ctx): RenderElement {
         : <Text dimColor>还没有生成简报。</Text>}
       <Box key="acts" flexDirection="row" gap={1}>
         {markdown ? <Button key="copy" variant="primary" label="复制全文" onPress={() => ctx.act.copy(markdown)} /> : null}
-        {markdown ? <Button key="save" label="请 Claude 存成文件" onPress={() => ctx.act.fill('请把刚才的医生简报存成一个 Markdown 文件，放在桌面上。')} /> : null}
+        {markdown ? <Button key="save" label="存到「下载」" onPress={() => void ctx.act.save('brief?format=md', 'LongPi 医生简报.md')} /> : null}
         <Button key="close" label="关闭" onPress={() => ctx.act.detail(null)} />
       </Box>
       {markdown ? <Text dimColor>复制后可以粘贴到文档里打印。</Text> : null}

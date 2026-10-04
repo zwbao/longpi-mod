@@ -215,6 +215,8 @@ async function post($: Engine, path: string, body: unknown, options: { reload?: 
   const ok = out.status === 200 && json.ok !== false
   if (ok && options.done) await toastNotice($, options.done, 'good')
   if (!ok && !options.quiet) await toastNotice($, typeof json.error === 'string' ? json.error : `没有保存（${out.status}）`, 'warn')
+  // Another person is shown now: nothing read for the last one may stay on any page.
+  if (ok && path.startsWith('people')) await update($, data, () => ({}))
   // The page's data is read again behind the answer: a press never waits on a journey rebuild.
   void reloadAfter($, options.reload ?? [])
   return { ok, status: out.status, json }
@@ -457,6 +459,25 @@ function actionsFor($: Engine, surface: RenderSurface): Actions {
     reveal: () => void $.clock.now().then((now) => update($, privacy, (p) => ({ ...p, showUntil: now + 60_000 }))),
     setPresentation: (on) => void setPresentation($, on),
     codex: codexActions($),
+    save: async (path, fileName) => {
+      await loadRoute($, path, true)
+      const held = (await read($, data))[path]
+      const text = held?.text ?? (held?.json !== undefined && held?.json !== null ? JSON.stringify(held.json, null, 2) : '')
+      if (!text) {
+        await toastNotice($, '没有可以保存的内容。', 'warn')
+        return null
+      }
+      const home = (await $.env.get('HOME')) ?? ''
+      const target = `${home}/Downloads/${fileName.replace(/[\\/]/g, '-')}`
+      try {
+        await $.fs.write(target, text)
+      } catch {
+        await toastNotice($, '没能写入下载文件夹。', 'warn')
+        return null
+      }
+      await toastNotice($, `已保存到 ${target}`, 'good')
+      return target
+    },
     close: () => void $.ui.close({ id: PANE }),
   }
 }

@@ -54,6 +54,8 @@ export type Actions = {
   setPresentation: (on: boolean) => void
   /** Codex stage: open a pack, reveal a run, show a card. Runs the animation; see ui/codex. */
   codex: CodexActions
+  /** Write a route's text answer (a calendar file, a brief) to ~/Downloads/<fileName>; resolves the path, or null. */
+  save: (path: RoutePath, fileName: string) => Promise<string | null>
   /** Close the pane. */
   close: () => void
 }

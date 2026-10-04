@@ -27,6 +27,15 @@ export function zh(text: string): string {
   return HAS_CJK.test(text) ? text.replace(/ /g, '\u00a0') : text
 }
 
+/** Core sentences written for the web page, said the way Claude Code says them. */
+export function scrubZh(text: string): string {
+  return text
+    .replace(/DeepSeek Harness|DeepSeek/g, 'Claude')
+    .replace(/健康页/g, 'LongPi 页面')
+    .replace(/上传/g, '交给 Claude')
+    .replace(/右侧健康栏|健康栏/g, 'LongPi 面板')
+}
+
 /** Cut a string to `cols` cells, ending with … when cut. */
 export function fit(text: string, cols: number): string {
   if (cells(text) <= cols) return text

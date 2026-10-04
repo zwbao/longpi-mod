@@ -4,7 +4,7 @@
 import type { RenderElement } from 'claude-code'
 
 import type { Ctx, Node } from './types.ts'
-import { C, cells, fit } from './kit.tsx'
+import { C, cells, fit, scrubZh } from './kit.tsx'
 import { HOTKEYS, PRIMARY, SECONDARY, pageOf } from './pages/index.ts'
 
 const FOOTER = '模型估计，不是诊断，也不是用药建议。紧急情况请拨打 120。档案、方案和打卡都只存在这台电脑上。'
@@ -73,11 +73,13 @@ function tabs(ctx: Ctx): RenderElement {
 function banner(ctx: Ctx): Node {
   const journey = ctx.json<JourneyHead>('journey')
   if (!journey || !journey.stage || journey.stage === 'routine' || journey.stage === 'plan') return null
+  // The setup steps are on screen already.
+  if (ctx.view.tab === 'overview' && ctx.view.sub['overview.onboarding'] === '1') return null
   const { Box, Text, Button } = ctx.E
   const next = journey.next
   return (
     <Box key="banner" flexDirection="row" justifyContent="space-between" borderStyle="round" borderColor={C.accent} paddingX={1}>
-      <Text wrap="truncate-end">{`下一步：${next?.title_zh ?? ''}${next?.detail_zh ? ` · ${next.detail_zh}` : ''}`}</Text>
+      <Text wrap="truncate-end">{scrubZh(`下一步：${next?.title_zh ?? ''}${next?.detail_zh ? ` · ${next.detail_zh}` : ''}`)}</Text>
       <Button key="onboard" plain hotkey="g" label="开始" onPress={() => ctx.act.go('overview', { 'overview.onboarding': '1' })} />
     </Box>
   )

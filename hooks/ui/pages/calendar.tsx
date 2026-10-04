@@ -221,7 +221,7 @@ function CalendarFile(ctx: Ctx): RenderElement {
     children: [
       <Text key="t" dimColor wrap="wrap">日历文件包含复测日期和每天的打卡提醒，可以导入手机或电脑自带的日历。</Text>,
       <Text key="t2" dimColor wrap="wrap">{zh('导出的文件留在这台电脑上，LongPi 不会发给任何人。')}</Text>,
-      <Button key="ics-export" plain label="导出到日历" onPress={() => ctx.act.fill('请把我的复测日期和每天的打卡提醒导出成日历文件（.ics），存到「下载」文件夹，告诉我怎么导入日历。')} />,
+      <Button key="ics-export" plain label="导出到日历" onPress={() => void ctx.act.save('calendar.ics', 'LongPi 日程.ics')} />,
     ],
   })
 }

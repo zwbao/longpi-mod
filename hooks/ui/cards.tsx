@@ -5,7 +5,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { isoDay } from '../core/interventions.ts'
-import { C, fit, zh } from './kit.tsx'
+import { C, fit, scrubZh, zh } from './kit.tsx'
 import type { Els } from './types.ts'
 
 export type CardCall = { tool: string; input: Record<string, unknown>; output: unknown; isRunning: boolean; isErrored: boolean }
@@ -117,7 +117,7 @@ function shell(E: Els, title: string, summary: string, opts: { tone?: string; ch
       <Box flexDirection="row" gap={1}>
         <Text color={C.teal}>◆ LongPi</Text>
         <Text bold>{title}</Text>
-        {summary ? <Text color={opts.tone ?? undefined} dimColor={!opts.tone}>{fit(summary, Math.max(10, opts.width - title.length * 2 - 14))}</Text> : null}
+        {summary ? <Text color={opts.tone ?? undefined} dimColor={!opts.tone}>{fit(scrubZh(summary), Math.max(10, opts.width - title.length * 2 - 14))}</Text> : null}
       </Box>
       {(opts.children ?? []).filter((child): child is RenderElement => child !== null)}
     </Box>
