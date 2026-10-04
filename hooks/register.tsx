@@ -7,7 +7,9 @@ import type { EngineInterface, Register, RenderSurface } from 'claude-code'
 
 import type { CodexOverlay, LongPiView, PrivacyState, RouteCache, Tab } from '../types'
 import type { Io } from './sys/host.ts'
-import { boot, flushPending, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
+import { boot, flushPending, op, route, runtime, runTool, toolSpecs, TOOL_PREFIX } from './app/runtime.ts'
+import { fullBrief, SHORT_BRIEF } from './app/brief.ts'
+import { snapshotText } from './core/agents/orchestrator.ts'
 import { isoDay } from './core/interventions.ts'
 import { WRITE_TOOLS } from './core/agents/orchestrator.ts'
 import { pageOf, PAGES } from './ui/pages/index.ts'
@@ -29,6 +31,8 @@ const overlay = atom({ plugin: 'longpi', key: 'overlay' } as const, NO_OVERLAY)
 const notice = atom({ plugin: 'longpi', key: 'notice' } as const, null as { text: string; tone: 'info' | 'good' | 'warn'; at: number } | null)
 const tick = atom({ plugin: 'longpi', key: 'tick' } as const, 0)
 const booted = atom({ plugin: 'longpi', key: 'booted' } as const, false)
+const coach = atom({ plugin: 'longpi', key: 'coach' } as const, false)
+const healthTurn = atom({ plugin: 'longpi', key: 'healthTurn' } as const, false)
 
 // --- the engine as the core's I/O -------------------------------------------------------------------
 
@@ -181,6 +185,30 @@ async function post($: Engine, path: string, body: unknown, options: { reload?: 
 }
 
 // --- talking to Pi ----------------------------------------------------------------------------------
+
+/** The LongPi snapshot (what the pane shows now, the top fact, what the person told LongPi), or ''. */
+async function snapshotNow(): Promise<string> {
+  const rt = runtime()
+  if (!rt) return ''
+  try {
+    const input = await op(() => rt.app.snapshot(4_000))
+    return input ? snapshotText(input) : ''
+  } catch {
+    return ''
+  }
+}
+
+/** Coach mode from here on: Pi's rules join the system prompt; the first time, they ride this message too. */
+async function enterCoach($: Engine): Promise<string[]> {
+  const rt = runtime()
+  const was = await read($, coach)
+  if (!was) await update($, coach, () => true)
+  const extra: string[] = []
+  if (!was && rt) extra.push(fullBrief(rt.app.mount))
+  const snapshot = await snapshotNow()
+  if (snapshot) extra.push(snapshot)
+  return extra
+}
 
 const PERSON_FRAME = '[LongPi] The person opened this from LongPi. Speak as Pi, their longevity coach; the LongPi snapshot below is from the plugin, not their words.'
 
@@ -424,6 +452,25 @@ export const register: Register = (on) => {
     return next(e)
   })
 
+  on('prompt.compose', async ($, e, next) => {
+    const composed = await next(e)
+    const rt = runtime()
+    const sections = [{ id: 'longpi:brief', text: SHORT_BRIEF, scope: 'session' as const }]
+    if (rt && (await read($, coach))) sections.push({ id: 'longpi:coach', text: fullBrief(rt.app.mount), scope: 'session' as const })
+    return { sections: [...composed.sections, ...sections] }
+  })
+
+  on('prompt.submit', async ($, e, next) => {
+    const isOwn = e.origin.kind === 'plugin' && e.origin.name === 'longpi'
+    if (e.origin.kind !== 'composer' && !isOwn) return next(e)
+    // A prompt from /longpi, or the next one after a turn that used LongPi: the snapshot rides along.
+    if (!isOwn && !(await read($, healthTurn))) return next(e)
+    await update($, healthTurn, () => false)
+    const extra = isOwn ? await enterCoach($) : [await snapshotNow()].filter(Boolean)
+    if (extra.length === 0) return next(e)
+    return next({ ...e, context: [...(e.context ?? []), ...(isOwn ? [PERSON_FRAME] : []), ...extra] })
+  })
+
   on('tool.call', { tool: /^mcp__longpi__/ }, async ($, e) => {
     const rt = runtime()
     if (!rt) return { deny: 'LongPi is still starting.' }
@@ -438,9 +485,12 @@ export const register: Register = (on) => {
       }
     }, session, String(callId ?? ''))
     if (out.denied) return { deny: out.denied }
+    await update($, healthTurn, () => true)
+    const firstTime = !(await read($, coach))
+    const context = firstTime ? await enterCoach($) : []
     // A write the pane shows: read its data again.
     if ((WRITE_TOOLS as readonly string[]).includes(name) || name === 'record_measurements') void reloadAfter($, ['tracking', 'codex', 'codex/slot', 'indicators?area=labs'])
-    return { result: out.text }
+    return context.length > 0 ? { result: out.text, context } : { result: out.text }
   })
 
   on('command.run', { command: 'longpi' }, async ($, e) => {
@@ -499,5 +549,4 @@ export const register: Register = (on) => {
   })
 
   void PAGES
-  void PERSON_FRAME
 }
