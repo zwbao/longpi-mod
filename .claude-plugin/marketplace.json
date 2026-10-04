@@ -1,0 +1,12 @@
+{
+  "name": "longpi-mod",
+  "owner": { "name": "zwbao" },
+  "description": "LongPi: a longevity coach that lives in Claude Code · 住在 Claude Code 里的长寿教练",
+  "plugins": [
+    {
+      "name": "longpi",
+      "source": "./",
+      "description": "Turns Claude Code into your personal longevity coach: a local health record, body age and risk, plans and check-ins, the Longevity Codex with pixel animations, the road to 120, and new research every week."
+    }
+  ]
+}
