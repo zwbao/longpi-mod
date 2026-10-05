@@ -42,7 +42,8 @@ function draw(ctx: Ctx): Node {
     : undefined
   const urgentCard = urgent ? CareCard(ctx, { ...journey, next: { ...journey.next, action: 'doctor', title_zh: urgent.title_zh, detail_zh: urgent.text_zh } }) : null
   if (onboardingShown(ctx, journey.stage)) {
-    return <Box flexDirection="column" gap={0}>{head}{urgentCard}{Onboarding(ctx, journey)}</Box>
+    const care = journey.next.action === 'doctor' ? CareCard(ctx, journey) : urgentCard
+    return <Box flexDirection="column" gap={0}>{head}{care}{Onboarding(ctx, journey)}</Box>
   }
   const doctor = journey.next.action === 'doctor'
   const covered = coveredByCare(journey)

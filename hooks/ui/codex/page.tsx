@@ -764,6 +764,7 @@ function draw(ctx: Ctx): Node {
           <Text key="r" bold wrap="wrap">{view.reason_zh || '长寿图鉴没有打开。'}</Text>,
           closed ? Row(ctx, 'reopen', [Btn(ctx, 'reopen', '重新打开', () => void ctx.act.codex.act({ action: 'prefs', codex: true }), { primary: true })]) : null,
           view.needs_consent ? Row(ctx, 'consent', [Btn(ctx, 'go-consent', '去总览完成设置', () => ctx.act.go('overview', { 'overview.onboarding': '1' }))]) : null,
+          !view.needs_consent && /年龄/.test(view.reason_zh ?? '') ? Row(ctx, 'age', [Btn(ctx, 'go-age', '去填年龄', () => ctx.act.go('overview', { 'overview.onboarding': '1', 'overview.step': '1' }), { primary: true })]) : null,
         ])}
       </Box>
     )

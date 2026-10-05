@@ -35,6 +35,8 @@ export const FORMS = [
 type Ctx = { journey: J; codex: Cx; library: Lib; people: P; analysis: An; self: Sf; today: string }
 type J = {
   today?: string
+  next?: { action?: string; title_zh?: string }
+  triage?: { care?: Array<{ care_status?: string }> }
   profile?: { complete?: boolean; questions?: Array<{ key: string; label_zh: string; answered: boolean }> }
   records?: { indicator_count?: number; summary?: { checkups?: number; first_date?: string | null; last_date?: string | null; wearable_days?: number } }
   results?: { bioage?: { status?: string } }
@@ -147,6 +149,9 @@ function candidates(c: Ctx, deeds: Deeds): Array<Thing & { open: boolean }> {
   const out: Array<Thing & { open: boolean }> = []
   const add = (id: string, text: string, action: GameAction, open: boolean, done = false) => out.push({ id, text_zh: text, action, open, done })
   const codexTab = (tab: string): GameAction => ({ kind: 'go', tab: 'codex', sub: { 'codex.tab': tab } })
+  // The record says to see a doctor first: that is today's first thing, and a plan waits for the visit.
+  const doctorFirst = c.journey.next?.action === 'doctor'
+  if (doctorFirst) add('doctor', '约医生：带上体检报告去看', { kind: 'go', tab: 'overview' }, true)
   const ready = c.codex.ready?.[0]
   if (ready) add(`reveal:${ready.id}`, `翻开「${ready.title_zh}」的结果`, codexTab('exp'), true)
   const pack = (c.codex.packs ?? []).find((row) => !row.opened)
@@ -163,7 +168,7 @@ function candidates(c: Ctx, deeds: Deeds): Array<Thing & { open: boolean }> {
     const left = checkins.filter((row) => row.done_today === null).length
     add('checkin', left > 0 ? `方案里今天的 ${checkins.length} 项，还有 ${left} 项没记` : `方案里今天的 ${checkins.length} 项都记了`, { kind: 'go', tab: 'overview' }, left > 0, left === 0)
   }
-  if (deeds.reports > 0 && deeds.plans === 0) add('plan', '让 Pi 按你的结果起草一个方案', { kind: 'say', text: '按我的体检结果，帮我起草一个健康方案。' }, true)
+  if (deeds.reports > 0 && deeds.plans === 0 && !doctorFirst) add('plan', '让 Pi 按你的结果起草一个方案', { kind: 'say', text: '按我的体检结果，帮我起草一个健康方案。' }, true)
   if (deeds.measures === 0) add('measure', '量一次腰围或血压，告诉 Pi', { kind: 'fill', text: '我今天量了：' }, true)
   if (!c.codex.started) add('codex', '打开长寿图鉴看看', codexTab('exp'), true)
   // Always something to read: the first unread card in library order, a different one each day it stays unread.
@@ -196,6 +201,7 @@ function doneNow(id: string, c: Ctx, deeds: Deeds, start: Deeds): boolean {
     case 'plan': return deeds.plans > start.plans
     case 'measure': return deeds.measures > start.measures
     case 'codex': return Boolean(c.codex.started)
+    case 'doctor': return (c.journey.triage?.care ?? []).some((row) => row.care_status === 'booked' || row.care_status === 'visited') || c.journey.next?.action !== 'doctor'
     case 'ask': return false
     default: return false
   }
@@ -299,6 +305,19 @@ export function gameView(c: Ctx, saved: Saved, persist: boolean): { view: GameVi
     if (persist) next.today = today
   }
   const start = fill(today.start)
+  // A doctor visit became the first step during the day: it leads today's list, and a plan waits for it.
+  if (c.journey.next?.action === 'doctor' && !today.picks.includes('doctor')) {
+    const doctor = all.find((row) => row.id === 'doctor')
+    if (doctor) {
+      today = {
+        ...today,
+        picks: ['doctor', ...today.picks.filter((id) => id !== 'plan')],
+        texts: { ...today.texts, doctor: doctor.text_zh },
+        actions: { ...today.actions, doctor: doctor.action },
+      }
+      if (persist) next.today = today
+    }
+  }
   // Fewer than three picked this morning, or all of them done: top up with what is open now, and keep it.
   {
     const doneIds = today.picks.filter((id) => doneNow(id, c, deeds, start))

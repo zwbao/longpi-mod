@@ -140,7 +140,7 @@ export function plainUnits(text: string): string {
   return text
     .replace(/\b[a-z]+(?:[A-Z][a-z0-9]*)+\b|\b(?:steps|hrv|spo2|waist|weight|systolic|diastolic|vo2max)\b/g, (word) => FIELD_ZH[word] ?? word)
     .replace(/(^|[^A-Za-z])u(IU|mol|g|L)\b/g, '$1μ$2')
-    .replace(/(×)?10\^(\d+)\//g, (_, _times: string | undefined, power: string) => `×10${[...power].map((digit) => SUPERSCRIPT[digit] ?? digit).join('')}/`)
+    .replace(/(×)?10[\^~*](\d+)\//g, (_, _times: string | undefined, power: string) => `×10${[...power].map((digit) => SUPERSCRIPT[digit] ?? digit).join('')}/`)
     .replace(/(\d)\s+%/g, '$1%')
     .replace(/\s+([（【「])/g, '$1').replace(/([）】」])\s+(?=[\w一-鿿])/g, '$1')
     .replace(/(\d|\/)m2\b/g, '$1m²')
