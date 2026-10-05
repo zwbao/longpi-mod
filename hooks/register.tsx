@@ -127,7 +127,7 @@ const EMPTY: RouteCache = { at: 0, status: 0, json: null, loading: false, error:
 /** Tools that put values into the record. */
 const RECORD_TOOLS: readonly string[] = ['record_measurements', 'import_measurements_csv', 'import_apple_health', 'save_self_measurement']
 /** Tools that store health information: the consent is asked before the first of them. */
-const CONSENT_TOOLS: readonly string[] = [...RECORD_TOOLS, 'read_narrative_findings', 'record_condition', 'record_medication_statement', 'forward_report', 'save_personal_profile']
+const CONSENT_TOOLS: readonly string[] = [...RECORD_TOOLS, 'read_narrative_findings', 'record_condition', 'record_medication_statement', 'forward_report', 'save_personal_profile', 'import_genetic_report']
 
 /** Routes asked to reload while a read of them was in flight, with the path to fetch. */
 const reloadWanted = new Map<string, string>()

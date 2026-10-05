@@ -11,6 +11,9 @@ import { asJson } from '../core/json.ts'
 import { readLocalRecord, RECORD_FILE, writeLocalRecord, type LocalRecord, type Observation } from '../core/local-record.ts'
 import { resolveDataDir } from '../core/paths.ts'
 import { isoDay } from '../core/interventions.ts'
+import { extractGeneticsText, GENETICS_CAVEATS, RAW_EXPORT_ZH, storeGenetics } from '../core/datain/genetics.ts'
+import { storeFindings } from '../core/datain/narrative.ts'
+import { newId } from '../core/core/store.ts'
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/
 const SOURCES = ['checkup', 'lab', 'device', 'self', 'import'] as const
@@ -237,6 +240,52 @@ export function registerRecordTools(ctx: HostContext, dataDir: () => string, inv
         summary: run.stderr.trim(),
         problems: saved.problems.slice(0, 10),
         hint: saved.saved > 0 ? 'Say in one line what came in (which kinds of values, from when to when). The Codex experiments and 睡眠/运动 pages can use them now.' : 'Nothing new: the values were already on file, or the export had none of the kinds LongPi reads.',
+      })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'import_genetic_report',
+    description: 'Keep the key variants of a consumer genetic-test report (a WeGene-style narrative PDF, often thousands of pages) on this computer: APOE, folate (MTHFR), alcohol (ALDH2, ADH1B), lactose, caffeine, gout and the drug-response markers (statins, warfarin, clopidogrel, aspirin, metformin), plus the haplogroups. Only the matching sections are opened; the report is not uploaded or read in full. Use this instead of reading the whole PDF yourself. Returns what was kept and the caveats to say with it.',
+    parameters: {
+      report: { type: 'string', required: true, description: 'Absolute path of the genetic report PDF.' },
+    },
+    output: jsonOut,
+    timeoutMs: 300000,
+    isConcurrencySafe: () => false,
+    async execute(args: { report?: string }) {
+      const from = text(args.report, 500)
+      if (!from.startsWith('/') || !from.toLowerCase().endsWith('.pdf')) return asJson({ ok: false, error: 'give the absolute path of the genetic report PDF' })
+      const h = host()
+      const keywords = ['祖源成分', '父系单倍群', '母系单倍群', '叶酸', '酒精代谢', '乳糖', '阿尔茨海默', '载脂蛋白', 'APOE', '氯吡格雷', '华法林', '阿托伐他汀', '瑞舒伐他汀', '阿司匹林', '二甲双胍', '痛风', '咖啡因']
+      const run = await h.io.run(['osascript', '-l', 'JavaScript', join(h.pluginRoot, 'tools', 'genetics_pdf.js'), from, JSON.stringify(keywords)], { timeoutMs: 300000 })
+        .catch((error: unknown) => ({ exitCode: -1, stdout: '', stderr: error instanceof Error ? error.message : String(error) }))
+      let parsed: { cover?: string; sections?: Array<{ title: string; text: string }>; pages_read?: number; pages?: number; error?: string } = {}
+      try {
+        parsed = JSON.parse(run.stdout || '{}') as typeof parsed
+      } catch {
+        parsed = { error: 'unreadable' }
+      }
+      if (run.exitCode !== 0 || parsed.error) return asJson({ ok: false, error: 'this PDF could not be opened on this computer (macOS PDFKit). Ask them for the raw-data export (a .txt) from the genetic-test app instead.', raw_export_zh: RAW_EXPORT_ZH })
+      // The cover line "<name> 基因检测报告" is dropped: no name is kept (the sample id stays local).
+      const textAll = `${parsed.cover ?? ''}\n${(parsed.sections ?? []).map((row) => `${row.title}\n${row.text}`).join('\n')}`
+        .split('\n').filter((line) => !/基因检测报告/.test(line)).join('\n')
+      const summary = extractGeneticsText(textAll, 'pdf')
+      summary.pages_read = parsed.pages_read ?? 0
+      if (summary.variants.length === 0 && summary.headlines_zh.length === 0) summary.headlines_zh = ['叙述版报告的目录里没有找到关键位点。需要按位点保存时，请用原始数据导出文件。']
+      const dir = resolveDataDir(dataDir())
+      const stored = storeGenetics(dir, summary)
+      storeFindings(dir, [{ id: newId('find'), date: stored.generated || isoDay(), kind: 'genetics', text_zh: stored.headlines_zh[0] || `基因报告：保存了 ${stored.variants.length} 个关键位点。` }])
+      invalidate()
+      return asJson({
+        ok: true,
+        pages_in_report: parsed.pages ?? null,
+        pages_read: stored.pages_read,
+        generated: stored.generated,
+        headlines: stored.headlines_zh,
+        variants: stored.variants.map((row) => ({ rsid: row.rsid, genotype: row.genotype, about: row.note_zh })),
+        caveats: GENETICS_CAVEATS,
+        how_to_say: 'Say in a few lines what was kept (the APOE call if there is one, the drug-response and nutrition markers), that only the matching sections were read, and the first caveat. Never turn a variant into a diagnosis, a cause of their lab results, a supplement or a dose; drug markers are for their doctor.',
       })
     },
   }))

@@ -97,6 +97,9 @@ function genotypeNear(text: string, rsid: string): string {
     if (slash && (slash.index ?? 99) < 16) return `${slash[1]}${slash[2]}`.toUpperCase()
     const glued = /^\s*([ACGT]{2})(?:[^A-Za-z]|$)/i.exec(after)
     if (glued?.[1]) return glued[1].toUpperCase()
+    // A table row read as one line (macOS PDFKit): "RS1801131 MTHFR GT 叶酸代谢酶活性较弱", the gene between.
+    const row = /^[ \t]+[A-Za-z0-9-]{2,14}[ \t]+([ACGT]{2})(?=[ \t\n]|$)/.exec(after)
+    if (row?.[1]) return row[1].toUpperCase()
   }
   return ''
 }

@@ -68,6 +68,7 @@ export const TOOL_ZH: Record<string, string> = {
   record_measurements: '录入体检数值',
   import_measurements_csv: '导入数据',
   import_apple_health: '导入 Apple 健康数据',
+  import_genetic_report: '保存基因报告的关键位点',
 }
 
 type Raw = Record<string, unknown>

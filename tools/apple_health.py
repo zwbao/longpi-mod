@@ -102,10 +102,16 @@ def main():
     sleep = defaultdict(lambda: defaultdict(float))      # day -> source -> hours
     units = {}
     seen = 0
+    exported = None   # the day the export was made: its totals so far are a part of a day
 
     with open_export(args.export) as stream:
         for _event, el in iterparse(stream, events=("end",)):
             if el.tag != "Record":
+                if el.tag == "ExportDate" and el.get("value"):
+                    try:
+                        exported = when(el.get("value")).date()
+                    except ValueError:
+                        exported = None
                 if el.tag in ("Workout", "ActivitySummary", "ClinicalRecord", "Correlation"):
                     el.clear()
                 continue
@@ -151,6 +157,8 @@ def main():
 
     rows = []
     for (name, day), by_source in sums.items():
+        if day == exported:
+            continue  # steps and energy of the export day stop at the moment of export
         rows.append((day, name, round(max(by_source.values())), units[name]))
     for (name, day), values in means.items():
         rows.append((day, name, round(sum(values) / len(values), 1), units[name]))

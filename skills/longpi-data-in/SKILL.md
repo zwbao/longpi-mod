@@ -20,6 +20,8 @@ LongPi 的记录存在这台电脑上（`~/.longpi`），只来自对方交给�
 
 ## 手环、体重秤、血压计、App 导出
 
+消费级基因检测报告（微基因这类叙述版 PDF，常有几千页）：用 `import_genetic_report`，`report` 是 PDF 的绝对路径。它在本机只打开和关键位点有关的几十页（APOE、叶酸、酒精、乳糖、咖啡因、痛风、他汀、华法林、氯吡格雷、阿司匹林、二甲双胍），不要自己把整本读进来。读回时说保存了哪些位点和第一条局限；不要把位点说成诊断、化验异常的原因、补剂或剂量。
+
 iPhone 的 Apple 健康导出（健康 App → 头像 → 导出所有健康数据，得到 export.zip）：直接用 `import_apple_health`，`export` 是 export.zip、export.xml 或解压后文件夹的绝对路径，在本机转换，不上传。
 
 其他手环和 App（华为、小米、Garmin 等）的导出文件（CSV、XML、JSON 都行）先写成一个 CSV：表头 `date,name,value,unit`，可选 `loinc,ref_low,ref_high,time`，一行一个数值，名称和数值照导出原样。每天的手环指标尽量用这些名字：`dailySteps`（步数）、`restingHeartRate`（静息心率）、`hrvRmssd`（心率变异性）、`sleepDuration`（睡眠时长，单位写 h 或 min）、`sleepStartTime`、`sleepEndTime`。写好后用 `import_measurements_csv`，`path` 是 CSV 的绝对路径。长寿图鉴的实验靠这些每日数据判断结果。
