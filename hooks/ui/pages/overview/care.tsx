@@ -29,6 +29,12 @@ async function openBrief(ctx: Ctx): Promise<void> {
   ctx.act.load([`brief?id=${encodeURIComponent(brief.id)}`], true)
 }
 
+/** The family member shown now ('' for the holder), for the file name. */
+function whoOf(ctx: Ctx): string {
+  const people = ctx.json<{ active?: string; people?: Array<{ id: string; label_zh: string }> }>('people')
+  return people?.people?.find((row) => row.id === people.active && row.id !== 'self')?.label_zh ?? ''
+}
+
 /** The brief, once made: its text and how to take it along. */
 function BriefView(ctx: Ctx, journey: Journey): Node {
   const id = sub(ctx, 'briefId')
@@ -45,7 +51,7 @@ function BriefView(ctx: Ctx, journey: Journey): Node {
       markdown
         ? (
           <Box key="a" flexDirection="row" gap={1} marginTop={1}>
-            <Button key="brief-print" variant="primary" label="存成可打印的网页" onPress={() => { void ctx.act.saveText(markdownToHtml(markdown, 'LongPi 医生简报'), `LongPi 医生简报 ${journey.today || ctx.today}.html`, true) }} />
+            <Button key="brief-print" variant="primary" label="存成可打印的网页" onPress={() => { void ctx.act.saveText(markdownToHtml(markdown, 'LongPi 医生简报'), `LongPi 医生简报${whoOf(ctx) ? ` ${whoOf(ctx)}` : ''} ${journey.today || ctx.today}.html`, true) }} />
             <Button key="brief-copy" label="复制简报" onPress={() => ctx.act.copy(markdown)} />
             <Text key="hint" dimColor>网页存进「下载」并在浏览器里打开，按 ⌘P 打印。</Text>
           </Box>

@@ -694,6 +694,18 @@ async function maintain($: Engine): Promise<void> {
   await setupLongPi($, false)
 }
 
+/** The product notice and the health-information consent, for the person shown now. */
+async function consentGiven(rt: NonNullable<ReturnType<typeof runtime>>): Promise<boolean> {
+  const journey = (await route<{ consent?: { accepted?: boolean } }>(rt, 'GET', '/api/longpi/journey').catch(() => null))?.json
+  return journey?.consent?.accepted === true
+}
+
+/** The family member shown now ('' for the holder). */
+async function activeLabel(rt: NonNullable<ReturnType<typeof runtime>>): Promise<string> {
+  const people = (await route<{ active?: string; people?: Array<{ id: string; label_zh: string; demo?: boolean }> }>(rt, 'GET', '/api/longpi/people').catch(() => null))?.json
+  return people?.people?.find((row) => row.id === people.active && row.id !== 'self' && !row.demo)?.label_zh ?? ''
+}
+
 /** A brief the model prepared, also saved as a page to print in ~/Downloads; the answer says where. */
 async function printableBrief($: Engine, text: string): Promise<string> {
   try {
@@ -1022,6 +1034,22 @@ export const register: Register = (on) => {
     const name = String(e.tool).slice(TOOL_PREFIX.length)
     const { tool: _tool, tool_use_id: callId, ...args } = e as unknown as Record<string, unknown> & { tool: string; tool_use_id: string }
     const session = await $.session.id()
+    // Values go into the record only with the person's consent: the first time, ask in a dialog.
+    if (RECORD_TOOLS.includes(name) && !(await consentGiven(rt))) {
+      const who = await activeLabel(rt)
+      let answer: string | null = null
+      try {
+        answer = await $.ui.ask(who
+          ? `LongPi 要把${who}的检查数值存进这台电脑上的健康档案，用来算结果、定方案。你已经告诉${who}，${who}也同意了吗？`
+          : 'LongPi 要把报告里的数值存进这台电脑上的健康档案，用来算身体年龄、心血管风险和方案。同意 LongPi 这样使用你的体检、化验、血压、体重和用药等健康信息吗？可以随时在「设置」里撤回。', { options: ['同意', '不同意'], header: 'LongPi' })
+      } catch {
+        answer = null
+      }
+      if (answer !== '同意') return { deny: 'The person did not agree to LongPi keeping their health information. Nothing was saved. Say so in one line; they can agree later in /longpi.' }
+      await post($, 'consent', { accept: true }, { quiet: true })
+      await post($, 'privacy/consent', { scope: 'pipl_sensitive', decision: 'granted' }, { quiet: true })
+      await post($, 'privacy/consent', { scope: 'data_flow_deepseek', decision: 'granted' }, { quiet: true, reload: ['privacy', 'journey'] })
+    }
     const out = await runTool(rt, name, args, async (reason) => {
       try {
         return (await $.ui.ask(reason, { options: ['同意', '不同意'], header: 'LongPi' })) === '同意'

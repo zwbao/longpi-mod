@@ -99,6 +99,8 @@ const REPORT = {
 describe('LongPi in a Claude Code session', () => {
   test('a report Claude read is filed as printed, and the record shows it', async ($, on) => {
     const { files } = world(on)
+    // Set up already (the consent given on 总览's first step): no dialog before filing.
+    files.set(`${HOME}/.longpi/profile.json`, { text: JSON.stringify({ consent: { version: '2026-09-24', accepted_at: '2026-10-05T07:00:00.000Z' } }), mtime: T0 })
     await $.session.start(START)
     const saved = await $.tool.call({ tool: 'mcp__longpi__record_measurements', ...REPORT })
     expect(String(saved.result)).toContain('"saved": 3')

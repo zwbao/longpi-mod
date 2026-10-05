@@ -299,6 +299,24 @@ export function gameView(c: Ctx, saved: Saved, persist: boolean): { view: GameVi
     if (persist) next.today = today
   }
   const start = fill(today.start)
+  // Fewer than three picked this morning, or all of them done: top up with what is open now, and keep it.
+  {
+    const doneIds = today.picks.filter((id) => doneNow(id, c, deeds, start))
+    const openCount = today.picks.length - doneIds.length
+    const room = Math.max(3 - today.picks.length, openCount === 0 ? 1 : 0)
+    if (room > 0) {
+      const extra = all.filter((row) => row.open && !today?.picks.includes(row.id) && !doneNow(row.id, c, deeds, start)).slice(0, room)
+      if (extra.length > 0) {
+        today = {
+          ...today,
+          picks: [...today.picks, ...extra.map((row) => row.id)],
+          texts: { ...today.texts, ...Object.fromEntries(extra.map((row) => [row.id, row.text_zh])) },
+          actions: { ...today.actions, ...Object.fromEntries(extra.map((row) => [row.id, row.action])) },
+        }
+        if (persist) next.today = today
+      }
+    }
+  }
   const things: Thing[] = today.picks.map((id) => {
     const live = all.find((row) => row.id === id)
     return { id, text_zh: live?.text_zh ?? today?.texts[id] ?? '', action: live?.action ?? today?.actions[id] ?? { kind: 'go', tab: 'overview' }, done: doneNow(id, c, deeds, start) }

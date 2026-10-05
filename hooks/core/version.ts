@@ -1,6 +1,6 @@
 /** The LongPi core this mod carries (dsh-plugin-longpi 0.8.0, Codex 1.3), as ported to Claude Code. */
 export const PRODUCT_VERSION = '0.8.0'
-export const MOD_VERSION = '0.1.3'
+export const MOD_VERSION = '0.1.4'
 export const PRODUCT_NAME = 'longpi'
 
 export const TOOL_NAMES = [
