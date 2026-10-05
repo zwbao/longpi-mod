@@ -14,6 +14,7 @@ import { isoDay } from '../core/interventions.ts'
 import { extractGeneticsText, GENETICS_CAVEATS, RAW_EXPORT_ZH, storeGenetics } from '../core/datain/genetics.ts'
 import { storeFindings } from '../core/datain/narrative.ts'
 import { newId } from '../core/core/store.ts'
+import { notFiled, reportItems } from './coverage.ts'
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/
 const SOURCES = ['checkup', 'lab', 'device', 'self', 'import'] as const
@@ -122,6 +123,42 @@ export function parseCsv(raw: string): Item[] {
   })
 }
 
+/** Reports already checked, and how many times: the check asks at most twice per report and date. */
+const checked = new Map<string, number>()
+
+/**
+ * What the report shows that is not on file for this date yet: its pages read with macOS PDFKit, matched by name.
+ * Null when there is no PDF path, the PDF has no text layer, or it was already checked twice.
+ */
+async function missingFromReport(report: string, date: string, recordFile: string): Promise<{ list: string[]; hint: string } | null> {
+  if (!report.startsWith('/') || !report.toLowerCase().endsWith('.pdf')) return null
+  const key = `${report}|${date}`
+  const round = (checked.get(key) ?? 0) + 1
+  if (round > 2) return null
+  checked.set(key, round)
+  const h = host()
+  const run = await h.io.run(['osascript', '-l', 'JavaScript', join(h.pluginRoot, 'tools', 'pdf_text.js'), report, '80'], { timeoutMs: 60000 }).catch(() => null)
+  if (!run || run.exitCode !== 0) return null
+  let pages: string[] = []
+  try {
+    pages = (JSON.parse(run.stdout) as { text?: string[] }).text ?? []
+  } catch {
+    return null
+  }
+  const body = pages.join('\n')
+  if (body.replace(/\s+/g, '').length < 200) return null
+  const filed = readLocalRecord(recordFile).observations.filter((row) => row.date === date).map((row) => row.name || row.indicator)
+  const gap = notFiled(reportItems(body), filed)
+  const list = [...gap.exams.map((name) => `${name}（检查结论）`), ...gap.labs].slice(0, 40)
+  if (list.length === 0) return { list: [], hint: 'Every exam section and lab row LongPi found on the report is on file.' }
+  return {
+    list,
+    hint: round < 2
+      ? 'These appear on the report but are not on file for this date. Read those parts again and file them with record_measurements (same date, same report), exactly as printed; skip any that are only a heading, a phone line, or a piece of a longer name broken across lines (then file the whole item). Never invent a value.'
+      : 'Still not on file after a second look. If they are on the report, file them; otherwise say which parts could not be read.',
+  }
+}
+
 export function registerRecordTools(ctx: HostContext, dataDir: () => string, invalidate: () => void, python: () => string = () => 'python3'): void {
   const recordPath = () => join(resolveDataDir(dataDir()), RECORD_FILE)
 
@@ -132,6 +169,7 @@ export function registerRecordTools(ctx: HostContext, dataDir: () => string, inv
       date: { type: 'string', required: true, description: 'The report or sampling date, YYYY-MM-DD.' },
       source: { type: 'string', enum: [...SOURCES], description: 'checkup (a health checkup report), lab (a hospital lab sheet), device (a wearable or home device), self (the person measured it), import.' },
       file: { type: 'string', description: 'What it came from, as the person would say it (e.g. 2026 年度体检报告.pdf).' },
+      report: { type: 'string', description: 'The absolute path of the report file (a PDF) when you read one from disk. LongPi then checks its pages for anything not yet filed and lists it back to you.' },
       items: {
         type: 'array',
         required: true,
@@ -152,9 +190,9 @@ export function registerRecordTools(ctx: HostContext, dataDir: () => string, inv
       },
     },
     output: jsonOut,
-    timeoutMs: 30000,
+    timeoutMs: 60000,
     isConcurrencySafe: () => false,
-    execute(args: { date?: string; source?: string; file?: string; items?: Item[] }) {
+    async execute(args: { date?: string; source?: string; file?: string; report?: string; items?: Item[] }) {
       const date = text(args.date)
       if (!DATE.test(date)) return asJson({ ok: false, error: 'date must be YYYY-MM-DD' })
       const items = Array.isArray(args.items) ? args.items.slice(0, 400) : []
@@ -162,7 +200,9 @@ export function registerRecordTools(ctx: HostContext, dataDir: () => string, inv
       const source = SOURCES.includes(args.source as (typeof SOURCES)[number]) ? String(args.source) : 'checkup'
       const out = fileObservations(recordPath(), items, { date, source, file: text(args.file, 120) || `${date} ${source === 'lab' ? '化验单' : '体检报告'}` })
       if (out.saved > 0) invalidate()
+      const missing = await missingFromReport(text(args.report, 500), date, recordPath())
       return asJson({
+        ...(missing ? { not_filed: missing.list, not_filed_hint: missing.hint } : {}),
         ok: out.problems.length === 0 || out.saved > 0,
         saved: out.saved,
         already_on_file: out.skipped,

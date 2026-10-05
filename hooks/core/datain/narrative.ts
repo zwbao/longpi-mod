@@ -19,10 +19,19 @@ export interface NarrativeFinding {
   upload_id?: string
 }
 
-const TI = /TI[-\s]?RADS\s*[:：]?\s*([0-5])\s*类?/i
+const TI = /TI[-\s]?RADS\s*(?:分级)?\s*[:：]?\s*([0-5][abc]?)\s*类?/i
 const BI = /BI[-\s]?RADS\s*[:：]?\s*([0-6])\s*类?/i
-const SIZE = /(\d+(?:\.\d+)?\s*[×xX*]\s*\d+(?:\.\d+)?(?:\s*[×xX*]\s*\d+(?:\.\d+)?)?\s*mm)/i
+const SIZE = /(\d+(?:\.\d+)?\s*[×xX*＊]\s*\d+(?:\.\d+)?(?:\s*[×xX*＊]\s*\d+(?:\.\d+)?)?\s*(?:mm|cm))/i
+/** An imaging or exam line by its name: these carry the report's own words about a nodule, a plaque, a fatty liver. */
+const IMAGING = /彩超|B超|超声|CT|X线|DR|钼靶|MRI|核磁/
+const NORMAL = /^(?:未见明显异常|未见异常|正常|无异常)[。.]?$/
 const DAY = /(20\d{2}-\d{2}-\d{2})/
+
+/** Every clause says nothing is there ("内中膜未见明显增厚，未见斑块"). */
+function allNormal(text: string): boolean {
+  const clauses = text.split(/[；;，,。]/).map((part) => part.trim()).filter(Boolean)
+  return clauses.length > 0 && clauses.every((part) => /未见|正常|无明显|阴性|尚属正常|无异常|清晰|规则|对称|光滑/.test(part) && !/结节|息肉|斑块(?!.*未见)|囊肿|增生|脂肪肝|钙化|占位/.test(part.replace(/未见[^，；。]*/g, '')))
+}
 
 function pathOf(dataDir: string): string {
   return join(dataDir, 'datain', 'findings.jsonl')
@@ -57,7 +66,7 @@ export function findingsFromIndicators(dataDir: string, indicators: readonly { n
   for (const row of indicators) {
     const value = row.value == null ? '' : String(row.value)
     const text = `${row.label ?? ''} ${row.name ?? ''} ${value}`.replace(/\s+/g, ' ').trim()
-    if (!/TI[-\s]?RADS|BI[-\s]?RADS|总检|超声|医师建议|体检结论/.test(text)) continue
+    if (!/TI[-\s]?RADS|BI[-\s]?RADS|总检|超声|彩超|B超|CT|X线|DR|钼靶|MRI|核磁|医师建议|体检结论/.test(text)) continue
     const date = (row.date || row.last_date || '').slice(0, 10)
     lines.push(date && !text.includes(date) ? `${text} ${date}` : text)
   }
@@ -76,13 +85,16 @@ export function parseNarrative(text: string, date = ''): NarrativeFinding[] {
   const lines = text.split(/\n+/).map((line) => line.replace(/\s+/g, ' ').trim()).filter((line) => line.length >= 4 && line.length <= 400)
   const out: NarrativeFinding[] = []
   const seen = new Set<string>()
+  let lineDay = day
   const push = (kind: FindingKind, textZh: string, grade = '') => {
-    const key = `${kind}|${textZh}`
+    const key = `${kind}|${textZh}|${lineDay}`
     if (seen.has(key)) return
     seen.add(key)
-    out.push({ id: newId('find'), date: day, text_zh: textZh, kind, ...(grade ? { grade } : {}) })
+    out.push({ id: newId('find'), date: lineDay, text_zh: textZh, kind, ...(grade ? { grade } : {}) })
   }
   for (const line of lines) {
+    // A line that carries its own date (rows of several checkups read together) keeps it.
+    lineDay = /(20\d{2}-\d{2}-\d{2})\s*$/.exec(line)?.[1] ?? day
     const ti = TI.exec(line)
     const bi = BI.exec(line)
     if (ti || bi) {
@@ -97,6 +109,13 @@ export function parseNarrative(text: string, date = ''): NarrativeFinding[] {
         const where = /乳/.test(line) ? '乳腺' : '超声'
         push('bi-rads', `${where}，BI-RADS ${grade}。`, grade)
       }
+      continue
+    }
+    // An exam line filed as a record row ("腹部彩超 中度脂肪肝；胆囊息肉（约0.3cm）"): kept unless it says nothing is wrong.
+    const exam = /^(\S{2,12})\s+(.+)$/.exec(line)
+    const said = (exam?.[2] ?? '').replace(/\s*20\d{2}-\d{2}-\d{2}$/, '').trim()
+    if (exam && IMAGING.test(exam[1] ?? '') && !TI.test(said) && !BI.test(said)) {
+      if (!NORMAL.test(said) && !allNormal(said)) push('ultrasound', `${exam[1]}：${said}`)
       continue
     }
     if (/医师建议|总检|体检结论|超声提示|超声结论|建议[:：]/.test(line) && !/^\d/.test(line)) {

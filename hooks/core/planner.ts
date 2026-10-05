@@ -8,6 +8,7 @@
 // saved: the person tailors the draft in chat or accepts it on the page.
 
 import { hasDose, stripDoses } from './dose.ts'
+import { normalizeUnit } from './units.ts'
 import { drinkingFromText, fingerprint, readPlanPrefs, rememberExclusions, setDrinking, writePlanPrefs } from './plan-prefs.ts'
 import {
   bodyMassIndex, BREASTFEEDING_NOTE_ZH, egfrBelowCkd, exclusionsFromText, FISH_OIL, FISH_OIL_CAUTION, flagsFromText,
@@ -590,8 +591,9 @@ function candidatesOf(priorities: Priority[], effects: readonly EffectRow[], bio
   return out.map(({ magnitude: _magnitude, ...row }) => row)
 }
 
+/** Units compared as written alike: μmol/L and umol/L, a space or a case apart, are the same unit. */
 function norm(text: string): string {
-  return text.replace(/\s/g, '').toLowerCase()
+  return normalizeUnit(text)
 }
 
 /** |effect| in the marker's own unit, for sorting: mean differences convert; a percent needs the person's value; others sort last. */

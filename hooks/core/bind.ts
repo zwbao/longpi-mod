@@ -11,6 +11,7 @@ import { applyVersionPin } from './pin.ts'
 import type { OutputValue } from './history.ts'
 import { aliasIndex, candidatesFor, resolveInput, stageMeasurements, unitFactor, type MeasurementIn, type RecordIndicator } from './measurements.ts'
 import { libraryHome } from './skills-provider.ts'
+import { recordIsLocal } from './mcp.ts'
 import { speciesZh } from './skills-provider.ts'
 import { foldName, parseNumber } from './units.ts'
 
@@ -356,7 +357,9 @@ function limitsFor(card: SkillCard, label: ResultLabel): string {
 
 function labelFor(card: SkillCard, used: readonly Accepted[], version: string, pinned: string | undefined): ResultLabel {
   if (card.tier === 'C' || card.tier === 'tool' || !card.script || card.inputsStatus === 'none') return 'evidence-only'
-  const backed = used.length > 0 && used.every((item) => item.backing !== 'name')
+  // On the record kept on this computer, a row matched by its printed name has passed the unit and range checks
+  // like a coded one: Chinese reports rarely print LOINC, and the name is the report's own.
+  const backed = used.length > 0 && used.every((item) => item.backing !== 'name' || recordIsLocal())
   const proposed: ResultLabel = card.inputsStatus === 'verified' && backed ? 'verified' : 'unverified-binding'
   return applyVersionPin(version, pinned ?? '', proposed).label ?? proposed
 }

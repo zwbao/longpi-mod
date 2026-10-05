@@ -25,8 +25,9 @@ type Usage = {
 
 // --- 一起研究 ------------------------------------------------------------------------------------------
 
+/** Joined only after the person pressed 加入: the default preference is not a choice they made. */
 function scienceOn(invite: Invite | null): boolean {
-  return !(invite?.preference === 'off' || invite?.mode === 'off')
+  return Boolean((invite as { user_set?: boolean } | null)?.user_set) && !(invite?.preference === 'off' || invite?.mode === 'off')
 }
 
 function Science(ctx: Ctx): Node[] {
@@ -163,7 +164,7 @@ function draw(ctx: Ctx): Node {
   const sections: Array<{ id: string; title: string; summary: string; body: () => Node[]; tone?: string }> = [
     { id: 'followup', title: '提醒', summary: followupSummary(ctx), body: () => FollowupSection(ctx) },
     ...(journey ? [{ id: 'record', title: '健康记录', summary: recordLine(journey), body: () => RecordSection(ctx, journey, 'settings') }] : []),
-    { id: 'science', title: '一起研究', summary: ctx.json('science/invite') ? (scienceOn(ctx.json<Invite>('science/invite')) ? '已开启：只在这台电脑上' : '已关闭') : '', body: () => Science(ctx) },
+    { id: 'science', title: '一起研究', summary: ctx.json('science/invite') ? (scienceOn(ctx.json<Invite>('science/invite')) ? '已加入：只在这台电脑上' : (ctx.json<{ user_set?: boolean }>('science/invite')?.user_set ? '已关闭' : '未加入')) : '', body: () => Science(ctx) },
     { id: 'privacy', title: '隐私与数据', summary: privacySummary(ctx), body: () => Privacy(ctx) },
     { id: 'display', title: '屏幕上的数字', summary: displaySummary(ctx), body: () => Display(ctx), ...(ctx.privacy.presentation ? { tone: C.warn } : {}) },
     { id: 'model', title: '模型与用量', summary: usageSummary(ctx), body: () => Model(ctx) },

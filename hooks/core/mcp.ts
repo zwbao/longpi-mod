@@ -10,7 +10,15 @@ export const LOCAL_MCP_URL = 'local:'
 /** Whose record answers: the person being looked at, under the LongPi home the session runs with. */
 let recordDir: () => string = () => resolveDataDir('')
 
+/** The record is the one on this computer (set by the mod at boot): its rows are the person's own reports. */
+let localRecord = false
+
+export function recordIsLocal(): boolean {
+  return localRecord
+}
+
 export function setRecordDir(fn: () => string): void {
+  localRecord = true
   recordDir = fn
 }
 

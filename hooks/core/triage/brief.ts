@@ -18,6 +18,44 @@ import { currentBus } from '../core/bus.ts'
 import type { CareState } from './care.ts'
 import { patterns } from './rules.ts'
 import { currentImport, doctorItems } from '../analysis/store.ts'
+import { isLocalMcp, localRecordNow } from '../mcp.ts'
+import { printedLevels } from '../local-record.ts'
+
+/** Exam lines that say nothing is wrong. */
+const NORMAL_LINE = /^(未见明显异常|未见异常|正常|阴性|无异常|窦性心律[，, ]*正常心电图|正常心电图)[。.]?$/
+const EXAM_NAME = /彩超|B超|超声|CT|X线|DR|心电图|眼底|骨密度|胃镜|肠镜|核磁|MRI|钼靶|斑块|结节/
+
+/**
+ * What else the latest report shows a doctor should see with the reason for the visit: values outside the range the
+ * report printed (not already in the trend table) and the imaging lines that are not normal. Local record only.
+ */
+function otherLines(trendLabels: readonly string[], config: Config): string[] {
+  if (!isLocalMcp(config.mcpUrl)) return []
+  const record = localRecordNow()
+  if (!record) return []
+  const labs = record.observations.filter((row) => row.source !== 'device')
+  const latest = labs.map((row) => row.date).sort().at(-1)
+  if (!latest) return []
+  const levels = printedLevels(record)
+  const out: string[] = []
+  const seen = new Set<string>()
+  for (const row of labs.filter((item) => item.date === latest)) {
+    const name = row.name || row.indicator
+    if (!name || seen.has(name) || trendLabels.some((label) => label.includes(name) || name.includes(label))) continue
+    const level = levels.get(`${name}|${latest}`)
+    if (level) {
+      seen.add(name)
+      out.push(`${name} ${level.text_zh.replace(/^报告上 /, '')}`)
+      continue
+    }
+    const value = String(row.value).trim()
+    if (EXAM_NAME.test(name) && !/^[\d.<>]/.test(value) && !NORMAL_LINE.test(value)) {
+      seen.add(name)
+      out.push(`${name}：${value}`)
+    }
+  }
+  return out.slice(0, 14)
+}
 
 /** 「9 月 10 日」, with the year when it is not this year. */
 function dayZhT(iso: string | null | undefined): string {
@@ -118,6 +156,9 @@ function markdownOf(brief: DoctorBrief, person: { age: number | null; sex: strin
   } else {
     lines.push('（本次未读取到历次结果，请携带纸质或电子体检报告。）')
   }
+  if (brief.others_zh?.length) {
+    lines.push('', '## 报告上其他需要一起看的', '> 同一份报告里，超出报告参考范围的数值和不是「未见异常」的检查结论；请医生一起评估。', '', ...brief.others_zh.map((line) => `- ${line}`))
+  }
   if (brief.analysis_zh?.length) {
     lines.push('', '## 深度分析建议由医生评估的事项', '> 来自多组学深度分析，是建议，不是诊断；是否需要、怎么做，请医生决定。', '', ...brief.analysis_zh.map((line) => `- ${line}`))
   }
@@ -153,8 +194,10 @@ export async function buildBrief(input: BriefInput): Promise<BriefResult | null>
   const recordMeds = currentMedications(input.records.medications)
   const meds = [...new Set([...recordMeds, ...memMeds.filter((line) => !recordMeds.some((name) => line.startsWith(name)))])]
   const conditions = (memory.read().items.filter((item) => item.status === 'active' && (item.kind === 'condition' || item.kind === 'family_history')) as Array<{ text_zh: string }>).map((item) => item.text_zh)
+  const others = otherLines(trend.map((row) => row.label_zh), input.config)
   const brief: DoctorBrief = {
     id: newId('brief'),
+    ...(others.length > 0 ? { others_zh: others } : {}),
     finding_ids: findings.map((row) => row.id),
     created: input.today,
     trend,

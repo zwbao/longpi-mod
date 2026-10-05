@@ -553,7 +553,7 @@ async function decideBand($: Engine): Promise<void> {
   const current = await read($, band)
   if (current) {
     const filed = current.kind === 'welcome' && Boolean(await $.fs.stat(`${rt.rootDir}/record.json`).catch(() => null))
-    if (p.presentation || (current.kind === 'standup' && now - current.at > STANDUP_VISIBLE_MS) || filed) await update($, band, () => null)
+    if (p.presentation || (current.kind === 'standup' && now - current.at > STANDUP_VISIBLE_MS) || (current.kind === 'today' && now - current.at > 10 * 60_000) || filed) await update($, band, () => null)
     return
   }
   const slotJson = (await read($, data))['codex/slot']?.json as { enabled?: boolean; presentation?: boolean; slot?: SlotView; pane_neutral_zh?: string | null } | null | undefined
@@ -582,7 +582,19 @@ async function decideBand($: Engine): Promise<void> {
     turnMs: turnSince === null ? 0 : now - turnSince,
     now,
   })
-  if (!next) return
+  if (!next) {
+    // Once a day, on a quiet slot: the first open thing of today's three, in one line.
+    if (presentation) return
+    const dayKey = perHome(`today:${isoDay(new Date(now))}`)
+    if (await $.store.get(dayKey)) return
+    if (!(await read($, data)).game) await loadRoute($, 'game')
+    const game = (await read($, data)).game?.json as GameView | null | undefined
+    const open = game && !game.demo && !game.member ? game.things.find((row) => !row.done && row.id !== 'ask') : undefined
+    if (!open) return
+    await $.store.set(dayKey, true)
+    await update($, band, () => ({ kind: 'today', ref: open.id, text: `LongPi · 今天：${open.text_zh}`, at: now }))
+    return
+  }
   await update($, band, () => next)
   void post($, 'codex', next.kind === 'standup' ? { action: 'nudge', event: 'shown' } : { action: 'nudge', event: 'reveal_shown', ref: next.ref }, { quiet: true, reload: ['codex/slot'] })
 }
@@ -985,6 +997,13 @@ export const register: Register = (on) => {
           await openPane($, 'overview')
         })().catch(() => undefined)
       },
+      todayOpen: () => {
+        void (async () => {
+          await update($, band, () => null)
+          await openPane($, 'overview')
+        })().catch(() => undefined)
+      },
+      todayLater: () => void update($, band, () => null),
       welcomeLater: () => {
         void $.store.set(perHome('welcomed'), true).then(() => update($, band, () => null)).catch(() => undefined)
       },

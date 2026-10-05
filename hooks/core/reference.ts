@@ -5,7 +5,8 @@
 // harness only reads them.
 
 import { existsSync, readFileSync } from '../sys/fs.ts'
-import { join } from '../sys/path.ts'
+import { dirname, join } from '../sys/path.ts'
+import { libFile } from '../sys/url.ts'
 import { foldName, nameVariants } from './units.ts'
 
 export interface BiovarMarker {
@@ -101,6 +102,25 @@ function stampOf(path: string): string {
   }
 }
 
+/**
+ * The mod's own additions (data/reference-extra.json beside the mod): markers and trial effects the method library
+ * does not have yet. A key or id the library already has keeps the library's row.
+ */
+function mergeExtra(value: Reference): void {
+  const path = join(dirname(dirname(libFile())), 'data', 'reference-extra.json')
+  try {
+    if (!existsSync(path)) return
+    const extra = JSON.parse(readFileSync(path, 'utf8')) as { markers?: BiovarMarker[]; effects?: EffectRow[] }
+    const keys = new Set(value.biovar.markers.map((row) => row.key))
+    const added = (extra.markers ?? []).filter((row) => row && row.key && !keys.has(row.key) && row.verified)
+    if (added.length > 0) value.biovar = { ...value.biovar, z: value.biovar.z || 1.96, markers: [...value.biovar.markers, ...withExtraCodes(added)] }
+    const ids = new Set(value.effects.map((row) => row.id))
+    for (const row of extra.effects ?? []) if (row && row.id && row.effect && !ids.has(row.id)) value.effects.push(row)
+  } catch {
+    // the library's tables stand on their own
+  }
+}
+
 export function loadReference(skillsHome: string): Reference {
   const biovarPath = join(skillsHome, 'data', 'biological_variation.json')
   const effectsPath = join(skillsHome, 'data', 'effects.jsonl')
@@ -128,6 +148,7 @@ export function loadReference(skillsHome: string): Reference {
   } catch (error) {
     value.error = error instanceof Error ? error.message : 'reference tables unreadable'
   }
+  mergeExtra(value)
   memo = { home: skillsHome, stamp, value }
   return value
 }

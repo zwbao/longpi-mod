@@ -453,7 +453,8 @@ export function printedLevels(record: LocalRecord): Map<string, { flag: 'low' | 
     if (!flag) continue
     const range = row.ref_low && row.ref_high ? `${row.ref_low}–${row.ref_high}` : row.ref_high ? `<${row.ref_high}` : row.ref_low ? `>${row.ref_low}` : ''
     const shownValue = `${row.value}${row.unit ? ` ${row.unit}` : ''}`
-    const text = `报告上 ${shownValue}${range ? `，参考范围 ${range}` : ''}，${flag === 'high' ? '偏高' : '偏低'}。`
+    const verdict = Number.isFinite(value) && /^[\d.<>≤≥+-]/.test(String(row.value).trim()) && !/^\d\+$/.test(String(row.value).trim()) ? (flag === 'high' ? '偏高' : '偏低') : '报告标为异常'
+    const text = `报告上 ${shownValue}${range ? `，参考范围 ${range}` : ''}，${verdict}。`
     for (const key of new Set([row.name, row.indicator].filter(Boolean))) out.set(`${key}|${row.date}`, { flag, text_zh: text })
   }
   return out

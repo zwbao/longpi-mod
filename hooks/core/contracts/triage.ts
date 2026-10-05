@@ -15,6 +15,8 @@ export interface DoctorBrief {
   id: Id; finding_ids: Id[]; created: IsoDay
   /** Deterministic. */
   trend: Array<{ label_zh: string; points: NumberRef[] }>
+  /** The latest report's other values outside its printed range, and its abnormal imaging lines (local record). */
+  others_zh?: string[]
   meds_zh: string[]; conditions_zh: string[]
   questions_zh: string[]; tests_zh: string[]
   /** Items a deep analysis gave to a doctor (supplements, tests, referrals, the physician's items). */
