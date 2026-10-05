@@ -126,6 +126,8 @@ const EMPTY: RouteCache = { at: 0, status: 0, json: null, loading: false, error:
 
 /** Tools that put values into the record. */
 const RECORD_TOOLS: readonly string[] = ['record_measurements', 'import_measurements_csv', 'import_apple_health', 'save_self_measurement']
+/** Tools that store health information: the consent is asked before the first of them. */
+const CONSENT_TOOLS: readonly string[] = [...RECORD_TOOLS, 'read_narrative_findings', 'record_condition', 'record_medication_statement', 'forward_report', 'save_personal_profile']
 
 /** Routes asked to reload while a read of them was in flight, with the path to fetch. */
 const reloadWanted = new Map<string, string>()
@@ -550,17 +552,18 @@ async function decideBand($: Engine): Promise<void> {
   const p = await read($, privacy)
   const current = await read($, band)
   if (current) {
-    const filed = ((await read($, data)).journey?.json as { records?: { indicator_count?: number } } | null | undefined)?.records?.indicator_count ?? 0
-    if (p.presentation || (current.kind === 'standup' && now - current.at > STANDUP_VISIBLE_MS) || (current.kind === 'welcome' && filed > 0)) await update($, band, () => null)
+    const filed = current.kind === 'welcome' && Boolean(await $.fs.stat(`${rt.rootDir}/record.json`).catch(() => null))
+    if (p.presentation || (current.kind === 'standup' && now - current.at > STANDUP_VISIBLE_MS) || filed) await update($, band, () => null)
     return
   }
   const slotJson = (await read($, data))['codex/slot']?.json as { enabled?: boolean; presentation?: boolean; slot?: SlotView; pane_neutral_zh?: string | null } | null | undefined
   const presentation = p.presentation || Boolean(slotJson?.presentation)
   // No standing status line: the engine draws a plugin's status as a warning (⚠), which a calm line is not.
-  // The record already has values: the person found their way in, the welcome is not needed.
-  const started = ((await read($, data)).journey?.json as { records?: { indicator_count?: number } } | null | undefined)?.records?.indicator_count ?? 0
-  if (started > 0 && !(await $.store.get(perHome('welcomed')))) await $.store.set(perHome('welcomed'), true)
-  if (!presentation && started === 0 && !(await $.store.get(perHome('welcomed')))) {
+  // A record on disk (an upgrade, or values filed from the chat): the person found their way in already.
+  const welcomed = Boolean(await $.store.get(perHome('welcomed')))
+  const onDisk = welcomed ? true : Boolean(await $.fs.stat(`${rt.rootDir}/record.json`).catch(() => null))
+  if (!welcomed && onDisk) await $.store.set(perHome('welcomed'), true)
+  if (!presentation && !onDisk) {
     await update($, band, () => ({ kind: 'welcome', ref: '', text: 'LongPi 长寿教练已装好 · 把体检报告拖进对话，或输入 /longpi 打开健康页', at: now }))
     return
   }
@@ -1039,7 +1042,7 @@ export const register: Register = (on) => {
     const { tool: _tool, tool_use_id: callId, ...args } = e as unknown as Record<string, unknown> & { tool: string; tool_use_id: string }
     const session = await $.session.id()
     // Values go into the record only with the person's consent: the first time, ask in a dialog.
-    if (RECORD_TOOLS.includes(name) && !(await consentGiven(rt))) {
+    if (CONSENT_TOOLS.includes(name) && !(await consentGiven(rt))) {
       const who = await activeLabel(rt)
       let answer: string | null = null
       try {

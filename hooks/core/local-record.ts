@@ -446,8 +446,8 @@ export function printedLevels(record: LocalRecord): Map<string, { flag: 'low' | 
     const high = Number.parseFloat(row.ref_high ?? '')
     const arrow = (row.flag ?? '').trim()
     let flag: 'low' | 'high' | null = null
-    if (/^(↑|H|HH|高|偏高|\+)$/i.test(arrow) || /↑/.test(arrow)) flag = 'high'
-    else if (/^(↓|L|LL|低|偏低|-)$/i.test(arrow) || /↓/.test(arrow)) flag = 'low'
+    if (/^(H|HH|高|偏高)$/i.test(arrow) || /↑/.test(arrow)) flag = 'high'
+    else if (/^(L|LL|低|偏低)$/i.test(arrow) || /↓/.test(arrow)) flag = 'low'
     else if (Number.isFinite(value) && Number.isFinite(high) && value > high) flag = 'high'
     else if (Number.isFinite(value) && Number.isFinite(low) && value < low) flag = 'low'
     if (!flag) continue
