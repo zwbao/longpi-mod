@@ -550,13 +550,17 @@ async function decideBand($: Engine): Promise<void> {
   const p = await read($, privacy)
   const current = await read($, band)
   if (current) {
-    if (p.presentation || (current.kind === 'standup' && now - current.at > STANDUP_VISIBLE_MS)) await update($, band, () => null)
+    const filed = ((await read($, data)).journey?.json as { records?: { indicator_count?: number } } | null | undefined)?.records?.indicator_count ?? 0
+    if (p.presentation || (current.kind === 'standup' && now - current.at > STANDUP_VISIBLE_MS) || (current.kind === 'welcome' && filed > 0)) await update($, band, () => null)
     return
   }
   const slotJson = (await read($, data))['codex/slot']?.json as { enabled?: boolean; presentation?: boolean; slot?: SlotView; pane_neutral_zh?: string | null } | null | undefined
   const presentation = p.presentation || Boolean(slotJson?.presentation)
   // No standing status line: the engine draws a plugin's status as a warning (⚠), which a calm line is not.
-  if (!presentation && !(await $.store.get(perHome('welcomed')))) {
+  // The record already has values: the person found their way in, the welcome is not needed.
+  const started = ((await read($, data)).journey?.json as { records?: { indicator_count?: number } } | null | undefined)?.records?.indicator_count ?? 0
+  if (started > 0 && !(await $.store.get(perHome('welcomed')))) await $.store.set(perHome('welcomed'), true)
+  if (!presentation && started === 0 && !(await $.store.get(perHome('welcomed')))) {
     await update($, band, () => ({ kind: 'welcome', ref: '', text: 'LongPi 长寿教练已装好 · 把体检报告拖进对话，或输入 /longpi 打开健康页', at: now }))
     return
   }
