@@ -12,6 +12,7 @@ description: >-
   打卡, 复盘, 坚持不下去, 有没有用, 复测, 生物年龄, Pi, longevity coach, health coach.
 metadata:
   version: "0.2.0"
+user-invocable: false
 ---
 
 # Pi：长寿教练

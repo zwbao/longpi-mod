@@ -11,9 +11,9 @@ export function register(ctx: Context, deps: CoreDeps): void {
     dataDir: () => resolveDataDir(deps.config().dataDir),
     rootDir: () => resolveRootDir(deps.config().dataDir),
     skillsHome: () => resolveSkillsHome(deps.config().skillsHome),
-    refresh: async () => {
+    refresh: async (force) => {
       const context = await deps.context()
-      await refreshCodex({ config: context.config, dataDir: context.dataDir, present: context.records.indicators.map((row) => row.name) })
+      await refreshCodex({ config: context.config, dataDir: context.dataDir, present: context.records.indicators.map((row) => row.name), ...(force ? { force: true } : {}) })
     },
     codexOn: () => deps.config().engage?.codex !== false,
     bus: deps.bus,

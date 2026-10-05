@@ -47,7 +47,7 @@ function latestText(row: IndicatorRow): string {
   return row.latest.value == null ? '—' : fmtAuto(row.latest.value)
 }
 
-/** The 「和正常波动比」 cell: a short chip in its tone, or 「—」 when nothing is judged. */
+/** The 「提示」 cell: a short chip in its tone, or 「—」 when nothing is judged. */
 export function judgedChip(row: IndicatorRow): { text: string; color?: string; dim?: boolean } {
   if (row.range_flag === 'low' || row.range_flag === 'high') return { text: row.range_flag === 'low' ? '偏低' : '偏高', color: C.warn }
   const kind = judgementKind({ gate: row.gate, judged: row.judged, reason: row.reason_zh })
@@ -83,7 +83,7 @@ function header(ctx: Ctx, cols: Cols, area: LifeArea): RenderElement {
     pad(area === 'labs' ? '最近一次' : '最近', cols.value + 1 + cols.unit),
     cols.date ? pad('日期', cols.date) : '',
     cols.trend ? pad('趋势', cols.trend) : '',
-    cols.judged ? pad('和正常波动比', cols.judged) : '',
+    cols.judged ? pad('提示', cols.judged) : '',
     cols.source ? pad('来源', cols.source) : '',
   ].filter(Boolean)
   return <Text key="ind-head" dimColor wrap="truncate-end">{parts.join(' ')}</Text>
@@ -197,7 +197,7 @@ export function IndicatorTable(ctx: Ctx, options: TableOptions): RenderElement {
     body.push(
       <Box key="latest" flexDirection="row" gap={1}>
         <Text dimColor>{latestLine}</Text>
-        {judgedAny ? <Button key="help" plain label={helpOpen ? '收起说明' : '「和正常波动比」是什么意思'} onPress={() => ctx.act.setSub('life.help', helpOpen ? '' : '1')} /> : null}
+        {judgedAny ? <Button key="help" plain label={helpOpen ? '收起说明' : '「提示」怎么看'} onPress={() => ctx.act.setSub('life.help', helpOpen ? '' : '1')} /> : null}
       </Box>,
     )
   }

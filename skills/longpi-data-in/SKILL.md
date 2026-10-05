@@ -1,6 +1,7 @@
 ---
 name: longpi-data-in
 description: 把体检报告、化验单、手环导出、用药和诊断收进 LongPi。报告由 Claude 自己读，用 record_measurements 按原样录入；Apple 健康导出用 import_apple_health；其他手环和 App 导出转成 CSV 后用 import_measurements_csv；叙述（TI-RADS、BI-RADS、总检）用 read_narrative_findings；用药用 record_medication_statement；诊断用 record_condition；甲基化、菌群、蛋白表用 forward_report 带 type。
+user-invocable: false
 ---
 
 > 在 Claude Code 里，LongPi 的工具名是 `mcp__longpi__<名字>`；下面只写名字。LongPi 的页面用 `/longpi` 打开（总览、化验、睡眠、运动、日程、方案、长寿图鉴、档案、设置）。

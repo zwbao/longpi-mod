@@ -94,7 +94,7 @@ export interface Journey {
   changes_unjudged: Array<{ label_zh: string; reason_zh: string }>
   surfaceMore: SurfaceMore[]
   triage: {
-    findings: Array<{ id: string; title_zh: string; department_zh: string; status: string }>
+    findings: Array<{ id: string; title_zh: string; text_zh: string; department_zh: string; status: string; priority: string }>
     care: Array<{ finding_id: string; care_status: string; visit_date: string | null; outcome_zh: string | null }>
     needs_sex: boolean
   }
@@ -418,7 +418,7 @@ export function journeyOf(input: unknown): Journey | null {
       .map((row) => ({ label_zh: str(row.label_zh), reason_zh: str(row.reason_zh) })),
     surfaceMore: moreOf(raw.surfaces),
     triage: {
-      findings: objects(triage.findings).map((row) => ({ id: str(row.id), title_zh: str(row.title_zh), department_zh: str(row.department_zh), status: str(row.status) })).filter((row) => row.id),
+      findings: objects(triage.findings).map((row) => ({ id: str(row.id), title_zh: str(row.title_zh), text_zh: str(row.text_zh), department_zh: str(row.department_zh), status: str(row.status), priority: str(row.priority) })).filter((row) => row.id),
       care: objects(triage.care).map((row) => ({ finding_id: str(row.finding_id), care_status: str(row.care_status), visit_date: strOrNull(row.visit_date), outcome_zh: strOrNull(row.outcome_zh) })),
       needs_sex: triage.needs_sex === true,
     },

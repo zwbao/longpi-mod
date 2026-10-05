@@ -175,7 +175,7 @@ function draw(ctx: Ctx): Node {
         const fold = Fold(ctx, { page: PAGE, id: section.id, title: section.title, summary: section.summary, fallback: 'followup', ...(section.tone ? { tone: section.tone } : {}) })
         return [fold.head, fold.open ? Body(ctx, section.id, section.body()) : null]
       })}
-      {version ? <Box key="version" marginTop={1}>{Note(ctx, `LongPi ${version}`, 'version-t', ctx.width)}</Box> : null}
+      {version ? <Box key="version" marginTop={1}>{Note(ctx, `LongPi ${version}（Claude Code 版）`, 'version-t', ctx.width)}</Box> : null}
     </Box>
   )
 }

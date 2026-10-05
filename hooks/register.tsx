@@ -14,12 +14,14 @@ import { fullBrief, SHORT_BRIEF } from './app/brief.ts'
 import { snapshotText } from './core/agents/orchestrator.ts'
 import { isoDay } from './core/interventions.ts'
 import { WRITE_TOOLS } from './core/agents/orchestrator.ts'
+import { recordChanged } from './core/engage/engine.ts'
 import { pageOf, PAGES } from './ui/pages/index.ts'
 import { pageWidth, paneTree } from './ui/pane.tsx'
 import type { Actions, CodexActions, Ctx, PostResult } from './ui/types.ts'
 import { isAnimated, stageAt, stageCols } from './ui/codex/stage.ts'
 import { cardTree, type CardState } from './ui/cards.tsx'
 import type { GameView } from './app/game.ts'
+import { markdownToHtml } from './ui/printable.ts'
 import { CELEBRATE_MS, celebrateFrame, IDLE_MS, moodAt, piFrame } from './ui/journey/anim.ts'
 import type { PiForm } from './ui/journey/sprites.ts'
 import { bandTree, nextBand, noteInput, sittingMinutes, STANDUP_VISIBLE_MS, type Activity, type BandPrompt, type SlotView } from './ui/band.tsx'
@@ -122,6 +124,12 @@ async function startCore($: Engine): Promise<void> {
 
 const EMPTY: RouteCache = { at: 0, status: 0, json: null, loading: false, error: '' }
 
+/** Tools that put values into the record. */
+const RECORD_TOOLS: readonly string[] = ['record_measurements', 'import_measurements_csv', 'import_apple_health', 'save_self_measurement']
+
+/** Routes asked to reload while a read of them was in flight, with the path to fetch. */
+const reloadWanted = new Map<string, string>()
+
 /** Read one route into the cache. `fetchPath` may carry ?refresh=1 while the cache key stays the bare path. */
 async function loadRoute($: Engine, path: string, force = false, fetchPath = path): Promise<void> {
   try {
@@ -139,7 +147,11 @@ async function loadRouteNow($: Engine, path: string, force: boolean, fetchPath: 
   // A load caught by a reload (the state outlives the module) is stale after 30 s, never stuck.
   const inFlight = Boolean(held?.loading) && now - (held?.at ?? 0) < 30_000
   if (held && !force && (inFlight || (held.status === 200 && now - held.at < FRESH_MS))) return
-  if (held && force && inFlight) return
+  // A forced read while another is in flight: that one may predate the write; read again once it lands.
+  if (held && force && inFlight) {
+    reloadWanted.set(path, fetchPath)
+    return
+  }
   await update($, data, (all) => ({ ...all, [path]: { ...(all[path] ?? EMPTY), loading: true, at: now } }))
   let next: RouteCache
   try {
@@ -154,6 +166,11 @@ async function loadRouteNow($: Engine, path: string, force: boolean, fetchPath: 
     next = { at: await $.clock.now(), status: 0, json: null, loading: false, error: error instanceof Error ? error.message : String(error) }
   }
   await update($, data, (all) => ({ ...all, [path]: next }))
+  const again = reloadWanted.get(path)
+  if (again !== undefined) {
+    reloadWanted.delete(path)
+    void loadRoute($, path, true, again)
+  }
   if (path === 'game' && next.status === 200) void onGame($, next.json as GameView).catch(() => undefined)
 }
 
@@ -485,6 +502,19 @@ function actionsFor($: Engine, surface: RenderSurface): Actions {
       await toastNotice($, `已保存到 ${target}`, 'good')
       return target
     },
+    saveText: async (text, fileName, open) => {
+      const home = (await $.env.get('HOME')) ?? ''
+      const target = `${home}/Downloads/${fileName.replace(/[\\/]/g, '-')}`
+      try {
+        await $.fs.write(target, text)
+      } catch {
+        await toastNotice($, '没能写入下载文件夹。', 'warn')
+        return null
+      }
+      if (open) await $.process.run(['open', target]).catch(() => null)
+      await toastNotice($, open ? `已保存并打开：${target}` : `已保存到 ${target}`, 'good')
+      return target
+    },
     saveFile: async (path, fileName) => {
       const saved = await actionsFor($, surface).save(path, fileName)
       return saved ? { ok: true, path: saved } : { ok: false, error: '没有可以保存的内容' }
@@ -525,7 +555,11 @@ async function decideBand($: Engine): Promise<void> {
   }
   const slotJson = (await read($, data))['codex/slot']?.json as { enabled?: boolean; presentation?: boolean; slot?: SlotView; pane_neutral_zh?: string | null } | null | undefined
   const presentation = p.presentation || Boolean(slotJson?.presentation)
-  $.ui.status(!presentation && slotJson?.enabled && slotJson.pane_neutral_zh ? `长寿图鉴 · ${slotJson.pane_neutral_zh}` : undefined)
+  // No standing status line: the engine draws a plugin's status as a warning (⚠), which a calm line is not.
+  if (!presentation && !(await $.store.get(perHome('welcomed')))) {
+    await update($, band, () => ({ kind: 'welcome', ref: '', text: 'LongPi 长寿教练已装好 · 把体检报告拖进对话，或输入 /longpi 打开健康页', at: now }))
+    return
+  }
   const news = ((await $.store.get(perHome('news'))) ?? null) as { week?: string; cards?: number; shown?: boolean } | null
   if (!presentation && news && !news.shown && news.cards) {
     await $.store.set(perHome('news'), { ...news, shown: true })
@@ -660,6 +694,24 @@ async function maintain($: Engine): Promise<void> {
   await setupLongPi($, false)
 }
 
+/** A brief the model prepared, also saved as a page to print in ~/Downloads; the answer says where. */
+async function printableBrief($: Engine, text: string): Promise<string> {
+  try {
+    const answer = JSON.parse(text) as { ok?: boolean; markdown?: string; where_zh?: string }
+    if (!answer.ok || typeof answer.markdown !== 'string' || !answer.markdown) return text
+    const rt = runtime()
+    const people = rt ? (await route<{ active?: string; people?: Array<{ id: string; label_zh: string }> }>(rt, 'GET', '/api/longpi/people').catch(() => null))?.json : null
+    const who = people?.people?.find((row) => row.id === people.active && row.id !== 'self')?.label_zh ?? ''
+    const day = isoDay(new Date(await $.clock.now()))
+    const home = (await $.env.get('HOME')) ?? ''
+    const target = `${home}/Downloads/LongPi 医生简报${who ? ` ${who}` : ''} ${day}.html`
+    await $.fs.write(target, markdownToHtml(answer.markdown, `LongPi 医生简报${who ? ` · ${who}` : ''}`))
+    return JSON.stringify({ ...answer, file: target, where_zh: `已存成可打印的网页：${target}。双击用浏览器打开，按 ⌘P 打印；健康页「总览」最上面的「最重要的一步」里也能打开。` })
+  } catch {
+    return text
+  }
+}
+
 // --- Pi and the road to 120 --------------------------------------------------------------------------
 
 /** When the pane last drew, and how wide its body was: a celebration plays only on a pane that is showing. */
@@ -690,8 +742,16 @@ function celebrationLines(game: GameView): string[] {
 async function onGame($: Engine, game: GameView): Promise<void> {
   if (!game?.fresh || game.demo || game.member) return
   const fresh = [...game.fresh.stations, ...game.fresh.medals, ...(game.fresh.form != null ? [`form${game.fresh.form}`] : [])]
-  if (fresh.length === 0 || (await read($, celebrate))) return
+  if (fresh.length === 0) return
   const lines = celebrationLines(game)
+  // One showing already: what is new joins it rather than queuing a second one.
+  const showingNow = await read($, celebrate)
+  if (showingNow) {
+    const sameSet = game.fresh.stations.every((id) => showingNow.stations.includes(id)) && game.fresh.medals.every((id) => showingNow.medals.includes(id)) && (game.fresh.form == null || showingNow.form === game.fresh.form)
+    if (sameSet) return
+    await update($, celebrate, (c) => c ? { ...c, stations: [...new Set([...c.stations, ...game.fresh.stations])], medals: [...new Set([...c.medals, ...game.fresh.medals])], form: game.fresh.form ?? c.form, from: c.from ?? (game.fresh.form != null ? Math.max(0, game.fresh.form - 1) : null), lines } : c)
+    return
+  }
   const showing = Date.now() - paneDrawnAt < 4_000
   if (!showing) {
     const key = fresh.join(',')
@@ -798,6 +858,10 @@ const TAB_WORDS: Record<string, Tab> = {
 
 async function openPane($: Engine, tab?: Tab): Promise<void> {
   if (tab) await update($, view, (v) => ({ ...v, tab, detail: null }))
+  // Opened once: the welcome line above the prompt has done its job.
+  void $.store.set(perHome('welcomed'), true).catch(() => undefined)
+  const shownBand = await read($, band)
+  if (shownBand?.kind === 'welcome') await update($, band, () => null)
   await $.ui.open({ id: PANE, title: 'LongPi', focus: true, columns: 92 })
   void loadView($)
 }
@@ -824,6 +888,9 @@ export const register: Register = (on) => {
       if (turnSince !== null) quietly(noteActivity($))
     })
     $.clock.every(15_000, () => {
+      quietly(decideBand($))
+    })
+    $.clock.after(3_000, () => {
       quietly(decideBand($))
     })
     void loadRoute($, 'codex/slot')
@@ -892,6 +959,16 @@ export const register: Register = (on) => {
         })().catch(() => undefined)
       },
       newsLater: () => void update($, band, () => null),
+      welcomeOpen: () => {
+        void (async () => {
+          await $.store.set(perHome('welcomed'), true)
+          await update($, band, () => null)
+          await openPane($, 'overview')
+        })().catch(() => undefined)
+      },
+      welcomeLater: () => {
+        void $.store.set(perHome('welcomed'), true).then(() => update($, band, () => null)).catch(() => undefined)
+      },
       revealLater: (ref) => {
         void update($, band, () => null)
         void post($, 'codex', { action: 'nudge', event: 'reveal_later', ref }, { quiet: true, reload: ['codex/slot'] })
@@ -953,11 +1030,17 @@ export const register: Register = (on) => {
       }
     }, session, String(callId ?? ''))
     if (out.denied) return { deny: out.denied }
+    if (name === 'prepare_doctor_brief') out.text = await printableBrief($, out.text)
     await update($, healthTurn, () => true)
     const firstTime = !(await read($, coach))
     const context = firstTime ? await enterCoach($) : []
     // A write the pane shows: read its data again.
-    if ((WRITE_TOOLS as readonly string[]).includes(name) || name === 'record_measurements') void reloadAfter($, ['tracking', 'codex', 'codex/slot', 'indicators?area=labs', 'game'])
+    if ((WRITE_TOOLS as readonly string[]).includes(name) || RECORD_TOOLS.includes(name)) {
+      // The Codex series are rebuilt from the new values first, so a pack opened next can use them.
+      void (RECORD_TOOLS.includes(name) ? op(() => recordChanged()) : Promise.resolve())
+        .catch(() => undefined)
+        .then(() => reloadAfter($, ['tracking', 'codex', 'codex/slot', 'indicators?area=labs', 'game']))
+    }
     return context.length > 0 ? { result: out.text, context } : { result: out.text }
   })
 

@@ -1,6 +1,7 @@
 ---
 name: longpi-interventions
 description: Draft an intervention plan with the person from their results and the collected trial evidence (lifestyle items with concrete behavioral targets, supplements only as options to confirm with a doctor, never a dose or a prescription change), or save their own plan, after they confirm a read-back; record check-ins and self measurements, judge each item against their record (noise band, retest timing, adherence, confounders), remind retests on the dates the tools give, set up follow-up reminders they agree to, and show model estimates for their goals.
+user-invocable: false
 ---
 
 > 在 Claude Code 里，LongPi 的工具名是 `mcp__longpi__<名字>`；下面只写名字。LongPi 的页面用 `/longpi` 打开（总览、化验、睡眠、运动、日程、方案、长寿图鉴、档案、设置）。

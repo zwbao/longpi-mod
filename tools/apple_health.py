@@ -46,18 +46,32 @@ ASLEEP = ("HKCategoryValueSleepAnalysisAsleep", "HKCategoryValueSleepAnalysisAsl
           "HKCategoryValueSleepAnalysisAsleepREM")
 
 
+def main_xml(names):
+    """The export's main file: export.xml in English, 导出.xml in Chinese and other names elsewhere; never the
+    clinical-records (cda) file or the workout routes. The largest remaining .xml wins."""
+    xmls = [n for n in names if n.lower().endswith(".xml") and "cda" not in os.path.basename(n).lower()
+            and "/workout-routes/" not in n.replace("\\", "/") and "/electrocardiograms/" not in n.replace("\\", "/")]
+    english = [n for n in xmls if os.path.basename(n).lower() == "export.xml"]
+    return english or xmls
+
+
 def open_export(path):
     if os.path.isdir(path):
-        for name in ("export.xml", os.path.join("apple_health_export", "export.xml")):
-            if os.path.exists(os.path.join(path, name)):
-                return open(os.path.join(path, name), "rb")
-        raise SystemExit("找不到 export.xml：请给出 Apple 健康导出的 export.zip 或解压后的文件夹。")
+        found = []
+        for root, _dirs, files in os.walk(path):
+            for f in files:
+                full = os.path.join(root, f)
+                found.append(full)
+        picks = main_xml(found)
+        if not picks:
+            raise SystemExit("这个文件夹里没有健康数据文件：请给出 Apple 健康导出的 zip（export.zip 或 导出.zip）或解压后的文件夹。")
+        return open(max(picks, key=os.path.getsize), "rb")
     if path.lower().endswith(".zip"):
         archive = zipfile.ZipFile(path)
-        for name in archive.namelist():
-            if name.endswith("export.xml") and "cda" not in name.lower():
-                return archive.open(name)
-        raise SystemExit("压缩包里没有 export.xml。")
+        picks = main_xml(archive.namelist())
+        if not picks:
+            raise SystemExit("压缩包里没有健康数据文件（export.xml 或 导出.xml）。")
+        return archive.open(max(picks, key=lambda n: archive.getinfo(n).file_size))
     return open(path, "rb")
 
 

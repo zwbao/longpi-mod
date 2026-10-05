@@ -1,6 +1,7 @@
 ---
 name: longpi-science
 description: 当对方问研究、N-of-1、社区季、同意或退出时使用。只在模拟模式解释本机研究；不打开 live；不送出姓名和原始化验。
+user-invocable: false
 ---
 
 > 在 Claude Code 里，LongPi 的工具名是 `mcp__longpi__<名字>`；下面只写名字。LongPi 的页面用 `/longpi` 打开（总览、化验、睡眠、运动、日程、方案、长寿图鉴、档案、设置）。

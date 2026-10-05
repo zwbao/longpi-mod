@@ -1,6 +1,7 @@
 ---
 name: longpi-feedback
 description: Explain a retest or a change in graded words. Quote read_progress_feedback headlines. Celebrate only a change past the noise band. Inside the band, tell which markers improved and when to retest. Never say the person got younger from one blood draw or from noise. Goal numbers are 模型估计. Never say 10 年死亡风险.
+user-invocable: false
 ---
 
 > 在 Claude Code 里，LongPi 的工具名是 `mcp__longpi__<名字>`；下面只写名字。LongPi 的页面用 `/longpi` 打开（总览、化验、睡眠、运动、日程、方案、长寿图鉴、档案、设置）。

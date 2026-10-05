@@ -14,12 +14,12 @@ import { join } from '../sys/path.ts'
 import type { HostContext } from '../sys/cordis.ts'
 import type { ServerResponse } from '../sys/http.ts'
 
-export const DEEDS = ['profile', 'reports', 'measures', 'cards', 'species', 'experiments', 'reveals', 'visits', 'retests', 'methods', 'analyses', 'plans', 'family', 'seasons'] as const
+export const DEEDS = ['profile', 'reports', 'measures', 'devices', 'cards', 'species', 'experiments', 'reveals', 'visits', 'retests', 'methods', 'analyses', 'plans', 'family', 'seasons'] as const
 export type Deed = (typeof DEEDS)[number]
 export type Deeds = Record<Deed, number>
 
 export const DEED_ZH: Record<Deed, string> = {
-  profile: '填好基本情况', reports: '体检报告', measures: '自测记录', cards: '读过的研究卡', species: '遇见的物种',
+  profile: '填好基本情况', reports: '体检报告', measures: '自测记录', devices: '导入手环数据', cards: '读过的研究卡', species: '遇见的物种',
   experiments: '开始的小实验', reveals: '揭晓的实验', visits: '带简报看医生', retests: '复查', methods: '算过的方法',
   analyses: '深度分析', plans: '方案', family: '一起管理的家人', seasons: '走完的赛季',
 }
@@ -69,6 +69,7 @@ export function countDeeds(c: Ctx): Deeds {
     profile: c.journey.profile?.complete ? 1 : 0,
     reports: c.journey.records?.summary?.checkups ?? 0,
     measures: c.self.rows?.length ?? 0,
+    devices: (c.journey.records?.summary?.wearable_days ?? 0) > 0 ? 1 : 0,
     cards: (c.library.studies ?? []).filter((row) => row.read).length,
     species: (c.library.species ?? []).filter((row) => row.met).length,
     experiments: started,
@@ -104,18 +105,18 @@ export const STATIONS: ReadonlyArray<{ id: string; title_zh: string; how_zh: str
   { id: 'bioage', title_zh: '算出了身体年龄', how_zh: '报告里有九项常规血检时，Pi 会自动算。', reached: (_d, c) => c.journey.results?.bioage?.status === 'ok' },
   { id: 'cards5', title_zh: '读了 5 张研究卡', how_zh: '在「长寿图鉴」的图书馆里读研究卡。', reached: (d) => d.cards >= 5 },
   { id: 'plan', title_zh: '定下了一个方案', how_zh: '让 Pi 按你的结果起草一个方案，你点「采纳」。', reached: (d) => d.plans > 0 },
-  { id: 'measure', title_zh: '在家量过一次', how_zh: '量一次腰围、体重或血压，告诉 Pi。', reached: (d) => d.measures > 0 },
+  { id: 'measure', title_zh: '在家量过一次', how_zh: '量一次腰围、体重或血压告诉 Pi，或者导入手环、体重秤的数据。', reached: (d) => d.measures > 0 || d.devices > 0 },
   { id: 'experiment', title_zh: '开始了第一个小实验', how_zh: '在「长寿图鉴」拆开实验包，选一个两周的小实验。', reached: (d) => d.experiments > 0 },
   { id: 'reveal', title_zh: '揭晓了一个实验', how_zh: '实验做满两周，翻开结果卡。', reached: (d) => d.reveals > 0 },
   { id: 'doctor', title_zh: '带着简报见了医生', how_zh: '需要看医生时，带上 Pi 整理的简报，回来告诉 Pi。', reached: (d) => d.visits > 0 },
-  { id: 'retest', title_zh: '按时复查了', how_zh: '到了复查的时候去复查，把新报告交给 Pi。', reached: (d) => d.retests > 0 || d.reports >= 2 },
+  { id: 'retest', title_zh: '按时复查了', how_zh: '到了复查的时候去复查，把新报告交给 Pi。', reached: (d) => d.retests > 0 },
   { id: 'season', title_zh: '走完了一个赛季', how_zh: '一个赛季八周，做完几个小实验就算走完。', reached: (d) => d.seasons > 0 },
   { id: 'year', title_zh: '一年后又体检了一次', how_zh: '隔一年再做一次全面体检，看看这一年。', reached: (_d, c) => yearApart(c.journey.records?.summary) },
 ]
 
 function yearApart(summary: { checkups?: number; first_date?: string | null; last_date?: string | null } | undefined): boolean {
   if (!summary?.first_date || !summary.last_date || (summary.checkups ?? 0) < 2) return false
-  return (Date.parse(summary.last_date) - Date.parse(summary.first_date)) / 86_400_000 >= 330
+  return (Date.parse(summary.last_date) - Date.parse(summary.first_date)) / 86_400_000 >= 300
 }
 
 /** Collections on the medal wall: counts of real things, each a medal once. */

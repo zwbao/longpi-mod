@@ -1,6 +1,7 @@
 ---
 name: longpi-boundary
 description: Four-tier concrete advice for LongPi. OTC ranges and trial doses, diagnosis-first tests, prescription evidence without a personal dose, first aid before the emergency number. Never a bare refusal.
+user-invocable: false
 ---
 
 > 在 Claude Code 里，LongPi 的工具名是 `mcp__longpi__<名字>`；下面只写名字。LongPi 的页面用 `/longpi` 打开（总览、化验、睡眠、运动、日程、方案、长寿图鉴、档案、设置）。

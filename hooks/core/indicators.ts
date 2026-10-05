@@ -24,6 +24,8 @@ import { readSelf, selfSeries, SELF_DEVICE_NAMES, SELF_KEYS, SELF_SPEC, SELF_SUF
 import { currentMedications, GLUCOSE_LOWERING, type IndicatorRow } from './situation.ts'
 import { trackingGeneration } from './tracking.ts'
 import { foldName, canonicalName, normalizeUnit, parseNumber } from './units.ts'
+import { localRecordNow, isLocalMcp } from './mcp.ts'
+import { printedLevels } from './local-record.ts'
 
 export type { GroupKey } from './groups.ts'
 export type IndicatorSource = 'checkup' | 'device' | 'self'
@@ -465,6 +467,8 @@ async function build(context: IndicatorsContext): Promise<Built> {
   const isPlanMarker = planMatcher(context, markers)
   const details = new Map<string, Omit<IndicatorDetail, 'row'>>()
   const rows: Array<IndicatorEntry & { group: GroupKey }> = []
+  const localRecord = isLocalMcp(context.config.mcpUrl) ? localRecordNow() : null
+  const printed = localRecord ? printedLevels(localRecord) : new Map<string, { flag: 'low' | 'high'; text_zh: string }>()
   const checkupDays = new Set<string>()
   const wearableDays = new Set<string>()
   let failed = 0
@@ -579,6 +583,8 @@ async function build(context: IndicatorsContext): Promise<Built> {
 
     const level = (latest?.value != null ? absoluteLevel(spec.label, latest.value, spec.unit, records.profile.sex) : null)
       ?? attentionLevel(spec.label, latest?.value ?? null, latest?.text ?? '', glucoseTreated)
+      // The range the report printed, for every lab the fixed bands above do not cover.
+      ?? (spec.source === 'checkup' && latest ? printed.get(`${spec.label}|${latest.date}`) ?? spec.names.map((name) => printed.get(`${name}|${latest.date}`)).find(Boolean) ?? null : null)
     const entry: IndicatorEntry & { group: GroupKey } = {
       id: spec.id, label_zh: spec.label, unit: spec.unit, source: spec.source, latest, points, change, judged,
       plan_marker: isPlanMarker(spec), ...(readError ? { read_error: readError } : {}),

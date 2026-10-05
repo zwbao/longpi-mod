@@ -39,7 +39,7 @@ export function runTarget(ctx: Ctx, target: ResultTarget): void {
 
 function labelText(label: ResultLabel): string {
   if (label === 'verified') return '数据已核对'
-  if (label === 'unverified-binding') return '尚未核对，暂不能视为你的结果'
+  if (label === 'unverified-binding') return '按化验名称取数'
   return '这是研究中的结论，并非根据你的体检计算'
 }
 
@@ -383,7 +383,8 @@ export function BodyAgeCard(ctx: Ctx, props: { journey: Journey; tracking: Track
               {BandSpark(ctx.E, trend.map((row) => row.advance as number), Math.min(24, inner - 30), bandRange, (v) => (bandRange && v < bandRange.lo ? C.good : C.warn), 'sp')}
               <Text key="r">{` ${fmt(trend[0]?.advance)} → ${fmt(trend.at(-1)?.advance)} 岁`}</Text>
             </Text>
-            <Text key="d" dimColor>{`${chineseDate(trend[0]?.date, today)} → ${chineseDate(trend.at(-1)?.date, today)}${bandRange ? ` · 0 为与周岁持平` : ''}`}</Text>
+            <Text key="d" dimColor>{`${chineseDate(trend[0]?.date, today)} → ${chineseDate(trend.at(-1)?.date, today)}`}</Text>
+            {bandRange ? <Text key="z" dimColor>0 表示和周岁一样</Text> : null}
           </Box>
         )
         : tracking == null ? <Text key="trend" dimColor>…</Text> : null,

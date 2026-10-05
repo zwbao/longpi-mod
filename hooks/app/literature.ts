@@ -137,7 +137,7 @@ function promptOf(rows: ReadonlyArray<Summary & { abstract: string }>, max: numb
     `文献类型：${row.pubtypes.join(', ')}`,
     `摘要：${row.abstract.slice(0, 1800) || '（无摘要）'}`,
   ].join('\n')).join('\n\n')
-  return `下面是过去一周新发表的衰老和长寿相关论文。挑出最值得普通人知道的最多 ${max} 篇：优先人体随机试验、荟萃分析和大型队列，方法扎实、结论清楚、和健康长寿直接相关；动物或细胞研究只有在发现很重要时才选，最多 1 篇。方法弱、只是综述、只是方案、或者和健康长寿关系不大的不要。宁缺毋滥：没有够格的就少选。
+  return `下面是过去一周新发表的衰老和长寿相关论文。挑出最值得普通人知道的 2 到 ${max} 篇：优先人体随机试验、荟萃分析和大型队列，方法扎实、结论清楚、和健康长寿直接相关；动物或细胞研究只有在发现很重要时才选，最多 1 篇。方法弱、只是综述、只是方案、或者和健康长寿关系不大的不要。通常总能挑出两篇；只有候选里真的一篇都不够格时，才返回空列表。
 
 ${items}
 
@@ -264,7 +264,8 @@ export async function scoutLiterature(io: Io, root: string, now: Date, opts: { d
   const record: LiteratureWeek & { rejected: typeof rejected; answered: number } = { week, at: now.toISOString(), candidates: all.length, cards: merged, rejected, answered: rows.length }
   if (merged.length > 0 || !before) await io.write(file, `${JSON.stringify(record, null, 1)}\n`)
   // Nothing passed the checks although the model answered: try again another day rather than lose the week.
-  const finished = cards.length > 0 || (parsed !== null && rows.length === 0)
+  // An empty answer is retried another day rather than closing the week with nothing on the shelf.
+  const finished = cards.length > 0 || kept.length > 0
   // What is new on the shelf (a second run in the same week may find the same papers).
   const added = merged.length - kept.length
   return { ok: cards.length > 0, finished, week, cards: added, candidates: all.length, reason: added > 0 ? '' : cards.length > 0 ? '这些论文已经在图书馆里了。' : rows.length > 0 ? `写出的 ${rows.length} 张卡都没有通过检查（${rejected.map((row) => row.why).join('；')}）。` : '这周的论文都没有达到上架的标准。' }

@@ -58,6 +58,8 @@ export type Actions = {
   save: (path: RoutePath, fileName: string) => Promise<string | null>
   /** The same, answering `{ ok, path, error }` (the 档案 page's export). */
   saveFile: (path: RoutePath, fileName: string) => Promise<{ ok: boolean; path?: string; error?: string }>
+  /** Write text to ~/Downloads/<fileName> and open it (a page to print); resolves the path, or null. */
+  saveText: (text: string, fileName: string, open?: boolean) => Promise<string | null>
   /** Close the pane. */
   close: () => void
   /** The celebration was seen (好), and maybe the road opened next. */

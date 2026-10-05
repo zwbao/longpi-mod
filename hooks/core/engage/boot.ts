@@ -20,7 +20,7 @@ export interface EngageRuntime {
   skillsHome?: () => string
   codexOn?: () => boolean
   bus?: Bus | null
-  refresh?: () => Promise<void>
+  refresh?: (force?: boolean) => Promise<void>
 }
 
 let booted = false

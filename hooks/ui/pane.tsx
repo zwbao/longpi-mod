@@ -36,7 +36,7 @@ function header(ctx: Ctx): RenderElement {
   return (
     <Box key="head" flexDirection="column">
       <Box flexDirection="row" justifyContent="space-between">
-        <Text bold color={C.accent}>{fit(`${greeting}${name}`, Math.max(8, ctx.width - 24))}</Text>
+        <Text bold color={C.accent}>{fit(active && active.id !== 'self' ? `${active.label_zh}的档案${active.demo ? '（示例）' : ''}` : `${greeting}${name}`, Math.max(8, ctx.width - 24))}</Text>
         <Box flexDirection="row" gap={1}>
           {who ? <Text color={C.warn}>{who}</Text> : null}
           <Button key="refresh" plain hotkey="u" label="刷新" onPress={() => ctx.act.refresh()} />

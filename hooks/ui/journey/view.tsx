@@ -16,7 +16,7 @@ import { Frame as PixelFrame } from '../codex/pixels.ts'
 export type { GameView }
 
 const DEED_ROWS: ReadonlyArray<[keyof GameView['deeds'], string]> = [
-  ['reports', '体检报告'], ['measures', '自测'], ['cards', '研究卡'], ['species', '物种'], ['experiments', '小实验'],
+  ['reports', '体检报告'], ['measures', '自测'], ['devices', '导入手环数据'], ['cards', '研究卡'], ['species', '物种'], ['experiments', '小实验'],
   ['reveals', '揭晓'], ['visits', '带简报看医生'], ['retests', '复查'], ['methods', '算过的方法'], ['analyses', '深度分析'],
   ['plans', '方案'], ['family', '家人'], ['seasons', '赛季'], ['profile', '基本情况'],
 ]
@@ -212,7 +212,7 @@ function draw(ctx: Ctx): Node {
       {section(ctx, 'forms', 'Pi 的样子', nextLine(game), [formsRow(ctx, game)])}
       {section(ctx, 'medal-wall', '奖章墙', `${game.medals.filter((row) => row.earned).length}/${game.medals.length}`, [medalWall(ctx, game)])}
       {section(ctx, 'deed-list', '你做过的事', '只增不减', [deedTable(ctx, game)])}
-      <Text key="rule" dimColor>{zh('Pi 跟着你做过的事长大：录入报告、在家自测、读研究卡、做小实验、复查、带简报看医生。打卡不算，化验数值的高低也不算。')}</Text>
+      <Text key="rule" dimColor>{zh('Pi 跟着你做过的事长大：录入报告、在家自测、导入手环数据、读研究卡、做小实验、复查、带简报看医生。打卡不算，化验数值的高低也不算。')}</Text>
       <Box key="back" marginTop={1}><Button key="to-overview" plain label="‹ 回总览" onPress={() => ctx.act.go('overview')} /></Box>
     </Box>
   )

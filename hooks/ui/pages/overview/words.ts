@@ -13,8 +13,8 @@ export const RISK_INFO = '10 年心血管风险：与你情况相近的人群中
 /** changes.ts: the one plain sentence behind 判断依据. */
 export const BASIS_ZH = '「超出正常波动」指两次结果的差异大于同一个人平常的起伏。不同医院、不同仪器之间的差异未计入。这不是诊断。'
 
-export const UNMATCHED_ALL_ZH = '以下结果均未与你的记录逐项核对（各卡已注明所用数值），暂不能视为你的结果。'
-export const unmatchedSomeZh = (count: number) => `其中 ${count} 项结果未与你的记录逐项核对（卡片已注明所用数值），暂不能视为你的结果。`
+export const UNMATCHED_ALL_ZH = '这些结果是按化验名称从你的档案里取数算的（体检报告一般不印标准编码），单位和数值范围都核对过；各卡注明了用到的数值。'
+export const unmatchedSomeZh = (count: number) => `其中 ${count} 项是按化验名称从你的档案里取数算的（体检报告一般不印标准编码），单位和数值范围都核对过。`
 
 /** constants.ts RISK_FACTS: the six China-PAR facts when the server sends no questions. */
 export const RISK_FACTS: ReadonlyArray<{ key: string; zh: string; menOnly?: boolean }> = [

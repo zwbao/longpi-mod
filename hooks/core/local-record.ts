@@ -432,3 +432,30 @@ export function exportForAnalyst(record: LocalRecord, outDir: string, days = 120
   }
   return { lab_files: labFiles, wearable_file: wearable, lab_rows: labs.length }
 }
+
+/**
+ * The range the report itself printed for each lab value, keyed by the name as filed and the date: the lab's
+ * own arrow (↑ ↓ H L 高 低) first, else the value against its printed limits. Values without either are absent.
+ */
+export function printedLevels(record: LocalRecord): Map<string, { flag: 'low' | 'high'; text_zh: string }> {
+  const out = new Map<string, { flag: 'low' | 'high'; text_zh: string }>()
+  for (const row of record.observations) {
+    if (row.source === 'device') continue
+    const value = Number.parseFloat(String(row.value).replace(/[^0-9.+-eE]/g, ''))
+    const low = Number.parseFloat(row.ref_low ?? '')
+    const high = Number.parseFloat(row.ref_high ?? '')
+    const arrow = (row.flag ?? '').trim()
+    let flag: 'low' | 'high' | null = null
+    if (/^(↑|H|HH|高|偏高|\+)$/i.test(arrow) || /↑/.test(arrow)) flag = 'high'
+    else if (/^(↓|L|LL|低|偏低|-)$/i.test(arrow) || /↓/.test(arrow)) flag = 'low'
+    else if (Number.isFinite(value) && Number.isFinite(high) && value > high) flag = 'high'
+    else if (Number.isFinite(value) && Number.isFinite(low) && value < low) flag = 'low'
+    if (!flag) continue
+    const range = row.ref_low && row.ref_high ? `${row.ref_low}–${row.ref_high}` : row.ref_high ? `<${row.ref_high}` : row.ref_low ? `>${row.ref_low}` : ''
+    const shownValue = `${row.value}${row.unit ? ` ${row.unit}` : ''}`
+    const text = `报告上 ${shownValue}${range ? `，参考范围 ${range}` : ''}，${flag === 'high' ? '偏高' : '偏低'}。`
+    for (const key of new Set([row.name, row.indicator].filter(Boolean))) out.set(`${key}|${row.date}`, { flag, text_zh: text })
+  }
+  return out
+}
+

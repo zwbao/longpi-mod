@@ -8,7 +8,7 @@ export const SOURCE_ZH: Record<IndicatorSource, string> = { checkup: '体检', d
 
 export const JUDGEMENT = {
   beyond: '超出正常波动（比你平时的波动更大，建议咨询医生。不是急症。）',
-  within: '在正常波动范围内（尚不能视为真实变化）',
+  within: '和上次比变化不大（在正常波动内，还不能算真实变化）',
   too_early: '太早（距上次检测时间过短，目前的变化多为正常波动）',
   not_comparable: '不可比（两次检测不在同一家机构，无法直接比较）',
   unjudged: '暂不能下结论（请查看缺少的环节）',
@@ -31,7 +31,7 @@ export function judgementKind(input: { gate?: string; judged?: string; reason?: 
   return 'unjudged'
 }
 
-export const JUDGEMENT_HELP = '超出正常波动：变化大于你平常的起伏，建议咨询医生，但不属于急症。在正常波动范围内：变化没有实际意义。太早：距上次检测时间过短。不可比：两次检测不在同一机构。还不能下结论：请查看缺少哪一步。'
+export const JUDGEMENT_HELP = '偏高、偏低：这次的数值超出了报告上印的参考范围。超出正常波动：和上次比，变化大于你平常的起伏，建议咨询医生，但不属于急症。和上次比变化不大：变化在你平时的起伏之内，不说明这个数值本身正常。太早：距上次检测时间过短。不可比：两次检测不在同一机构。还不能下结论：请查看缺少哪一步。'
 
 /** The one plain sentence behind 判断依据 (changes.ts). */
 export const BASIS_ZH = '「超出正常波动」指两次结果的差异大于同一个人平常的起伏。不同医院、不同仪器之间的差异未计入。这不是诊断。'

@@ -83,6 +83,16 @@ describe('通往 120', () => {
     expect(tomorrow.view.things.some((row) => row.id === 'reveal:r1')).toBe(false)
   })
 
+  test('an older report filed later is history, not a retest; a wearable import counts as measuring at home', () => {
+    const two = ctx({ checkups: 2 })
+    const view = gameView(two, EMPTY, true).view
+    expect(view.stations.find((row) => row.id === 'retest')?.reached).toBe(null)
+    const withWatch = { ...two, journey: { ...two.journey, records: { ...two.journey.records, summary: { ...two.journey.records?.summary, wearable_days: 365 } } } }
+    const watched = gameView(withWatch, EMPTY, true).view
+    expect(watched.deeds.devices).toBe(1)
+    expect(watched.stations.find((row) => row.id === 'measure')?.reached).toBe('2026-10-05')
+  })
+
   test('the demo is never saved', () => {
     const demo = gameView(ctx({ checkups: 2 }), EMPTY, false)
     expect(demo.saved).toBe(EMPTY)

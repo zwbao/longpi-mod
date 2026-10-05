@@ -8,6 +8,7 @@ import { C } from '../../kit.tsx'
 import type { Journey } from './journey.ts'
 import { nb, Caption, Card, Para, setSub, sub } from './ui.tsx'
 import { careDetail, chineseDate } from './words.ts'
+import { markdownToHtml } from '../../printable.ts'
 
 type Field = (props: Record<string, unknown>) => RenderElement
 
@@ -29,7 +30,7 @@ async function openBrief(ctx: Ctx): Promise<void> {
 }
 
 /** The brief, once made: its text and how to take it along. */
-function BriefView(ctx: Ctx): Node {
+function BriefView(ctx: Ctx, journey: Journey): Node {
   const id = sub(ctx, 'briefId')
   if (!id) return null
   const { Box, Text, Button, Markdown } = ctx.E
@@ -44,8 +45,9 @@ function BriefView(ctx: Ctx): Node {
       markdown
         ? (
           <Box key="a" flexDirection="row" gap={1} marginTop={1}>
+            <Button key="brief-print" variant="primary" label="存成可打印的网页" onPress={() => { void ctx.act.saveText(markdownToHtml(markdown, 'LongPi 医生简报'), `LongPi 医生简报 ${journey.today || ctx.today}.html`, true) }} />
             <Button key="brief-copy" label="复制简报" onPress={() => ctx.act.copy(markdown)} />
-            <Text key="hint" dimColor>复制后可粘贴到备忘录或文档里打印。</Text>
+            <Text key="hint" dimColor>网页存进「下载」并在浏览器里打开，按 ⌘P 打印。</Text>
           </Box>
         )
         : null,
@@ -133,7 +135,7 @@ export function CareCard(ctx: Ctx, journey: Journey): Node {
         <Button key="care-labs" label="查看这些指标" onPress={() => ctx.act.go('labs', { 'labs.filter': 'changed' })} />
         {journey.triage.needs_sex ? <Button key="care-sex" label="填写性别" onPress={() => { setSub(ctx, 'step', '1'); setSub(ctx, 'onboarding', '1') }} /> : null}
       </Box>,
-      BriefView(ctx),
+      BriefView(ctx, journey),
       VisitForm(ctx, journey, today),
     ],
   })

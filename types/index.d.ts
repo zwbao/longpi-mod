@@ -89,7 +89,7 @@ declare module 'claude-code' {
       /** What a LongPi tool card in the transcript did (adopted, undone), by the call's id. */
       cards: Record<string, { adopted?: number; undone?: boolean; busy?: boolean; error?: string }>
       /** The prompt slot above the prompt: a stand-up line or the reveal notice. */
-      band: { kind: 'standup' | 'reveal' | 'news'; ref: string; text: string; at: number } | null
+      band: { kind: 'standup' | 'reveal' | 'news' | 'welcome'; ref: string; text: string; at: number } | null
       /** A celebration playing over the pane. */
       celebrate: Celebration
     }

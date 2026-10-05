@@ -1,6 +1,7 @@
 ---
 name: longpi-board
 description: Read the LongPi pane (/longpi in Claude Code). Onboarding steps, the first results (phenotypic age, China-PAR) or what blocks them, the intervention plan with verdicts and adherence, reminders, self measurements, markers against their noise bands, model estimates for goals and next steps. The chart stays on the Mirobody server.
+user-invocable: false
 ---
 
 > 在 Claude Code 里，LongPi 的工具名是 `mcp__longpi__<名字>`；下面只写名字。LongPi 的页面用 `/longpi` 打开（总览、化验、睡眠、运动、日程、方案、长寿图鉴、档案、设置）。

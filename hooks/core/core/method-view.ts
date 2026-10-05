@@ -183,7 +183,7 @@ export function resultSentence(row: MethodResult, opts: { youngerAllowed: boolea
   if (row.label === 'unverified-binding') {
     const raw = row.inputs_used.map((item) => item.quote.trim()).find(Boolean) ?? ''
     const quote = plainSource(raw)
-    text = quote ? `${title}是 ${shown}（尚未核对，来源：${quote}）。` : `${title}是 ${shown}（尚未核对）。`
+    text = quote ? `${title}是 ${shown}（按化验名称取数，来源：${quote}）。` : `${title}是 ${shown}（按化验名称取数）。`
   } else {
     const limits = row.limits_zh.trim()
     const boundary = limits ? (limits.endsWith('。') ? limits : `${limits}。`) : ''
@@ -293,7 +293,7 @@ export function versusCalendarAge(advance: number | null): string {
  */
 export function bodyAgeFactText(bio: BodyAgeFigure & { headline_zh?: string }, label: ResultLabel | null): string {
   if (bio.status !== 'ok' || bio.phenoage == null) return ''
-  const tag = label === 'verified' ? '模型估计，已核对' : label === 'unverified-binding' ? '模型估计，尚未核对' : '模型估计'
+  const tag = label === 'verified' ? '模型估计，已核对' : label === 'unverified-binding' ? '模型估计，按化验名称取数' : '模型估计'
   const gap = versusCalendarAge(bio.advance)
   const concern = /不一定是好事/.test(bio.headline_zh ?? '') ? (bio.headline_zh ?? '').trim() : ''
   return `身体年龄 ${years(bio.phenoage)} 岁（${tag}）${gap ? `，${gap}` : ''}。${concern}`

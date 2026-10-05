@@ -108,13 +108,13 @@ export function pickKeyTrends(changes: readonly TrendRow[], bodyOlder = false): 
   return rows.slice(0, 4)
 }
 
-export function insightSentence(input: { sleepHours?: number | null; steps?: number | null; labNote?: string | null }): string | null {
+export function insightSentence(input: { sleepHours?: number | null; steps?: number | null; labNote?: string | null; sleepWhen?: string; stepsWhen?: string }): string | null {
   const sleep = input.sleepHours
   const steps = input.steps
   if ((sleep == null || !Number.isFinite(sleep)) && (steps == null || !Number.isFinite(steps))) return null
   const bits: string[] = []
-  if (sleep != null && Number.isFinite(sleep)) bits.push(`昨晚睡眠 ${trimNum(sleep)} 小时`)
-  if (steps != null && Number.isFinite(steps)) bits.push(`今日步数 ${trimNum(steps)} 步`)
+  if (sleep != null && Number.isFinite(sleep)) bits.push(`${input.sleepWhen ?? '昨晚'}睡眠 ${trimNum(sleep)} 小时`)
+  if (steps != null && Number.isFinite(steps)) bits.push(`${input.stepsWhen ?? '今天'}步数 ${trimNum(steps)} 步`)
   const lab = input.labNote
     ? `结合化验结果：${input.labNote}`
     : '手环数据反映近一两天的情况，化验通常间隔数周检测一次，两者宜分开解读。'

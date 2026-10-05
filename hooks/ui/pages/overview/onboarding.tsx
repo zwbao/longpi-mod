@@ -95,10 +95,13 @@ function Welcome(ctx: Ctx, journey: Journey): Node[] {
   const privacy = ctx.json<{ copy?: { pipl?: { title?: string; lead?: string; paragraphs?: string[] } } }>('privacy')
   const pipl = privacy?.copy?.pipl
   const accepted = journey.consent.accepted
+  // A family member's folder: the holder agrees on their behalf, having asked them.
+  const people = ctx.json<{ active?: string; people?: Array<{ id: string; label_zh: string; demo?: boolean }> }>('people')
+  const member = people?.people?.find((row) => row.id === people.active && row.id !== 'self' && !row.demo)?.label_zh ?? ''
   return [
     Para(ctx.E, 'LongPi 帮你管理自己的健康数据：根据体检结果估算身体年龄和 10 年心血管风险，并跟踪你的改善计划执行得怎么样。', ctx.width - 4, { key: 'p1' }),
     Para(ctx.E, '它只提供健康管理参考，不做诊断，不开处方，也不给出用药剂量。', ctx.width - 4, { key: 'p2' }),
-    Para(ctx.E, '你的档案和记录只保存在这台电脑上。你提问时，回答所需的健康数值会发送给 Claude 处理，不包含你的姓名。', ctx.width - 4, { key: 'p3' }),
+    Para(ctx.E, '档案和记录只保存在这台电脑上。你交给 Claude 的报告和问题会像平时用 Claude 一样发给它处理；LongPi 自己附上的是回答需要的健康数值。', ctx.width - 4, { key: 'p3' }),
     pipl
       ? (
         <Box key="pipl" flexDirection="column">
@@ -125,7 +128,7 @@ function Welcome(ctx: Ctx, journey: Journey): Node[] {
       )
       : (
         <Box key="agree" flexDirection="column" marginTop={1}>
-          <Button key="ob-agree" plain label={`${agreed ? '☑' : '☐'} 我同意 LongPi 按上述方式使用我的体检、化验、血压、血糖、体重和用药等健康信息。`} onPress={() => setSub(ctx, 'agree', agreed ? '' : '1')} />
+          <Button key="ob-agree" plain label={member ? `${agreed ? '☑' : '☐'} 我已经告诉${member}，${member}同意 LongPi 按上述方式使用${member}的体检、化验、血压、血糖、体重和用药等健康信息。` : `${agreed ? '☑' : '☐'} 我同意 LongPi 按上述方式使用我的体检、化验、血压、血糖、体重和用药等健康信息。`} onPress={() => setSub(ctx, 'agree', agreed ? '' : '1')} />
           <Text key="c" dimColor>可以随时在「设置」中撤回。</Text>
           <Box key="a" flexDirection="row" gap={1} marginTop={1}>
             <Button key="ob-later2" plain dimColor label="以后再说" onPress={() => close(ctx)} />

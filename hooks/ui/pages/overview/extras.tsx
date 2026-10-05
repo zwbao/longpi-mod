@@ -22,6 +22,12 @@ export function PartialNote(ctx: Ctx, journey: Journey): Node {
   return Callout(ctx.E, text, 'warn', 'partial', ctx.width)
 }
 
+function shiftDay(day: string, by: number): string {
+  const at = new Date(`${day.slice(0, 10)}T12:00:00Z`)
+  at.setUTCDate(at.getUTCDate() + by)
+  return at.toISOString().slice(0, 10)
+}
+
 /** Setup steps still open (onboarding.ts stepsLeft): none once there is a first record. */
 export function stepsLeft(ctx: Ctx, journey: Journey): number {
   if (!journey.consent.accepted) return 3
@@ -37,20 +43,26 @@ export function InsightCard(ctx: Ctx, journey: Journey, covered: Covered): Node 
   const indicators = ctx.json('indicators')
   let sleep: number | null = null
   let steps: number | null = null
+  let sleepDay = ''
+  let stepsDay = ''
   for (const group of objects(indicators?.groups)) {
     for (const row of objects(group.indicators)) {
       const value = numOf(obj(row.latest).value)
       if (str(row.source) !== 'device' || value == null) continue
       // By id, not by words: 心率变异性（睡眠） also says 睡眠.
       const id = str(row.id)
-      if (id === 'device:sleepDuration' || (!id.startsWith('device:') && /^每晚睡眠|^睡眠时长/.test(str(row.label_zh)))) sleep = value
-      if (id === 'device:dailySteps' || (!id.startsWith('device:') && /步数/.test(str(row.label_zh)))) steps = value
+      const day = str(obj(row.latest).date).slice(0, 10)
+      if (id === 'device:sleepDuration' || (!id.startsWith('device:') && /^每晚睡眠|^睡眠时长/.test(str(row.label_zh)))) { sleep = value; sleepDay = day }
+      if (id === 'device:dailySteps' || (!id.startsWith('device:') && /步数/.test(str(row.label_zh)))) { steps = value; stepsDay = day }
     }
   }
   const concern = /不一定是好事/.test(journey.results.bioage.headline_zh ?? '')
   const lab = concern ? undefined : journey.changes.find((row) => row.ask_doctor && !isCovered(covered, row))
   const labNote = lab ? `${lab.label_zh}近期变化大于平常。睡眠或步数无法解释这项化验结果，建议复查时再关注。` : null
-  const text = insightSentence({ sleepHours: sleep, steps, labNote })
+  // Name the day each value is from: an export that ended yesterday is not 今天.
+  const today = journey.today || ctx.today
+  const when = (day: string, todayWord: string, yesterdayWord: string) => !day || day === today ? todayWord : day === shiftDay(today, -1) ? yesterdayWord : `${Number(day.slice(5, 7))} 月 ${Number(day.slice(8, 10))} 日`
+  const text = insightSentence({ sleepHours: sleep, steps, labNote, sleepWhen: when(sleepDay, '昨晚', '前一晚'), stepsWhen: when(stepsDay, '今天', '昨天') })
   if (!text) return null
   const { Text } = ctx.E
   return Card(ctx, { key: 'insight', title: '今日洞察', width: ctx.width, tone: C.teal, titleColor: C.teal, children: Para(ctx.E, text, ctx.width - 4, { key: 't' }) })
@@ -139,6 +151,44 @@ export function AskPi(ctx: Ctx, journey: Journey): Node {
       )),
       <Box key="chips" flexDirection="column">
         {journey.suggestions.map((row) => <Button key={`sugg-${row.id}`} plain label={`› ${row.text_zh}`} onPress={() => ctx.act.say(row.text_zh)} />)}
+      </Box>,
+    ],
+  })
+}
+
+type FlagRow = { id: string; label_zh: string; unit: string; latest: { date: string; value: number | null; text?: string } | null; range_flag?: 'low' | 'high'; range_zh?: string; source: string }
+
+/**
+ * 报告上标了箭头的: the latest checkup's values outside the range the report printed, so the page says what the
+ * report says before any model result. Opens on 化验 with the row selected.
+ */
+export function FlaggedCard(ctx: Ctx): Node {
+  const data = ctx.json<{ groups?: Array<{ indicators?: FlagRow[] }> }>('indicators?area=labs')
+  const rows = (data?.groups ?? []).flatMap((group) => group.indicators ?? []).filter((row) => row.range_flag && row.source === 'checkup' && row.latest)
+  if (rows.length === 0) return null
+  const { Box, Text, Button } = ctx.E
+  const shown = rows.slice(0, 8)
+  const lines = shown.map((row) => {
+    const value = row.latest?.text ?? (row.latest?.value != null ? String(row.latest.value) : '—')
+    const range = /参考范围 ([^，]+)/.exec(row.range_zh ?? '')?.[1] ?? ''
+    return (
+      <Box key={`flag-${row.id}`} flexDirection="row" gap={1}>
+        <Text color={C.warn}>{row.range_flag === 'high' ? '偏高' : '偏低'}</Text>
+        <Button key={`flag-open-${row.id}`} plain label={row.label_zh} onPress={() => { ctx.act.go('labs'); ctx.act.detail(row.id) }} />
+        <Text bold>{`${value}${row.unit ? ` ${row.unit}` : ''}`}</Text>
+        {range ? <Text dimColor>{`参考 ${range}`}</Text> : null}
+      </Box>
+    )
+  })
+  return Card(ctx, {
+    key: 'flagged', title: `报告上超出参考范围的 ${rows.length} 项`, width: ctx.width, tone: C.warn,
+    note: `${rows[0]?.latest?.date ?? ''} 的体检`,
+    children: [
+      ...lines,
+      rows.length > shown.length ? <Text key="more" dimColor>{`还有 ${rows.length - shown.length} 项，在「化验」页。`}</Text> : null,
+      <Box key="ask" flexDirection="row" gap={2} marginTop={1}>
+        <Button key="flag-ask" plain label="问 Pi：先从哪一项改起？" onPress={() => ctx.act.say('我报告上超出参考范围的这几项，先从哪一项改起？')} />
+        <Button key="flag-labs" plain label="在化验页看 ›" onPress={() => ctx.act.go('labs')} />
       </Box>,
     ],
   })

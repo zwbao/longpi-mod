@@ -99,9 +99,17 @@ export function AddPerson(ctx: Ctx): Node {
   if (!view) return null
   const { Box, Text, Button } = ctx.E
   const Input = 'Input' in ctx.E ? (ctx.E as unknown as { Input: Field }).Input : null
-  const field = (key: string, label: string, placeholder: string) => Input
-    ? Input({ key: `person-${key}`, label, placeholder, submitLabel: '确定', onInput: (v: string) => setSub(ctx, `person.${key}`, v), onSubmit: (v: string) => setSub(ctx, `person.${key}`, v) })
-    : null
+  // The input empties on Enter: what was saved shows beside it, as on the 基本情况 step.
+  const field = (key: string, label: string, placeholder: string) => {
+    if (!Input) return null
+    const saved = sub(ctx, `person.${key}`).trim()
+    return (
+      <Box key={`person-row-${key}`} flexDirection="row" gap={2}>
+        {Input({ key: `person-${key}`, label, placeholder: saved ? `${saved}（已填，可改）` : placeholder, submitLabel: '确定', onInput: (v: string) => setSub(ctx, `person.${key}`, v), onSubmit: (v: string) => setSub(ctx, `person.${key}`, v) })}
+        {saved ? <Text key="saved" color={C.good}>{`✓ ${saved}`}</Text> : null}
+      </Box>
+    )
+  }
   const sex = sub(ctx, 'person.sex')
   const ready = sub(ctx, 'person.label').trim() !== '' && sub(ctx, 'person.name').trim().length >= 2 && (sex === 'male' || sex === 'female')
   const busy = sub(ctx, 'person.busy') === '1'

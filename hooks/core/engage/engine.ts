@@ -39,7 +39,7 @@ interface Runtime {
   codexOn: () => boolean
   bus: Bus | null
   /** Re-read the holder's record and the Codex series (bound by register(); absent in tests). */
-  refresh: (() => Promise<void>) | null
+  refresh: ((force?: boolean) => Promise<void>) | null
 }
 
 let runtime: Runtime = { dataDir: () => '', rootDir: () => '', skillsHome: () => '', codexOn: () => true, bus: null, refresh: null }
@@ -50,6 +50,12 @@ export function kickRefresh(now: number = Date.now()): void {
   if (!runtime.refresh || now - lastKick < 15 * 60_000) return
   lastKick = now
   void runtime.refresh().catch(() => undefined)
+}
+
+/** The record changed (a report, an import, a measurement): rebuild the Codex series now, not in 15 minutes. */
+export function recordChanged(): Promise<void> {
+  lastKick = Date.now()
+  return runtime.refresh ? runtime.refresh(true).catch(() => undefined) : Promise.resolve()
 }
 
 export function bindRuntime(next: Partial<Runtime>): void {
@@ -729,7 +735,7 @@ function neutralLine(active: RunView[]): string | null {
 function emptyPackZh(ctx: EligibilityContext): string {
   const have = devices(ctx.series, ctx.today)
   if (ctx.pregnant) return '孕期不出现实验。图书馆照常可以读。'
-  if (!have.wristband && !have.bp_cuff && !have.scale) return '现在没有能自动记录结果的数据。连上手环、家用血压计或体重秤并记满一周后，这个包里就会有实验。包会一直留着。'
+  if (!have.wristband && !have.bp_cuff && !have.scale) return '实验要用手环、血压计或体重秤的数据来看结果，现在还没有。把 Apple 健康的导出（iPhone「健康」→ 头像 → 导出所有健康数据）或其他手环的导出文件交给 Claude，这个包里就会有实验。包会一直留着。'
   return '现在没有适合你的实验。包会一直留着，数据多了再来拆。'
 }
 

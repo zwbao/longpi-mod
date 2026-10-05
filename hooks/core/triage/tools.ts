@@ -57,7 +57,7 @@ export function registerTriageTools(ctx: Context, deps: CoreDeps): void {
         ok: true,
         id: made.brief.id,
         markdown: made.markdown,
-        where_zh: '健康页的「概览」里有「医生简报」，可以打印或存成文件。',
+        where_zh: '健康页「总览」最上面的「最重要的一步」里有「医生简报」，可以存成可打印的网页。',
         how_to_use: 'Tell them the brief is ready and where to print or save it, and summarise it in two or three lines (why, the trend, what to ask). Do not paste the whole table unless they ask. Never add a cause, a diagnosis or a dose.',
       })
     },

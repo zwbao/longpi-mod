@@ -15,7 +15,7 @@ import { readReceipts } from './runner.ts'
 import { latestOutputs } from './history.ts'
 import { loadEvidenceLexicon } from './intents.ts'
 import { buildStats } from './stats.ts'
-import { PRODUCT_NAME, PRODUCT_VERSION } from './version.ts'
+import { MOD_VERSION, PRODUCT_NAME, PRODUCT_VERSION } from './version.ts'
 import { addCheckIns, currentPlan, isoDay, normalizePlan, savePlan } from './interventions.ts'
 import { readPlanPrefs, setPlanExclusion } from './plan-prefs.ts'
 import { acceptedPlan, briefOptionsOf, buildPlanBrief, settleDraft } from './planner.ts'
@@ -199,7 +199,7 @@ export function registerRoutes(ctx: Context, config: () => Config, mount: MountS
     web.register({
       kind: 'exact',
       path: '/api/longpi/version',
-      handler: (_req, res) => sendJson(res, 200, { product: PRODUCT_NAME, version: PRODUCT_VERSION }),
+      handler: (_req, res) => sendJson(res, 200, { product: PRODUCT_NAME, version: MOD_VERSION, core: PRODUCT_VERSION }),
     })
 
     const context = async () => {

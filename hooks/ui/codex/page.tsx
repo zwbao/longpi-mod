@@ -720,14 +720,18 @@ function stageTree(ctx: Ctx, view: CodexView | null, lib: LibraryView | null): R
     body.push(...choosePanel(ctx, payload.option, payload, { label: '回到列表', run: () => ctx.act.codex.close() }))
   }
   const showClose = !(o.kind === 'pack' && (o.phase === 'idle')) && !(o.kind === 'reveal' && o.phase === 'back')
+  // A still, full-size card is about 40 rows: what to read and press goes above it, not below the fold.
+  const bodyFirst = o.kind === 'choose' || o.kind === 'study' || o.kind === 'species' || o.kind === 'result' || (o.kind === 'pack' && o.phase === 'cards' && Boolean(o.chosen))
+  const bodyBox = <Box key="stage-body" flexDirection="column" marginTop={bodyFirst ? 0 : 1} marginBottom={bodyFirst ? 1 : 0} width={ctx.width}>{body.filter((b): b is RenderElement => b !== null)}</Box>
   return (
     <Box key="codex-stage-box" flexDirection="column">
       <Box flexDirection="row" justifyContent="space-between" width={Math.min(ctx.width, cols)}>
         <Text bold color={C.teal}>{`长寿图鉴 · ${titleOf()}`}</Text>
         {showClose ? close : null}
       </Box>
+      {bodyFirst ? bodyBox : null}
       {pictureBox}
-      <Box flexDirection="column" marginTop={1} width={ctx.width}>{body.filter((b): b is RenderElement => b !== null)}</Box>
+      {bodyFirst ? null : bodyBox}
     </Box>
   )
 }

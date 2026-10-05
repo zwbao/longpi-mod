@@ -2,7 +2,7 @@ import { PRODUCT_VERSION } from './version.ts'
 import { host } from '../sys/host.ts'
 import { join } from '../sys/path.ts'
 import { resolveDataDir } from './paths.ts'
-import { callLocalTool, readLocalRecord, RECORD_FILE } from './local-record.ts'
+import { callLocalTool, readLocalRecord, RECORD_FILE, type LocalRecord } from './local-record.ts'
 
 /** The record kept on this computer (local-record.ts) answers the MCP tools when the address is local:. */
 export const LOCAL_MCP_URL = 'local:'
@@ -122,6 +122,15 @@ async function postJson(
     status: response.status,
     session: response.headers?.['mcp-session-id'] ?? session,
     text: response.text,
+  }
+}
+
+/** The record on this computer for the person shown now, or null when it cannot be read. */
+export function localRecordNow(): LocalRecord | null {
+  try {
+    return readLocalRecord(join(recordDir(), RECORD_FILE))
+  } catch {
+    return null
   }
 }
 
