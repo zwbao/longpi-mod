@@ -87,6 +87,22 @@ async function main() {
   const rt = await devBoot()
   if (command === 'status') {
     console.log(JSON.stringify({ tools: rt.ctx.toolDefs.size, routes: [...rt.ctx.routes.keys()], skillsHome: rt.skillsHome, python: rt.python }, null, 2))
+  } else if (command === 'together') {
+    // Several routes at once (dev: does a slow one hold the others up?)
+    const t0 = Date.now()
+    await Promise.all(process.argv.slice(3).map(async (path) => {
+      const out = await route(rt, 'GET', path)
+      console.log(`${path} ${out.status} at ${Date.now() - t0} ms`)
+    }))
+  } else if (command === 'repeat') {
+    // GET a route several times in one process, timing each (dev: does the core cache it?)
+    const times = Number(process.argv[4] ?? 3)
+    for (let i = 0; i < times; i += 1) {
+      const t0 = Date.now()
+      const out = await route(rt, 'GET', process.argv[3] as string)
+      console.log(`#${i + 1} ${out.status} ${Date.now() - t0} ms`)
+      await new Promise((done) => setTimeout(done, Number(process.argv[5] ?? 0)))
+    }
   } else if (command === 'get' || command === 'post') {
     const [path = '/', body] = rest
     const out = await route(rt, command.toUpperCase(), path, body ? JSON.parse(body) : undefined)

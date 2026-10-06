@@ -186,7 +186,7 @@ export async function scoutLiterature(io: Io, root: string, now: Date, opts: { d
   const texts = await abstracts(io, ranked.map((row) => row.pmid))
   const withText = ranked.map((row) => ({ ...row, abstract: texts.get(row.pmid) ?? '' })).filter((row) => row.abstract.length > 200)
   if (withText.length === 0) return { ok: false, finished: true, week, cards: 0, candidates: all.length, reason: '这周的候选论文都没有摘要，跳过。' }
-  const answer = await io.complete(promptOf(withText, max), { system: SYSTEM, maxTokens: 4000, model: 'sonnet' })
+  const answer = await io.complete(promptOf(withText, max), { system: SYSTEM, maxTokens: 4000, model: 'sonnet', timeoutMs: 300_000 })
   if (!answer.ok) return { ok: false, finished: false, week, cards: 0, candidates: all.length, reason: `没有写成研究卡（${answer.reason}）。` }
   const parsed = firstJson(answer.text)
   const rows = Array.isArray(parsed?.cards) ? (parsed?.cards as Array<Record<string, unknown>>) : []
@@ -247,7 +247,7 @@ export async function scoutLiterature(io: Io, root: string, now: Date, opts: { d
   // One pass to shorten what ran long, keeping the qualifiers; whatever is still too long stays off the shelf.
   if (tooLong.length > 0) {
     const ask = `下面几张研究卡太长了。把每张的 title_zh 缩到 12 个字以内、line_zh 缩到 45 个字以内、about_zh 缩到 120 个字以内。保留关键限定（物种、研究类型、关联还是因果）和数字，不加新内容。只回答 JSON：{"cards":[{"pmid":"…","title_zh":"…","line_zh":"…","about_zh":"…"}]}\n\n${JSON.stringify(tooLong.map((row) => ({ pmid: row.pmid, title_zh: row.title_zh, line_zh: row.line_zh, about_zh: row.about_zh })), null, 1)}`
-    const shorter = await io.complete(ask, { system: SYSTEM, maxTokens: 3000, model: 'sonnet' })
+    const shorter = await io.complete(ask, { system: SYSTEM, maxTokens: 3000, model: 'sonnet', timeoutMs: 300_000 })
     const fixed = shorter.ok ? firstJson(shorter.text) : null
     const fixedRows = Array.isArray(fixed?.cards) ? (fixed?.cards as Array<Record<string, unknown>>) : []
     tooLong.forEach((row) => {

@@ -71,7 +71,10 @@ function ioOf($: Engine): Io {
       return { status: out.status, ok: out.ok, text: out.text, headers: out.headers }
     },
     complete: async (prompt, options) => {
-      const out = await $.model.complete({ model: options?.model && options.model !== 'session' ? options.model : 'haiku', prompt, ...(options?.system ? { system: options.system } : {}), maxTokens: options?.maxTokens ?? 1500 })
+      // A call that does not come back is cut (one once took 18 minutes); the callers fall back to their templates.
+      const stop = new AbortController()
+      const timer = $.clock.after(options?.timeoutMs ?? 90_000, () => stop.abort())
+      const out = await $.model.complete({ model: options?.model && options.model !== 'session' ? options.model : 'haiku', prompt, ...(options?.system ? { system: options.system } : {}), maxTokens: options?.maxTokens ?? 1500 }, { signal: stop.signal }).finally(() => timer.cancel())
       return out.isAnswered ? { ok: true as const, text: out.text } : { ok: false as const, reason: out.reason }
     },
     now: () => $.clock.now(),

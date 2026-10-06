@@ -7,6 +7,7 @@ import { join } from '../sys/path.ts'
 import type { HostContext } from '../sys/cordis.ts'
 import { defineTool } from '../sys/dsh-tools.ts'
 import { host } from '../sys/host.ts'
+import { vfs } from '../sys/vfs.ts'
 import { asJson } from '../core/json.ts'
 import { readLocalRecord, RECORD_FILE, writeLocalRecord, type LocalRecord, type Observation } from '../core/local-record.ts'
 import { resolveDataDir } from '../core/paths.ts'
@@ -137,7 +138,7 @@ async function missingFromReport(report: string, date: string, recordFile: strin
   if (round > 2) return null
   checked.set(key, round)
   const h = host()
-  const run = await h.io.run(['osascript', '-l', 'JavaScript', join(h.pluginRoot, 'tools', 'pdf_text.js'), report, '80'], { timeoutMs: 60000 }).catch(() => null)
+  const run = await vfs.outside(vfs.current(), () => h.io.run(['osascript', '-l', 'JavaScript', join(h.pluginRoot, 'tools', 'pdf_text.js'), report, '80'], { timeoutMs: 60000 })).catch(() => null)
   if (!run || run.exitCode !== 0) return null
   let pages: string[] = []
   try {
@@ -259,7 +260,7 @@ export function registerRecordTools(ctx: HostContext, dataDir: () => string, inv
       const h = host()
       const out = join(resolveDataDir(dataDir()), 'imports', `apple-health-${isoDay()}.csv`)
       await h.io.run(['mkdir', '-p', join(resolveDataDir(dataDir()), 'imports')]).catch(() => undefined)
-      const run = await h.io.run([python() || 'python3', join(h.pluginRoot, 'tools', 'apple_health.py'), from, '--days', String(days), '--out', out], { timeoutMs: 600000 })
+      const run = await vfs.outside(vfs.current(), () => h.io.run([python() || 'python3', join(h.pluginRoot, 'tools', 'apple_health.py'), from, '--days', String(days), '--out', out], { timeoutMs: 600000 }))
         .catch((error: unknown) => ({ exitCode: -1, stdout: '', stderr: error instanceof Error ? error.message : String(error) }))
       if (run.exitCode !== 0) return asJson({ ok: false, error: run.stderr.trim().split('\n').slice(-2).join(' ') || 'the export could not be read' })
       let raw = ''
@@ -298,7 +299,7 @@ export function registerRecordTools(ctx: HostContext, dataDir: () => string, inv
       if (!from.startsWith('/') || !from.toLowerCase().endsWith('.pdf')) return asJson({ ok: false, error: 'give the absolute path of the genetic report PDF' })
       const h = host()
       const keywords = ['祖源成分', '父系单倍群', '母系单倍群', '叶酸', '酒精代谢', '乳糖', '阿尔茨海默', '载脂蛋白', 'APOE', '氯吡格雷', '华法林', '阿托伐他汀', '瑞舒伐他汀', '阿司匹林', '二甲双胍', '痛风', '咖啡因']
-      const run = await h.io.run(['osascript', '-l', 'JavaScript', join(h.pluginRoot, 'tools', 'genetics_pdf.js'), from, JSON.stringify(keywords)], { timeoutMs: 300000 })
+      const run = await vfs.outside(vfs.current(), () => h.io.run(['osascript', '-l', 'JavaScript', join(h.pluginRoot, 'tools', 'genetics_pdf.js'), from, JSON.stringify(keywords)], { timeoutMs: 300000 }))
         .catch((error: unknown) => ({ exitCode: -1, stdout: '', stderr: error instanceof Error ? error.message : String(error) }))
       let parsed: { cover?: string; sections?: Array<{ title: string; text: string }>; pages_read?: number; pages?: number; error?: string } = {}
       try {

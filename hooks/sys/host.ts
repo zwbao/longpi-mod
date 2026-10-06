@@ -17,7 +17,7 @@ export type Io = {
   stat: (path: string) => Promise<{ kind: 'file' | 'directory' | 'other'; size: number; mtimeMs: number } | null>
   run: (argv: readonly string[], init?: { cwd?: string; env?: Record<string, string>; stdin?: string; timeoutMs?: number }) => Promise<RunResult>
   fetch: (url: string, init?: { method?: string; headers?: Record<string, string>; body?: string }) => Promise<{ status: number; ok: boolean; text: string; headers?: Record<string, string> }>
-  complete: (prompt: string, options?: { system?: string; maxTokens?: number; model?: string }) => Promise<CompleteResult>
+  complete: (prompt: string, options?: { system?: string; maxTokens?: number; model?: string; timeoutMs?: number }) => Promise<CompleteResult>
   now: () => Promise<number>
   log: (line: string) => void
 }

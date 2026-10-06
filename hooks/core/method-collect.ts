@@ -3,6 +3,7 @@ import { process } from '../sys/process.ts'
 // The plugin does not choose which method matters. It runs what binds, labels
 // the result, and stops when the time budget is spent. Tier C is not executed.
 
+import { awaitShared } from '../sys/vfs.ts'
 import { createHash } from '../sys/crypto.ts'
 import { existsSync, statSync } from '../sys/fs.ts'
 import { join } from '../sys/path.ts'
@@ -14,7 +15,8 @@ import { latestOutputs } from './history.ts'
 import type { RecordIndicator } from './measurements.ts'
 import { runSkill } from './runner.ts'
 
-const MEMO_MS = 60_000
+// Inputs are fingerprinted (values, profile, files): a change reruns at once; the time limit only bounds staleness.
+const MEMO_MS = 30 * 60_000
 const memo = new Map<string, { at: number; results: MethodResult[] }>()
 
 export interface CollectInput {
@@ -83,10 +85,25 @@ async function pool(cards: readonly SkillCard[], limit: number, worker: (card: S
 }
 
 /** Exit-0 runs, including scripts that then have no personal number. */
+/** Runs in progress by input stamp: a second build with the same inputs waits for the first instead of rerunning. */
+const running = new Map<string, Promise<MethodResult[]>>()
+
 export async function collectMethodResults(input: CollectInput): Promise<MethodResult[]> {
   const key = stamp(input)
   const hit = memo.get(key)
   if (hit && Date.now() - hit.at < MEMO_MS) return hit.results.map((row) => structuredClone(row))
+  const pending = running.get(key)
+  if (pending) return (await awaitShared(pending)).map((row) => structuredClone(row))
+  const run = collectNow(input, key)
+  running.set(key, run)
+  try {
+    return await run
+  } finally {
+    running.delete(key)
+  }
+}
+
+async function collectNow(input: CollectInput, key: string): Promise<MethodResult[]> {
   const catalog = loadCatalog(input.home)
   const runnable = catalog.cards.filter(shouldRun)
   const results: MethodResult[] = []

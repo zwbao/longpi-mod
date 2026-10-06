@@ -35,7 +35,10 @@ export type RootSpec = {
 const TEXT_EXT = /\.(json|jsonl|md|txt|csv|tsv|yml|yaml|ics|html|py|toml|ts|js|mjs|xml|svg|log|tmp)$|^[^.]+$/i
 const DEFAULT_MAX = 6 * 1024 * 1024
 
-class Vfs {
+/** One operation's hold on the copy, for letting it go while the operation waits outside. */
+export type OpToken = { yielded: boolean; out: number; back: Promise<void> | null }
+
+export class Vfs {
   files = new Map<string, FileNode>()
   dirs = new Set<string>()
   /** Directories whose children are all known. */
@@ -45,24 +48,81 @@ class Vfs {
   chmods = new Map<string, number>()
   misses = new Set<string>()
   roots: RootSpec[] = []
-  private lock: Promise<unknown> = Promise.resolve()
+  private held = false
+  private waiting: Array<() => void> = []
+  /** The operation holding the copy now (null between operations or while its holder waits outside). */
+  private owner: OpToken | null = null
 
   /** True while an operation holds the copy. */
   busy = false
 
+  private async acquire(): Promise<void> {
+    if (!this.held) {
+      this.held = true
+      return
+    }
+    await new Promise<void>((resolve) => this.waiting.push(resolve))
+  }
+
+  private release(): void {
+    const next = this.waiting.shift()
+    if (next) next()
+    else this.held = false
+  }
+
   /** Serialises operations: one core operation at a time sees and changes the copy. */
-  exclusive<T>(fn: () => Promise<T>): Promise<T> {
-    const guarded = async (): Promise<T> => {
-      this.busy = true
-      try {
-        return await fn()
-      } finally {
-        this.busy = false
+  async exclusive<T>(fn: () => Promise<T>): Promise<T> {
+    await this.acquire()
+    const token: OpToken = { yielded: false, out: 0, back: null }
+    this.owner = token
+    this.busy = true
+    try {
+      return await fn()
+    } finally {
+      this.owner = null
+      this.busy = false
+      this.release()
+    }
+  }
+
+  /** The operation running now, for a later outside(): taken when the work is started, while its code runs. */
+  current(): OpToken | null {
+    return this.busy ? this.owner : null
+  }
+
+  /**
+   * Run `work` (a process, a model call: seconds to minutes of waiting on the outside) with the copy let go, so
+   * other operations are not held up behind it; the operation takes the copy back before its code goes on. Several
+   * of one operation's works may be out at once (methods run side by side): the first back takes the copy again,
+   * the others find it theirs. `token` is the operation's, from current() when the work was started; without one
+   * (no operation) the work simply runs. Flushes and syncs never use this: they are the operation's own part.
+   */
+  async outside<T>(token: OpToken | null, work: () => Promise<T>): Promise<T> {
+    if (!token) return work()
+    if (!token.yielded) {
+      if (this.owner !== token) return work()
+      token.yielded = true
+      this.owner = null
+      this.busy = false
+      this.release()
+    }
+    token.out += 1
+    try {
+      return await work()
+    } finally {
+      token.out -= 1
+      // The first back takes the copy for the operation; a sibling back meanwhile waits for that same taking.
+      if (token.yielded) {
+        token.back ??= (async () => {
+          await this.acquire()
+          token.yielded = false
+          this.owner = token
+          this.busy = true
+          token.back = null
+        })()
+        await token.back
       }
     }
-    const run = this.lock.then(guarded, guarded)
-    this.lock = run.catch(() => undefined)
-    return run
   }
 
   addRoot(spec: RootSpec): void {
@@ -372,5 +432,13 @@ class Vfs {
 }
 
 export const vfs = new Vfs()
+
+/**
+ * Wait for work another operation started (a run in flight, shared): with the copy let go, or the other operation
+ * could never take it back to finish and both would wait forever.
+ */
+export function awaitShared<T>(promise: Promise<T>): Promise<T> {
+  return vfs.outside(vfs.current(), () => promise)
+}
 
 export type { FileNode }

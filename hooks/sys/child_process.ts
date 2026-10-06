@@ -33,10 +33,12 @@ function cleanEnv(env: SpawnOptions['env']): Record<string, string> | undefined 
 
 export function spawn(command: string, args: readonly string[] = [], options: SpawnOptions = {}): ChildProcess {
   const child = new ChildProcess()
+  // The operation that started the process (taken now, while its code runs) lets the copy go while it waits.
+  const token = vfs.current()
   void (async () => {
     const io = host().io
-    await vfs.flush(io)
-    const result = await io.run([command, ...args], { cwd: options.cwd, env: cleanEnv(options.env), timeoutMs: Math.min(600_000, options.timeout ?? 180_000) })
+    if (!token?.yielded) await vfs.flush(io)
+    const result = await vfs.outside(token, () => io.run([command, ...args], { cwd: options.cwd, env: cleanEnv(options.env), timeoutMs: Math.min(600_000, options.timeout ?? 180_000) }))
     if (options.cwd) await vfs.ensure(io, options.cwd, { recursive: true, maxBytes: 4 * 1024 * 1024 }).catch(() => undefined)
     if (child.killed) return
     child.exitCode = result.exitCode
@@ -65,6 +67,7 @@ export function execFileSync(command: string, _args: readonly string[] = [], _op
 /** The async form the mod's own code uses. */
 export async function run(argv: readonly string[], options: { cwd?: string; env?: Record<string, string>; timeoutMs?: number; stdin?: string } = {}) {
   const io = host().io
-  await vfs.flush(io)
-  return io.run(argv, options)
+  const token = vfs.current()
+  if (!token?.yielded) await vfs.flush(io)
+  return vfs.outside(token, () => io.run(argv, options))
 }

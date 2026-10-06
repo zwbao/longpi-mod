@@ -3,6 +3,7 @@ import { process } from '../../sys/process.ts'
 // Refreshed from the journey build (the account holder only); a family member's record never feeds the Codex.
 // Units are read off each series, never assumed (Mirobody's sleep total is ms; some exports give hours).
 
+import { awaitShared } from '../../sys/vfs.ts'
 import { chmodSync, mkdirSync, readFileSync, renameSync, writeFileSync } from '../../sys/fs.ts'
 import { dirname, join } from '../../sys/path.ts'
 import type { IsoDay } from '../contracts/common.ts'
@@ -124,7 +125,7 @@ export function refreshSeries(input: { config: Config; dataDir: string; present:
   const now = input.now ?? new Date()
   const cached = readSeriesCache(input.dataDir)
   if (!input.force && cached.at && now.getTime() - Date.parse(cached.at) < 10 * 60_000) return Promise.resolve(cached)
-  if (inflight) return inflight
+  if (inflight) return awaitShared(inflight)
   inflight = (async () => {
     const today = isoDay(now)
     const start = addDays(today, -WINDOW_DAYS)

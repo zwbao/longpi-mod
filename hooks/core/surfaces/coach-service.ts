@@ -3,6 +3,7 @@
 // softRegenMinutes); otherwise it serves the fact-ranked floor and asks the coach in the background
 // (single-flight per person). A set that passes the post-filter is written, logged and pushed on SSE.
 
+import { awaitShared } from '../../sys/vfs.ts'
 import { join } from '../../sys/path.ts'
 import type { LlmCall } from '../contracts/agents.ts'
 import type { FactPack } from '../contracts/factpack.ts'
@@ -103,7 +104,7 @@ export function regenerate(dataDir: string, pack: FactPack, floor: SurfaceSet): 
   const current = runner
   if (!current) return Promise.resolve(null)
   const running = inflight.get(dataDir)
-  if (running) return running
+  if (running) return awaitShared(running)
   const job = (async () => {
     const started = Date.now()
     const { value, run } = await current.llm.structured({ profile: coachProfile, pack, extra: { floor, lastShown: lastShown(dataDir, pack.today), now: new Date() } })
