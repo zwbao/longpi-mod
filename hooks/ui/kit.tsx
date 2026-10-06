@@ -32,7 +32,11 @@ export function scrubZh(text: string): string {
   return text
     .replace(/DeepSeek Harness|DeepSeek/g, 'Claude')
     .replace(/健康页/g, 'LongPi 页面')
-    .replace(/上传/g, '交给 Claude')
+    .replace(/上传一份体检报告/g, '把一份体检报告交给 Claude')
+    .replace(/上传(体检|化验)?报告/g, '把$1报告交给 Claude')
+    .replace(/上传后/g, '交给 Claude 后')
+    .replace(/上传/g, '交给 Claude ')
+    .replace(/Claude (?=[，。、；：）」])/g, 'Claude')
     .replace(/右侧健康栏|健康栏/g, 'LongPi 面板')
 }
 

@@ -793,6 +793,10 @@ async function onGame($: Engine, game: GameView): Promise<void> {
   if (!game?.fresh || game.demo || game.member) return
   const fresh = [...game.fresh.stations, ...game.fresh.medals, ...(game.fresh.form != null ? [`form${game.fresh.form}`] : [])]
   if (fresh.length === 0) return
+  // Not in the middle of setting up: the celebration waits for the page after the setup steps.
+  const stage = ((await read($, data)).journey?.json as { stage?: string } | null | undefined)?.stage ?? ''
+  const v = await read($, view)
+  if (['consent', 'profile', 'records'].includes(stage) || (v.tab === 'overview' && v.sub['overview.onboarding'] === '1')) return
   const lines = celebrationLines(game)
   // One showing already: what is new joins it rather than queuing a second one.
   const showingNow = await read($, celebrate)
