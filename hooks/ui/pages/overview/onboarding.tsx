@@ -35,10 +35,17 @@ export function autoStep(ctx: Ctx, journey: Journey): number {
 
 export function stepOf(ctx: Ctx, journey: Journey): number {
   const chosen = sub(ctx, 'step')
-  return /^[0-3]$/.test(chosen) ? Number(chosen) : autoStep(ctx, journey)
+  if (!/^[0-3]$/.test(chosen)) return autoStep(ctx, journey)
+  // A step the flow moved to earlier (not one the person picked) gives way once it is done, e.g. the consent
+  // given in the chat's dialog: the page goes on to the first open step by itself.
+  const auto = autoStep(ctx, journey)
+  if (sub(ctx, 'stepPicked') !== '1' && Number(chosen) < auto) return auto
+  return Number(chosen)
 }
 
-function go(ctx: Ctx, step: number): void {
+/** Move to a step: `picked` when the person chose it (the stepper, 上一步), so it stays even when done. */
+function go(ctx: Ctx, step: number, picked = false): void {
+  setSub(ctx, 'stepPicked', picked ? '1' : '')
   setSub(ctx, 'step', String(step))
 }
 
@@ -59,7 +66,7 @@ function Stepper(ctx: Ctx, journey: Journey, step: number): RenderElement {
           const mark = index < reached && index !== step ? '✓' : String(index + 1)
           const label = `${mark} ${name}`
           if (index === step) return <Text key={`st${index}`} bold color={C.accent}>{`【${label}】`}</Text>
-          if (index <= reached) return <Button key={`st${index}`} plain dimColor={index !== step} label={label} onPress={() => go(ctx, index)} />
+          if (index <= reached) return <Button key={`st${index}`} plain dimColor={index !== step} label={label} onPress={() => go(ctx, index, true)} />
           return <Text key={`st${index}`} dimColor>{label}</Text>
         })}
       </Box>
@@ -225,11 +232,21 @@ function BasicInfo(ctx: Ctx, journey: Journey): Node[] {
   const unlockAge = profile.questions.find((row) => row.key === 'age')?.unlocks_zh || '身体年龄、心血管风险'
   const focusOptions = journey.focus_options.length > 0 ? journey.focus_options : FOCUS_FALLBACK
   const narrow = ctx.width < 70
+  // 保存并继续 moves on at once; the save runs behind (it reruns the methods, which takes seconds), and a
+  // failure brings the step back with a message.
   const next = async () => {
     const typed = sub(ctx, 'p.age')
-    if (typed && !(await saveAge(ctx, journey, typed))) return
-    if (!typed && !(await saveProfile(ctx, journey))) return
+    if (typed && parseAge(typed) === 'bad') {
+      ctx.act.toast('年龄请填写整数，例如 52。')
+      return
+    }
+    ctx.act.toast('正在保存基本信息，结果会在后台重新计算…')
     go(ctx, 2)
+    const ok = typed ? await saveAge(ctx, journey, typed) : await saveProfile(ctx, journey, {}, '基本信息已保存。')
+    if (!ok) {
+      ctx.act.toast('基本信息没有保存成功，请再按一次「保存并继续」。')
+      go(ctx, 1, true)
+    }
   }
   const setFact = (key: string, value: Answer) => {
     setSub(ctx, `p.f.${key}`, value)
@@ -292,7 +309,7 @@ function BasicInfo(ctx: Ctx, journey: Journey): Node[] {
       </Box>
     </Box>,
     <Box key="act" flexDirection="row" gap={1} marginTop={1}>
-      <Button key="ob-back1" plain dimColor label="← 上一步" onPress={() => go(ctx, 0)} />
+      <Button key="ob-back1" plain dimColor label="← 上一步" onPress={() => go(ctx, 0, true)} />
       <Button key="ob-skip1" plain dimColor label="跳过" onPress={() => go(ctx, 2)} />
       <Button key="ob-save1" variant="primary" label="保存并继续" onPress={() => { void next() }} />
     </Box>,
@@ -379,7 +396,7 @@ function Records(ctx: Ctx, journey: Journey): Node[] {
       )
       : null,
     <Box key="act" flexDirection="row" gap={1} marginTop={1}>
-      <Button key="ob-back2" plain dimColor label="← 上一步" onPress={() => go(ctx, 1)} />
+      <Button key="ob-back2" plain dimColor label="← 上一步" onPress={() => go(ctx, 1, true)} />
       <Button key="ob-next2" {...(has || none ? { variant: 'primary' as const } : {})} label="下一步" onPress={() => go(ctx, 3)} />
     </Box>,
   ]
@@ -487,7 +504,7 @@ function FirstResult(ctx: Ctx, journey: Journey): Node[] {
       : null,
     ReminderOffer(ctx),
     <Box key="act" flexDirection="row" gap={1} marginTop={1}>
-      <Button key="ob-back3" plain dimColor label="← 上一步" onPress={() => go(ctx, 2)} />
+      <Button key="ob-back3" plain dimColor label="← 上一步" onPress={() => go(ctx, 2, true)} />
       <Button key="ob-finish" variant="primary" label="完成" onPress={() => close(ctx)} />
     </Box>,
   ]

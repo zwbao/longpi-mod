@@ -242,9 +242,28 @@ async function post($: Engine, path: string, body: unknown, options: { reload?: 
   if (!ok && !options.quiet) await toastNotice($, typeof json.error === 'string' ? json.error : `没有保存（${out.status}）`, 'warn')
   // Another person is shown now: nothing read for the last one may stay on any page.
   if (ok && path.startsWith('people')) await update($, data, () => ({}))
-  // The page's data is read again behind the answer: a press never waits on a journey rebuild.
-  void reloadAfter($, options.reload ?? [])
+  // A write can change what any page shows (an age saved opens the Codex): every page reads again when shown.
+  if (ok) await update($, data, (cache) => Object.fromEntries(Object.entries(cache).map(([key, row]) => [key, row.loading ? row : { ...row, at: 0 }])))
+  // The page's data is read again behind the answer, and quick writes in a row share one rebuild: a press never
+  // waits on a queue of journey rebuilds (each reruns the methods).
+  scheduleReload($, options.reload ?? [])
   return { ok, status: out.status, json }
+}
+
+/** Paths waiting for the next reload, and its timer: writes within 700 ms of each other share one. */
+const pendingReload = new Set<string>()
+let reloadTimer: { cancel: () => void } | null = null
+
+function scheduleReload($: Engine, paths: readonly string[]): void {
+  for (const path of paths) pendingReload.add(path)
+  pendingReload.add('journey')
+  reloadTimer?.cancel()
+  reloadTimer = $.clock.after(700, () => {
+    reloadTimer = null
+    const all = [...pendingReload]
+    pendingReload.clear()
+    void reloadAfter($, all)
+  })
 }
 
 // --- talking to Pi ----------------------------------------------------------------------------------

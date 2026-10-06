@@ -1,6 +1,6 @@
 {
   "name": "longpi",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": { "name": "zwbao" },
   "description": "LongPi: turns Claude Code into your personal longevity coach.",
   "types": "./types/index.d.ts"
