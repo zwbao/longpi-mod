@@ -3,7 +3,6 @@ import { process } from '../sys/process.ts'
 // The plugin does not choose which method matters. It runs what binds, labels
 // the result, and stops when the time budget is spent. Tier C is not executed.
 
-import { awaitShared } from '../sys/vfs.ts'
 import { createHash } from '../sys/crypto.ts'
 import { existsSync, statSync } from '../sys/fs.ts'
 import { join } from '../sys/path.ts'
@@ -93,7 +92,7 @@ export async function collectMethodResults(input: CollectInput): Promise<MethodR
   const hit = memo.get(key)
   if (hit && Date.now() - hit.at < MEMO_MS) return hit.results.map((row) => structuredClone(row))
   const pending = running.get(key)
-  if (pending) return (await awaitShared(pending)).map((row) => structuredClone(row))
+  if (pending) return (await pending).map((row) => structuredClone(row))
   const run = collectNow(input, key)
   running.set(key, run)
   try {

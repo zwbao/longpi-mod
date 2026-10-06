@@ -4,7 +4,6 @@
 // mcp__longpi__* tools, routes are called in process by the panes, an 'ask' decision becomes a dialog.
 
 import { host } from './host.ts'
-import { vfs } from './vfs.ts'
 import { IncomingMessage, ServerResponse } from './http.ts'
 
 export type ToolParams = Record<string, ParamSpec>
@@ -222,9 +221,7 @@ async function* streamFromComplete(options: Record<string, unknown>): AsyncItera
   const ask = emit
     ? `${text}\n\nAnswer with one JSON object only, matching this schema (no prose, no code fence):\n${JSON.stringify(emit.parameters ?? emit.input_schema ?? {})}`
     : text
-  // A model call takes seconds to minutes: the copy is let go meanwhile, so nothing else waits behind it.
-  const token = vfs.current()
-  const answer = await vfs.outside(token, () => host().io.complete(ask, { system, maxTokens: typeof options.maxTokens === 'number' ? options.maxTokens : 2000 }))
+  const answer = await host().io.complete(ask, { system, maxTokens: typeof options.maxTokens === 'number' ? options.maxTokens : 2000 })
   if (!answer.ok) {
     yield { type: 'finish', reason: { kind: 'error' } }
     return

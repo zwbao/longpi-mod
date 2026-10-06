@@ -38,14 +38,21 @@ export function runtime(): Runtime | null {
 }
 
 /** One core operation at a time, on a copy freshly read from disk, written back when it ends. */
-export function op<T>(fn: () => Promise<T> | T): Promise<T> {
+export function op<T>(fn: () => Promise<T> | T, label = ''): Promise<T> {
+  const asked = Date.now()
+  const where = label || (new Error().stack ?? '').split('\n').slice(2, 4).map((line) => line.trim().replace(/^at /, '').replace(/\(.*\/hooks\//, '(')).join(' < ')
   return vfs.exclusive(async () => {
     const io = host().io
+    const got = Date.now()
     await vfs.sync(io)
+    const synced = Date.now()
     try {
       return await fn()
     } finally {
       await vfs.flush(io)
+      // A slow operation holds everything else up: say which, in the debug log.
+      const done = Date.now()
+      if (done - asked > 1500) io.log(`slow op ${done - asked} ms (waited ${got - asked}, sync ${synced - got}, ran ${done - synced}): ${where}`)
     }
   })
 }
@@ -156,7 +163,10 @@ export async function boot(options: BootOptions): Promise<Runtime> {
   if (python && !config.skillPython) config.skillPython = python
   if (skillsHome && !config.skillsHome) config.skillsHome = skillsHome
 
-  vfs.addRoot({ path: rootDir })
+  // Every operation rescans LongPi's folder for changes; the Python environment, the weekly copy of the library
+  // (read once as the library's own root), the installer's tools and the notifier app are not the person's data
+  // and were 1,300 of its 1,400 folders.
+  vfs.addRoot({ path: rootDir, skipDirs: ['.venv', 'longevity-skills', 'bin', 'notifier'] })
   vfs.addRoot({ path: join(options.pluginRoot, 'data'), once: true })
   vfs.addRoot({ path: join(options.pluginRoot, 'skills'), once: true })
   vfs.addRoot({ path: join(options.home, 'longpi', 'analyses'), skipDirs: [] })

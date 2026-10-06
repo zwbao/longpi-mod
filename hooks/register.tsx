@@ -15,6 +15,8 @@ import { snapshotText } from './core/agents/orchestrator.ts'
 import { isoDay } from './core/interventions.ts'
 import { WRITE_TOOLS } from './core/agents/orchestrator.ts'
 import { recordChanged } from './core/engage/engine.ts'
+import { CONSENT_VERSION } from './core/profile.ts'
+import { resolveDataDir } from './core/paths.ts'
 import { pageOf, PAGES } from './ui/pages/index.ts'
 import { pageWidth, paneTree } from './ui/pane.tsx'
 import type { Actions, CodexActions, Ctx, PostResult } from './ui/types.ts'
@@ -82,6 +84,30 @@ function ioOf($: Engine): Io {
   }
 }
 
+/**
+ * The file and process calls of each tool call in progress. The engine gives a tool call 10 s of its own time
+ * and stops that clock only while one of its own `$` calls is in flight; LongPi's file and process work goes
+ * through the newest tool call's own calls while there is one, so waiting on it is not counted against the call.
+ * Model calls stay the session's (one a tool call started could be cut when that call is interrupted).
+ */
+const toolIos: Io[] = []
+
+function liveIo(session: Io): Io {
+  const io = (): Io => toolIos[toolIos.length - 1] ?? session
+  return {
+    read: (path) => io().read(path),
+    readBase64: (path) => io().readBase64(path),
+    write: (path, text) => io().write(path, text),
+    list: (path) => io().list(path),
+    stat: (path) => io().stat(path),
+    run: (argv, init) => io().run(argv, init),
+    fetch: (url, init) => io().fetch(url, init),
+    complete: (prompt, options) => session.complete(prompt, options),
+    now: () => session.now(),
+    log: (line) => session.log(line),
+  }
+}
+
 async function envOf($: Engine): Promise<Record<string, string>> {
   const pairs: Array<[string, string | undefined]> = [
     ['HOME', await $.env.get('HOME')],
@@ -110,7 +136,7 @@ async function startCore($: Engine): Promise<void> {
   const platform = uname?.stdout.trim() === 'Linux' ? 'linux' : 'darwin'
   const own = ((await $.store.get('config')) ?? {}) as Record<string, unknown>
   await boot({
-    io: ioOf($),
+    io: liveIo(ioOf($)),
     pluginRoot: $.plugin.root,
     home: env.HOME ?? '/',
     env,
@@ -736,9 +762,20 @@ async function maintain($: Engine): Promise<void> {
 }
 
 /** The product notice and the health-information consent, for the person shown now. */
-async function consentGiven(rt: NonNullable<ReturnType<typeof runtime>>): Promise<boolean> {
-  const journey = (await route<{ consent?: { accepted?: boolean } }>(rt, 'GET', '/api/longpi/journey').catch(() => null))?.json
-  return journey?.consent?.accepted === true
+/** Whether the person shown now agreed to LongPi keeping their values: read from their profile, not the journey (no rebuild). */
+/** What a tool call says when its work outlasts the engine's budget and goes on in the background. */
+const LATE_ANY = 'LongPi is still working on this and will finish in the background (the panel updates when it is done). Do not call the same tool again with the same input; wait a moment, then call longpi_status or read_personal_situation to see the result.'
+const LATE: Record<string, string> = {
+  record_measurements: 'LongPi is still saving these values and will finish in the background (the panel updates when it is done). Do not send the same items again. In a moment, call read_personal_situation to confirm they are on file; if a report path was given, the check for items not yet filed runs on the next record_measurements call for that report.',
+}
+
+async function consentGiven($: Engine, rt: NonNullable<ReturnType<typeof runtime>>): Promise<boolean> {
+  const text = await $.fs.read(`${resolveDataDir(rt.config.dataDir)}/profile.json`).catch(() => '')
+  try {
+    return (JSON.parse(text) as { consent?: { version?: string } }).consent?.version === CONSENT_VERSION
+  } catch {
+    return false
+  }
 }
 
 /** The family member shown now ('' for the holder). */
@@ -923,6 +960,48 @@ async function openPane($: Engine, tab?: Tab): Promise<void> {
   void loadView($)
 }
 
+/** A LongPi tool call: the consent asked the first time, the tool run, the pane told to read again. */
+async function serveTool($: Engine, e: { tool: string }, rt: NonNullable<ReturnType<typeof runtime>>, name: string): Promise<{ result: string; context?: string[] } | { deny: string }> {
+  const { tool: _tool, tool_use_id: callId, ...args } = e as unknown as Record<string, unknown> & { tool: string; tool_use_id: string }
+  const session = await $.session.id()
+  // Values go into the record only with the person's consent: the first time, ask in a dialog.
+  if (CONSENT_TOOLS.includes(name) && !(await consentGiven($, rt))) {
+    const who = await activeLabel(rt)
+    let answer: string | null = null
+    try {
+      answer = await $.ui.ask(who
+        ? `LongPi 要把${who}的检查数值存进这台电脑上的健康档案，用来算结果、定方案。你已经告诉${who}，${who}也同意了吗？`
+        : 'LongPi 要把报告里的数值存进这台电脑上的健康档案，用来算身体年龄、心血管风险和方案。同意 LongPi 这样使用你的体检、化验、血压、体重和用药等健康信息吗？可以随时在「设置」里撤回。', { options: ['同意', '不同意'], header: 'LongPi' })
+    } catch {
+      answer = null
+    }
+    if (answer !== '同意') return { deny: 'The person did not agree to LongPi keeping their health information. Nothing was saved. Say so in one line; they can agree later in /longpi.' }
+    await post($, 'consent', { accept: true }, { quiet: true })
+    await post($, 'privacy/consent', { scope: 'pipl_sensitive', decision: 'granted' }, { quiet: true })
+    await post($, 'privacy/consent', { scope: 'data_flow_deepseek', decision: 'granted' }, { quiet: true, reload: ['privacy', 'journey'] })
+  }
+  const out = await runTool(rt, name, args, async (reason) => {
+    try {
+      return (await $.ui.ask(reason, { options: ['同意', '不同意'], header: 'LongPi' })) === '同意'
+    } catch {
+      return false
+    }
+  }, session, String(callId ?? ''))
+  if (out.denied) return { deny: out.denied }
+  if (name === 'prepare_doctor_brief') out.text = await printableBrief($, out.text)
+  await update($, healthTurn, () => true)
+  const firstTime = !(await read($, coach))
+  const context = firstTime ? await enterCoach($) : []
+  // A write the pane shows: read its data again.
+  if ((WRITE_TOOLS as readonly string[]).includes(name) || RECORD_TOOLS.includes(name)) {
+    // The Codex series are rebuilt from the new values first, so a pack opened next can use them.
+    void (RECORD_TOOLS.includes(name) ? op(() => recordChanged()) : Promise.resolve())
+      .catch(() => undefined)
+      .then(() => reloadAfter($, ['tracking', 'codex', 'codex/slot', 'indicators?area=labs', 'game']))
+  }
+  return context.length > 0 ? { result: out.text, context } : { result: out.text }
+}
+
 export const register: Register = (on) => {
   on('session.start', async ($, e, next) => {
     await startCore($)
@@ -1080,48 +1159,30 @@ export const register: Register = (on) => {
     return <Box />
   })
 
-  on('tool.call', { tool: /^mcp__longpi__/ }, async ($, e) => {
+  on('tool.call', { tool: /^mcp__longpi__/ }, async ($, e, next) => {
     const rt = runtime()
     if (!rt) return { deny: 'LongPi is still starting.' }
     const name = String(e.tool).slice(TOOL_PREFIX.length)
-    const { tool: _tool, tool_use_id: callId, ...args } = e as unknown as Record<string, unknown> & { tool: string; tool_use_id: string }
-    const session = await $.session.id()
-    // Values go into the record only with the person's consent: the first time, ask in a dialog.
-    if (CONSENT_TOOLS.includes(name) && !(await consentGiven(rt))) {
-      const who = await activeLabel(rt)
-      let answer: string | null = null
-      try {
-        answer = await $.ui.ask(who
-          ? `LongPi 要把${who}的检查数值存进这台电脑上的健康档案，用来算结果、定方案。你已经告诉${who}，${who}也同意了吗？`
-          : 'LongPi 要把报告里的数值存进这台电脑上的健康档案，用来算身体年龄、心血管风险和方案。同意 LongPi 这样使用你的体检、化验、血压、体重和用药等健康信息吗？可以随时在「设置」里撤回。', { options: ['同意', '不同意'], header: 'LongPi' })
-      } catch {
-        answer = null
-      }
-      if (answer !== '同意') return { deny: 'The person did not agree to LongPi keeping their health information. Nothing was saved. Say so in one line; they can agree later in /longpi.' }
-      await post($, 'consent', { accept: true }, { quiet: true })
-      await post($, 'privacy/consent', { scope: 'pipl_sensitive', decision: 'granted' }, { quiet: true })
-      await post($, 'privacy/consent', { scope: 'data_flow_deepseek', decision: 'granted' }, { quiet: true, reload: ['privacy', 'journey'] })
+    const mine = ioOf($)
+    toolIos.push(mine)
+    // A safety net under the budget: work still running near its end goes on in the background, and the call
+    // answers with what to do instead of the engine's "no hook answered".
+    let watch: { cancel: () => void } | null = null
+    const late = new Promise<{ result: string }>((resolve) => {
+      watch = $.clock.every(400, () => {
+        if (next.budget.remainingMs > 2_000) return
+        watch?.cancel()
+        void $.ui.log(`longpi: ${name} answered early, its work goes on in the background`, { to: 'debug' })
+        resolve({ result: LATE[name] ?? LATE_ANY })
+      })
+    })
+    try {
+      return await Promise.race([serveTool($, e, rt, name), late])
+    } finally {
+      ;(watch as { cancel: () => void } | null)?.cancel()
+      const at = toolIos.lastIndexOf(mine)
+      if (at >= 0) toolIos.splice(at, 1)
     }
-    const out = await runTool(rt, name, args, async (reason) => {
-      try {
-        return (await $.ui.ask(reason, { options: ['同意', '不同意'], header: 'LongPi' })) === '同意'
-      } catch {
-        return false
-      }
-    }, session, String(callId ?? ''))
-    if (out.denied) return { deny: out.denied }
-    if (name === 'prepare_doctor_brief') out.text = await printableBrief($, out.text)
-    await update($, healthTurn, () => true)
-    const firstTime = !(await read($, coach))
-    const context = firstTime ? await enterCoach($) : []
-    // A write the pane shows: read its data again.
-    if ((WRITE_TOOLS as readonly string[]).includes(name) || RECORD_TOOLS.includes(name)) {
-      // The Codex series are rebuilt from the new values first, so a pack opened next can use them.
-      void (RECORD_TOOLS.includes(name) ? op(() => recordChanged()) : Promise.resolve())
-        .catch(() => undefined)
-        .then(() => reloadAfter($, ['tracking', 'codex', 'codex/slot', 'indicators?area=labs', 'game']))
-    }
-    return context.length > 0 ? { result: out.text, context } : { result: out.text }
   })
 
   on('command.run', { command: 'longpi' }, async ($, e) => {
